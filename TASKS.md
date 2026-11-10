@@ -15,14 +15,14 @@ to the conflict list C1–C16. Submission is Nov 14–15.
 
 ### Batch 1: Game state and stage manager (GAME_PLAN 12c, 12d)
 
-- [ ] **A1. Grow GameState.** S
+- [x] **A1. Grow GameState.** S
   Add to `GameState.gd`: player name, level, destination, goal, launch vehicle, crew
   supplies (food, water, air), damage, timing results, findings. Add `to_dict()` and
   `from_dict()` so the whole state is one dictionary (needed for checkpoints).
   Test: press Play. The Output panel prints the state dictionary once. The game
   plays exactly as before.
 
-- [ ] **A2. Stage manager.** M
+- [x] **A2. Stage manager.** M
   One autoload, `StageManager.gd`, with the screen order in data and `go_next()`.
   Replace the hard-coded `change_scene_to_file` calls in intro, character select,
   mission select, build, review, walk and debrief.
