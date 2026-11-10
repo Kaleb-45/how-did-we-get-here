@@ -56,7 +56,7 @@ file.
   Test: search the `camera` section for PLACEHOLDER and find none. On Build, the camera
   choices show the new numbers.
 
-- [ ] **7c. Communications: small and large antenna.** MUST · S
+- [x] **7c. Communications: small and large antenna.** MUST · S
   Cost, mass, power used and communications for each antenna.
   Before changing the file: show the table of value, real number, source link.
   Test: search the `antenna` section for PLACEHOLDER and find none. On Build, the
@@ -95,7 +95,8 @@ file.
   rewrite the inner-voice part lines in `data/inner_voice.json` (for example "barely
   makes enough power" for the small panel) to match the real numbers. Also the camera
   lines: the high resolution camera "eats power" (it uses 60 W, a fifth of the 300 W
-  heater), and the basic camera's "blurry" pictures (CTX maps all of Mars).
+  heater), and the basic camera's "blurry" pictures (CTX maps all of Mars). Also the
+  large antenna is "power hungry" (both antennas now use the same 172 W).
   Test: play three different builds and see at least one success and one failure.
 
 - [ ] **9. Full playthrough, re-export, browser test.** MUST · M

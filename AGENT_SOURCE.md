@@ -396,7 +396,7 @@ What Kaleb looks at or tests before saying "pass":
 
 ## 9. NASA data used
 
-**Only the solar panels, the heater (step 7a, 2026-11-10) and the cameras (step 7b, 2026-11-10) have real NASA data so far.** Every other number in `data/game_data.json` is still marked `"source": "PLACEHOLDER"`. The table lists each dataset, its source, and where the game uses it. The full links are in each `source` string in `game_data.json`.
+**Only the solar panels, the heater (step 7a, 2026-11-10), the cameras (step 7b, 2026-11-10) and the antennas (step 7c, 2026-11-10) have real NASA data so far.** Every other number in `data/game_data.json` is still marked `"source": "PLACEHOLDER"`. The table lists each dataset, its source, and where the game uses it. The full links are in each `source` string in `game_data.json`.
 
 | Dataset (placeholder) | Source link | Where the game uses it |
 |---|---|---|
@@ -404,7 +404,7 @@ What Kaleb looks at or tests before saying "pass":
 | Spacecraft base: budget 250, mass 600, power −40, lifetime 18 | none (PLACEHOLDER) | Totals on Build and Review, live values |
 | Solar panel small / medium / large = Mars Odyssey array (32.3 kg, 750 W), MAVEN arrays (1,135 W), MRO arrays (96.6 kg, 2,000 W). Costs: no public source. Lifetime bonus: game-design choice | NASA NTRS papers 20030065626 and 20070029236; Odyssey arrival and MRO launch press kits; MAVEN fact sheet 2013 | Build choices, 3D parts, storm power math |
 | Camera basic / high-res = MRO CTX (3 kg, 7 W, 4.8 Gb/day), MRO HiRISE (65 kg, 60 W, 16.4 Gb/day). Costs: no public source | NASA MRO science instruments page; CTX data guide in NASA PDS (ctxsis.pdf, "approximately 3.5 Tb"); HiRISE team science paper, McEwen et al. 2007 JGR ("more than 12 Tb") | Build choices, data collection rate, Reroute panel |
-| Antenna small / large: cost, mass, power, comms | none (PLACEHOLDER) | Build choices, Reroute panel |
+| Antenna small / large = Mars Odyssey 1.3 m high-gain antenna (3.15 kg with its medium-gain antenna, 0.124 Mb/s), MRO 3 m high-gain antenna (20.7 kg, 6 Mb/s). Both use 172 W (MRO's amplifier power used; for the small antenna a game-design choice). Costs: no public source | NASA PDS Odyssey radio science catalog (inst.cat, "Mass (kg) 3.150"); NASA Mars Relay Description 2010 ("124.425 kbps", and 5.2 Mbps for MRO); MRO telecom summary, DESCANSO (Table 2-1, "rates as high as 6 Mbps") | Build choices, Reroute panel |
 | Heater = all MRO heaters: power −300 W. Off = 0.2 lifetime months lost per second (game-design choice) | NASA MRO thermal systems page ("As much as 300 watts") | Reroute panel, live lifetime |
 | Dust storm event: starts at 20 s, 60% solar drop, lasts 20 s, 15 s to fix | none (PLACEHOLDER) | Walk alarm, Reroute mini-game |
 | Character multipliers (janitor all 1.0) | none (PLACEHOLDER) | `GameState.get_limits` |
