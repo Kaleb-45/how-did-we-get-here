@@ -17,6 +17,8 @@ team of 5 Magikid students and teaches from this project.
   in `AGENT_SOURCE.md`. Do not repeat it in later reports.
 - Step 1 of a feature is read and plan only, with no file changes.
 - Fix only what looks broken. Save cosmetic changes for the end of a feature.
+- List any rough edges you noticed at the end of each step, but do not fix them
+  unless Kaleb asks.
 - Report every step as PLAN, DO, SELF-CHECK, MY TEST, then WAIT.
   - PLAN: 2–3 sentences on what changes and which files.
   - DO: change only what this step needs.
@@ -37,8 +39,11 @@ team of 5 Magikid students and teaches from this project.
 - The game must run in a browser: use the Compatibility renderer and a
   single-threaded Web export.
 - The last step of each feature is a full playthrough, a re-export to `build/web`,
-  and a browser test. If a task asks for several steps in a row, do these once, at
-  the end of the batch. The agent does the re-export. MY TEST tells Kaleb how to do
+  and a browser test. These happen only in the feature's last step, never at the end
+  of a batch in the middle of a feature. If the last step is part of a batch, do them
+  once, at the end of the batch. The playthrough covers a losing round and a winning
+  round (AGENT_SOURCE.md section 6, items 7–9), and a walk through every room if the
+  layout changed. The agent does the re-export. MY TEST tells Kaleb how to do
   the full playthrough and the browser test: `cd build/web && python3 -m http.server
   8000`, then open http://localhost:8000.
 - A student replaces PLACEHOLDER values with real NASA data and a source link before

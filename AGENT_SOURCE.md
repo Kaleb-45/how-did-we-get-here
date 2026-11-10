@@ -159,8 +159,8 @@ Dates are local Pacific time, the same zone as the commit.
   - Why: "make sure the game runs in a browser" (2026-11-08). Single-threaded is Kaleb's own requirement. My reason: it runs on hosts like itch.io without special headers.
 - **Every feature after the web task ends with a full playthrough, a re-export to `build/web` and a browser test.**
   Why: the Reroute and Graybox briefs, step 7 (2026-11-09).
-- **When a task asks for several steps in a row, do the full playthrough, the re-export and the browser test once, at the end of the batch.**
-  Why: "if a task asks for several steps in a row, do the full playthrough, the re-export to build/web, and the browser test once, at the end of the batch." (2026-11-09)
+- **The full playthrough, the re-export and the browser test happen only in a feature's last step. If that last step is part of a batch, do them once, at the end of the batch. A batch in the middle of a feature skips them.**
+  Why: "if a task asks for several steps in a row, do the full playthrough, the re-export to build/web, and the browser test once, at the end of the batch." (2026-11-09) Kaleb then picked option A, "only in the feature's last step", over doing them after every batch (2026-11-09).
 
 ---
 
