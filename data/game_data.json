@@ -1,5 +1,11 @@
 {
   "_readme": "ALL game numbers live in this file. Scripts never contain numbers. Every NASA or mission number has a \"source\": a link to where the real NASA number came from, or a written game-design choice. Layout, look and timing settings (walk, arm, dashboard, ship, power_panel) are game-design choices and have no source. If you add a made-up number for testing, mark its source with the word PLACEHOLDER (in capitals) and replace it with real NASA data, or a written game-design choice that Kaleb passes, before the final submission.",
+  "stages": {
+    "_readme": "The order of the game screens. go_next() in StageManager.gd walks down this list, one screen at a time. Each name is a scene file in the scenes folder (intro means scenes/intro.tscn). To change the order, change this list. Nothing else needs to change.",
+    "source": "Game-design choice by Kaleb. It is NOT a NASA number.",
+    "scene_folder": "res://scenes/",
+    "order": ["intro", "character_select", "mission_select", "build", "review", "walk", "debrief"]
+  },
   "resources": {
     "budget": {
       "name": "Budget",

@@ -83,9 +83,9 @@ func inner_voice_comment() -> void:
 
 
 func _on_back_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/build.tscn")
+	StageManager.go_to("build")   # Back goes to Build
 
 
 func _on_launch_pressed() -> void:
 	# Launch = go walk around the spacecraft in 3D.
-	get_tree().change_scene_to_file("res://scenes/walk.tscn")
+	StageManager.go_next()

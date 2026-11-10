@@ -75,4 +75,4 @@ func _on_version_picked(part_id: String, version_id: String) -> void:
 
 
 func _on_review_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/review.tscn")
+	StageManager.go_next()

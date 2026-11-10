@@ -37,4 +37,4 @@ func _ready() -> void:
 func _on_character_chosen(character_id: String) -> void:
 	GameState.character_id = character_id
 	print("Character chosen: ", character_id)
-	get_tree().change_scene_to_file("res://scenes/mission_select.tscn")
+	StageManager.go_next()

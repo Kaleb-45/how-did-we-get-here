@@ -309,7 +309,7 @@ func end_walk() -> void:
 	# Last look at the dashboard: anything still red counts as a failure.
 	GameState.add_end_of_mission_failures()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	get_tree().change_scene_to_file("res://scenes/debrief.tscn")
+	StageManager.go_next()
 
 
 # Work out which part is nearby and show the "Press E" prompt.

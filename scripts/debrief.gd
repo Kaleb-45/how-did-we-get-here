@@ -195,4 +195,4 @@ func add_cell(text: String, color: Color) -> void:
 
 func _on_try_again_pressed() -> void:
 	GameState.start_new_attempt()
-	get_tree().change_scene_to_file("res://scenes/build.tscn")
+	StageManager.go_to("build")   # Try again goes to Build

@@ -41,7 +41,7 @@ func _ready() -> void:
 
 func _on_continue_pressed() -> void:
 	# Swap this whole screen for the next one.
-	get_tree().change_scene_to_file("res://scenes/character_select.tscn")
+	StageManager.go_next()
 
 
 # Puts a picture file in a frame. If the file isn't there yet, the frame

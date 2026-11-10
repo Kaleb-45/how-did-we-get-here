@@ -24,4 +24,4 @@ func _ready() -> void:
 func _on_mission_chosen(mission_id: String) -> void:
 	GameState.mission_id = mission_id
 	print("Mission chosen: ", mission_id, "  (character: ", GameState.character_id, ")")
-	get_tree().change_scene_to_file("res://scenes/build.tscn")
+	StageManager.go_next()

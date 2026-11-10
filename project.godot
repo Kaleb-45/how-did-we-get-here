@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Data="*uid://c5mjc0lsbwxuy"
 GameState="*uid://ll45y8qeli1w"
 Textures="*res://scripts/autoload/Textures.gd"
+StageManager="*res://scripts/autoload/StageManager.gd"
 
 [display]
 
