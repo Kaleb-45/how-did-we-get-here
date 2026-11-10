@@ -62,7 +62,7 @@ file.
   Test: search the `antenna` section for PLACEHOLDER and find none. On Build, the
   antenna choices show the new numbers.
 
-- [ ] **7d. Spacecraft base.** MUST · S
+- [x] **7d. Spacecraft base.** MUST · S
   The base spacecraft before any parts: budget, mass, power, lifetime.
   Before changing the file: show the table of value, real number, source link.
   Test: search `spacecraft_base` for PLACEHOLDER and find none. On Review, the totals

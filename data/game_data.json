@@ -93,16 +93,16 @@
     }
   },
   "spacecraft_base": {
-    "_readme": "The spacecraft body (computer, frame, fuel) that every build has. Its numbers are added to the parts the player picks. Its power does NOT include the heater: the heater is in \"reroute_power\", because the player can switch it off.",
+    "_readme": "The spacecraft body (computer, frame, empty fuel tanks, other instruments) that every build has. Its mass is dry mass: no fuel. Its numbers are added to the parts the player picks. Its power does NOT include the heater: the heater is in \"reroute_power\", because the player can switch it off.",
     "effects": {
-      "budget": 250,
-      "mass": 600,
+      "budget": 490,
+      "mass": 848.7,
       "power": -40,
       "communications": 0,
       "data": 0,
-      "mission_lifetime": 18
+      "mission_lifetime": 30
     },
-    "source": "PLACEHOLDER",
+    "source": "MRO spacecraft without the swappable parts. budget (\"Cost: About $720 million total, consisting approximately of $450 million spacecraft development and science instruments; $90 million launch; $180 million mission operations\"; minus the game costs of MRO's parts, large solar 70 + high resolution camera 110 + large antenna 50 = 230: 720 - 230 = 490) and mass (\"139 kilograms ... science payload, 892 kilograms ... other dry weight\" = 1,031 kg dry; minus MRO's solar arrays 96.6, HiRISE 65 and 3 m antenna 20.7: 1,031 - 96.6 - 65 - 20.7 = 848.7; the 3 kg CTX camera stays in the base): https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf; power: no public source; communications and data: game-design choice (the body sends and collects nothing by itself); mission_lifetime: game-design choice",
     "look": {
       "size": [
         2,
