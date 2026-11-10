@@ -1,6 +1,7 @@
 # TASKS.md: steps left to finish "How Did We Get Here?"
 
-Made 2026-11-09 from `AGENT_SOURCE.md` sections 9 and 10. Submission is Nov 14–15.
+Made 2026-11-09 from `AGENT_SOURCE.md` sections 9 and 10 and `GRAYBOX_PLAN.md`.
+Submission is Nov 14–15.
 
 - **MUST** = the game does not work, or cannot be submitted, without it.
 - **NICE** = it makes the game better, but the game works and can be submitted without it.
@@ -32,27 +33,73 @@ Made 2026-11-09 from `AGENT_SOURCE.md` sections 9 and 10. Submission is Nov 14�
   Test: launch, stand on the Bridge, and watch the wall screen change with the arm
   dashboard during the dust storm.
 
-- [ ] **7. Full playthrough, re-export, browser test.** MUST · M
-  The current `build/web` is from before the ship, so the web build is out of date.
-  Re-export to `build/web`. Kaleb plays a losing round and a winning round in the
-  editor and in the browser, and walks through every room.
-  Test: both rounds end on the right mission report, in the editor and the browser.
-
 ## Real NASA data
 
-- [ ] **8. Replace every PLACEHOLDER with real NASA data and a source link.** MUST · L
-  All 19 values marked `"source": "PLACEHOLDER"` in `data/game_data.json`: mission
-  limits, spacecraft base, solar panels, cameras, antennas, heater, dust storm and
-  character multipliers. Each `source` becomes a link or document name. Students
-  find the data, and the agent helps put it in the file.
-  Test: search `game_data.json` for PLACEHOLDER and find none. Play one round, and the
-  numbers on Build and Review match the file.
+Every value marked `"source": "PLACEHOLDER"` in `data/game_data.json` gets a real
+number and a source link. Students find the data, and the agent helps put it in the
+file. One step per system.
 
-- [ ] **9. Balance review with the real numbers.** MUST · M
+**Rule for every step 7a–7g:** before changing `game_data.json`, show Kaleb a table
+with three columns: value, real number, source link. Wait for pass, then change the
+file.
+
+- [ ] **7a. Power: solar panels and heater.** MUST · M
+  Solar panel small, medium and large (cost, mass, power, lifetime), and the heater
+  (power used, lifetime lost when off).
+  Before changing the file: show the table of value, real number, source link.
+  Test: search the `solar_panel` and `heater` sections for PLACEHOLDER and find none.
+  On Build, the solar choices show the new numbers.
+
+- [ ] **7b. Camera: basic and high resolution.** MUST · S
+  Cost, mass, power used and data for each camera.
+  Before changing the file: show the table of value, real number, source link.
+  Test: search the `camera` section for PLACEHOLDER and find none. On Build, the camera
+  choices show the new numbers.
+
+- [ ] **7c. Communications: small and large antenna.** MUST · S
+  Cost, mass, power used and communications for each antenna.
+  Before changing the file: show the table of value, real number, source link.
+  Test: search the `antenna` section for PLACEHOLDER and find none. On Build, the
+  antenna choices show the new numbers.
+
+- [ ] **7d. Spacecraft base.** MUST · S
+  The base spacecraft before any parts: budget, mass, power, lifetime.
+  Before changing the file: show the table of value, real number, source link.
+  Test: search `spacecraft_base` for PLACEHOLDER and find none. On Review, the totals
+  include the new base numbers.
+
+- [ ] **7e. Mission limits for "Map the ice on Mars".** MUST · M
+  The six limits (budget, mass, power, communications, data, mission lifetime), with
+  their warning and bar_max values.
+  Before changing the file: show the table of value, real number, source link.
+  Test: search `missions` for PLACEHOLDER and find none. The dashboard limit markers
+  sit at the new values.
+
+- [ ] **7f. Dust storm.** MUST · S
+  How much a Mars dust storm cuts solar power, and how long it lasts in game time.
+  Before changing the file: show the table of value, real number, source link.
+  Test: search `events` for PLACEHOLDER and find none. Launch, and the storm cuts
+  power by the new amount.
+
+- [ ] **7g. Game timing and the janitor's difficulty.** MUST · S
+  `mission_clock` (how fast months pass) and the janitor's limit multipliers. These
+  are game choices, not spacecraft facts. **Open question for Kaleb:** use a NASA
+  source where there is one (for example a real mission length), and mark the rest
+  as a written game-design choice instead of a link?
+  Before changing the file: show the table of value, real number, source link.
+  Test: search all of `game_data.json` for PLACEHOLDER and find none.
+
+- [ ] **8. Balance review with the real numbers.** MUST · M
   Check that at least one build can win and one can fail, without making the player
   "play scared". Today only Large solar builds can win. Change limits only, with a
   source or a written reason.
   Test: play three different builds and see at least one success and one failure.
+
+- [ ] **9. Full playthrough, re-export, browser test.** MUST · M
+  Comes after the real numbers are in. The current `build/web` is from before the
+  ship. Re-export to `build/web`. Kaleb plays a losing round and a winning round in
+  the editor and in the browser, and walks through every room.
+  Test: both rounds end on the right mission report, in the editor and the browser.
 
 ## Submission
 
@@ -63,10 +110,10 @@ Made 2026-11-09 from `AGENT_SOURCE.md` sections 9 and 10. Submission is Nov 14�
   here.
   Test: `CLAUDE.md` names the confirmed criteria, with no "confirm" note.
 
-- [ ] **11. Final web build and public link.** MUST · S
-  Re-export after steps 8 and 9, test in the browser, then put the build where judges
-  can play it. Where to host it is an open choice for Kaleb (itch.io was offered
-  before but never picked).
+- [ ] **11. Public link for judges.** MUST · S
+  Put the step 9 build where judges can play it. If anything changed after step 9,
+  re-export and test in the browser first. Where to host it is an open choice for
+  Kaleb (itch.io was offered before but never picked).
   Test: open the public link on another computer and play one round.
 
 ## Polish and extras
