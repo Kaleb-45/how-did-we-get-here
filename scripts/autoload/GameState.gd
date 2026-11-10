@@ -20,6 +20,76 @@ var choices: Dictionary = {}
 var event_failures: Array = []
 
 
+# --- More things the game will remember later (not used by any screen yet) ---
+# They start empty or at zero. Later steps will fill them in.
+var player_name: String = ""          # what the player typed as their name
+var level: String = ""                # the player's level (scientist, janitor, student)
+var destination_id: String = ""       # where the mission goes
+var goal_id: String = ""              # what the mission wants to find out
+var launch_vehicle_id: String = ""    # which rocket the player picked
+var crew_supplies: Dictionary = { "food": 0.0, "water": 0.0, "air": 0.0 }
+var damage: Dictionary = {}           # damage the ship took, by part
+var timing_results: Array = []        # "Perfect", "Good" or "Miss" from timed presses
+var findings: Array = []              # science the mission found
+
+
+func _ready() -> void:
+	# Show the whole state once, so we can see it in the Output panel.
+	print("GameState at startup: ", JSON.stringify(to_dict(), "  "))
+
+
+# Turns the WHOLE state into one dictionary. Later, a checkpoint will save it.
+# (duplicate(true) makes a copy, so changing the copy never changes the game.)
+func to_dict() -> Dictionary:
+	return {
+		"player_name": player_name,
+		"level": level,
+		"character_id": character_id,
+		"mission_id": mission_id,
+		"destination_id": destination_id,
+		"goal_id": goal_id,
+		"launch_vehicle_id": launch_vehicle_id,
+		"choices": choices.duplicate(true),
+		"crew_supplies": crew_supplies.duplicate(true),
+		"damage": damage.duplicate(true),
+		"timing_results": timing_results.duplicate(true),
+		"findings": findings.duplicate(true),
+		"event_failures": event_failures.duplicate(true),
+		"mission_months": mission_months,
+		"data_collected": data_collected,
+		"parts_off": parts_off.duplicate(true),
+		"lifetime_lost": lifetime_lost,
+		"storm_active": storm_active,
+		"end_values": end_values.duplicate(true),
+		"end_limits": end_limits.duplicate(true),
+	}
+
+
+# Puts a saved dictionary back into the game. A missing key keeps its
+# current value, so an older save still loads.
+func from_dict(d: Dictionary) -> void:
+	player_name = d.get("player_name", player_name)
+	level = d.get("level", level)
+	character_id = d.get("character_id", character_id)
+	mission_id = d.get("mission_id", mission_id)
+	destination_id = d.get("destination_id", destination_id)
+	goal_id = d.get("goal_id", goal_id)
+	launch_vehicle_id = d.get("launch_vehicle_id", launch_vehicle_id)
+	choices = d.get("choices", choices).duplicate(true)
+	crew_supplies = d.get("crew_supplies", crew_supplies).duplicate(true)
+	damage = d.get("damage", damage).duplicate(true)
+	timing_results = d.get("timing_results", timing_results).duplicate(true)
+	findings = d.get("findings", findings).duplicate(true)
+	event_failures = d.get("event_failures", event_failures).duplicate(true)
+	mission_months = d.get("mission_months", mission_months)
+	data_collected = d.get("data_collected", data_collected)
+	parts_off = d.get("parts_off", parts_off).duplicate(true)
+	lifetime_lost = d.get("lifetime_lost", lifetime_lost)
+	storm_active = d.get("storm_active", storm_active)
+	end_values = d.get("end_values", end_values).duplicate(true)
+	end_limits = d.get("end_limits", end_limits).duplicate(true)
+
+
 # Everything that went wrong: build problems first, then mission events.
 func get_all_failures() -> Array:
 	return get_failed_resources() + event_failures
