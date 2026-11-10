@@ -168,15 +168,15 @@ The type comes from the destination. What is left of the supplies from Flight is
 
 ## 9. Characters = play levels
 
-The character sets the difficulty. It changes numbers only, not the rules. The premise is the same for all three: the general puts this person in charge.
+The character sets the difficulty by how much guidance the player gets. Budget, mass, timing windows and supply use are the same for everyone. The premise is the same for all three: the general puts this person in charge.
 
 | Level | Character | Changes | What the inner voice knows |
 |---|---|---|---|
-| Easy | Scientist | Wide timing windows, full hints, bigger budget | An expert |
-| Medium | Janitor | All multipliers 1.0 (the real mission limits) | An everyday adult |
-| Hard | Student | Tight windows, few hints, smaller budget | A kid |
+| Easy | Scientist | Full hints: names the problem and the part that causes it | An expert |
+| Medium | Janitor | Some hints: names the problem | An everyday adult |
+| Hard | Student | Few hints: only the warning | A kid |
 
-The inner voice is never wrong. It only knows what its character knows, and it always teaches. The multipliers live in `data/levels.json`.
+The inner voice is never wrong. It only knows what its character knows, and it always teaches. Hints never give the answer. The hint detail lives in `data/levels.json`.
 
 Multiplayer (crew roles, versus a robot) is out of scope for now. When it comes, every player uses the same character type. See section 14.
 
@@ -205,7 +205,7 @@ Numbers go in the data files below. On-screen text stays in `story.json`, and in
 | `data/events.json` | Flight and surface events: station, timer, fix, cost |
 | `data/supplies.json` | Crew supplies (food, water, air): NASA use per person per day, crew size, start amount per part |
 | `data/timing.json` | Timed-press sequences and the window sizes |
-| `data/levels.json` | Level multipliers: timing window, supply use per day, budget, hint detail |
+| `data/levels.json` | Hint detail per level |
 
 Every value has `"source"` with a link, or `"PLACEHOLDER"`.
 

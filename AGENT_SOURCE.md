@@ -59,10 +59,12 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "One heat mechanic only: the heater switch on the power panel." (2026-11-10)
 - **The mission limits stay real: budget max $671M, mass max 1,031 kg. The launch vehicle changes the launch sequence and its cost, not these limits.**
   Why: "Keep the real limits... The launch vehicle changes the launch sequence and its cost, not these limits." (2026-11-10)
-- **Three levels: Scientist = easy, Janitor = medium (all multipliers 1.0), Student = hard. The multipliers cover timing window, supply use per day, budget and hint detail.**
-  Why: "3 levels, not 4... Drop 'Assistant'." Kaleb asked the agent to set the multipliers (2026-11-10).
-- **Level multipliers (written game-design choice):** timing window ×1.5 / ×1.0 / ×0.7; supply use per day ×0.9 / ×1.0 / ×1.1; budget ×1.1 ($738M) / ×1.0 ($671M) / ×0.95 ($637M); hint detail full (names the problem and the part) / some (names the problem) / few (only the warning), for Scientist / Janitor / Student. The Student's budget still fits the $620M winning build; the Scientist can afford the real MRO ($720M).
-  Why: "for all questions do recommended", accepting the recommended table (2026-11-10).
+- **Three levels: Scientist = easy, Janitor = medium, Student = hard. The levels change only how much guidance the player gets. Budget, mass, timing windows and supply use are the same for everyone (the real numbers).**
+  Why: "3 levels, not 4... Drop 'Assistant'." (2026-11-10) and "the budget should be the same or everyone, the different levels will just be how much guidance we give them." Kaleb then picked "guidance only": timing windows and supply use are the same for all levels too (2026-11-10).
+- **Hint detail per level:** Scientist = full (names the problem and the part that causes it), Janitor = some (names the problem), Student = few (only the warning). Hints never give the answer.
+  Why: accepted with "for all questions do recommended" (2026-11-10), and kept when the other multipliers were dropped.
+- **After each setup answer, the inner voice reacts and a Next button appears. The player reads at their own pace.**
+  Why: Kaleb picked "Show a Next button (Recommended)" over a timer (2026-11-10).
 - **The rocket's cost comes out of the spacecraft base budget: the middle rocket's cost is taken out of the $490M base, so the middle rocket keeps today's balance and the other two move it up or down.** MAVEN's $671M and MRO's $720M already include their launch.
   Why: "for all questions do recommended" (Q1, 2026-11-10).
 - **Phase A Flight: two routine tasks, food (ration) and air (swap the scrubber), and one event, a water leak, all in the Life Support room.**
@@ -125,8 +127,8 @@ Dates are local Pacific time, the same zone as the commit.
   Why: Kaleb's brief (2026-11-09).
 - **The Science bay and Comms room each have an empty station spot with a glowing floor marker and a label: "Future station: Data" and "Future station: Comms".**
   Why: Kaleb's brief (2026-11-09). These are slots for future mini-games (guess).
-- **Difficulty is set by each character's multipliers. They are 1.0 for the janitor (medium).**
-  Why: the brief named "janitor (medium difficulty)" (2026-11-08). Kept in C1: "Janitor = medium (all multipliers 1.0)" (2026-11-10).
+- **Difficulty is set by how much guidance the character gets, not by changing the numbers.**
+  Why: the brief named "janitor (medium difficulty)" (2026-11-08). "the budget should be the same or everyone, the different levels will just be how much guidance we give them." Kaleb then picked "guidance only": timing windows and supply use are the same for all levels too (2026-11-10).
 - **When `GAME_PLAN.md` gives a DEFAULT, agents use it and list it in the report. Otherwise they ask one short question.**
   Why: "Use the GAME_PLAN DEFAULTs and list them in your report." (2026-11-10)
 - **The playthrough, web export and browser test happen once per batch of steps. A batch is one of the batch headings in `TASKS.md`; a single step is not its own batch.**
@@ -259,6 +261,8 @@ Replaced on 2026-11-10 by Kaleb's answers to the GAME_PLAN vs AGENT_SOURCE confl
 
 - **Only the janitor, told "You're in charge now."** Replaced by three characters, all put in charge by the general (C1, 2026-11-10).
 - **Four levels with an "Assistant", and the janitor as "Very hard"** (GAME_PLAN draft). Replaced by three levels with the janitor as medium (C1, 2026-11-10).
+- **Level multipliers on budget (×1.1 / ×1.0 / ×0.95), timing windows (×1.5 / ×1.0 / ×0.7) and supply use (×0.9 / ×1.0 / ×1.1).** Replaced the same day: the levels only change guidance (2026-11-10). It made the Student with the Large rocket unable to win.
+- **A 3-second automatic pause after each setup answer.** Replaced by a Next button: 3 s was too short to read the longer voice lines (2026-11-10).
 - **"If a choice is not covered, ask one short question. Do not guess."** Replaced: use a GAME_PLAN DEFAULT when there is one and list it; otherwise ask (C2, 2026-11-10).
 - **The shadow pass as a Flight event** (GAME_PLAN draft, Phase A step 5). Replaced: it stays a Mars-orbit event in Arrival (C3, 2026-11-10).
 - **Food, water, air, heat, power and data as one row of trip meters** (GAME_PLAN draft). Replaced: the six resources keep their names, and food, water and air are "crew supplies" (C4, 2026-11-10).

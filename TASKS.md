@@ -36,13 +36,11 @@ to the conflict list C1–C16. Submission is Nov 14–15.
 
 - [ ] **A4. Question 2: "Who are you?" with three levels.** M
   Character select shows Scientist, Janitor and Student. New `data/levels.json`
-  holds the multiplier table (passed 2026-11-10, a written game-design choice; see
-  AGENT_SOURCE.md §2). The budget
-  multiplier works now through the existing limit math. Timing, supply and hint
-  multipliers are stored now and used by later steps. Scientist and Student show the
+  holds the hint detail per level. Levels change guidance only; budget, timing and
+  supply use are the same for everyone (Kaleb, 2026-11-10). Scientist and Student show the
   "Picture goes here" box until Kaleb adds art.
-  Test: pick each character in turn. The Build budget limit reads $738M, $671M,
-  $637M.
+  Test: pick each character in turn. The Build budget limit reads $671M for all
+  three. Each card shows its level word from story.json.
 
 - [ ] **A5. Question 3: "Where are we going?"** S
   New `data/destinations.json` with one entry, Mars orbit (orbit type, crew: yes).
@@ -67,8 +65,7 @@ to the conflict list C1–C16. Submission is Nov 14–15.
 
 - [ ] **A8. Timed-press scene and test bench.** M
   One reusable scene: a ring closes on a target. It returns Perfect, Good or Miss.
-  Inputs: label, speed, window size (from `data/timing.json`, times the level's
-  timing multiplier) and key (Space or E). It also takes a mouse click or tap.
+  Inputs: label, speed, window size (from `data/timing.json`) and key (Space or E). It also takes a mouse click or tap.
   Test: run the test bench with F6. Press early, on time and late, and see Miss,
   Perfect and Good. Switch the key to E, and Space does nothing.
 
@@ -95,8 +92,7 @@ to the conflict list C1–C16. Submission is Nov 14–15.
 
 - [ ] **A12. Crew supply meters.** M
   A "Crew supplies" group (food, water, air) on the arm dashboard, shown only in
-  Flight and Arrival. The meters drop by use per day times the level's supply
-  multiplier. The six resources keep their names and their place.
+  Flight and Arrival. The meters drop by the real use per day. The six resources keep their names and their place.
   Test: start Flight, raise the arm with Tab, and watch the three meters fall.
 
 - [ ] **A13. Food task: ration.** S
