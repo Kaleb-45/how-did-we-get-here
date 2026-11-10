@@ -39,9 +39,8 @@ func _on_next_pressed() -> void:
 	GameState.player_name = name_box.text.strip_edges()
 	print("Name: ", GameState.player_name)
 
-	# Lock the screen, let the inner voice react, then go on.
+	# Lock the screen. The inner voice reacts, then a Next button appears.
 	next_button.disabled = true
 	name_box.editable = false
 	var line: String = Data.voice["setup"]["name"]
-	inner_voice.say(line.format({ "name": GameState.player_name }))
-	StageManager.go_next_after_reaction()
+	inner_voice.say_then_next(line.format({ "name": GameState.player_name }))

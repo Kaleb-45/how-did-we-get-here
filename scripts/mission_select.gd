@@ -56,5 +56,4 @@ func _on_mission_chosen(mission_id: String) -> void:
 
 	for card in cards:
 		card.set_locked(true)
-	inner_voice.say(Data.voice["setup"]["goal"][mission_id][GameState.level])
-	StageManager.go_next_after_reaction()
+	inner_voice.say_then_next(Data.voice["setup"]["goal"][mission_id][GameState.level])

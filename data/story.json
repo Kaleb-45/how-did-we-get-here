@@ -14,6 +14,7 @@
     "janitor_caption": "You (the janitor)",
     "missing_picture": "Picture goes here:"
   },
+  "setup_next_button": "Next",
   "name_screen": {
     "title": "First things first. What is your name?",
     "placeholder": "Type your name",

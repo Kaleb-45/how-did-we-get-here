@@ -1,27 +1,18 @@
 {
-  "_readme": "What each play level changes. The character picks the level (see \"characters\" in game_data.json). 1.0 means no change. timing_window = how big the timed-press windows are (bigger = easier). supply_use = how fast the crew uses food, water and air (smaller = easier). limit_multipliers = changes the mission limits; only the budget changes (1.1 = 10% more money), any resource not listed stays at 1.0. hint_detail = how much the inner voice tells you: full (names the problem and the part), some (names the problem), few (only the warning). Right now only the budget is used by the game. The others are stored here for later steps. To make a level harder or easier, change the numbers here and nothing else.",
-  "source": "Written game-design choice by Kaleb, passed 2026-11-10 (AGENT_SOURCE.md section 2, level multipliers). It is NOT a NASA number and NOT a PLACEHOLDER.",
+  "_readme": "What each play level changes. The character picks the level (see \"characters\" in game_data.json). The levels change only how much the inner voice tells you: full (names the problem and the part), some (names the problem), few (only the warning). Budget, mass, timing windows and supply use are the same for every level. To change how much help a level gives, change hint_detail here and nothing else.",
+  "source": "Written game-design choice by Kaleb, passed 2026-11-10 (AGENT_SOURCE.md section 2, levels change guidance only). It is NOT a NASA number and NOT a PLACEHOLDER.",
   "levels": {
     "easy": {
-      "timing_window": 1.5,
-      "supply_use": 0.9,
-      "limit_multipliers": { "budget": 1.1 },
       "hint_detail": "full",
-      "source": "Written game-design choice (Scientist). The budget becomes $738M, so the Scientist can afford the real MRO ($720M)."
+      "source": "Written game-design choice (Scientist). Most guidance."
     },
     "medium": {
-      "timing_window": 1.0,
-      "supply_use": 1.0,
-      "limit_multipliers": { "budget": 1.0 },
       "hint_detail": "some",
-      "source": "Written game-design choice (Janitor). All 1.0 = the real mission limits, unchanged."
+      "source": "Written game-design choice (Janitor). Some guidance."
     },
     "hard": {
-      "timing_window": 0.7,
-      "supply_use": 1.1,
-      "limit_multipliers": { "budget": 0.95 },
       "hint_detail": "few",
-      "source": "Written game-design choice (Student). The budget becomes $637M; the $620M winning build still fits."
+      "source": "Written game-design choice (Student). Least guidance."
     }
   }
 }

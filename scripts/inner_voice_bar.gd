@@ -9,6 +9,7 @@ const LETTERS_PER_SECOND := 60.0
 
 @onready var speaker_label: Label = %Speaker
 @onready var line_label: Label = %Line
+@onready var next_button: Button = %NextButton
 
 var typing: Tween   # the running typing animation, if any
 
@@ -16,6 +17,9 @@ var typing: Tween   # the running typing animation, if any
 func _ready() -> void:
 	speaker_label.text = Data.voice["speaker_name"]
 	line_label.text = ""
+	next_button.visible = false
+	next_button.text = Data.story["setup_next_button"]
+	next_button.pressed.connect(_on_next_pressed)
 
 
 # Shows a new line, typed out letter by letter.
@@ -31,3 +35,18 @@ func say(text: String) -> void:
 	# Here: visible_ratio goes from 0 to 1, so the letters appear one by one.
 	typing = create_tween()
 	typing.tween_property(line_label, "visible_ratio", 1.0, text.length() / LETTERS_PER_SECOND)
+
+
+# Used by the setup questions. The voice reacts, then a Next button shows.
+# The player reads at their own pace and clicks Next to go on.
+func say_then_next(text: String) -> void:
+	say(text)
+	next_button.visible = true
+	next_button.disabled = false
+	next_button.grab_focus()
+
+
+# Lock the button at once, so a double click cannot skip two screens.
+func _on_next_pressed() -> void:
+	next_button.disabled = true
+	StageManager.go_next()

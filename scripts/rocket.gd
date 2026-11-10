@@ -44,5 +44,4 @@ func _on_rocket_chosen(vehicle_id: String) -> void:
 
 	for card in cards:
 		card.set_locked(true)
-	inner_voice.say(Data.voice["setup"]["rocket"][vehicle_id][GameState.level])
-	StageManager.go_next_after_reaction()
+	inner_voice.say_then_next(Data.voice["setup"]["rocket"][vehicle_id][GameState.level])

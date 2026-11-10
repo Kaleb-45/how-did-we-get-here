@@ -7,8 +7,7 @@
     "order": ["intro", "name", "character_select", "destination", "mission_select", "rocket", "build", "review", "walk", "debrief"]
   },
   "setup": {
-    "_readme": "Settings for the five setup questions (name, who are you, where, what for, rocket). reaction_seconds = after you answer, the inner voice reacts, and this many seconds later the next question appears. name_max_length = the most letters the name box accepts. default_character = who you play as if you press Play on a later screen without answering the questions.",
-    "reaction_seconds": 3,
+    "_readme": "Settings for the five setup questions (name, who are you, where, what for, rocket). After you answer, the inner voice reacts and a Next button appears; the player clicks it to go on. name_max_length = the most letters the name box accepts. default_character = who you play as if you press Play on a later screen without answering the questions.",
     "name_max_length": 20,
     "default_character": "janitor",
     "source": "Game-design choice. It is NOT a NASA number."

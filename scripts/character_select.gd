@@ -49,8 +49,7 @@ func _on_character_chosen(character_id: String) -> void:
 	GameState.character_id = character_id
 	print("Character chosen: ", character_id, "  (level: ", GameState.level, ")")
 
-	# Lock every card, let the inner voice react, then go on.
+	# Lock every card. The inner voice reacts, then a Next button appears.
 	for card in cards:
 		card.set_locked(true)
-	inner_voice.say(Data.voice["setup"]["character"][character_id])
-	StageManager.go_next_after_reaction()
+	inner_voice.say_then_next(Data.voice["setup"]["character"][character_id])

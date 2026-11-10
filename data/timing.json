@@ -1,5 +1,5 @@
 {
-  "_readme": "How the launch is timed. Each rocket has a number of launch moments (times you must press a key at the right time) and a window tightness. window_tightness: 1.0 = normal. A bigger number means a TIGHTER window (harder to hit). A smaller number means a looser window (easier). The player's level also changes the windows (timing_window in data/levels.json). The launch itself is built in a later step; for now only the numbers are stored. A cheaper rocket has more moments and tighter windows. Every value has a source: a link, a written game-design choice, or PLACEHOLDER (made up for now; a student replaces it before the final submission).",
+  "_readme": "How the launch is timed. Each rocket has a number of launch moments (times you must press a key at the right time) and a window tightness. window_tightness: 1.0 = normal. A bigger number means a TIGHTER window (harder to hit). A smaller number means a looser window (easier). The launch itself is built in a later step; for now only the numbers are stored. A cheaper rocket has more moments and tighter windows. Every value has a source: a link, a written game-design choice, or PLACEHOLDER (made up for now; a student replaces it before the final submission).",
   "launch_vehicles": {
     "small": {
       "moments": 5,

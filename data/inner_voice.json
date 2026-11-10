@@ -6,7 +6,7 @@
     "name": "{name}. Okay. That's my name. Please don't forget it, brain.",
     "destination": {
       "mars_orbit": {
-        "easy": "Mars orbit. We circle the planet and map it from above. A good first trip, and a crew can follow later.",
+        "easy": "Mars orbit. We circle the planet and map it from above. Our crew rides along on this trip, so I should really learn which button is the brakes.",
         "medium": "Mars. The red one. We go around it, not onto it. I think that's the safer way?",
         "hard": "Mars! Like in the movies! But we only go around it. Okay. Still cool."
       }

@@ -332,19 +332,17 @@ func add_effects(totals: Dictionary, effects: Dictionary) -> void:
 		totals[res_id] += effects[res_id]
 
 
-# The limits for this mission, after the level's multipliers (data/levels.json).
+# The limits for this mission. They are the same for every character.
 # Gives back, for example: { "budget": { "rule": "max", "value": 450 }, ... }
 func get_limits() -> Dictionary:
 	var limits: Dictionary = {}
 	var mission_limits: Dictionary = Data.missions[mission_id]["limits"]
-	var multipliers: Dictionary = Data.levels[level]["limit_multipliers"]
 
 	for res_id in mission_limits:
-		var multiplier: float = multipliers.get(res_id, 1.0)
 		limits[res_id] = {
 			"rule": mission_limits[res_id]["rule"],
-			"value": mission_limits[res_id]["value"] * multiplier,
-			"warning": mission_limits[res_id]["warning"] * multiplier,
+			"value": mission_limits[res_id]["value"],
+			"warning": mission_limits[res_id]["warning"],
 			"bar_max": mission_limits[res_id]["bar_max"],
 		}
 	return limits
