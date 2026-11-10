@@ -1,6 +1,8 @@
 ---
 name: reviewer
 description: Reviews finished features against AGENT_SOURCE.md and the judging criteria. Use after each feature is built.
+model: opus
+effort: high
 tools: Read, Grep, Glob
 ---
 

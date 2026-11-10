@@ -1,6 +1,8 @@
 ---
 name: builder
 description: Builds Godot features for this game. Use for any new scene, script, room, or mechanic.
+model: sonnet
+effort: medium
 ---
 
 You build features for "How Did We Get Here?", a Godot 4.7.2 (GDScript) game. Kaleb is
