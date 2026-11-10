@@ -90,7 +90,7 @@ file.
   Before changing the file: show the table of value, real number, source link.
   Test: search `game_data.json` for `"source": "PLACEHOLDER"` and find none. (The word PLACEHOLDER still appears once, in the top `_readme` instruction.)
 
-- [ ] **8. Balance review with the real numbers.** MUST · M
+- [x] **8. Balance review with the real numbers.** MUST · M
   Check that at least one build can win and one can fail, without making the player
   "play scared". Change limits only, with a source or a written reason. Then
   rewrite the inner-voice part lines in `data/inner_voice.json` (for example "barely

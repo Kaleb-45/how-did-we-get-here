@@ -134,7 +134,17 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "pass" on the 7f/7g choices, accepting the recommendation (2026-11-10).
 - **Where two NASA pages disagree, keep the number already passed and write the other one in the source text** (for example MRO solar power: 2,000 W in the press kit, 1,000 W on an archived JPL page).
   Why: "pass", accepting the recommendation (2026-11-10).
-- **Game balance is decided only after real numbers arrive.** With the placeholder numbers, "Medium solar + Basic camera always fails. That could be a good lesson or too harsh for 10–15 year olds; worth deciding once you have real NASA numbers." (my note, 2026-11-09, still open)
+- **Game balance is decided only after real numbers arrive.** With the placeholder numbers, "Medium solar + Basic camera always fails. That could be a good lesson or too harsh for 10–15 year olds; worth deciding once you have real NASA numbers." (my note, 2026-11-09). Settled 2026-11-10 in step 8: with real numbers, 4 builds can win and doing nothing always loses. See the step 8 lines below.
+- **Keep the Large solar panel as it is, even though Medium does the same job for less in this mission. Its voice line teaches why: in Mars' shadow it makes no power.**
+  Why: Kaleb passed the step 8 balance review (2026-11-10).
+- **Keep turning the antenna off as a cheap fix (communications only count at the end), until the Comms station gives it a cost.**
+  Why: Kaleb passed the step 8 balance review (2026-11-10).
+- **Keep the failure cards that the janitor cannot reach (the mass, power, data and mission lifetime build cards, and the `storm_ok` line). Students who change numbers, or a harder character, will reach them.**
+  Why: Kaleb passed the step 8 balance review (2026-11-10).
+- **Keep the "just fits" case: High-res camera with the antenna off leaves exactly 0 W spare in the shadow, and that counts as fitting.**
+  Why: Kaleb passed the step 8 balance review (2026-11-10).
+- **No change to the Small solar heater timing: the heater can be off 30 s at most in total (for example, off at 22 s, back on by 52 s).**
+  Why: Kaleb passed the step 8 balance review (2026-11-10).
 
 ### Visual style
 - **The 3D starts as simple boxes and cylinders, with an optional `"model"` path per part version to swap in real models later.**
@@ -304,7 +314,11 @@ What Kaleb looks at or tests before saying "pass":
 4. **Visual details on the dashboard.** "yes, the warning and max bar are good" (2026-11-08): the warning and limit markers and bars.
 5. **Readability for kids.** Kaleb checks font sizes, the control hints and whether the arm or dashboard is hidden behind other UI.
 6. **Nothing else broke.** Each feature's last step is a full playthrough from the intro to Try Again: "Confirm nothing else broke." (2026-11-08)
-7. **Both outcomes play.** A losing round (do nothing at the shadow pass → MISSION FAILED, Power alarm) and a winning round (reroute power → MISSION SUCCESS). The old winning build, Large solar + High-res, fails the real budget limit since step 7e (2026-11-10). The new winning build is to be set in step 8; one that works today and still needs a reroute is Small solar + Basic camera + Large antenna (turn the heater off in the shadow pass, then back on).
+7. **Both outcomes play.** A losing round (do nothing at the shadow pass → MISSION FAILED, Power alarm) and a winning round (reroute power → MISSION SUCCESS). The winning build is Medium solar + Basic camera + Large antenna (set in step 8, 2026-11-10).
+   - Win: turn the heater off at the power panel when the alarm rings (about 20 s), then back on after "Out of the shadow!" (about 40 s) → MISSION SUCCESS.
+   - Lose: the same build, do nothing → MISSION FAILED, with the "Power alarm" card.
+   - Harder test: Small solar + Basic camera + Large antenna, where the heater can be off 30 s at most (for example, off at 22 s, back on by 52 s).
+   - The old winning build, Large solar + High-res, fails the real budget limit since step 7e.
 8. **Browser check.** After the web task, Kaleb plays both rounds in the browser from `build/web` using `python3 -m http.server`.
 9. **Walkability for 3D layout.** Kaleb walks through every room and checks that the walls are solid.
 
@@ -434,7 +448,6 @@ The inner-voice text uses real-world reasoning in plain words, for example "NASA
 - **Graybox ship, G6:** a dashboard wall screen on the Bridge. My planned approach was a second dashboard on a SubViewport on a 3D quad. Not started.
 - **Graybox ship, G7:** full playthrough, re-export to `build/web` and a browser test. Not started. The `build/web` export is from before the ship (R7).
 - **Future stations:** the Science bay ("Future station: Data") and Comms room ("Future station: Comms") have markers only. No mini-games yet.
-- **Balance review (step 8)** with the real numbers. The real NASA numbers are in (steps 7a–7g, 2026-11-10); no `PLACEHOLDER` is left.
 - **Real 3D models:** the `"model"` slot in each part version is empty.
 - **Ideas I offered that Kaleb never picked up:**
   - an alarm sound

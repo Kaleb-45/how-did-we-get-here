@@ -65,7 +65,7 @@
   "missions": {
     "mars_ice": {
       "name": "Map the ice on Mars",
-      "description": "Send a spacecraft to orbit Mars and take pictures of ice under the surface. Future astronauts will need that water.",
+      "description": "Send a spacecraft to orbit Mars and take pictures to find where the ice is. Future astronauts will need that water.",
       "button": "Start building"
     }
   },

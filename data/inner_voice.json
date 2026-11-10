@@ -23,7 +23,7 @@
     },
     "communications": {
       "what": "Communications: the antenna sends {value} {unit}. We need at least {limit}.",
-      "why": "If we can't talk to Earth, nobody ever sees our pictures.",
+      "why": "Mars gets far from Earth. A small antenna is too slow to send our pictures.",
       "fix": "Use a bigger antenna."
     },
     "data": {
@@ -39,7 +39,7 @@
     "data_live": {
       "what": "Data: by the end we had {value} {unit}. We needed at least {limit}.",
       "why": "The camera was turned off, so the data stopped coming in. The ice map has holes in it.",
-      "fix": "Build with a camera that collects more than the minimum. Then you still have enough if you have to turn it off. Watch the Data row on your wrist."
+      "fix": "Leave the camera on: it uses too little power to help in the shadow. The basic camera has no spare data. Watch the Data row on your wrist."
     },
     "communications_live": {
       "what": "Communications: at the end we had {value} {unit}. We needed at least {limit}.",
@@ -55,26 +55,26 @@
       "title": "Power alarm",
       "what": "Power: the batteries ran out during the mission.",
       "why": "We flew into Mars' shadow. The solar panels got no sun, the batteries couldn't run everything, and power stayed in the red.",
-      "fix": "When the alarm sounds, go to the power panel and switch systems off until power fits. In the dark, only the batteries help. Real NASA teams turn the heaters down before every shadow."
+      "fix": "When the alarm sounds, go to the power panel and switch off the heater or the antenna. The camera uses too little to help. Real NASA teams turn the heaters down before every shadow."
     }
   },
   "parts": {
     "solar_panel": {
-      "small": "The small solar panel. Cheap and light, but it barely makes enough power.",
+      "small": "The small solar panel. Cheap and light, but it adds no spare months, so the heater can't stay off long.",
       "medium": "The medium solar panel. A middle choice for power, cost, and weight.",
-      "large": "The large solar panel. Lots of power, but heavy and expensive."
+      "large": "The large solar panel. Lots of power, but heavy and costly, and in Mars' shadow it makes none."
     },
     "camera": {
-      "basic": "The basic camera. Uses little power, but the pictures are blurry.",
-      "high_res": "The high resolution camera. Sharp pictures, but it eats power."
+      "basic": "The basic camera. Maps all of Mars, but with no data to spare.",
+      "high_res": "The high resolution camera. Super sharp, but heavy and expensive."
     },
     "antenna": {
-      "small": "The small antenna. Light and cheap, but it sends data slowly.",
-      "large": "The large antenna. Fast to Earth, but heavy and power hungry."
+      "small": "The small antenna. Light and cheap, but too slow when Mars is far.",
+      "large": "The large antenna. Fast to Earth, but heavy. Same power as the small one."
     }
   },
   "walk": {
-    "start": "Okay. This is the ship. I start on the Bridge. Walk around the rooms. Press E near a part to look at it.",
+    "start": "Okay. This is the ship. I start on the Bridge. Walk around the rooms. Press E to use things.",
     "press_e_hint": "Press E",
     "numbers_intro": "Its numbers:",
     "alarm": "Uh oh. We just flew into Mars' shadow! No sun on the solar panels, only batteries. POWER LOW! Get to the power panel and switch something off!",
@@ -82,7 +82,7 @@
     "alarm_again": "Too much power again! We're still in the shadow. Switch something off!",
     "alarm_fixed": "It fits. Phew. But everything I switched off is costing me something. I'd better check my wrist.",
     "alarm_failed": "Too late. The batteries are empty.",
-    "mission_complete": "That's it. The spacecraft made it to Mars. Time to report to the general.",
+    "mission_complete": "That's it. Two years of mapping Mars, done. Time to report to the general.",
     "storm_ok": "We're in Mars' shadow. No sun on the solar panels, but the batteries can run everything. Huh. Good planning?",
     "storm_over": "Out of the shadow! The sun is back on the solar panels. I can switch everything back on at the power panel. That shadow stood for every real 40-minute shadow, sped up. The real orbiter goes through one every two hours!",
     "storm_over_all_on": "Out of the shadow. The sun is back on the solar panels.",
@@ -94,7 +94,7 @@
     "title": "POWER PANEL",
     "close_hint": "E or Esc = close",
     "countdown": "POWER LOW! {seconds} s left",
-    "available_label": "Power available (solar panels + batteries)",
+    "available_label": "Power available (sun, or batteries in shadow)",
     "body_label": "Spacecraft body (always on)",
     "used_label": "Power used",
     "of_word": "of",
