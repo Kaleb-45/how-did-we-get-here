@@ -13,14 +13,28 @@ team of 5 Magikid students and teaches from this project.
 
 - Follow `AGENT_SOURCE.md`. It records how Kaleb makes design choices.
 - If a choice is not covered there, ask one short question. Do not guess.
-- Report every step as PLAN, DO, SELF-CHECK, MY TEST.
+- Report every step as PLAN, DO, SELF-CHECK, MY TEST, then WAIT.
   - PLAN: 2–3 sentences on what changes and which files.
   - DO: change only what this step needs.
-  - SELF-CHECK: run the command below, fix errors from our scripts, show the output.
+  - SELF-CHECK: run the command below, fix errors and warnings from our scripts,
+    show the output.
   - MY TEST: exactly what to click or press, and what Kaleb should see.
+  - WAIT: stop until Kaleb says pass. If the task asks for several steps in a row,
+    wait after the last step only. On fail, fix only that problem.
 - Every MY TEST includes "If you see an error" steps.
+- After adding new files or settings, remind Kaleb to use Project → Reload Current
+  Project before pressing Play.
 - Keep numbers in `data/game_data.json`, not in code.
-- Keep text in `data/inner_voice.json` and `data/story.json`, not in code.
+- Keep inner-voice text and dashboard warning text in `data/inner_voice.json`.
+- Keep all other on-screen text (screen titles, buttons, room names, station labels)
+  in `data/story.json`.
+- Take all 2D colors and font sizes from the shared theme `theme/game_theme.tres`.
+  Never set font sizes on a single node.
+- The game must run in a browser: use the Compatibility renderer and a
+  single-threaded Web export.
+- The last step of each feature is a full playthrough, a re-export to `build/web`,
+  and a browser test. If a task asks for several steps in a row, do these once, at
+  the end of the batch.
 - Any value marked PLACEHOLDER must be replaced with real NASA data and a source link
   before the final submission.
 - Ask before downloading anything.
@@ -30,7 +44,7 @@ team of 5 Magikid students and teaches from this project.
 ## Self-check command
 
 ```
-/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --quit
+cd "/Users/kalebtovar/Desktop/Nasa Space App Challenge/how-did-we-get-here" && /Applications/Godot.app/Contents/MacOS/Godot --headless --path . --quit
 ```
 
 ## Judging criteria
@@ -46,5 +60,6 @@ Check every feature against the five Space Apps judging criteria:
 ## Keeping the record current
 
 When Kaleb makes a new design choice, add it to `AGENT_SOURCE.md`: one line, then
-"Why:" with Kaleb's own words and the date. If it replaces an earlier choice, keep
-only the new one.
+"Why:" with Kaleb's own words and the date. If it replaces an earlier choice, replace
+the old line in section 2, and move the old choice to section 3, Rejected choices,
+with the date.

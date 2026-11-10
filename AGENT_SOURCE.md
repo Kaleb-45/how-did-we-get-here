@@ -4,7 +4,7 @@ Source material for agents that build games the way Kaleb does. It was extracted
 
 - **The codebase:** `how-did-we-get-here/`, at commit `2e7a732`.
 - **The git history:** one commit, "Graybox ship interior, steps 1-4: hallway, four rooms, signs, power panel", made 2026-11-09.
-- **CLAUDE.md:** this folder has none.
+- **CLAUDE.md:** this folder had none at extraction time. One was added later on 2026-11-09 (commit `06ab0c1`). It holds the short rules every agent follows.
 - **Session transcripts.** This folder's transcript folder (`~/.claude/projects/-Users-kalebtovar-Desktop-Nasa-Space-App-Challenge-how-did-we-get-here/`) holds only one file, and it is this extraction session. The game was really built in sessions started from the **Motion Studio** folder (`~/.claude/projects/-Users-kalebtovar-Desktop-OCAI-Center-Content-Creation--Motion-Studio/`):
   - `b4bfa5db-57ad-4afb-b944-c2c1c401ddfc.jsonl` is the whole build: 2026-11-08 to 2026-11-09, about 50 user turns and 3 context compactions.
   - `7ecfb294-1005-46f8-822d-0aea10f68608.jsonl` only holds a `cd` into this folder, with no game work.
@@ -159,6 +159,8 @@ Dates are local Pacific time, the same zone as the commit.
   - Why: "make sure the game runs in a browser" (2026-11-08). Single-threaded is Kaleb's own requirement. My reason: it runs on hosts like itch.io without special headers.
 - **Every feature after the web task ends with a full playthrough, a re-export to `build/web` and a browser test.**
   Why: the Reroute and Graybox briefs, step 7 (2026-11-09).
+- **When a task asks for several steps in a row, do the full playthrough, the re-export and the browser test once, at the end of the batch.**
+  Why: "if a task asks for several steps in a row, do the full playthrough, the re-export to build/web, and the browser test once, at the end of the batch." (2026-11-09)
 
 ---
 
@@ -294,7 +296,8 @@ What Kaleb looks at or tests before saying "pass":
   2. **DO:** change only what this step needs.
   3. **SELF-CHECK:** run Godot headless, fix errors and show the output.
   4. **MY TEST:** exactly what to click or press, and what should appear.
-  5. **WAIT:** for "pass". On "fail", fix only that problem.
+  5. **WAIT:** stop until Kaleb says pass. If the task asks for several steps in a row, wait after the last step only. On fail, fix only that problem.
+     Why: "WAIT: stop until Kaleb says pass. If the task asks for several steps in a row, wait after the last step only. On fail, fix only that problem." (2026-11-09)
 - **Kaleb's replies** are short: "pass", "PASS", "passs", "lets continue", "go". "pass" with no comment accepts my recommended defaults. Kaleb uses "pass, but..." for changes, though that was never needed.
 - **Teaching focus.** "I am a beginner in Godot. Explain each step in simple English, so I can teach it to students." Every report includes teaching ideas, "Try it" and student challenges.
 - **Decisions.** Kaleb answers multiple-choice questions by picking the "(Recommended)" option each time. Kaleb gives reasons in their own words only for gameplay goals, such as the red-data answer.
@@ -367,7 +370,7 @@ What Kaleb looks at or tests before saying "pass":
   - Needs the 4.7.2 export templates (`web_nothreads_*`).
 - **Testing the web build on the Mac:** `cd build/web && python3 -m http.server 8000`, then open http://localhost:8000. Remote Deploy → Run in Browser also works.
 - **Git:**
-  - Initialized 2026-11-09 on branch `main`, with one commit: `2e7a732`.
+  - Initialized 2026-11-09 on branch `main`. First commit: `2e7a732`. It had 4 commits by the end of 2026-11-09. Run `git log --oneline` for the current history.
   - `.gitignore` covers `.godot/`, `/android/`, `/build/` and `.DS_Store`.
   - No global git identity is set on this Mac. The commit used Kaleb's name with `-c` flags. (guess on the exact method)
 

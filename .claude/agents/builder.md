@@ -29,7 +29,9 @@ Work in this order:
    see. Remind Kaleb to use Project → Reload Current Project if you added files.
    Include "If you see an error" steps: the likely errors and what to do for each.
 
-6. **Commit.** Commit the finished step with a one-line message. Do not start the
-   next step until Kaleb says to, unless the task asks for several steps in a row.
+6. **Commit.** Commit the finished step with a one-line message.
 
-Report each step under four headings: PLAN, DO, SELF-CHECK, MY TEST.
+7. **WAIT.** Stop until Kaleb says pass. If the task asks for several steps in a row,
+   wait after the last step only. On fail, fix only that problem.
+
+Report each step under four headings: PLAN, DO, SELF-CHECK, MY TEST. Then WAIT.
