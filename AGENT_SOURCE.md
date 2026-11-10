@@ -113,6 +113,8 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "pass" on the 7a–7c tables, accepting the recommended answers (2026-11-10).
 - **Every number comes from a NASA source. News sources do not count: where NASA has no number (for example HiRISE cost), write "no public source" and keep the game value.**
   Why: "pass", accepting the recommendation (2026-11-10).
+- **A peer-reviewed science paper by the NASA instrument team counts as a source when no NASA page has the number (for example HiRISE data per day, McEwen et al. 2007). News sources still do not count.**
+  Why: Kaleb passed the 7b table with this paper as the source (2026-11-10).
 - **Both antennas use the same 172 W radio amplifier power (as on MRO). The real difference between them is size and data rate.**
   Why: "pass", accepting the recommendation (2026-11-10).
 - **Values with no real-world match (solar lifetime bonus, heater lifetime loss) are marked as a written game-design choice instead of a source link.**
@@ -394,14 +396,14 @@ What Kaleb looks at or tests before saying "pass":
 
 ## 9. NASA data used
 
-**Only the solar panels and the heater have real NASA data so far (step 7a, 2026-11-10).** Every other number in `data/game_data.json` is still marked `"source": "PLACEHOLDER"`. The table lists each dataset, its source, and where the game uses it. The full links are in each `source` string in `game_data.json`.
+**Only the solar panels, the heater (step 7a, 2026-11-10) and the cameras (step 7b, 2026-11-10) have real NASA data so far.** Every other number in `data/game_data.json` is still marked `"source": "PLACEHOLDER"`. The table lists each dataset, its source, and where the game uses it. The full links are in each `source` string in `game_data.json`.
 
 | Dataset (placeholder) | Source link | Where the game uses it |
 |---|---|---|
 | Mission limits for `mars_ice`: budget max 450, mass max 840, power min 0, comms min 10, data min 30, lifetime min 24 months, plus warning and bar_max for each | none (PLACEHOLDER) | Build dashboard, Review table, walk dashboard, wrist light, debrief |
 | Spacecraft base: budget 250, mass 600, power −40, lifetime 18 | none (PLACEHOLDER) | Totals on Build and Review, live values |
 | Solar panel small / medium / large = Mars Odyssey array (32.3 kg, 750 W), MAVEN arrays (1,135 W), MRO arrays (96.6 kg, 2,000 W). Costs: no public source. Lifetime bonus: game-design choice | NASA NTRS papers 20030065626 and 20070029236; Odyssey arrival and MRO launch press kits; MAVEN fact sheet 2013 | Build choices, 3D parts, storm power math |
-| Camera basic / high-res: cost, mass, power, data | none (PLACEHOLDER) | Build choices, data collection rate, Reroute panel |
+| Camera basic / high-res = MRO CTX (3 kg, 7 W, 4.8 Gb/day), MRO HiRISE (65 kg, 60 W, 16.4 Gb/day). Costs: no public source | NASA MRO science instruments page; CTX data guide in NASA PDS (ctxsis.pdf, "approximately 3.5 Tb"); HiRISE team science paper, McEwen et al. 2007 JGR ("more than 12 Tb") | Build choices, data collection rate, Reroute panel |
 | Antenna small / large: cost, mass, power, comms | none (PLACEHOLDER) | Build choices, Reroute panel |
 | Heater = all MRO heaters: power −300 W. Off = 0.2 lifetime months lost per second (game-design choice) | NASA MRO thermal systems page ("As much as 300 watts") | Reroute panel, live lifetime |
 | Dust storm event: starts at 20 s, 60% solar drop, lasts 20 s, 15 s to fix | none (PLACEHOLDER) | Walk alarm, Reroute mini-game |

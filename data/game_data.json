@@ -199,13 +199,13 @@
           "name": "Basic",
           "effects": {
             "budget": 40,
-            "mass": 40,
-            "power": -50,
+            "mass": 3,
+            "power": -7,
             "communications": 0,
-            "data": 30,
+            "data": 4.8,
             "mission_lifetime": 0
           },
-          "source": "PLACEHOLDER",
+          "source": "MRO Context Camera (CTX). mass (\"3 kilograms\") and power (\"7 watts (imaging)\"): https://science.nasa.gov/mission/mars-reconnaissance-orbiter/science-instruments/; data (\"approximately 3.5 Tb\" in the primary mission: 3,500 Gb / about 730 days = 4.8 Gb/day): https://pds-imaging.jpl.nasa.gov/data/mro/mars_reconnaissance_orbiter/ctx/mrox_0954/document/ctxsis.pdf; budget: no public source",
           "look": {
             "size": [
               0.2,
@@ -218,13 +218,13 @@
           "name": "High resolution",
           "effects": {
             "budget": 110,
-            "mass": 80,
-            "power": -120,
+            "mass": 65,
+            "power": -60,
             "communications": 0,
-            "data": 80,
+            "data": 16.4,
             "mission_lifetime": 0
           },
-          "source": "PLACEHOLDER",
+          "source": "MRO HiRISE camera. mass (\"65 kilograms\") and power (\"60 watts\"): https://science.nasa.gov/mission/mars-reconnaissance-orbiter/science-instruments/; data (\"more than 12 Tb of HiRISE data during the 2-year\" primary mission: 12,000 Gb / 730 days = 16.4 Gb/day; science paper by the HiRISE team, McEwen et al. 2007, JGR): https://boris.unibe.ch/25369/1/2005JE002605.pdf; budget: no public source",
           "look": {
             "size": [
               0.35,

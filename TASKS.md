@@ -50,7 +50,7 @@ file.
   Test: search the `solar_panel` and `heater` sections for PLACEHOLDER and find none.
   On Build, the solar choices show the new numbers.
 
-- [ ] **7b. Camera: basic and high resolution.** MUST · S
+- [x] **7b. Camera: basic and high resolution.** MUST · S
   Cost, mass, power used and data for each camera.
   Before changing the file: show the table of value, real number, source link.
   Test: search the `camera` section for PLACEHOLDER and find none. On Build, the camera
@@ -93,7 +93,9 @@ file.
   Check that at least one build can win and one can fail, without making the player
   "play scared". Change limits only, with a source or a written reason. Then
   rewrite the inner-voice part lines in `data/inner_voice.json` (for example "barely
-  makes enough power" for the small panel) to match the real numbers.
+  makes enough power" for the small panel) to match the real numbers. Also the camera
+  lines: the high resolution camera "eats power" (it uses 60 W, a fifth of the 300 W
+  heater), and the basic camera's "blurry" pictures (CTX maps all of Mars).
   Test: play three different builds and see at least one success and one failure.
 
 - [ ] **9. Full playthrough, re-export, browser test.** MUST · M
