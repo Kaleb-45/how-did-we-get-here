@@ -31,7 +31,7 @@ Submission is Nov 14–15.
   A second copy of the dashboard on a screen on the Bridge wall. It shows the same
   live numbers as the arm dashboard.
   Test: launch, stand on the Bridge, and watch the wall screen change with the arm
-  dashboard during the dust storm.
+  dashboard during the shadow pass.
 
 ## Real NASA data
 
@@ -82,13 +82,13 @@ file.
   Test: search `events` for PLACEHOLDER and find none. Launch, and the shadow pass
   sets off the power alarm for every build.
 
-- [ ] **7g. Game timing and the janitor's difficulty.** MUST · S
+- [x] **7g. Game timing and the janitor's difficulty.** MUST · S
   `mission_clock` (how fast months pass) and the janitor's limit multipliers. These
-  are game choices, not spacecraft facts. **Open question for Kaleb:** use a NASA
-  source where there is one (for example a real mission length), and mark the rest
-  as a written game-design choice instead of a link?
+  are game choices, not spacecraft facts. Answered: use a NASA source where there is
+  one (0.4 months/s ties the 60 s walk to MRO's 24-month science phase; 30.4 days per
+  month is calendar math), and mark the rest as a written game-design choice.
   Before changing the file: show the table of value, real number, source link.
-  Test: search all of `game_data.json` for PLACEHOLDER and find none.
+  Test: search `game_data.json` for `"source": "PLACEHOLDER"` and find none. (The word PLACEHOLDER still appears once, in the top `_readme` instruction.)
 
 - [ ] **8. Balance review with the real numbers.** MUST · M
   Check that at least one build can win and one can fail, without making the player
@@ -128,7 +128,7 @@ file.
   text. Ask Kaleb before removing the `dashboard_test` bench.
   Test: play one round and see no change.
 
-- [ ] **13. Alarm sound for the dust storm.** NICE · M
+- [ ] **13. Alarm sound for the shadow pass.** NICE · M
   Made in Godot code, with no downloads, like the textures.
   Test: the alarm sounds when power goes red and stops when it is fixed.
 

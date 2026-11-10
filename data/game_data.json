@@ -1,5 +1,5 @@
 {
-  "_readme": "ALL game numbers live in this file. Scripts never contain numbers. Every value marked \"source\": \"PLACEHOLDER\" is made up for testing. Replace it with real NASA data and change source to where the number came from (a link or document name).",
+  "_readme": "ALL game numbers live in this file. Scripts never contain numbers. Every NASA or mission number has a \"source\": a link to where the real NASA number came from, or a written game-design choice. Layout, look and timing settings (walk, arm, dashboard, ship, power_panel) are game-design choices and have no source. If you add a made-up number for testing, mark its source with the word PLACEHOLDER (in capitals) and replace it with real NASA data, or a written game-design choice that Kaleb passes, before the final submission.",
   "resources": {
     "budget": {
       "name": "Budget",
@@ -89,7 +89,7 @@
         "data": 1.0,
         "mission_lifetime": 1.0
       },
-      "source": "PLACEHOLDER"
+      "source": "limit_multipliers: game-design choice (the janitor is the medium character, so 1.0 = the real mission limits from step 7e, unchanged)"
     }
   },
   "spacecraft_base": {
@@ -369,15 +369,15 @@
     "flash_seconds": 0.35
   },
   "mission_clock": {
-    "_readme": "The live mission in the 3D walk. months_per_second = how fast mission time runs (0.4 = one real minute is 24 mission months). days_per_month turns months into days for the data total. turned_off_parts_stop = what a part stops giving or using when it is turned off (it still has its mass and cost).",
+    "_readme": "The live mission in the 3D walk. months_per_second = how fast mission time runs (0.4 = one real minute is 24 mission months). days_per_month turns months into days for the data total (30.4 = 365.25 days / 12). turned_off_parts_stop = what a part stops giving or using when it is turned off (it still has its mass and cost).",
     "months_per_second": 0.4,
-    "days_per_month": 30,
+    "days_per_month": 30.4,
     "turned_off_parts_stop": [
       "power",
       "data",
       "communications"
     ],
-    "source": "PLACEHOLDER"
+    "source": "months_per_second: game-design choice (0.4 makes the 60-second walk equal MRO's real 24-month primary science phase: \"a low-altitude orbit around Mars for two years\"; \"Primary science phase: November 2006 to December 2008\"): https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf; days_per_month: calendar math (365.25 days / 12 = 30.4; 24 x 30.4 = 730 days, the same 730 days used for the camera data, so the basic camera collects 4.8 x 730 = about 3,500 Gb, like CTX's real \"approximately 3.5 Tb\"); turned_off_parts_stop: game rule (a part that is turned off still has its mass and cost)"
   },
   "arm": {
     "_readme": "The wrist light on the player's arm. It shows the worst dashboard color. blink_seconds = how fast it blinks when something is red. raise_seconds = how long Tab takes to raise or lower the arm. panel_gap_pixels = space between the wrist light and the dashboard above it.",
