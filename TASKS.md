@@ -5,9 +5,8 @@ to the conflict list C1–C16. Submission is Nov 14–15.
 
 - **Size:** S = under 30 min, M = 30 min to 2 hours. No step is L.
 - Each step can be built and tested alone. Tick the box when Kaleb says pass.
-- **BLOCKED (Q#)** = waits for Kaleb's answer to open question Q# (2026-11-10 report).
 - Phase A is Mars orbit only. Everything stays gray and plain. No polish.
-- The headings below are suggested **batches**. Each batch ends with one full
+- The headings below are the **batches** (Kaleb, Q3, 2026-11-10). Each batch ends with one full
   playthrough (a losing and a winning round, and every room if the layout changed),
   a re-export to `build/web`, and a browser test.
 - Every new made-up number is marked `"source": "PLACEHOLDER"`.
@@ -37,7 +36,8 @@ to the conflict list C1–C16. Submission is Nov 14–15.
 
 - [ ] **A4. Question 2: "Who are you?" with three levels.** M
   Character select shows Scientist, Janitor and Student. New `data/levels.json`
-  holds the multiplier table (PLACEHOLDER until Kaleb passes it). The budget
+  holds the multiplier table (passed 2026-11-10, a written game-design choice; see
+  AGENT_SOURCE.md §2). The budget
   multiplier works now through the existing limit math. Timing, supply and hint
   multipliers are stored now and used by later steps. Scientist and Student show the
   "Picture goes here" box until Kaleb adds art.
@@ -49,16 +49,19 @@ to the conflict list C1–C16. Submission is Nov 14–15.
   One card on a plain screen.
   Test: pick Mars orbit, and the next question appears.
 
-- [ ] **A6. Question 4: "What is the mission for?"** S · BLOCKED (Q4)
-  Grow mission select: the "Map the ice on Mars" card shows its 2–3 success rules
-  as a checklist.
+- [ ] **A6. Question 4: "What is the mission for?"** S
+  Grow mission select: the "Map the ice on Mars" card shows its 3 success rules as
+  a checklist: send home at least 4 Gb/day, keep the spacecraft working 24 months,
+  communications at least 0.6 Mb/s.
   Test: the card lists the rules. The report later checks the same rules.
 
-- [ ] **A7. Question 5: "What kind of rocket?"** M · BLOCKED (Q1)
+- [ ] **A7. Question 5: "What kind of rocket?"** M
   Three launch vehicle cards. Each sets the number and tightness of launch moments
-  and a cost. The $671M and 1,031 kg limits do not change. New numbers are
-  PLACEHOLDER.
-  Test: pick each rocket. The limits stay the same, and the cost line changes.
+  and a cost. The middle rocket's cost is taken out of the $490M spacecraft base, so
+  it keeps today's balance. The $671M and 1,031 kg limits do not change. New numbers
+  are PLACEHOLDER.
+  Test: pick the middle rocket, and the Build budget total is the same as today. Pick
+  the cheap one, and it drops. Pick the big one, and it rises. The limits stay the same.
 
 ### Batch 3: Timed press and Launch (GAME_PLAN 12a, 6a)
 
@@ -96,18 +99,21 @@ to the conflict list C1–C16. Submission is Nov 14–15.
   multiplier. The six resources keep their names and their place.
   Test: start Flight, raise the arm with Tab, and watch the three meters fall.
 
-- [ ] **A13. Routine task 1.** S · BLOCKED (Q2)
-  A Life Support station with a "Press E" prompt and one action.
-  Test: do the task, and its meter drops slower. Skip it, and it drops faster.
+- [ ] **A13. Food task: ration.** S
+  A food station in Life Support with a "Press E" prompt. Rationing slows the food
+  drop.
+  Test: ration, and food drops slower. Skip it, and it drops at the normal rate.
 
-- [ ] **A14. Routine task 2.** S · BLOCKED (Q2)
-  Same as A13, for the second task.
-  Test: the same as A13.
+- [ ] **A14. Air task: swap the scrubber.** S
+  An air station in Life Support with a "Press E" prompt. Swapping the scrubber
+  brings the air meter back up.
+  Test: swap it, and air recovers. Skip it, and air keeps falling.
 
-- [ ] **A15. One Flight event.** M · BLOCKED (Q2)
-  One event from `data/events.json`, run in the ship. It is not the shadow pass.
-  Test: the event starts, the inner voice warns, and fixing it at the right station
-  stops it.
+- [ ] **A15. Flight event: water leak.** M
+  One event from `data/events.json`, run in Life Support. Water drops fast until the
+  player fixes the leak at the water station. It is not the shadow pass.
+  Test: the leak starts, the inner voice warns, water falls fast, and pressing E at
+  the water station stops it.
 
 - [ ] **A16. One flight leg.** M
   The walk scene runs in Flight mode: the two tasks and the Flight event, with no
@@ -148,8 +154,8 @@ to the conflict list C1–C16. Submission is Nov 14–15.
   Test: fail a round. Each button goes to the right place, with the right parts
   kept or cleared.
 
-- [ ] **A22. Report reads the full game state.** M · BLOCKED (Q4)
-  The name, launch timings, crew supply findings, science returned and the goal
+- [ ] **A22. Report reads the full game state.** M
+  The name, launch timings, crew supply findings, science returned and the 3 goal
   rules. Any red meter fails the mission.
   Test: a losing round and a winning round both end on the right report.
 

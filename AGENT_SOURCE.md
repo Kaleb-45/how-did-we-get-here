@@ -61,6 +61,14 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "Keep the real limits... The launch vehicle changes the launch sequence and its cost, not these limits." (2026-11-10)
 - **Three levels: Scientist = easy, Janitor = medium (all multipliers 1.0), Student = hard. The multipliers cover timing window, supply use per day, budget and hint detail.**
   Why: "3 levels, not 4... Drop 'Assistant'." Kaleb asked the agent to set the multipliers (2026-11-10).
+- **Level multipliers (written game-design choice):** timing window ×1.5 / ×1.0 / ×0.7; supply use per day ×0.9 / ×1.0 / ×1.1; budget ×1.1 ($738M) / ×1.0 ($671M) / ×0.95 ($637M); hint detail full (names the problem and the part) / some (names the problem) / few (only the warning), for Scientist / Janitor / Student. The Student's budget still fits the $620M winning build; the Scientist can afford the real MRO ($720M).
+  Why: "for all questions do recommended", accepting the recommended table (2026-11-10).
+- **The rocket's cost comes out of the spacecraft base budget: the middle rocket's cost is taken out of the $490M base, so the middle rocket keeps today's balance and the other two move it up or down.** MAVEN's $671M and MRO's $720M already include their launch.
+  Why: "for all questions do recommended" (Q1, 2026-11-10).
+- **Phase A Flight: two routine tasks, food (ration) and air (swap the scrubber), and one event, a water leak, all in the Life Support room.**
+  Why: "for all questions do recommended" (Q2, 2026-11-10).
+- **"Map the ice on Mars" has 3 goal rules, all from numbers already passed: send home at least 4 Gb/day, keep the spacecraft working 24 months, communications at least 0.6 Mb/s.**
+  Why: "for all questions do recommended" (Q4, 2026-11-10).
 - **Limits must matter, so the player cannot take everything. But they must not be so tight that the player plays scared. The player should be able to take risks and "do some damage."**
   Why: Kaleb's own words (2026-11-09).
 - **Each resource has three colors: green = safe, yellow = close to the limit, red = past a max or under a min.**
@@ -121,8 +129,8 @@ Dates are local Pacific time, the same zone as the commit.
   Why: the brief named "janitor (medium difficulty)" (2026-11-08). Kept in C1: "Janitor = medium (all multipliers 1.0)" (2026-11-10).
 - **When `GAME_PLAN.md` gives a DEFAULT, agents use it and list it in the report. Otherwise they ask one short question.**
   Why: "Use the GAME_PLAN DEFAULTs and list them in your report." (2026-11-10)
-- **The playthrough, web export and browser test happen once per batch of steps.**
-  Why: "One playthrough, web export, and browser test per batch of steps." (2026-11-10)
+- **The playthrough, web export and browser test happen once per batch of steps. A batch is one of the batch headings in `TASKS.md`; a single step is not its own batch.**
+  Why: "One playthrough, web export, and browser test per batch of steps." and "for all questions do recommended" (Q3, 2026-11-10).
 
 ### NASA data
 - **No numbers are hard-coded in scripts. Numbers go in the data files listed in `GAME_PLAN.md` section 11: `game_data.json`, `destinations.json`, `parts.json`, `events.json`, `supplies.json`, `timing.json`, `levels.json`. On-screen text stays in `story.json` and inner-voice text in `inner_voice.json`.**

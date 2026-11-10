@@ -54,7 +54,7 @@ Ask these before Stage 1. One question per screen. The inner voice reacts to eac
 | 4 | What is the mission for? | Mission goal: the 2–3 success rules shown as a checklist |
 | 5 | What kind of rocket? | Launch vehicle: sets the launch sequence (how many moments, how tight) and its cost |
 
-The launch vehicle does **not** change the mission limits. Budget max stays $671M (MAVEN's real total cost) and mass max stays 1,031 kg (MRO's real dry mass).
+The rocket's cost comes out of the spacecraft base budget: the middle rocket's cost is taken out of the base, so it keeps today's balance, and the other two move it up or down. The launch vehicle does **not** change the mission limits. Budget max stays $671M (MAVEN's real total cost) and mass max stays 1,031 kg (MRO's real dry mass).
 
 Question 5 is the "design the rocket" step. Keep it a choice of 3 launch vehicles in the skeleton. A deeper rocket builder is a later tweak.
 
@@ -159,7 +159,7 @@ The type comes from the destination. What is left of the supplies from Flight is
 
 ## 8. Scoring and the report
 
-- The mission goal from question 4 gives 2–3 success rules. All met = MISSION SUCCESS.
+- The mission goal from question 4 gives 2–3 success rules. All met = MISSION SUCCESS. "Map the ice on Mars": send home at least 4 Gb/day, keep the spacecraft working 24 months, communications at least 0.6 Mb/s.
 - Any meter the player sees go red can also fail the mission.
 - The report lists findings: what went wrong and which Stage 1 choice caused it.
 - A score out of 1000: goal rules, science returned, budget left, and timing accuracy.
@@ -233,7 +233,7 @@ Goal: a player can go from Title to Report through all four stages. Everything i
 2. Setup questions 1–5, plain screens
 3. Timed-press scene (12a)
 4. Stage 2 Launch: sequence with 3 timed presses
-5. Stage 3 Flight: Life Support room, crew supply meters, 1 leg, 2 routine tasks + 1 flight event
+5. Stage 3 Flight: Life Support room, crew supply meters, 1 leg, 2 routine tasks (food: ration; air: swap the scrubber) + 1 flight event (water leak)
 6. Stage 4 Arrival, orbit type: burn + the existing shadow pass and Reroute Power + 1 science pass
 7. Connect Build → Launch → Flight → Arrival
 8. Checkpoints 1, 2, and 3 (12b), and the three report buttons

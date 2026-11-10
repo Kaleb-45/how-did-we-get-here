@@ -42,8 +42,8 @@ team of 5 Magikid students and teaches from this project.
   Never set font sizes on a single node.
 - The game must run in a browser: use the Compatibility renderer and a
   single-threaded Web export.
-- Each batch of steps ends with one full playthrough, a re-export to `build/web`,
-  and a browser test, done once at the end of the batch. The playthrough covers a losing round and a winning
+- Each batch of steps (a batch heading in `TASKS.md`) ends with one full playthrough,
+  a re-export to `build/web`, and a browser test, done once at the end of the batch. The playthrough covers a losing round and a winning
   round (AGENT_SOURCE.md section 6, items 7–9), and a walk through every room if the
   layout changed. The agent does the re-export. MY TEST tells Kaleb how to do
   the full playthrough and the browser test: `cd build/web && python3 -m http.server
