@@ -5,7 +5,7 @@ A Godot 4.7.2 (GDScript) mission-design game for the NASA Space Apps Challenge 2
 and the general puts the janitor in charge. The player must plan a NASA-style science
 mission ("Map the ice on Mars") with no training, guided by an inner voice. They build
 a spacecraft, review six resources (budget, mass, power, communications, data, mission
-lifetime), walk the ship in first person, survive a dust storm with the Reroute Power
+lifetime), walk the ship in first person, survive a Mars shadow pass with the Reroute Power
 mini-game, and read a mission report. Players are students aged 10–15. Kaleb coaches a
 team of 5 Magikid students and teaches from this project.
 

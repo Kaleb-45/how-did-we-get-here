@@ -27,7 +27,7 @@ Dates are local Pacific time, the same zone as the commit.
   4. Build: choose a version of the solar panel, camera and antenna.
   5. Review the six resources (budget, mass, power, communications, data, mission lifetime) against the mission limits.
   6. Launch into a **first-person 3D walk** through the ship. A wrist light and a raisable arm dashboard show live resources.
-  7. A **dust storm** cuts solar power. The player runs the **Reroute Power** mini-game at the power panel.
+  7. A **Mars shadow pass** (the orbiter flies through Mars' shadow) cuts solar power to zero, and the batteries cannot carry everything. The player runs the **Reroute Power** mini-game at the power panel.
   8. The **mission report** debrief shows success or failure. Each failure lists what failed, why it failed and how to fix it.
   9. Try again.
 - **Who plays it:**
@@ -57,11 +57,12 @@ Dates are local Pacific time, the same zone as the commit.
   Picked options: "Light warns, Tab raises arm" and "Green / yellow / red".
 - **When the arm is raised, the dashboard is a 2D screen panel above the wrist, not a 3D wrist screen.**
   Why: Kaleb picked the recommended option, "Easy to read, reuses the dashboard we already built." (2026-11-08)
-- **The live event is a dust storm.**
-  - Solar power drops 60% at 20 s and the storm lasts 20 s.
-  - The alarm rings only if power goes red, and the player gets 15 s to fix it.
-  - Why: I proposed the dust storm and Kaleb accepted it with "pass" (2026-11-08). The 15 s countdown is shorter than the 20 s storm because otherwise "a player who does nothing would be saved when the storm ends" (data `_readme`, 2026-11-09).
-- **Reroute Power mini-game: at a power panel, switch the camera, antenna and heater on or off until the power used fits the power available. Systems can be turned back on after the storm.**
+- **The live event is a Mars shadow pass.**
+  - At 20 s the orbiter enters Mars' shadow for 20 s. Solar power drops 100% (real), and batteries give 400 W (game-design choice; the real MRO batteries could give about 1,900 W, written in the source).
+  - Every build sets off the alarm. The player gets 15 s to fix it, by turning off the antenna OR the heater. This matches NASA's real fix: MRO turns heaters down before it enters shadow.
+  - The 20 s shadow stands for every real 40-minute shadow, sped up, and the inner voice says so.
+  - Why: Kaleb picked option B, "Mars shadow pass with 400 W batteries", and said "pass" to the recommendations (2026-11-10). A real dust storm barely dims an orbiter, so the old event was weak on Validity. The 15 s countdown is shorter than the 20 s shadow because otherwise "a player who does nothing would be saved when the storm ends" (data `_readme`, 2026-11-09).
+- **Reroute Power mini-game: at a power panel, switch the camera, antenna and heater on or off until the power used fits the power available. Systems can be turned back on after the shadow pass.**
   Why: Kaleb's brief (2026-11-09).
 - **Turning a system off has a cost.**
   - No camera means no data.
@@ -129,6 +130,10 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "pass", accepting the recommendation (2026-11-10).
 - **Base mission lifetime is 30 months (game-design choice), so Small solar can still win. Data minimum 4 Gb/day is a game-design choice. Mass limit is MRO's real dry mass (1,031 kg), so mass only turns yellow and never fails alone.**
   Why: "pass", accepting the recommendations (2026-11-10).
+- **NASA's own news pages (jpl.nasa.gov, science.nasa.gov) count as sources. Outside news does not.**
+  Why: "pass" on the 7f/7g choices, accepting the recommendation (2026-11-10).
+- **Where two NASA pages disagree, keep the number already passed and write the other one in the source text** (for example MRO solar power: 2,000 W in the press kit, 1,000 W on an archived JPL page).
+  Why: "pass", accepting the recommendation (2026-11-10).
 - **Game balance is decided only after real numbers arrive.** With the placeholder numbers, "Medium solar + Basic camera always fails. That could be a good lesson or too harsh for 10–15 year olds; worth deciding once you have real NASA numbers." (my note, 2026-11-09, still open)
 
 ### Visual style
@@ -202,6 +207,7 @@ Dates are local Pacific time, the same zone as the commit.
 - **A multi-threaded web export.** Kaleb required single-threaded (2026-11-08).
 - **Fixing small renderer differences that aren't broken**, such as the glove tint. Not done, under "Fix only what looks broken" (2026-11-08).
 - **The hangar as the walk location.** Replaced by the graybox ship and archived in `scenes/archive/` (2026-11-09).
+- **The dust storm as the live event.** Replaced by the Mars shadow pass (2026-11-10): a real dust storm barely dims an orbiter's solar panels.
 - **The old camera-E alarm fix.** Replaced by the Reroute Power panel (2026-11-09).
 - **The corner mini-dashboard and the full-screen Tab overlay.** Replaced by the arm dashboard (2026-11-08).
 - **Rooms without ceilings.** Kaleb accepted ceilings with shadowless lights at G1 (2026-11-09).
@@ -298,7 +304,7 @@ What Kaleb looks at or tests before saying "pass":
 4. **Visual details on the dashboard.** "yes, the warning and max bar are good" (2026-11-08): the warning and limit markers and bars.
 5. **Readability for kids.** Kaleb checks font sizes, the control hints and whether the arm or dashboard is hidden behind other UI.
 6. **Nothing else broke.** Each feature's last step is a full playthrough from the intro to Try Again: "Confirm nothing else broke." (2026-11-08)
-7. **Both outcomes play.** A losing round (do nothing at the storm → MISSION FAILED, Power alarm) and a winning round (reroute power → MISSION SUCCESS). The old winning build, Large solar + High-res, fails the real budget limit since step 7e (2026-11-10). The new winning build is to be set in step 8; one that works today and still needs a reroute is Small solar + Basic camera + Large antenna (turn the heater off in the storm, then back on).
+7. **Both outcomes play.** A losing round (do nothing at the shadow pass → MISSION FAILED, Power alarm) and a winning round (reroute power → MISSION SUCCESS). The old winning build, Large solar + High-res, fails the real budget limit since step 7e (2026-11-10). The new winning build is to be set in step 8; one that works today and still needs a reroute is Small solar + Basic camera + Large antenna (turn the heater off in the shadow pass, then back on).
 8. **Browser check.** After the web task, Kaleb plays both rounds in the browser from `build/web` using `python3 -m http.server`.
 9. **Walkability for 3D layout.** Kaleb walks through every room and checks that the walls are solid.
 
@@ -404,7 +410,7 @@ What Kaleb looks at or tests before saying "pass":
 
 ## 9. NASA data used
 
-**Only the solar panels, the heater (step 7a, 2026-11-10), the cameras (step 7b, 2026-11-10), the antennas (step 7c, 2026-11-10), the spacecraft base (step 7d, 2026-11-10) and the mission limits (step 7e, 2026-11-10) have real NASA data so far.** Every other number in `data/game_data.json` is still marked `"source": "PLACEHOLDER"`. The table lists each dataset, its source, and where the game uses it. The full links are in each `source` string in `game_data.json`.
+**Only the solar panels, the heater (step 7a, 2026-11-10), the cameras (step 7b, 2026-11-10), the antennas (step 7c, 2026-11-10), the spacecraft base (step 7d, 2026-11-10), the mission limits (step 7e, 2026-11-10) and the shadow pass event (step 7f, 2026-11-10) have real NASA data so far.** Every other number in `data/game_data.json` is still marked `"source": "PLACEHOLDER"`. The table lists each dataset, its source, and where the game uses it. The full links are in each `source` string in `game_data.json`.
 
 | Dataset (placeholder) | Source link | Where the game uses it |
 |---|---|---|
@@ -414,7 +420,7 @@ What Kaleb looks at or tests before saying "pass":
 | Camera basic / high-res = MRO CTX (3 kg, 7 W, 4.8 Gb/day), MRO HiRISE (65 kg, 60 W, 16.4 Gb/day). Costs: no public source | NASA MRO science instruments page; CTX data guide in NASA PDS (ctxsis.pdf, "approximately 3.5 Tb"); HiRISE team science paper, McEwen et al. 2007 JGR ("more than 12 Tb") | Build choices, data collection rate, Reroute panel |
 | Antenna small / large = Mars Odyssey 1.3 m high-gain antenna (3.15 kg with its medium-gain antenna, 0.124 Mb/s), MRO 3 m high-gain antenna (20.7 kg, 6 Mb/s). Both use 172 W (MRO's amplifier power used; for the small antenna a game-design choice). Costs: no public source | NASA PDS Odyssey radio science catalog (inst.cat, "Mass (kg) 3.150"); NASA Mars Relay Description 2010 ("124.425 kbps", and 5.2 Mbps for MRO); MRO telecom summary, DESCANSO (Table 2-1, "rates as high as 6 Mbps") | Build choices, Reroute panel |
 | Heater = all MRO heaters: power −300 W. Off = 0.2 lifetime months lost per second (game-design choice) | NASA MRO thermal systems page ("As much as 300 watts") | Reroute panel, live lifetime |
-| Dust storm event: starts at 20 s, 60% solar drop, lasts 20 s, 15 s to fix | none (PLACEHOLDER) | Walk alarm, Reroute mini-game |
+| Shadow pass event (Mars eclipse): 100% solar drop (in shadow the panels make nothing and the batteries take over), batteries give 400 W (game-design choice; MRO's real batteries could give about 1,900 W: 2 × 1,600 Wh × 40% usable over a 40-minute shadow, so the alarm would never ring), lasts 20 s of the 60 s walk (game-design choice, about one third, like the real 40 of every 112 minutes), starts at 20 s and 15 s to fix (game-design choice) | MRO launch press kit (Aug 2005), Power Subsystem; JPL "Mars Reconnaissance Orbiter Preparing for Years Ahead" (Feb 9, 2018); archived JPL MRO "Electrical Power" page (2009) | Walk alarm, Reroute mini-game, Reroute panel "Power available" |
 | Character multipliers (janitor all 1.0) | none (PLACEHOLDER) | `GameState.get_limits` |
 
 The inner-voice text uses real-world reasoning in plain words, for example "NASA can't pay for a mission that costs more than its budget." The mission concept, mapping subsurface ice on Mars, is NASA-style, but no dataset is cited. Replacing the placeholders is planned student work.

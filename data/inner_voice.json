@@ -48,14 +48,14 @@
     },
     "mission_lifetime_live": {
       "what": "Mission lifetime: at the end we had {value} {unit}. We needed at least {limit}.",
-      "why": "The heater was off too long. The cold wore out the batteries.",
-      "fix": "Switch the heater back on as soon as the storm is over. Every second it is off costs battery life."
+      "why": "The heater was off too long. The cold wore out the parts, and the mission got shorter.",
+      "fix": "Switch the heater back on as soon as we're out of the shadow. Every second it is off takes months off the mission lifetime."
     },
     "power_event": {
       "title": "Power alarm",
       "what": "Power: the batteries ran out during the mission.",
-      "why": "A dust storm covered the solar panels, and power stayed in the red.",
-      "fix": "When the alarm sounds, go to the power panel and switch systems off until power fits. If even that is not enough, build with a bigger solar panel."
+      "why": "We flew into Mars' shadow. The solar panels got no sun, the batteries couldn't run everything, and power stayed in the red.",
+      "fix": "When the alarm sounds, go to the power panel and switch systems off until power fits. In the dark, only the batteries help. Real NASA teams turn the heaters down before every shadow."
     }
   },
   "parts": {
@@ -77,15 +77,15 @@
     "start": "Okay. This is the ship. I start on the Bridge. Walk around the rooms. Press E near a part to look at it.",
     "press_e_hint": "Press E",
     "numbers_intro": "Its numbers:",
-    "alarm": "Dust storm! The solar panels are covered. POWER LOW! Get to the power panel and switch something off!",
+    "alarm": "Uh oh. We just flew into Mars' shadow! No sun on the solar panels, only batteries. POWER LOW! Get to the power panel and switch something off!",
     "alarm_banner": "POWER LOW! Go to the power panel: {seconds}",
-    "alarm_again": "Too much power again! The storm isn't over yet. Switch something off!",
+    "alarm_again": "Too much power again! We're still in the shadow. Switch something off!",
     "alarm_fixed": "It fits. Phew. But everything I switched off is costing me something. I'd better check my wrist.",
     "alarm_failed": "Too late. The batteries are empty.",
     "mission_complete": "That's it. The spacecraft made it to Mars. Time to report to the general.",
-    "storm_ok": "Dust storm! The solar panels are covered, but we still have enough spare power. Good planning.",
-    "storm_over": "The storm is over! The sun is back on the solar panels. I can switch everything back on at the power panel.",
-    "storm_over_all_on": "The storm is over. The sun is back on the solar panels.",
+    "storm_ok": "We're in Mars' shadow. No sun on the solar panels, but the batteries can run everything. Huh. Good planning?",
+    "storm_over": "Out of the shadow! The sun is back on the solar panels. I can switch everything back on at the power panel. That shadow stood for every real 40-minute shadow, sped up. The real orbiter goes through one every two hours!",
+    "storm_over_all_on": "Out of the shadow. The sun is back on the solar panels.",
     "panel_name": "Power panel",
     "panel_sign": "POWER"
   },
@@ -94,7 +94,7 @@
     "title": "POWER PANEL",
     "close_hint": "E or Esc = close",
     "countdown": "POWER LOW! {seconds} s left",
-    "available_label": "Power available (solar panels)",
+    "available_label": "Power available (solar panels + batteries)",
     "body_label": "Spacecraft body (always on)",
     "used_label": "Power used",
     "of_word": "of",
@@ -107,7 +107,7 @@
     "off_costs": {
       "camera": "Off: no pictures, no new data",
       "antenna": "Off: no messages to Earth",
-      "heater": "Off: the cold wears out batteries"
+      "heater": "Off: the cold wears out parts (less mission lifetime)"
     }
   },
   "debrief": {

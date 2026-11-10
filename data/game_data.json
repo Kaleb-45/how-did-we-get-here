@@ -286,13 +286,14 @@
   },
   "events": {
     "power_low": {
-      "_readme": "The live alarm in the 3D walk: a dust storm covers the solar panels. It starts after start_after_seconds. The solar part (solar_part) then makes solar_drop_percent less power. If spare power goes below the limit, the alarm rings and the player has time_to_fix_seconds to turn systems off at the power panel. The alarm is fixed the moment power fits again (spare power back inside the limit). If it stops fitting while the storm is still on, the alarm rings again. The storm ends storm_seconds after it starts: the solar panels get their full power back, and the player can switch systems back on. IMPORTANT: time_to_fix_seconds must be SHORTER than storm_seconds, or a player who does nothing would be saved when the storm ends.",
+      "_readme": "The live alarm in the 3D walk: a shadow pass. The spacecraft flies into Mars' shadow, where no sunlight reaches the solar panels. It starts after start_after_seconds. The solar part (solar_part) then makes solar_drop_percent less power (100 = none at all), and the batteries give battery_power watts instead. If spare power goes below the limit, the alarm rings and the player has time_to_fix_seconds to turn systems off at the power panel. The alarm is fixed the moment power fits again (spare power back inside the limit). If it stops fitting while the shadow pass is still on, the alarm rings again. The shadow pass ends storm_seconds after it starts: the solar panels get their full power back, and the player can switch systems back on. IMPORTANT: time_to_fix_seconds must be SHORTER than storm_seconds, or a player who does nothing would be saved when the shadow pass ends.",
       "start_after_seconds": 20,
       "time_to_fix_seconds": 15,
       "storm_seconds": 20,
       "solar_part": "solar_panel",
-      "solar_drop_percent": 60,
-      "source": "PLACEHOLDER"
+      "solar_drop_percent": 100,
+      "battery_power": 400,
+      "source": "MRO passing through Mars' shadow. solar_drop_percent (\"a pair of nickel-hydrogen batteries to fill in when the spacecraft is in the shadow of a planet\": in shadow the solar panels make no power): https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf; storm_seconds: game-design choice (20 s of the 60 s walk is about one third, like the real shadow: \"currently for about 40 minutes of every two-hour orbit\", 40 of 112 minutes; this one shadow stands for every real shadow, sped up): https://www.jpl.nasa.gov/news/news.php?feature=7059; battery_power: game-design choice (MRO's real batteries are bigger: \"two nickel-hydrogen rechargeable batteries, each with an energy storage capacity of 50 ampere-hours -- at 32 volts that's 1,600 watts for one hour\" and \"only about 40 percent of the battery capacity is ever planned to be used\": 2 x 1,600 x 0.4 = 1,280 watt-hours over a 40-minute shadow = about 1,900 W, more than any build uses, so the alarm would never ring; 400 W makes every build switch the antenna or the heater off, like the real team that \"reduced the draw on them, in part by adjusting heater temperatures before the spacecraft enters shadow\"): http://web.archive.org/web/20090827094624/http://mars.jpl.nasa.gov/mro/mission/sc_electrical.html and https://www.jpl.nasa.gov/news/news.php?feature=7059; start_after_seconds and time_to_fix_seconds: game-design choice"
     }
   },
   "walk": {

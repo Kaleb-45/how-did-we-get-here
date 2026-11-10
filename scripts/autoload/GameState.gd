@@ -37,7 +37,7 @@ var mission_months: float = 0.0     # mission time so far, in months
 var data_collected: float = 0.0     # science data collected so far
 var parts_off: Array = []           # systems turned off, for example ["camera", "heater"]
 var lifetime_lost: float = 0.0      # extra months lost while the heater was off
-var storm_active: bool = false      # true while the dust storm covers the solar panels
+var storm_active: bool = false      # true during the shadow pass (no sunlight on the solar panels)
 
 # The live numbers at the moment the mission ended (for the debrief's blanks).
 var end_values: Dictionary = {}
@@ -103,12 +103,14 @@ func get_running_values() -> Dictionary:
 		for res_id in stops:
 			values[res_id] -= effects.get(res_id, 0.0)   # the heater only has power
 
-	# Dust storm: the solar part makes solar_drop_percent less power.
+	# Shadow pass: the solar part makes solar_drop_percent less power,
+	# and the batteries give battery_power instead.
 	if storm_active:
 		var storm: Dictionary = Data.game_data["events"]["power_low"]
 		var solar_id: String = storm["solar_part"]
 		var solar_power: float = Data.parts[solar_id]["versions"][choices[solar_id]]["effects"]["power"]
 		values["power"] -= solar_power * storm["solar_drop_percent"] / 100.0
+		values["power"] += storm["battery_power"]
 	return values
 
 
@@ -135,13 +137,15 @@ func is_system_on(system_id: String) -> bool:
 	return not parts_off.has(system_id)
 
 
-# What the solar panels make right now (less during the dust storm).
+# What the solar panels make right now. During the shadow pass they make
+# less (none at all), and the batteries give battery_power instead.
 func get_power_available() -> float:
 	var storm: Dictionary = Data.game_data["events"]["power_low"]
 	var solar_id: String = storm["solar_part"]
 	var solar: float = Data.parts[solar_id]["versions"][choices[solar_id]]["effects"]["power"]
 	if storm_active:
 		solar -= solar * storm["solar_drop_percent"] / 100.0
+		solar += storm["battery_power"]
 	return solar
 
 

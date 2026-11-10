@@ -3,7 +3,7 @@
 #  - Builds the spacecraft from the player's choices (Step 8).
 #  - Shows "Press E" when the player is near a part, and the inner voice
 #    explains that part when E is pressed (Step 9).
-#  - The dust storm and its "Power low" alarm: the player must reroute power
+#  - The shadow pass (Mars blocks the Sun) and its "Power low" alarm: the player must reroute power
 #    at the power panel in time (the Reroute Power mini-game).
 #  - The mission ends when the mission clock reaches the mission length.
 extends Node3D
@@ -25,15 +25,15 @@ extends Node3D
 
 var arm_is_up: bool = false
 
-# The storm and its alarm go through these stages:
-#   "waiting"  - counting down until the dust storm hits
+# The shadow pass and its alarm go through these stages:
+#   "waiting"  - counting down until the shadow pass starts
 #   "ringing"  - power doesn't fit: the player has time_to_fix_seconds
 #   "fixed"    - power fits (fixed in time, or there was enough anyway).
-#                If it stops fitting while the storm is on, it rings again.
+#                If it stops fitting while the shadow pass is on, it rings again.
 #   "failed"   - time ran out: the batteries are empty
 var alarm_stage: String = "waiting"
 var seconds_left: float = 0.0   # counts down in "waiting" and in "ringing"
-var storm_left: float = 0.0     # seconds until the dust storm is over
+var storm_left: float = 0.0     # seconds until the shadow pass is over
 var flashing: Tween
 var mission_over: bool = false   # true once the walk is finishing
 
@@ -149,7 +149,7 @@ func check_for_warnings(values: Dictionary, limits: Dictionary) -> void:
 		if status == before or status == "safe":
 			continue   # no change, or it got better: say nothing
 		if res_id == "power" and alarm_stage != "waiting":
-			continue   # the storm has started: the alarm lines already talk about power
+			continue   # the shadow pass has started: the alarm lines already talk about power
 		say_warning(Data.voice["dashboard_warnings"][res_id][status])
 
 
@@ -184,7 +184,7 @@ func update_voice(delta: float) -> void:
 
 # The alarm's clock. Only "waiting" and "ringing" count down.
 func update_alarm(delta: float) -> void:
-	# The storm's own clock: when it runs out, the sun comes back.
+	# The shadow pass's own clock: when it runs out, the sun comes back.
 	if GameState.storm_active and alarm_stage != "failed":
 		storm_left -= delta
 		if storm_left <= 0:
@@ -211,18 +211,18 @@ func update_alarm(delta: float) -> void:
 			alarm_failed()       # out of time
 
 	elif alarm_stage == "fixed":
-		# The storm is still on. If a switch goes back on and power stops
+		# The shadow pass is still on. If a switch goes back on and power stops
 		# fitting, the alarm rings again, with a fresh countdown.
 		if GameState.storm_active and not GameState.is_power_ok():
 			ring_alarm(Data.voice["walk"]["alarm_again"])
 
 
 func start_storm() -> void:
-	# The dust storm covers the solar panels: power drops (see GameState).
+	# Mars blocks the Sun: solar power drops, the batteries take over (see GameState).
 	GameState.storm_active = true
 	storm_left = Data.game_data["events"]["power_low"]["storm_seconds"]
 
-	# Enough spare power to ride out the storm? Then no alarm at all.
+	# Enough spare power to ride out the shadow pass? Then no alarm at all.
 	if GameState.is_power_ok():
 		alarm_stage = "fixed"
 		say(Data.voice["walk"]["storm_ok"])
@@ -255,20 +255,20 @@ func stop_alarm_effects() -> void:
 		flashing.kill()
 
 
-# Power fits again. The mission goes on (the storm is still there).
+# Power fits again. The mission goes on (the shadow pass is still on).
 func alarm_fixed() -> void:
 	alarm_stage = "fixed"
 	stop_alarm_effects()
 	say(Data.voice["walk"]["alarm_fixed"])
 
 
-# The storm is over: full solar power again. Now the player can switch
+# The shadow pass is over: full solar power again. Now the player can switch
 # systems back on at the power panel (and should: everything that is off
-# is still costing data, communications or battery life).
+# is still costing data, communications or mission lifetime).
 func end_storm() -> void:
 	GameState.storm_active = false
 	if alarm_stage == "ringing":
-		stop_alarm_effects()   # only if it rang again near the end of the storm
+		stop_alarm_effects()   # only if it rang again near the end of the shadow pass
 	alarm_stage = "fixed"
 	if GameState.parts_off.is_empty():
 		say(Data.voice["walk"]["storm_over_all_on"])

@@ -75,11 +75,12 @@ file.
   Test: search `missions` for PLACEHOLDER and find none. The dashboard limit markers
   sit at the new values.
 
-- [ ] **7f. Dust storm.** MUST · S
-  How much a Mars dust storm cuts solar power, and how long it lasts in game time.
+- [x] **7f. Shadow pass (Mars eclipse).** MUST · S
+  The spacecraft flies into Mars' shadow: the solar panels make no power and the
+  batteries give 400 W, for 20 s of game time (real: 40 of every 112 minutes).
   Before changing the file: show the table of value, real number, source link.
-  Test: search `events` for PLACEHOLDER and find none. Launch, and the storm cuts
-  power by the new amount.
+  Test: search `events` for PLACEHOLDER and find none. Launch, and the shadow pass
+  sets off the power alarm for every build.
 
 - [ ] **7g. Game timing and the janitor's difficulty.** MUST · S
   `mission_clock` (how fast months pass) and the janitor's limit multipliers. These

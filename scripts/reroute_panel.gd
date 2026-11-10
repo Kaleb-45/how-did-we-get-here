@@ -1,12 +1,12 @@
 # reroute_panel.gd
 # The Reroute Power mini-game: a 2D panel with an ON/OFF switch for each
 # system (camera, antenna, heater). It shows:
-#   - power available (what the solar panels make)
+#   - power available (solar panels, or the batteries during the shadow pass)
 #   - power used (the body, plus every system that is ON)
 #   - a bar, and "It fits" or "Too much!"
 #
 # The numbers are LIVE: they come from GameState, and the panel redraws
-# every frame while it is open (so you SEE the storm take power away).
+# every frame while it is open (so you SEE the shadow pass take power away).
 # Flipping a switch tells walk.gd (switch_changed), which turns the system
 # off or on in GameState. The dashboard then shows the cost.
 #
@@ -107,7 +107,7 @@ func _on_switch_toggled(on: bool, system_id: String) -> void:
 	refresh()                            # ...then the panel shows it
 
 
-# While the panel is open, redraw every frame: the storm can change
+# While the panel is open, redraw every frame: the shadow pass can change
 # the power available at any moment.
 func _process(_delta: float) -> void:
 	if visible:
