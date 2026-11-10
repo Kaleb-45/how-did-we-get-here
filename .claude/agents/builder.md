@@ -22,7 +22,7 @@ Work in this order:
    needs. Each step must run and be testable on its own, with no half-done parts.
 
 4. **Run the headless self-check.**
-   `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --quit`
+   `cd "/Users/kalebtovar/Desktop/Nasa Space App Challenge/how-did-we-get-here" && /Applications/Godot.app/Contents/MacOS/Godot --headless --path . --quit`
    Fix any errors or warnings from our scripts and run it again. Show the final output.
 
 5. **Give Kaleb a MY TEST.** Say exactly what to click or press and what Kaleb should

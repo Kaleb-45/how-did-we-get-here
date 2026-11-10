@@ -266,7 +266,7 @@ What Kaleb looks at or tests before saying "pass":
 
 1. **Kaleb follows my MY TEST list exactly in the Godot editor.** Kaleb presses F5, clicks the listed buttons and compares the result with the "Expect:" lines.
 2. **Kaleb requires a self-check before testing.**
-   - I run `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --quit`, fix errors and warnings from our scripts, and show the final output.
+   - I run `cd "/Users/kalebtovar/Desktop/Nasa Space App Challenge/how-did-we-get-here" && /Applications/Godot.app/Contents/MacOS/Godot --headless --path . --quit`, fix errors and warnings from our scripts, and show the final output.
    - "Show me the final check output." (2026-11-08)
 3. **Visible proof for data steps.** For example, "okay, i see the print out, everything looks good" (2026-11-08) after the data-loader printout.
 4. **Visual details on the dashboard.** "yes, the warning and max bar are good" (2026-11-08): the warning and limit markers and bars.
@@ -357,7 +357,7 @@ What Kaleb looks at or tests before saying "pass":
   - Input actions are created in code in `player.gd`.
   - Lights are shadowless in the ship, for web speed.
 - **Self-check:**
-  - Kaleb's command: `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --quit`.
+  - Kaleb's command: `cd "/Users/kalebtovar/Desktop/Nasa Space App Challenge/how-did-we-get-here" && /Applications/Godot.app/Contents/MacOS/Godot --headless --path . --quit`. The `cd` matters because an agent's working folder can reset between commands.
   - I also kept a scratch copy of the project with a `Tester` autoload for automated playthroughs and screenshots, run windowed at 1280×720 in the foreground.
   - Don't use `--check-only --script`, because it reports false autoload errors.
 - **Editing gotchas:**

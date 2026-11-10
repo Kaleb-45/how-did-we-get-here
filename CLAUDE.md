@@ -13,6 +13,10 @@ team of 5 Magikid students and teaches from this project.
 
 - Follow `AGENT_SOURCE.md`. It records how Kaleb makes design choices.
 - If a choice is not covered there, ask one short question. Do not guess.
+- Ask each open design question once, as a blocking question, and record the answer
+  in `AGENT_SOURCE.md`. Do not repeat it in later reports.
+- Step 1 of a feature is read and plan only, with no file changes.
+- Fix only what looks broken. Save cosmetic changes for the end of a feature.
 - Report every step as PLAN, DO, SELF-CHECK, MY TEST, then WAIT.
   - PLAN: 2–3 sentences on what changes and which files.
   - DO: change only what this step needs.
@@ -34,9 +38,12 @@ team of 5 Magikid students and teaches from this project.
   single-threaded Web export.
 - The last step of each feature is a full playthrough, a re-export to `build/web`,
   and a browser test. If a task asks for several steps in a row, do these once, at
-  the end of the batch.
-- Any value marked PLACEHOLDER must be replaced with real NASA data and a source link
-  before the final submission.
+  the end of the batch. The agent does the re-export. MY TEST tells Kaleb how to do
+  the full playthrough and the browser test: `cd build/web && python3 -m http.server
+  8000`, then open http://localhost:8000.
+- A student replaces PLACEHOLDER values with real NASA data and a source link before
+  the final submission. Agents never invent real-looking numbers. Mark every new
+  made-up number `"source": "PLACEHOLDER"`.
 - Ask before downloading anything.
 - Commit after each step that passes its self-check, with a one-line message.
 - Explain each step in simple English. Kaleb teaches it to students.
