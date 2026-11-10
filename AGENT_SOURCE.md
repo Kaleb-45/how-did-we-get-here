@@ -34,24 +34,41 @@ Dates are local Pacific time, the same zone as the commit.
   - Students **aged 10–15** ("Students aged 10–15 will play this." 2026-11-08).
   - It is built by Kaleb, a Magikid coach, for "a team of 5 Magikid students" as a demo "so the students can see how the game works before they build the real one" (2026-11-08).
 - **The challenge it answers:** NASA Space Apps Challenge 2026 (Nov 14–15), challenge **"Space Mission Design Game"** (2026-11-08).
+- **From 2026-11-10 the game grows into the full game in `GAME_PLAN.md`:** setup questions, Build, Launch, Flight, Arrival and the report, for five destinations. The summary above is the proof of concept it grows from.
 
 ---
 
 ## 2. Design decisions
 
 ### Player experience
-- **The player is an untrained outsider (the janitor) who is told "You're in charge now."**
-  Why: this is the premise. "The player must plan a real NASA-style science mission with no training." (2026-11-08)
+- **The general puts a person in charge: a scientist, the janitor or a student. The premise is the same for all three.** Later, in multiplayer, every player uses the same character type.
+  Why: "The premise for all: the general puts this person in charge. Later, in multiplayer, every player uses the same character type." (2026-11-10) The original premise: "The player must plan a real NASA-style science mission with no training." (2026-11-08)
 - **An inner voice guides, warns and explains failures. It is the game's only teacher.**
   Why: Kaleb's brief (2026-11-08).
+- **The inner voice is never wrong. It only knows what its character knows (scientist = expert, janitor = everyday adult, student = kid), and it always teaches.**
+  Why: "The voice is never wrong. It only knows what its character knows... and it always teaches." (2026-11-10)
 - **Six resources with exact names: budget, mass, power, communications, data, mission lifetime.**
-  Why: "Use these exact names" (2026-11-08).
+  Why: "Use these exact names" (2026-11-08). Kept: "Keep the six exact resource names." (2026-11-10)
+- **Mission lifetime means how long the spacecraft works after arrival.**
+  Why: "Mission lifetime = how long the spacecraft works after arrival." (2026-11-10)
+- **Food, water and air are a separate group, "crew supplies", shown in Flight and Arrival only.**
+  Why: "Food, water, and air are a separate group: 'crew supplies', shown in Flight and Arrival only." (2026-11-10)
+- **Mars missions have a crew on a ship that carries the spacecraft the player built. Europa has no crew. Crew supplies use NASA's real per-person daily food, water and oxygen numbers, with source links.**
+  Why: "Mars missions have a crew on a ship that carries the spacecraft the player built. Use NASA's real per-person daily food, water, and oxygen numbers, with source links. Europa has no crew." (2026-11-10)
+- **One heat mechanic only: the heater switch on the power panel. No heat meter, no thermal-panel task.**
+  Why: "One heat mechanic only: the heater switch on the power panel." (2026-11-10)
+- **The mission limits stay real: budget max $671M, mass max 1,031 kg. The launch vehicle changes the launch sequence and its cost, not these limits.**
+  Why: "Keep the real limits... The launch vehicle changes the launch sequence and its cost, not these limits." (2026-11-10)
+- **Three levels: Scientist = easy, Janitor = medium (all multipliers 1.0), Student = hard. The multipliers cover timing window, supply use per day, budget and hint detail.**
+  Why: "3 levels, not 4... Drop 'Assistant'." Kaleb asked the agent to set the multipliers (2026-11-10).
 - **Limits must matter, so the player cannot take everything. But they must not be so tight that the player plays scared. The player should be able to take risks and "do some damage."**
   Why: Kaleb's own words (2026-11-09).
 - **Each resource has three colors: green = safe, yellow = close to the limit, red = past a max or under a min.**
   Why: Kaleb's dashboard brief (2026-11-08).
-- **Rows still red at the end of the walk count as mission failures.**
-  Why: "yes we can count it as failure, they should have goals that will make it so that they need to pay attention to what they need to do" (2026-11-08).
+- **Rows still red at the end of the walk count as mission failures. Any meter the player sees go red can fail the mission, in every stage. On fail, the report offers "Retry from checkpoint".**
+  Why: "yes we can count it as failure, they should have goals that will make it so that they need to pay attention to what they need to do" (2026-11-08). "AGENT_SOURCE wins. Any meter the player sees go red can fail the mission. On fail, offer 'Retry from checkpoint'." (2026-11-10)
+- **The report has three buttons: Retry from checkpoint, Same design / new destination, Start fresh.**
+  Why: Kaleb's C15 answer (2026-11-10).
 - **The wrist light shows the worst row (green, yellow or red) and blinks on red. The dashboard stays hidden until Tab raises the arm.**
   Why: "an arm that will have a light on it that will go red if something goes bad... That way its hidden but also still can notify if anything is wrong." (2026-11-08)
   Picked options: "Light warns, Tab raises arm" and "Green / yellow / red".
@@ -62,6 +79,8 @@ Dates are local Pacific time, the same zone as the commit.
   - Every build sets off the alarm. The player gets 15 s to fix it, by turning off the antenna OR the heater. This matches NASA's real fix: MRO turns heaters down before it enters shadow.
   - The 20 s shadow stands for every real 40-minute shadow, sped up, and the inner voice says so.
   - Why: Kaleb picked option B, "Mars shadow pass with 400 W batteries", and said "pass" to the recommendations (2026-11-10). A real dust storm barely dims an orbiter, so the old event was weak on Validity. The 15 s countdown is shorter than the 20 s shadow because otherwise "a player who does nothing would be saved when the storm ends" (data `_readme`, 2026-11-09).
+  - **It is a Mars-orbit event only. It lives in Stage 4 Arrival (orbit type) and keeps its win/lose tests. Flight gets other events.**
+    Why: "The shadow pass stays a Mars-orbit event. Move it to Stage 4 Arrival (orbit type). Keep its win/lose tests. Flight gets other events." (2026-11-10)
 - **Reroute Power mini-game: at a power panel, switch the camera, antenna and heater on or off until the power used fits the power available. Systems can be turned back on after the shadow pass.**
   Why: Kaleb's brief (2026-11-09).
 - **Turning a system off has a cost.**
@@ -76,30 +95,38 @@ Dates are local Pacific time, the same zone as the commit.
   - Tab raises the arm (dashboard).
   - Esc frees the mouse. Esc or E closes a panel.
   - Why: "can we get a jump feature please" (2026-11-08). The rest is the brief and the arm feature.
+- **Timed presses: Space only in Launch, where the player cannot move. On the ship and the surface, timed presses use E, and Space stays jump.**
+  Why: "Space = jump on the ship. Space = timed press only in Launch, where the player cannot move. Timed presses on the ship or surface use E." (2026-11-10)
 - **"Press E" prompts appear near interactive things: parts, the power panel and, later, parts seen at windows.**
   Why: the brief: "When the player walks close to a part and presses E, the inner voice explains that part and its numbers." (2026-11-08) Inspecting parts at the windows was accepted at G1 (2026-11-09).
 
 ### Game structure
-- **Screen flow: Intro → Character select → Mission select → Build → Review → Walk (3D) → Debrief → Try again, which returns to Build with the last choices kept.**
-  Why: the PoC scope, items 1–9 (2026-11-08).
+- **Screen flow (GAME_PLAN.md section 2): Title → setup questions 1–5 → Build → Review → Checkpoint 1 → Launch → Checkpoint 2 → Flight → Checkpoint 3 → Arrival → Report.**
+  Why: "GAME_PLAN.md is the design source. Build in its phase order." (2026-11-10)
+- **The full game has five destinations (Mars orbit, Jezero, Gale, Arcadia Planitia, Europa).**
+  Why: "Full 5-destination game." (2026-11-10)
 - **I built the 2D loop (Build → Review → Debrief) before the 3D walk.**
   Why: my plan, so "the students can play a whole working loop early, and the 3D walk slots into the middle later" (2026-11-08). Kaleb approved it.
 - **Two autoloads hold the logic: `Data` loads the JSON files, and `GameState` holds the choices and does all the math. A third autoload, `Textures`, makes textures in code.**
   Why: this follows from the data rules (2026-11-08) (guess: Kaleb did not phrase it this way).
 - **The dashboard is one reusable scene. It only draws values and does no math. It is used on Build, in the walk (on the arm) and later on the Bridge wall.**
   Why: "One reusable dashboard scene" (2026-11-08).
-- **The 3D walk takes place in a graybox ship interior: one hallway plus Bridge (start), Power room, Science bay and Comms room. The old hangar is archived.**
-  Why: Kaleb's brief (2026-11-09). Archiving the hangar was accepted at G1.
+- **The 3D walk takes place in a graybox ship interior: one hallway plus five rooms: Bridge (start), Power room, Science bay, Comms room and Life Support (food, water, air). The old hangar is archived.**
+  Why: Kaleb's brief (2026-11-09). Archiving the hangar was accepted at G1. "Add one room: Life Support (food, water, air). Five rooms total." (2026-11-10)
 - **The Reroute Power station lives in the Power room and "must work exactly as it does now."**
   Why: Kaleb's brief (2026-11-09).
 - **The Science bay and Comms room each have an empty station spot with a glowing floor marker and a label: "Future station: Data" and "Future station: Comms".**
   Why: Kaleb's brief (2026-11-09). These are slots for future mini-games (guess).
-- **Difficulty is set by each character's limit multipliers. They are 1.0 for the janitor, and other characters can be added in data.**
-  Why: the brief named "janitor (medium difficulty)" (2026-11-08). The multiplier design is mine (guess).
+- **Difficulty is set by each character's multipliers. They are 1.0 for the janitor (medium).**
+  Why: the brief named "janitor (medium difficulty)" (2026-11-08). Kept in C1: "Janitor = medium (all multipliers 1.0)" (2026-11-10).
+- **When `GAME_PLAN.md` gives a DEFAULT, agents use it and list it in the report. Otherwise they ask one short question.**
+  Why: "Use the GAME_PLAN DEFAULTs and list them in your report." (2026-11-10)
+- **The playthrough, web export and browser test happen once per batch of steps.**
+  Why: "One playthrough, web export, and browser test per batch of steps." (2026-11-10)
 
 ### NASA data
-- **All part numbers are in ONE shared JSON file (`data/game_data.json`), with no numbers hard-coded in scripts.**
-  Why: Kaleb's data rule (2026-11-08). It was later widened to all game numbers: "All numbers go in game_data.json" (2026-11-09).
+- **No numbers are hard-coded in scripts. Numbers go in the data files listed in `GAME_PLAN.md` section 11: `game_data.json`, `destinations.json`, `parts.json`, `events.json`, `supplies.json`, `timing.json`, `levels.json`. On-screen text stays in `story.json` and inner-voice text in `inner_voice.json`.**
+  Why: Kaleb's data rule (2026-11-08). "Use the GAME_PLAN data files... Text stays in story.json and inner_voice.json." (2026-11-10)
 - **Placeholder numbers are marked `"source": "PLACEHOLDER"`.**
   Why: "Use placeholder numbers for now and mark them as placeholders. A student will replace them later with real NASA data." (2026-11-08)
 - **Each number's `source` must be replaced with a link or document name when real data goes in.**
@@ -189,8 +216,8 @@ Dates are local Pacific time, the same zone as the commit.
   Why: Kaleb chose it. "The voice is a little clueless, but sometimes it understands." (2026-11-09)
 
 ### Scope
-- **Keep the proof of concept small: one character, one mission, three parts with 2–3 versions each, and one live event.**
-  Why: "PROOF OF CONCEPT SCOPE (keep it this small)" (2026-11-08).
+- **Build the full game in `GAME_PLAN.md`, in its phase order. No polish before Phase C is done.**
+  Why: "GAME_PLAN.md is the design source. Build in its phase order. No polish before Phase C is done." and "Full 5-destination game." (2026-11-10)
 - **Change only what the current step needs.**
   Why: "DO: Make the change. Change only what this step needs." (2026-11-08)
 - **Cosmetics wait until a feature is finished.**
@@ -198,10 +225,8 @@ Dates are local Pacific time, the same zone as the commit.
 - **The game must run in a browser.**
   - Use the Compatibility renderer and a single-threaded Web export.
   - Why: "make sure the game runs in a browser" (2026-11-08). Single-threaded is Kaleb's own requirement. My reason: it runs on hosts like itch.io without special headers.
-- **Every feature after the web task ends with a full playthrough, a re-export to `build/web` and a browser test.**
-  Why: the Reroute and Graybox briefs, step 7 (2026-11-09).
-- **The full playthrough, the re-export and the browser test happen only in a feature's last step. If that last step is part of a batch, do them once, at the end of the batch. A batch in the middle of a feature skips them.**
-  Why: "if a task asks for several steps in a row, do the full playthrough, the re-export to build/web, and the browser test once, at the end of the batch." (2026-11-09) Kaleb then picked option A, "only in the feature's last step", over doing them after every batch (2026-11-09).
+- **Each batch of steps ends with one full playthrough, a re-export to `build/web` and a browser test.**
+  Why: "One playthrough, web export, and browser test per batch of steps." (2026-11-10)
 
 ---
 
@@ -221,6 +246,24 @@ Dates are local Pacific time, the same zone as the commit.
 - **The old camera-E alarm fix.** Replaced by the Reroute Power panel (2026-11-09).
 - **The corner mini-dashboard and the full-screen Tab overlay.** Replaced by the arm dashboard (2026-11-08).
 - **Rooms without ceilings.** Kaleb accepted ceilings with shadowless lights at G1 (2026-11-09).
+
+Replaced on 2026-11-10 by Kaleb's answers to the GAME_PLAN vs AGENT_SOURCE conflict list (C1–C16):
+
+- **Only the janitor, told "You're in charge now."** Replaced by three characters, all put in charge by the general (C1, 2026-11-10).
+- **Four levels with an "Assistant", and the janitor as "Very hard"** (GAME_PLAN draft). Replaced by three levels with the janitor as medium (C1, 2026-11-10).
+- **"If a choice is not covered, ask one short question. Do not guess."** Replaced: use a GAME_PLAN DEFAULT when there is one and list it; otherwise ask (C2, 2026-11-10).
+- **The shadow pass as a Flight event** (GAME_PLAN draft, Phase A step 5). Replaced: it stays a Mars-orbit event in Arrival (C3, 2026-11-10).
+- **Food, water, air, heat, power and data as one row of trip meters** (GAME_PLAN draft). Replaced: the six resources keep their names, and food, water and air are "crew supplies" (C4, 2026-11-10).
+- **A heat meter and a thermal-panel task** (GAME_PLAN draft). Replaced by the heater switch only (C6, 2026-11-10).
+- **The mission fails only on the 2–3 goal rules** (GAME_PLAN draft). Replaced: any meter that goes red can fail it (C7, 2026-11-10).
+- **The launch vehicle sets max mass and part of the budget** (GAME_PLAN draft). Replaced: the real limits stay, and the rocket changes the launch sequence and its cost (C8, 2026-11-10).
+- **All numbers in ONE shared file, `data/game_data.json`.** Replaced by the GAME_PLAN data files (C9, 2026-11-10).
+- **Space as the timed-press key everywhere** (GAME_PLAN draft). Replaced: Space only in Launch, E on the ship and surface (C10, 2026-11-10).
+- **The janitor's inner voice "is often wrong"** (GAME_PLAN draft). Replaced: the voice is never wrong, and only knows what its character knows (C11, 2026-11-10).
+- **Four ship rooms (Bridge, Power room, Science bay, Comms room).** Replaced by five, adding Life Support (C12, 2026-11-10).
+- **"Keep the proof of concept small: one character, one mission, three parts with 2–3 versions each, and one live event."** Replaced by the full 5-destination game (C13, 2026-11-10).
+- **The full playthrough, re-export and browser test only in a feature's last step.** Replaced by once per batch of steps (C14, 2026-11-10).
+- **Screen flow "Intro → Character select → Mission select → Build → Review → Walk → Debrief → Try again" (Try again returns to Build).** Replaced by the GAME_PLAN flow and three report buttons: Retry from checkpoint, Same design / new destination, Start fresh (C15, 2026-11-10).
 
 ---
 
@@ -314,7 +357,7 @@ What Kaleb looks at or tests before saying "pass":
 4. **Visual details on the dashboard.** "yes, the warning and max bar are good" (2026-11-08): the warning and limit markers and bars.
 5. **Readability for kids.** Kaleb checks font sizes, the control hints and whether the arm or dashboard is hidden behind other UI.
 6. **Nothing else broke.** Each feature's last step is a full playthrough from the intro to Try Again: "Confirm nothing else broke." (2026-11-08)
-7. **Both outcomes play.** A losing round (do nothing at the shadow pass → MISSION FAILED, Power alarm) and a winning round (reroute power → MISSION SUCCESS). The winning build is Medium solar + Basic camera + Large antenna (set in step 8, 2026-11-10).
+7. **Both outcomes play.** (From 2026-11-10 the shadow pass runs in Stage 4 Arrival, orbit type. These tests stay the same there.) A losing round (do nothing at the shadow pass → MISSION FAILED, Power alarm) and a winning round (reroute power → MISSION SUCCESS). The winning build is Medium solar + Basic camera + Large antenna (set in step 8, 2026-11-10).
    - Win: turn the heater off at the power panel when the alarm rings (about 20 s), then back on after "Out of the shadow!" (about 40 s) → MISSION SUCCESS.
    - Lose: the same build, do nothing → MISSION FAILED, with the "Power alarm" card.
    - Harder test: Small solar + Basic camera + Large antenna, where the heater can be off 30 s at most (for example, off at 22 s, back on by 52 s).

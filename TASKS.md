@@ -1,149 +1,183 @@
 # TASKS.md: steps left to finish "How Did We Get Here?"
 
-Made 2026-11-09 from `AGENT_SOURCE.md` sections 9 and 10 and `GRAYBOX_PLAN.md`.
-Submission is Nov 14–15.
+Rewritten 2026-11-10 from `GAME_PLAN.md` section 13 (Phase A), after Kaleb's answers
+to the conflict list C1–C16. Submission is Nov 14–15.
 
-- **MUST** = the game does not work, or cannot be submitted, without it.
-- **NICE** = it makes the game better, but the game works and can be submitted without it.
-- **Size:** S = under 30 min, M = 30 min to 2 hours, L = more than 2 hours.
+- **Size:** S = under 30 min, M = 30 min to 2 hours. No step is L.
 - Each step can be built and tested alone. Tick the box when Kaleb says pass.
+- **BLOCKED (Q#)** = waits for Kaleb's answer to open question Q# (2026-11-10 report).
+- Phase A is Mars orbit only. Everything stays gray and plain. No polish.
+- The headings below are suggested **batches**. Each batch ends with one full
+  playthrough (a losing and a winning round, and every room if the layout changed),
+  a re-export to `build/web`, and a browser test.
+- Every new made-up number is marked `"source": "PLACEHOLDER"`.
 
-## Graybox ship (finish the plan)
+## Phase A: Skeleton, start to finish (Mars orbit only)
 
-- [ ] **5a. Windows in the rooms.** NICE · S
-  Cut one window into the outer wall of the Power room, Science bay and Comms room.
-  Window sizes and places go in `game_data.json` under `ship`.
-  Test: walk into each room and see out through the window. The walls stay solid.
+### Batch 1: Game state and stage manager (GAME_PLAN 12c, 12d)
 
-- [ ] **5b. Chosen parts outside the windows.** NICE · M
-  Show the part version the player picked outside the right window: solar panels
-  (Power room), camera (Science bay), antenna (Comms room). Remove the old spacecraft
-  parked off-map at x=40 in `scenes/walk.tscn`.
-  Test: pick Large solar on Build, launch, and see large panels through the Power room
-  window. Try again with Small solar and see small panels.
+- [ ] **A1. Grow GameState.** S
+  Add to `GameState.gd`: player name, level, destination, goal, launch vehicle, crew
+  supplies (food, water, air), damage, timing results, findings. Add `to_dict()` and
+  `from_dict()` so the whole state is one dictionary (needed for checkpoints).
+  Test: press Play. The Output panel prints the state dictionary once. The game
+  plays exactly as before.
 
-- [ ] **5c. Press E at a window to inspect the part.** NICE · S
-  A "Press E" prompt at each window. The inner voice explains that part and its
-  numbers. Text goes in `inner_voice.json`.
-  Test: stand at each window, press E, and read the right part's explanation.
+- [ ] **A2. Stage manager.** M
+  One autoload, `StageManager.gd`, with the screen order in data and `go_next()`.
+  Replace the hard-coded `change_scene_to_file` calls in intro, character select,
+  mission select, build, review, walk and debrief.
+  Test: play one round. Every screen comes in the same order as before.
 
-- [ ] **6. Dashboard wall screen on the Bridge.** NICE · M
-  A second copy of the dashboard on a screen on the Bridge wall. It shows the same
-  live numbers as the arm dashboard.
-  Test: launch, stand on the Bridge, and watch the wall screen change with the arm
-  dashboard during the shadow pass.
+### Batch 2: Setup questions (GAME_PLAN 3)
 
-## Real NASA data
+- [ ] **A3. Question 1: "What is your name?"** S
+  A plain screen with a text box and Next, after the intro.
+  Test: type a name, play a round, and see the name on the mission report.
 
-Every value marked `"source": "PLACEHOLDER"` in `data/game_data.json` gets a real
-number and a source link. Students find the data, and the agent helps put it in the
-file. One step per system.
+- [ ] **A4. Question 2: "Who are you?" with three levels.** M
+  Character select shows Scientist, Janitor and Student. New `data/levels.json`
+  holds the multiplier table (PLACEHOLDER until Kaleb passes it). The budget
+  multiplier works now through the existing limit math. Timing, supply and hint
+  multipliers are stored now and used by later steps. Scientist and Student show the
+  "Picture goes here" box until Kaleb adds art.
+  Test: pick each character in turn. The Build budget limit reads $738M, $671M,
+  $637M.
 
-**Rule for every step 7a–7g:** before changing `game_data.json`, show Kaleb a table
-with three columns: value, real number, source link. Wait for pass, then change the
-file.
+- [ ] **A5. Question 3: "Where are we going?"** S
+  New `data/destinations.json` with one entry, Mars orbit (orbit type, crew: yes).
+  One card on a plain screen.
+  Test: pick Mars orbit, and the next question appears.
 
-- [x] **7a. Power: solar panels and heater.** MUST · M
-  Solar panel small, medium and large (cost, mass, power, lifetime), and the heater
-  (power used, lifetime lost when off).
-  Before changing the file: show the table of value, real number, source link.
-  Test: search the `solar_panel` and `heater` sections for PLACEHOLDER and find none.
-  On Build, the solar choices show the new numbers.
+- [ ] **A6. Question 4: "What is the mission for?"** S · BLOCKED (Q4)
+  Grow mission select: the "Map the ice on Mars" card shows its 2–3 success rules
+  as a checklist.
+  Test: the card lists the rules. The report later checks the same rules.
 
-- [x] **7b. Camera: basic and high resolution.** MUST · S
-  Cost, mass, power used and data for each camera.
-  Before changing the file: show the table of value, real number, source link.
-  Test: search the `camera` section for PLACEHOLDER and find none. On Build, the camera
-  choices show the new numbers.
+- [ ] **A7. Question 5: "What kind of rocket?"** M · BLOCKED (Q1)
+  Three launch vehicle cards. Each sets the number and tightness of launch moments
+  and a cost. The $671M and 1,031 kg limits do not change. New numbers are
+  PLACEHOLDER.
+  Test: pick each rocket. The limits stay the same, and the cost line changes.
 
-- [x] **7c. Communications: small and large antenna.** MUST · S
-  Cost, mass, power used and communications for each antenna.
-  Before changing the file: show the table of value, real number, source link.
-  Test: search the `antenna` section for PLACEHOLDER and find none. On Build, the
-  antenna choices show the new numbers.
+### Batch 3: Timed press and Launch (GAME_PLAN 12a, 6a)
 
-- [x] **7d. Spacecraft base.** MUST · S
-  The base spacecraft before any parts: budget, mass, power, lifetime.
-  Before changing the file: show the table of value, real number, source link.
-  Test: search `spacecraft_base` for PLACEHOLDER and find none. On Review, the totals
-  include the new base numbers.
+- [ ] **A8. Timed-press scene and test bench.** M
+  One reusable scene: a ring closes on a target. It returns Perfect, Good or Miss.
+  Inputs: label, speed, window size (from `data/timing.json`, times the level's
+  timing multiplier) and key (Space or E). It also takes a mouse click or tap.
+  Test: run the test bench with F6. Press early, on time and late, and see Miss,
+  Perfect and Good. Switch the key to E, and Space does nothing.
 
-- [x] **7e. Mission limits for "Map the ice on Mars".** MUST · M
-  The six limits (budget, mass, power, communications, data, mission lifetime), with
-  their warning and bar_max values.
-  Before changing the file: show the table of value, real number, source link.
-  Test: search `missions` for PLACEHOLDER and find none. The dashboard limit markers
-  sit at the new values.
+- [ ] **A9. Launch screen with 3 timed presses (Space).** M
+  A gray side view of the rocket and 3 moments (liftoff, stage separation, engine
+  cutoff). The player cannot move. A miss adds a cost to GameState (lost fuel or
+  damage, PLACEHOLDER). It always goes on.
+  Test: all on time, and no losses. All missed, and three costs are listed, but the
+  game still goes on.
 
-- [x] **7f. Shadow pass (Mars eclipse).** MUST · S
-  The spacecraft flies into Mars' shadow: the solar panels make no power and the
-  batteries give 400 W, for 20 s of game time (real: 40 of every 112 minutes).
-  Before changing the file: show the table of value, real number, source link.
-  Test: search `events` for PLACEHOLDER and find none. Launch, and the shadow pass
-  sets off the power alarm for every build.
+### Batch 4: Stage 3 Flight (GAME_PLAN 6b)
 
-- [x] **7g. Game timing and the janitor's difficulty.** MUST · S
-  `mission_clock` (how fast months pass) and the janitor's limit multipliers. These
-  are game choices, not spacecraft facts. Answered: use a NASA source where there is
-  one (0.4 months/s ties the 60 s walk to MRO's 24-month science phase; 30.4 days per
-  month is calendar math), and mark the rest as a written game-design choice.
-  Before changing the file: show the table of value, real number, source link.
-  Test: search `game_data.json` for `"source": "PLACEHOLDER"` and find none. (The word PLACEHOLDER still appears once, in the top `_readme` instruction.)
+- [ ] **A10. Life Support room.** M
+  A fifth graybox room off the hallway, with a sign (from `story.json`) and spots
+  for the food, water and air stations.
+  Test: walk into all five rooms. The walls are solid, and the new sign reads
+  "Life Support".
 
-- [x] **8. Balance review with the real numbers.** MUST · M
-  Check that at least one build can win and one can fail, without making the player
-  "play scared". Change limits only, with a source or a written reason. Then
-  rewrite the inner-voice part lines in `data/inner_voice.json` (for example "barely
-  makes enough power" for the small panel) to match the real numbers. Also the camera
-  lines: the high resolution camera "eats power" (it uses 60 W, a fifth of the 300 W
-  heater), and the basic camera's "blurry" pictures (CTX maps all of Mars). Also the
-  large antenna is "power hungry" (both antennas now use the same 172 W).
-  Test: play three different builds and see at least one success and one failure.
+- [ ] **A11. NASA crew supply numbers.** S
+  Find NASA's per-person daily food, water and oxygen numbers. Show Kaleb a table:
+  value, real number, source link. After the pass, put them in
+  `data/supplies.json`. Crew size and start amounts are PLACEHOLDER.
+  Test: search `supplies.json` and every per-person number has a NASA link.
 
-- [x] **9. Full playthrough, re-export, browser test.** MUST · M
-  Comes after the real numbers are in. The current `build/web` is from before the
-  ship. Re-export to `build/web`. Kaleb plays a losing round and a winning round in
-  the editor and in the browser, and walks through every room.
-  Test: both rounds end on the right mission report, in the editor and the browser.
+- [ ] **A12. Crew supply meters.** M
+  A "Crew supplies" group (food, water, air) on the arm dashboard, shown only in
+  Flight and Arrival. The meters drop by use per day times the level's supply
+  multiplier. The six resources keep their names and their place.
+  Test: start Flight, raise the arm with Tab, and watch the three meters fall.
 
-## Submission
+- [ ] **A13. Routine task 1.** S · BLOCKED (Q2)
+  A Life Support station with a "Press E" prompt and one action.
+  Test: do the task, and its meter drops slower. Skip it, and it drops faster.
+
+- [ ] **A14. Routine task 2.** S · BLOCKED (Q2)
+  Same as A13, for the second task.
+  Test: the same as A13.
+
+- [ ] **A15. One Flight event.** M · BLOCKED (Q2)
+  One event from `data/events.json`, run in the ship. It is not the shadow pass.
+  Test: the event starts, the inner voice warns, and fixing it at the right station
+  stops it.
+
+- [ ] **A16. One flight leg.** M
+  The walk scene runs in Flight mode: the two tasks and the Flight event, with no
+  shadow pass. The inner voice says how many real days the leg stands for. A meter at
+  zero adds a finding and a damage cost. The leg ends with a move to Arrival.
+  Test: do nothing (findings added) or do everything (no findings). Both reach
+  Arrival.
+
+### Batch 5: Stage 4 Arrival, orbit type (GAME_PLAN 7)
+
+- [ ] **A17. Orbit burn, then the existing shadow pass.** M
+  One timed press (E) for the orbit burn. A miss adds a cost. Then the existing walk
+  runs as Arrival: the mission clock (mission lifetime), the shadow pass and Reroute
+  Power, unchanged.
+  Test: the old win/lose tests (AGENT_SOURCE section 6, item 7) give the same
+  results as before.
+
+- [ ] **A18. One science pass.** M
+  Two timed presses (E): capture when the target is in view, then downlink when the
+  ground station is in view. Storage, power and antenna speed limit how much data
+  gets home.
+  Test: with the Large antenna, more data gets home than with the Small antenna.
+
+### Batch 6: Connect, save, report (GAME_PLAN 12b, 8)
+
+- [ ] **A19. Connect the whole order.** S
+  Title → questions → Build → Review → Launch → Flight → Arrival → Report.
+  Test: play from the title to the report with no skipped screen.
+
+- [ ] **A20. Checkpoints 1, 2, 3.** M
+  Save the whole GameState dictionary after Build, Launch and Flight. It works in
+  the web build.
+  Test: reach each checkpoint and see the save line in the Output panel.
+
+- [ ] **A21. The three report buttons.** M
+  Retry from checkpoint, Same design / new destination, Start fresh. In Phase A
+  there is only one destination, so "new destination" returns to question 3.
+  Test: fail a round. Each button goes to the right place, with the right parts
+  kept or cleared.
+
+- [ ] **A22. Report reads the full game state.** M · BLOCKED (Q4)
+  The name, launch timings, crew supply findings, science returned and the goal
+  rules. Any red meter fails the mission.
+  Test: a losing round and a winning round both end on the right report.
+
+## Later
+
+The old unfinished steps, kept here until Phase C is done (unless Kaleb says so).
 
 - [ ] **10. Confirm the 2026 rules (on Nov 13).** MUST · S
-  Read the 2026 Space Apps guide. Confirm the judging criteria names (is it
-  "Influence"?) and what a submission needs (for example a video, slides, or a
-  public link). Update `CLAUDE.md` and `reviewer.md`, and add any new MUST steps
-  here.
-  Test: `CLAUDE.md` names the confirmed criteria, with no "confirm" note.
-
+  Read the 2026 Space Apps guide. Confirm the judging criteria names and what a
+  submission needs. Update `CLAUDE.md` and `reviewer.md`.
 - [ ] **11. Public link for judges.** MUST · S
-  Put the step 9 build where judges can play it. If anything changed after step 9,
-  re-export and test in the browser first. Where to host it is an open choice for
-  Kaleb (itch.io was offered before but never picked).
-  Test: open the public link on another computer and play one round.
-
-## Polish and extras
-
-- [ ] **12. Remove leftovers.** NICE · S
-  Remove the unused compact-dashboard mode and the `"hint_small": "Tab = bigger"`
-  text. Ask Kaleb before removing the `dashboard_test` bench.
-  Test: play one round and see no change.
-
+  Host the newest tested `build/web`. Where to host it is still open.
+- [ ] **5a. Windows in the rooms.** NICE · S
+- [ ] **5b. Chosen parts outside the windows.** NICE · M
+- [ ] **5c. Press E at a window to inspect the part.** NICE · S
+- [ ] **6. Dashboard wall screen on the Bridge.** NICE · M
+- [ ] **12. Remove leftovers** (compact dashboard, `hint_small`, ask about
+  `dashboard_test`). NICE · S
 - [ ] **13. Alarm sound for the shadow pass.** NICE · M
-  Made in Godot code, with no downloads, like the textures.
-  Test: the alarm sounds when power goes red and stops when it is fixed.
-
-- [ ] **14. One-page student guide.** NICE · S
-  How to play, and how to change a number in `game_data.json`.
-  Test: a student follows it and changes one part's cost.
-
+- [ ] **14. One-page student guide.** NICE · S (GAME_PLAN 10 asks for a content-pack
+  guide in Phase C.)
 - [ ] **15. Data station mini-game in the Science bay.** NICE · L
-  Replaces the "Future station: Data" marker.
-
 - [ ] **16. Comms station mini-game in the Comms room.** NICE · L
-  Replaces the "Future station: Comms" marker.
+- [ ] **17. More characters and missions.** NICE · L (characters are now A4 and
+  Phase C item 4)
+- [ ] **18. Real 3D models for the parts.** NICE · L (now Phase E)
 
-- [ ] **17. More characters and missions.** NICE · L
-  An easier and a harder character, using the limit multipliers, and a second mission.
+## Done
 
-- [ ] **18. Real 3D models for the parts.** NICE · L
-  Fill the `"model"` slot for each part version. Ask Kaleb before downloading any model.
+7a–7g real NASA data, 8 balance review, 9 full playthrough and browser test
+(all 2026-11-10).
