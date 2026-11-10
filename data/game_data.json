@@ -108,17 +108,35 @@
     },
     "source": "Game-design choice by Kaleb (AGENT_SOURCE.md section 2, 2026-11-10): Scientist = easy, Janitor = medium, Student = hard. It is NOT a NASA number."
   },
+  "launch_vehicles": {
+    "_readme": "The three rockets the player can pick. cost = what the rocket costs, in million $. The rocket's cost is added to the Build budget total. The MEDIUM rocket's cost is already taken OUT of the spacecraft base (spacecraft_base budget is 490 minus the medium cost), so with the medium rocket the total is the same as before. The small rocket makes the total lower and the large rocket makes it higher. The rocket does NOT change the mission limits ($671M budget, 1,031 kg mass). How many launch moments each rocket has, and how tight they are, is in data/timing.json. default = the rocket used if you press Play on a later screen without picking one. If you change the medium cost, also change the base budget by the same amount, the other way.",
+    "default": "medium",
+    "vehicles": {
+      "small": {
+        "cost": 60,
+        "source": "PLACEHOLDER"
+      },
+      "medium": {
+        "cost": 90,
+        "source": "PLACEHOLDER"
+      },
+      "large": {
+        "cost": 130,
+        "source": "PLACEHOLDER"
+      }
+    }
+  },
   "spacecraft_base": {
     "_readme": "The spacecraft body (computer, frame, empty fuel tanks, other instruments) that every build has. Its mass is dry mass: no fuel. Its numbers are added to the parts the player picks. Its power does NOT include the heater: the heater is in \"reroute_power\", because the player can switch it off.",
     "effects": {
-      "budget": 490,
+      "budget": 400,
       "mass": 848.7,
       "power": -40,
       "communications": 0,
       "data": 0,
       "mission_lifetime": 30
     },
-    "source": "MRO spacecraft without the swappable parts. budget (\"Cost: About $720 million total, consisting approximately of $450 million spacecraft development and science instruments; $90 million launch; $180 million mission operations\"; minus the game costs of MRO's parts, large solar 70 + high resolution camera 110 + large antenna 50 = 230: 720 - 230 = 490) and mass (\"139 kilograms ... science payload, 892 kilograms ... other dry weight\" = 1,031 kg dry; minus MRO's solar arrays 96.6, HiRISE 65 and 3 m antenna 20.7: 1,031 - 96.6 - 65 - 20.7 = 848.7; the 3 kg CTX camera stays in the base): https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf; power: no public source; communications and data: game-design choice (the body sends and collects nothing by itself); mission_lifetime: game-design choice",
+    "source": "MRO spacecraft without the swappable parts. budget is 400 = 490 minus the medium rocket's cost of 90 (the rocket's cost is taken OUT of the base, see \"launch_vehicles\"; the rocket's 90 is PLACEHOLDER). So the total with the medium rocket is still exactly 490, the same as before the rocket question. The 490 comes from: (\"Cost: About $720 million total, consisting approximately of $450 million spacecraft development and science instruments; $90 million launch; $180 million mission operations\"; minus the game costs of MRO's parts, large solar 70 + high resolution camera 110 + large antenna 50 = 230: 720 - 230 = 490) and mass (\"139 kilograms ... science payload, 892 kilograms ... other dry weight\" = 1,031 kg dry; minus MRO's solar arrays 96.6, HiRISE 65 and 3 m antenna 20.7: 1,031 - 96.6 - 65 - 20.7 = 848.7; the 3 kg CTX camera stays in the base): https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf; power: no public source; communications and data: game-design choice (the body sends and collects nothing by itself); mission_lifetime: game-design choice",
     "look": {
       "size": [
         2,

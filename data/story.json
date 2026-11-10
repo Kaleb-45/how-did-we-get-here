@@ -30,6 +30,12 @@
     "crew_yes": "yes",
     "crew_no": "no"
   },
+  "rocket_screen": {
+    "title": "What kind of rocket?",
+    "cost_word": "Cost",
+    "moments_word": "Launch moments",
+    "tightness_word": "Window tightness"
+  },
   "mission_screen": {
     "title": "What is the mission for?",
     "goal_heading": "The mission is a success if:",
@@ -94,6 +100,24 @@
       "name": "Mars orbit",
       "description": "Fly to Mars and circle around it, high above the surface. From up there, the spacecraft can look at the whole planet.",
       "button": "Go to Mars"
+    }
+  },
+  "launch_vehicles": {
+    "_readme": "Plain names on purpose: the numbers are made up for now, so we do not use real rocket names.",
+    "small": {
+      "name": "Small rocket",
+      "description": "The cheapest. But it has the most launch moments, and the timing is tight.",
+      "button": "Pick small"
+    },
+    "medium": {
+      "name": "Medium rocket",
+      "description": "A middle price, with a middle number of launch moments and normal timing.",
+      "button": "Pick medium"
+    },
+    "large": {
+      "name": "Large rocket",
+      "description": "The most expensive. But it has the fewest launch moments, and the timing is forgiving.",
+      "button": "Pick large"
     }
   },
   "missions": {

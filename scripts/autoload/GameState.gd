@@ -308,12 +308,22 @@ func get_totals() -> Dictionary:
 	add_effects(totals, Data.game_data["spacecraft_base"]["effects"])
 	add_effects(totals, Data.game_data["reroute_power"]["heater"]["effects"])
 
+	# Add the rocket's cost. (If no rocket is picked yet, use the default.)
+	totals["budget"] += Data.game_data["launch_vehicles"]["vehicles"][get_launch_vehicle_id()]["cost"]
+
 	# Add each chosen part version.
 	for part_id in choices:
 		var version_id: String = choices[part_id]
 		add_effects(totals, Data.parts[part_id]["versions"][version_id]["effects"])
 
 	return totals
+
+
+# The picked rocket, or the default rocket if none is picked yet.
+func get_launch_vehicle_id() -> String:
+	if launch_vehicle_id != "":
+		return launch_vehicle_id
+	return Data.game_data["launch_vehicles"]["default"]
 
 
 # Adds one list of effects into the totals.

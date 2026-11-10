@@ -18,6 +18,23 @@
         "hard": "Ice on Mars? There's ice on Mars? Cool. Three rules. I'll write them on my hand."
       }
     },
+    "rocket": {
+      "small": {
+        "easy": "The small rocket. Cheaper, but the launch moments are tighter. A fair trade if I stay sharp.",
+        "medium": "Small rocket. Cheaper, I think. Probably harder to launch, too.",
+        "hard": "A small rocket. Like a bottle rocket, but bigger. Cheap. Gulp."
+      },
+      "medium": {
+        "easy": "The medium rocket. A fair price and fair timing. Balanced.",
+        "medium": "Medium rocket. Not too big, not too small. Like porridge.",
+        "hard": "The middle one. Middle is the safe pick, right?"
+      },
+      "large": {
+        "easy": "The large rocket costs more, but its launch windows are looser. The forgiving option.",
+        "medium": "Big rocket. Big price. Fewer scary moments, I hope.",
+        "hard": "The big one! It costs more, but bigger has to be easier. Right?"
+      }
+    },
     "character": {
       "scientist": "Right. I'm the scientist. I actually know this stuff. Please let me remember it under pressure.",
       "janitor": "I'm the janitor. I know where every mop is. I don't know where Mars is. Okay, I do, it's up there.",
