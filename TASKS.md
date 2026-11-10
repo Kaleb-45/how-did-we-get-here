@@ -100,7 +100,7 @@ file.
   large antenna is "power hungry" (both antennas now use the same 172 W).
   Test: play three different builds and see at least one success and one failure.
 
-- [ ] **9. Full playthrough, re-export, browser test.** MUST · M
+- [x] **9. Full playthrough, re-export, browser test.** MUST · M
   Comes after the real numbers are in. The current `build/web` is from before the
   ship. Re-export to `build/web`. Kaleb plays a losing round and a winning round in
   the editor and in the browser, and walks through every room.

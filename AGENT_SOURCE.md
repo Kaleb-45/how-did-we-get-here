@@ -446,7 +446,6 @@ The inner-voice text uses real-world reasoning in plain words, for example "NASA
 
 - **Graybox ship, G5:** show the chosen part version in each room, for example the solar panels through the Power room window, with E inspection at the windows. Not started; Kaleb said "Do not start step 5." The spacecraft is still parked off-map at x=40 in `scenes/walk.tscn` as a stand-in until G5.
 - **Graybox ship, G6:** a dashboard wall screen on the Bridge. My planned approach was a second dashboard on a SubViewport on a 3D quad. Not started.
-- **Graybox ship, G7:** full playthrough, re-export to `build/web` and a browser test. Not started. The `build/web` export is from before the ship (R7).
 - **Future stations:** the Science bay ("Future station: Data") and Comms room ("Future station: Comms") have markers only. No mini-games yet.
 - **Real 3D models:** the `"model"` slot in each part version is empty.
 - **Ideas I offered that Kaleb never picked up:**
