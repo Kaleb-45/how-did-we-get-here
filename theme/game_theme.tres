@@ -1,0 +1,191 @@
+[gd_resource type="Theme" format=3]
+
+; game_theme.tres
+; The look of every 2D screen, in ONE place: text sizes AND colors.
+; Set as the project's theme in Project Settings > GUI > Theme > Custom.
+;
+; COLORS (navy and orange):
+;   screen background  navy        #0a1633
+;   panels             lighter navy #13244a, orange border
+;   accent             orange      #ff9933  (titles, small headings, main buttons)
+;   text               white / light blue-gray
+; Green, yellow and red are NOT here: they mean safe / close / over the
+; limit, so they stay in game_data.json ("dashboard.colors").
+;
+; Text styles ("type variations"). A label picks one with its
+; Theme Type Variation property, for example  theme_type_variation = &"BodyText"
+;   TitleText    big screen titles (orange)              50
+;   HeadingText  card titles, part names                 34
+;   BodyText     story, inner voice, tables              28
+;   SmallText    hints (gray-blue)                       24
+;   AccentText   small headings (orange)                 24
+;   TableText    the dashboard rows                      22
+;   BannerText   the POWER LOW alarm                     46
+; Boxes and buttons:
+;   ScreenBackground  the navy background of a screen (a Panel)
+;   NavyPanel         cards, the dashboard, the review table
+;   VoiceBar          the inner voice bar at the bottom
+;   Button            (no style needed) main buttons: orange with navy text
+;   SmallButton       the part version buttons: navy, orange when picked
+; Anything with no style uses default_font_size: 26.
+
+[sub_resource type="StyleBoxFlat" id="Background"]
+bg_color = Color(0.04, 0.086, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="NavyPanel"]
+content_margin_left = 22.0
+content_margin_top = 16.0
+content_margin_right = 22.0
+content_margin_bottom = 18.0
+bg_color = Color(0.075, 0.14, 0.29, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.6, 0.2, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="VoiceBar"]
+bg_color = Color(0.03, 0.06, 0.14, 0.94)
+border_width_top = 3
+border_color = Color(1, 0.6, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="Button_normal"]
+content_margin_left = 22.0
+content_margin_top = 8.0
+content_margin_right = 22.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.6, 0.2, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="Button_hover"]
+content_margin_left = 22.0
+content_margin_top = 8.0
+content_margin_right = 22.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.72, 0.4, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="Button_pressed"]
+content_margin_left = 22.0
+content_margin_top = 8.0
+content_margin_right = 22.0
+content_margin_bottom = 8.0
+bg_color = Color(0.88, 0.48, 0.12, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="Button_focus"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="Small_normal"]
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+bg_color = Color(0.11, 0.19, 0.38, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="Small_hover"]
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+bg_color = Color(0.17, 0.28, 0.52, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="Small_pressed"]
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 0.6, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="Small_hover_pressed"]
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 0.72, 0.4, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[resource]
+default_font_size = 26
+Button/colors/font_color = Color(0.04, 0.086, 0.2, 1)
+Button/colors/font_hover_color = Color(0.04, 0.086, 0.2, 1)
+Button/colors/font_pressed_color = Color(0.04, 0.086, 0.2, 1)
+Button/colors/font_hover_pressed_color = Color(0.04, 0.086, 0.2, 1)
+Button/colors/font_focus_color = Color(0.04, 0.086, 0.2, 1)
+Button/styles/normal = SubResource("Button_normal")
+Button/styles/hover = SubResource("Button_hover")
+Button/styles/pressed = SubResource("Button_pressed")
+Button/styles/hover_pressed = SubResource("Button_hover")
+Button/styles/focus = SubResource("Button_focus")
+Label/colors/font_color = Color(0.94, 0.95, 1, 1)
+TitleText/base_type = &"Label"
+TitleText/colors/font_color = Color(1, 0.6, 0.2, 1)
+TitleText/font_sizes/font_size = 50
+HeadingText/base_type = &"Label"
+HeadingText/font_sizes/font_size = 34
+BodyText/base_type = &"Label"
+BodyText/font_sizes/font_size = 28
+SmallText/base_type = &"Label"
+SmallText/colors/font_color = Color(0.72, 0.78, 0.9, 1)
+SmallText/font_sizes/font_size = 24
+AccentText/base_type = &"Label"
+AccentText/colors/font_color = Color(1, 0.6, 0.2, 1)
+AccentText/font_sizes/font_size = 24
+TableText/base_type = &"Label"
+TableText/font_sizes/font_size = 22
+BannerText/base_type = &"Label"
+BannerText/font_sizes/font_size = 46
+ScreenBackground/base_type = &"Panel"
+ScreenBackground/styles/panel = SubResource("Background")
+NavyPanel/base_type = &"PanelContainer"
+NavyPanel/styles/panel = SubResource("NavyPanel")
+VoiceBar/base_type = &"PanelContainer"
+VoiceBar/styles/panel = SubResource("VoiceBar")
+SmallButton/base_type = &"Button"
+SmallButton/colors/font_color = Color(0.94, 0.95, 1, 1)
+SmallButton/colors/font_hover_color = Color(1, 1, 1, 1)
+SmallButton/colors/font_focus_color = Color(0.94, 0.95, 1, 1)
+SmallButton/colors/font_pressed_color = Color(0.04, 0.086, 0.2, 1)
+SmallButton/colors/font_hover_pressed_color = Color(0.04, 0.086, 0.2, 1)
+SmallButton/font_sizes/font_size = 24
+SmallButton/styles/normal = SubResource("Small_normal")
+SmallButton/styles/hover = SubResource("Small_hover")
+SmallButton/styles/pressed = SubResource("Small_pressed")
+SmallButton/styles/hover_pressed = SubResource("Small_hover_pressed")

@@ -1,0 +1,134 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/debrief.gd" id="1_debrief"]
+[ext_resource type="PackedScene" path="res://scenes/inner_voice_bar.tscn" id="2_bar"]
+
+[node name="Debrief" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_debrief")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"ScreenBackground"
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 166
+
+[node name="Column" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="PanelContainer" parent="Margin/Column"]
+layout_mode = 2
+theme_type_variation = &"NavyPanel"
+
+[node name="HeaderRow" type="HBoxContainer" parent="Margin/Column/Header"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="HeaderText" type="VBoxContainer" parent="Margin/Column/Header/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="ReportLabel" type="Label" parent="Margin/Column/Header/HeaderRow/HeaderText"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"AccentText"
+text = "MISSION REPORT"
+
+[node name="MissionName" type="Label" parent="Margin/Column/Header/HeaderRow/HeaderText"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeadingText"
+text = "Mission name"
+
+[node name="Details" type="Label" parent="Margin/Column/Header/HeaderRow/HeaderText"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallText"
+text = "Mission designer: ..."
+
+[node name="RightSide" type="VBoxContainer" parent="Margin/Column/Header/HeaderRow"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+
+[node name="Stamp" type="PanelContainer" parent="Margin/Column/Header/HeaderRow/RightSide"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StampText" type="Label" parent="Margin/Column/Header/HeaderRow/RightSide/Stamp"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeadingText"
+text = "MISSION ..."
+horizontal_alignment = 1
+
+[node name="TryAgainButton" type="Button" parent="Margin/Column/Header/HeaderRow/RightSide"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 56)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Try again"
+
+[node name="Scroll" type="ScrollContainer" parent="Margin/Column"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Body" type="VBoxContainer" parent="Margin/Column/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="FindingsLabel" type="Label" parent="Margin/Column/Scroll/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"AccentText"
+text = "FINDINGS"
+
+[node name="Findings" type="VBoxContainer" parent="Margin/Column/Scroll/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ReadingsLabel" type="Label" parent="Margin/Column/Scroll/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"AccentText"
+text = "FINAL READINGS"
+
+[node name="ReadingsPanel" type="PanelContainer" parent="Margin/Column/Scroll/Body"]
+layout_mode = 2
+theme_type_variation = &"NavyPanel"
+
+[node name="Readings" type="GridContainer" parent="Margin/Column/Scroll/Body/ReadingsPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 40
+theme_override_constants/v_separation = 4
+columns = 4
+
+[node name="InnerVoiceBar" parent="." instance=ExtResource("2_bar")]
+unique_name_in_owner = true
+layout_mode = 1

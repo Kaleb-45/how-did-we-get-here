@@ -1,0 +1,77 @@
+{
+  "_readme": "Story text for the screens. Writers can change any sentence. Do not change the names on the left side of the colons (the keys), or the game cannot find the text.",
+  "intro": {
+    "lines": [
+      "NASA Mission Control. 7:42 AM.",
+      "The chief mission designer just quit. No warning. No notes.",
+      "The general walks in, looks around the room, and points at you."
+    ],
+    "general_name": "The General",
+    "general_says": "You're in charge now.",
+    "button": "Uh... okay?",
+    "general_picture": "res://assets/characters/general.png",
+    "janitor_picture": "res://assets/characters/janitor.png",
+    "janitor_caption": "You (the janitor)",
+    "missing_picture": "Picture goes here:"
+  },
+  "character_screen": {
+    "title": "Wait. Who are you, again?",
+    "difficulty_word": "Difficulty"
+  },
+  "mission_screen": {
+    "title": "The general hands you a folder. One mission inside."
+  },
+  "build_screen": {
+    "title": "Build your spacecraft. Pick one of each.",
+    "max_word": "max",
+    "min_word": "need at least",
+    "review_button": "Review my spacecraft"
+  },
+  "review_screen": {
+    "title": "Before launch: does it all add up?",
+    "header_resource": "Resource",
+    "header_have": "You have",
+    "header_limit": "Limit",
+    "header_status": "Status",
+    "ok_word": "OK",
+    "over_word": "OVER THE LIMIT",
+    "under_word": "TOO LOW",
+    "back_button": "Back to build",
+    "launch_button": "Launch mission"
+  },
+  "ship": {
+    "_readme": "Names on the ship. room_names = the sign above each room's doorway (left side of the colon must match the room names in game_data.json). future_stations = the floating label over each glowing floor marker.",
+    "room_names": {
+      "bridge": "BRIDGE",
+      "power_room": "POWER ROOM",
+      "science_bay": "SCIENCE BAY",
+      "comms_room": "COMMS ROOM"
+    },
+    "future_stations": {
+      "science_bay": "Future station: Data",
+      "comms_room": "Future station: Comms"
+    }
+  },
+  "walk_screen": {
+    "controls_hint": "WASD = walk    Space = jump    Mouse = look    E = use    Tab = raise arm (dashboard)    Esc = free the mouse"
+  },
+  "characters": {
+    "janitor": {
+      "name": "The Janitor",
+      "description": "You know every room in this building. You know nothing about spacecraft.",
+      "button": "That's me"
+    }
+  },
+  "missions": {
+    "mars_ice": {
+      "name": "Map the ice on Mars",
+      "description": "Send a spacecraft to orbit Mars and take pictures of ice under the surface. Future astronauts will need that water.",
+      "button": "Start building"
+    }
+  },
+  "dashboard": {
+    "title": "Mission dashboard",
+    "hint_small": "Tab = bigger",
+    "hint_big": "Tab = lower your arm"
+  }
+}

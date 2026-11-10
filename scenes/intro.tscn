@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://bcy2ilh0eu6gg"]
+
+[ext_resource type="Script" uid="uid://dkippqyrytpl" path="res://scripts/intro.gd" id="1_intro"]
+
+[node name="Intro" type="Control" unique_id=919399123]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_intro")
+
+[node name="Background" type="Panel" parent="." unique_id=2047169613]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"ScreenBackground"
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Row" type="HBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="GeneralFrame" type="PanelContainer" parent="Center/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"NavyPanel"
+
+[node name="GeneralBox" type="VBoxContainer" parent="Center/Row/GeneralFrame"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GeneralPicture" type="TextureRect" parent="Center/Row/GeneralFrame/GeneralBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 320)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GeneralMissing" type="Label" parent="Center/Row/GeneralFrame/GeneralBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(230, 320)
+layout_mode = 2
+theme_type_variation = &"SmallText"
+text = "picture goes here"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="GeneralCaption" type="Label" parent="Center/Row/GeneralFrame/GeneralBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"AccentText"
+text = "Name"
+horizontal_alignment = 1
+
+[node name="Column" type="VBoxContainer" parent="Center/Row"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 36
+
+[node name="StoryText" type="Label" parent="Center/Row/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BodyText"
+text = "Story text goes here"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="GeneralLine" type="Label" parent="Center/Row/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleText"
+text = "The General: \"...\""
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ContinueButton" type="Button" parent="Center/Row/Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Continue"
+
+[node name="JanitorFrame" type="PanelContainer" parent="Center/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"NavyPanel"
+
+[node name="JanitorBox" type="VBoxContainer" parent="Center/Row/JanitorFrame"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="JanitorPicture" type="TextureRect" parent="Center/Row/JanitorFrame/JanitorBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 320)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="JanitorMissing" type="Label" parent="Center/Row/JanitorFrame/JanitorBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(230, 320)
+layout_mode = 2
+theme_type_variation = &"SmallText"
+text = "picture goes here"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="JanitorCaption" type="Label" parent="Center/Row/JanitorFrame/JanitorBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"AccentText"
+text = "Name"
+horizontal_alignment = 1

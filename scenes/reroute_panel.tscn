@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/reroute_panel.gd" id="1_reroute"]
+
+[node name="ReroutePanel" type="PanelContainer"]
+custom_minimum_size = Vector2(960, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -280.0
+offset_right = 480.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 1
+theme_type_variation = &"NavyPanel"
+script = ExtResource("1_reroute")
+
+[node name="Column" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TopRow" type="HBoxContainer" parent="Column"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Column/TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HeadingText"
+text = "POWER PANEL"
+
+[node name="Countdown" type="Label" parent="Column/TopRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"BodyText"
+text = "POWER LOW! 30 s left"
+horizontal_alignment = 1
+
+[node name="CloseHint" type="Label" parent="Column/TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"SmallText"
+text = "E or Esc = close"
+
+[node name="Available" type="Label" parent="Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BodyText"
+text = "Power available: 0 W"
+
+[node name="Rows" type="GridContainer" parent="Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 4
+columns = 4
+
+[node name="Used" type="Label" parent="Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BodyText"
+text = "Power used: 0 W of 0 W"
+
+[node name="UsedBar" type="ProgressBar" parent="Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+show_percentage = false
+
+[node name="Status" type="Label" parent="Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BodyText"
+text = "..."

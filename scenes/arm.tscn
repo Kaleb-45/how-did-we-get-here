@@ -1,0 +1,104 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/arm.gd" id="1_arm"]
+
+[sub_resource type="BoxMesh" id="Mesh_sleeve"]
+size = Vector3(0.11, 0.11, 0.42)
+
+[sub_resource type="StandardMaterial3D" id="Mat_sleeve"]
+render_priority = 2
+no_depth_test = true
+albedo_color = Color(0.2, 0.32, 0.55, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_cuff"]
+render_priority = 3
+no_depth_test = true
+albedo_color = Color(0.17, 0.27, 0.47, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Mesh_cuff"]
+size = Vector3(0.122, 0.122, 0.07)
+
+[sub_resource type="BoxMesh" id="Mesh_glove"]
+size = Vector3(0.115, 0.09, 0.14)
+
+[sub_resource type="StandardMaterial3D" id="Mat_glove"]
+render_priority = 1
+no_depth_test = true
+albedo_color = Color(1, 0.8, 0.15, 1)
+metallic_specular = 0.1
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="Mesh_device"]
+size = Vector3(0.07, 0.025, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="Mat_device"]
+render_priority = 4
+no_depth_test = true
+albedo_color = Color(0.12, 0.13, 0.16, 1)
+metallic = 0.4
+roughness = 0.4
+
+[sub_resource type="SphereMesh" id="Mesh_light"]
+radius = 0.013
+height = 0.026
+
+[sub_resource type="StandardMaterial3D" id="Mat_light"]
+render_priority = 5
+no_depth_test = true
+albedo_color = Color(0.37, 0.82, 0.48, 1)
+emission_enabled = true
+emission = Color(0.37, 0.82, 0.48, 1)
+emission_energy_multiplier = 3.0
+
+[node name="Arm" type="Node3D"]
+script = ExtResource("1_arm")
+
+[node name="LoweredPose" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.9033, -0.2656, 0.3368, 0.3368, 0.9254, -0.1736, -0.2656, 0.2703, 0.9254, 0.6542616, -0.23712459, -0.4156577)
+
+[node name="RaisedPose" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.27989465, 0, 0.9600307, 0.82321954, 0.5144958, -0.24000767, -0.49393174, 0.8574929, 0.14400461, 0.13762765, -0.257182, -0.648406)
+
+[node name="Pivot" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Sleeve" type="MeshInstance3D" parent="Pivot"]
+cast_shadow = 0
+mesh = SubResource("Mesh_sleeve")
+surface_material_override/0 = SubResource("Mat_sleeve")
+
+[node name="Cuff" type="MeshInstance3D" parent="Pivot"]
+position = Vector3(0, 0, -0.21)
+cast_shadow = 0
+mesh = SubResource("Mesh_cuff")
+surface_material_override/0 = SubResource("Mat_cuff")
+
+[node name="Glove" type="MeshInstance3D" parent="Pivot"]
+position = Vector3(0, -0.005, -0.31)
+cast_shadow = 0
+mesh = SubResource("Mesh_glove")
+surface_material_override/0 = SubResource("Mat_glove")
+
+[node name="WristDevice" type="MeshInstance3D" parent="Pivot"]
+position = Vector3(0, 0.066, -0.17)
+cast_shadow = 0
+mesh = SubResource("Mesh_device")
+surface_material_override/0 = SubResource("Mat_device")
+
+[node name="WristLight" type="MeshInstance3D" parent="Pivot"]
+unique_name_in_owner = true
+position = Vector3(0, 0.085, -0.17)
+cast_shadow = 0
+mesh = SubResource("Mesh_light")
+surface_material_override/0 = SubResource("Mat_light")
+
+[node name="WristGlow" type="OmniLight3D" parent="Pivot"]
+unique_name_in_owner = true
+position = Vector3(0, 0.11, -0.17)
+light_color = Color(0.37, 0.82, 0.48, 1)
+light_energy = 0.3
+omni_range = 0.12

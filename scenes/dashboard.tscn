@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/dashboard.gd" id="1_dash"]
+
+[node name="Dashboard" type="PanelContainer"]
+theme_type_variation = &"NavyPanel"
+script = ExtResource("1_dash")
+
+[node name="Column" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleRow" type="HBoxContainer" parent="Column"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="DashboardTitle" type="Label" parent="Column/TitleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"AccentText"
+text = "Mission dashboard"
+
+[node name="DashboardHint" type="Label" parent="Column/TitleRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"SmallText"
+text = "Tab"
+
+[node name="Rows" type="VBoxContainer" parent="Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10

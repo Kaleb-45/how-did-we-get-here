@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/dashboard_row.gd" id="1_row"]
+
+[sub_resource type="StyleBoxFlat" id="Bar_background"]
+bg_color = Color(0.03, 0.04, 0.09, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Bar_fill"]
+bg_color = Color(0.37, 0.82, 0.48, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="DashboardRow" type="HBoxContainer"]
+theme_override_constants/separation = 12
+script = ExtResource("1_row")
+
+[node name="NameLabel" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(185, 0)
+layout_mode = 2
+theme_type_variation = &"TableText"
+text = "Resource"
+
+[node name="ValueLabel" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(205, 0)
+layout_mode = 2
+theme_type_variation = &"TableText"
+text = "0"
+
+[node name="LimitLabel" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_type_variation = &"TableText"
+text = "max 0"
+
+[node name="Bar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("Bar_background")
+theme_override_styles/fill = SubResource("Bar_fill")
+show_percentage = false
+
+[node name="LimitMarker" type="ColorRect" parent="Bar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -4.0
+offset_right = 2.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.9)

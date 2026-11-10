@@ -1,0 +1,396 @@
+{
+  "_readme": "ALL game numbers live in this file. Scripts never contain numbers. Every value marked \"source\": \"PLACEHOLDER\" is made up for testing. Replace it with real NASA data and change source to where the number came from (a link or document name).",
+  "resources": {
+    "budget": {
+      "name": "Budget",
+      "unit": "million $"
+    },
+    "mass": {
+      "name": "Mass",
+      "unit": "kg"
+    },
+    "power": {
+      "name": "Power",
+      "unit": "W spare"
+    },
+    "communications": {
+      "name": "Communications",
+      "unit": "Mb/s"
+    },
+    "data": {
+      "name": "Data",
+      "unit": "Gb/day",
+      "live_unit": "Gb collected"
+    },
+    "mission_lifetime": {
+      "name": "Mission lifetime",
+      "unit": "months",
+      "live_unit": "months left"
+    }
+  },
+  "_rules_readme": "rule \"max\" = the total must stay AT or BELOW value. rule \"min\" = the total must reach AT LEAST value. warning = where the dashboard turns yellow (for max: above warning; for min: below warning). bar_max = the number that fills the dashboard bar all the way.",
+  "missions": {
+    "mars_ice": {
+      "limits": {
+        "budget": {
+          "rule": "max",
+          "value": 450,
+          "warning": 400,
+          "bar_max": 500,
+          "source": "PLACEHOLDER"
+        },
+        "mass": {
+          "rule": "max",
+          "value": 840,
+          "warning": 780,
+          "bar_max": 1000,
+          "source": "PLACEHOLDER"
+        },
+        "power": {
+          "rule": "min",
+          "value": 0,
+          "warning": 30,
+          "bar_max": 300,
+          "source": "PLACEHOLDER"
+        },
+        "communications": {
+          "rule": "min",
+          "value": 10,
+          "warning": 15,
+          "bar_max": 40,
+          "source": "PLACEHOLDER"
+        },
+        "data": {
+          "rule": "min",
+          "value": 30,
+          "warning": 40,
+          "bar_max": 100,
+          "source": "PLACEHOLDER"
+        },
+        "mission_lifetime": {
+          "rule": "min",
+          "value": 24,
+          "warning": 27,
+          "bar_max": 36,
+          "source": "PLACEHOLDER"
+        }
+      }
+    }
+  },
+  "characters": {
+    "janitor": {
+      "difficulty": "medium",
+      "_readme": "Multiplies the mission limits. 1.0 = no change. An easier character could get 1.2 on budget, a harder one 0.8.",
+      "limit_multipliers": {
+        "budget": 1.0,
+        "mass": 1.0,
+        "power": 1.0,
+        "communications": 1.0,
+        "data": 1.0,
+        "mission_lifetime": 1.0
+      },
+      "source": "PLACEHOLDER"
+    }
+  },
+  "spacecraft_base": {
+    "_readme": "The spacecraft body (computer, frame, fuel) that every build has. Its numbers are added to the parts the player picks. Its power does NOT include the heater: the heater is in \"reroute_power\", because the player can switch it off.",
+    "effects": {
+      "budget": 250,
+      "mass": 600,
+      "power": -40,
+      "communications": 0,
+      "data": 0,
+      "mission_lifetime": 18
+    },
+    "source": "PLACEHOLDER",
+    "look": {
+      "size": [
+        2,
+        2,
+        2
+      ],
+      "height_above_floor": 1.0,
+      "color": "#c9a227",
+      "texture": "foil"
+    }
+  },
+  "_look_readme": "\"look\" = how a part is drawn in the 3D walk. Sizes are in meters and are only for the picture, not NASA data. shape: wings = two flat panels on the sides, size [width, thickness, depth]; cylinder = hangs under the body, size [radius, length]; dish = sits on top, size [radius, depth]. model: leave \"\" to use the simple shape, or put a path like \"res://models/large_antenna.glb\" to use a real 3D model.",
+  "parts": {
+    "solar_panel": {
+      "name": "Solar panel",
+      "look": {
+        "shape": "wings",
+        "mount": "sides",
+        "color": "#22337a",
+        "texture": "solar"
+      },
+      "versions": {
+        "small": {
+          "name": "Small",
+          "effects": {
+            "budget": 20,
+            "mass": 30,
+            "power": 150,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "source": "PLACEHOLDER",
+          "look": {
+            "size": [
+              1.5,
+              0.06,
+              1.2
+            ],
+            "model": ""
+          }
+        },
+        "medium": {
+          "name": "Medium",
+          "effects": {
+            "budget": 40,
+            "mass": 60,
+            "power": 250,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 6
+          },
+          "source": "PLACEHOLDER",
+          "look": {
+            "size": [
+              2.5,
+              0.06,
+              1.6
+            ],
+            "model": ""
+          }
+        },
+        "large": {
+          "name": "Large",
+          "effects": {
+            "budget": 70,
+            "mass": 110,
+            "power": 350,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 12
+          },
+          "source": "PLACEHOLDER",
+          "look": {
+            "size": [
+              3.5,
+              0.06,
+              2.0
+            ],
+            "model": ""
+          }
+        }
+      }
+    },
+    "camera": {
+      "name": "Camera",
+      "look": {
+        "shape": "cylinder",
+        "mount": "bottom",
+        "color": "#3a3d44"
+      },
+      "versions": {
+        "basic": {
+          "name": "Basic",
+          "effects": {
+            "budget": 40,
+            "mass": 40,
+            "power": -50,
+            "communications": 0,
+            "data": 30,
+            "mission_lifetime": 0
+          },
+          "source": "PLACEHOLDER",
+          "look": {
+            "size": [
+              0.2,
+              0.4
+            ],
+            "model": ""
+          }
+        },
+        "high_res": {
+          "name": "High resolution",
+          "effects": {
+            "budget": 110,
+            "mass": 80,
+            "power": -120,
+            "communications": 0,
+            "data": 80,
+            "mission_lifetime": 0
+          },
+          "source": "PLACEHOLDER",
+          "look": {
+            "size": [
+              0.35,
+              0.8
+            ],
+            "model": ""
+          }
+        }
+      }
+    },
+    "antenna": {
+      "name": "Antenna",
+      "look": {
+        "shape": "dish",
+        "mount": "top",
+        "color": "#eeeeee"
+      },
+      "versions": {
+        "small": {
+          "name": "Small",
+          "effects": {
+            "budget": 20,
+            "mass": 20,
+            "power": -20,
+            "communications": 12,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "source": "PLACEHOLDER",
+          "look": {
+            "size": [
+              0.45,
+              0.25
+            ],
+            "model": ""
+          }
+        },
+        "large": {
+          "name": "Large",
+          "effects": {
+            "budget": 50,
+            "mass": 60,
+            "power": -60,
+            "communications": 30,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "source": "PLACEHOLDER",
+          "look": {
+            "size": [
+              1.0,
+              0.45
+            ],
+            "model": ""
+          }
+        }
+      }
+    }
+  },
+  "events": {
+    "power_low": {
+      "_readme": "The live alarm in the 3D walk: a dust storm covers the solar panels. It starts after start_after_seconds. The solar part (solar_part) then makes solar_drop_percent less power. If spare power goes below the limit, the alarm rings and the player has time_to_fix_seconds to turn systems off at the power panel. The alarm is fixed the moment power fits again (spare power back inside the limit). If it stops fitting while the storm is still on, the alarm rings again. The storm ends storm_seconds after it starts: the solar panels get their full power back, and the player can switch systems back on. IMPORTANT: time_to_fix_seconds must be SHORTER than storm_seconds, or a player who does nothing would be saved when the storm ends.",
+      "start_after_seconds": 20,
+      "time_to_fix_seconds": 15,
+      "storm_seconds": 20,
+      "solar_part": "solar_panel",
+      "solar_drop_percent": 60,
+      "source": "PLACEHOLDER"
+    }
+  },
+  "walk": {
+    "_readme": "3D walk settings. reach_distance = how close (in meters) you must stand to a part to press E on it. voice_hold_seconds = after the inner voice says something, warnings wait this long so they don't talk over it. end_read_seconds = when the mission is over, time to read the last line before the debrief. failed_read_seconds = the same, when the power alarm ran out of time. The mission is over when the mission clock reaches the mission length (the mission's mission_lifetime limit, for example 24 months).",
+    "reach_distance": 1.5,
+    "voice_hold_seconds": 3,
+    "end_read_seconds": 4,
+    "failed_read_seconds": 3
+  },
+  "ship": {
+    "_readme": "The ship interior (graybox: plain boxes, no art). All sizes are in meters. Seen from above, x goes left/right and z goes front/back (the Bridge is at the front, small z). Each room is a box from x[0] to x[1] and z[0] to z[1]. door = the wall that has the doorway into the hallway (north, south, east or west). The hallway is open at both ends: the Bridge and the Comms room close them off. player_start = where you stand when the mission begins; player_facing_degrees = which way you look (180 = toward the hallway). Each room gets one ceiling light, the hallway gets hallway_lights. sign_letter_size = how tall the room-name letters are (meters). marker_glow = how brightly the station markers glow; the marker_light lights up the floor around them.",
+    "wall_height": 3.0,
+    "wall_thickness": 0.2,
+    "door_width": 2.0,
+    "door_height": 2.3,
+    "hallway": { "x": [-1.5, 1.5], "z": [-6, 10] },
+    "rooms": {
+      "bridge": { "x": [-5, 5], "z": [-14, -6], "door": "south" },
+      "power_room": { "x": [1.5, 9.5], "z": [-5, 3], "door": "west" },
+      "science_bay": { "x": [-9.5, -1.5], "z": [-5, 3], "door": "east" },
+      "comms_room": { "x": [-5, 5], "z": [10, 18], "door": "north" }
+    },
+    "player_start": [0, 0, -11],
+    "player_facing_degrees": 180,
+    "hallway_lights": 2,
+    "light_color": "#fff2dc",
+    "light_energy": 1.2,
+    "light_range": 9,
+    "floor_color": "#52575f",
+    "wall_color": "#bfc4cc",
+    "ceiling_color": "#5a6070",
+    "sign_color": "#ffb347",
+    "sign_letter_size": 0.35,
+    "station_markers": {
+      "_readme": "Glowing floor squares for stations we will build later. Each one = [x, z] on the floor, inside that room. The text is in story.json (ship / future_stations).",
+      "science_bay": [-5.5, -1],
+      "comms_room": [0, 14]
+    },
+    "marker_size": 1.6,
+    "marker_color": "#3fd0ff",
+    "marker_glow": 2.0,
+    "marker_light_energy": 1.5,
+    "marker_light_range": 3,
+    "marker_label_height": 1.7,
+    "marker_letter_size": 0.22
+  },
+  "power_panel": {
+    "_readme": "The power panel in the Power room (the Reroute Power mini-game). position = where its bottom middle stands on the floor, in meters (same x/z map as \"ship\"; here it stands against the Power room's north wall, which is at z = -5). facing_degrees = which way its front faces (0 = toward +z, into the room; -90 = toward -x). size = [width, height, depth] in meters. height_above_floor = the gap under the cabinet. Colors are web color codes.",
+    "position": [5.5, 0, -4.77],
+    "facing_degrees": 0,
+    "size": [1.2, 1.6, 0.25],
+    "height_above_floor": 0.5,
+    "color": "#2a3550",
+    "screen_color": "#5ed17a",
+    "stripe_color": "#ff9933"
+  },
+  "reroute_power": {
+    "_readme": "The Reroute Power mini-game (the switch panel). systems = the switches, top to bottom. camera and antenna are parts: their power comes from the version the player picked. The heater is not a part: every spacecraft has one, and its effects are added to every build (it used to be inside spacecraft_base). off_lifetime_months_per_second = while the heater is OFF, the cold wears out the batteries: the mission loses this many extra months of lifetime every real second (0.2 = 1 month every 5 seconds).",
+    "systems": ["camera", "antenna", "heater"],
+    "heater": {
+      "effects": { "power": -40 },
+      "off_lifetime_months_per_second": 0.2,
+      "source": "PLACEHOLDER"
+    }
+  },
+  "dashboard": {
+    "_readme": "Dashboard colors (web color codes). safe = inside the limit, warning = close to the limit, danger = past the limit. flash_seconds = how fast a row flashes during an alarm.",
+    "colors": {
+      "safe": "#5ed17a",
+      "warning": "#ffd24d",
+      "danger": "#ff5c5c"
+    },
+    "flash_seconds": 0.35
+  },
+  "mission_clock": {
+    "_readme": "The live mission in the 3D walk. months_per_second = how fast mission time runs (0.4 = one real minute is 24 mission months). days_per_month turns months into days for the data total. turned_off_parts_stop = what a part stops giving or using when it is turned off (it still has its mass and cost).",
+    "months_per_second": 0.4,
+    "days_per_month": 30,
+    "turned_off_parts_stop": [
+      "power",
+      "data",
+      "communications"
+    ],
+    "source": "PLACEHOLDER"
+  },
+  "arm": {
+    "_readme": "The wrist light on the player's arm. It shows the worst dashboard color. blink_seconds = how fast it blinks when something is red. raise_seconds = how long Tab takes to raise or lower the arm. panel_gap_pixels = space between the wrist light and the dashboard above it.",
+    "blink_seconds": 0.3,
+    "raise_seconds": 0.25,
+    "panel_gap_pixels": 30
+  },
+  "textures": {
+    "_readme": "Textures made in code (scripts/autoload/Textures.gd). They are GRAY: 1.0 = keep the material's color, 0.5 = half as bright. pixels = image size (must divide evenly by squares_across, and by 2 x thread_pixels). meters = how many meters one copy covers. noise_frequency = size of the random bumps (bigger = smaller bumps). seed = which random bumps (same every run). Looks only, not mission numbers.",
+    "seed": 7,
+    "floor": { "pattern": "grid", "pixels": 256, "squares_across": 4, "base": 0.9, "line": 0.55, "line_pixels": 4, "speckle": 0.12, "noise_frequency": 0.08, "rivet_pixels": 0, "rivet_inset": 0, "rivet": 0, "meters": 3.0, "roughness": 0.85 },
+    "wall": { "pattern": "grid", "pixels": 256, "squares_across": 2, "base": 0.95, "line": 0.6, "line_pixels": 4, "speckle": 0.06, "noise_frequency": 0.05, "rivet_pixels": 4, "rivet_inset": 12, "rivet": 0.7, "meters": 4.0, "roughness": 0.7 },
+    "foil": { "pattern": "crinkle", "pixels": 256, "base": 0.85, "strength": 0.35, "noise_frequency": 0.05, "meters": 1.0, "metallic": 0.35, "roughness": 0.4 },
+    "solar": { "pattern": "grid", "pixels": 256, "squares_across": 4, "base": 1.0, "line": 0.35, "line_pixels": 6, "speckle": 0.08, "noise_frequency": 0.1, "rivet_pixels": 0, "rivet_inset": 0, "rivet": 0, "meters": 0.8, "metallic": 0.3, "roughness": 0.3 },
+    "fabric": { "pattern": "weave", "pixels": 64, "thread_pixels": 4, "base": 0.85, "weave": 0.1, "speckle": 0.1, "noise_frequency": 0.2, "meters": 0.06 }
+  }
+}

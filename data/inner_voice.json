@@ -1,0 +1,161 @@
+{
+  "_readme": "Everything the inner voice says. Writers can change any sentence. Keep the key names (left of the colons). Words in {curly braces} are filled in by the game: {value} = the player's total, {limit} = the mission limit, {unit} = the unit.",
+  "speaker_name": "Your inner voice",
+  "review": {
+    "all_good": "Huh. Everything is inside the limits. Did I... do that right?",
+    "some_over": "Something is in the red. The general is going to ask about that."
+  },
+  "resource_failures": {
+    "budget": {
+      "what": "Budget: we spent {value} {unit}. The limit is {limit}.",
+      "why": "NASA can't pay for a mission that costs more than its budget. It gets cancelled before launch.",
+      "fix": "Pick cheaper parts. The high resolution camera and the large solar panel cost the most."
+    },
+    "mass": {
+      "what": "Mass: the spacecraft weighs {value} {unit}. The limit is {limit}.",
+      "why": "The rocket can only lift so much. Too heavy, and we never leave Earth.",
+      "fix": "Swap a big part for a smaller one."
+    },
+    "power": {
+      "what": "Power: we have {value} {unit}. We need at least {limit}.",
+      "why": "The parts use more power than the solar panel makes. Things start shutting down.",
+      "fix": "Use a bigger solar panel, or parts that use less power."
+    },
+    "communications": {
+      "what": "Communications: the antenna sends {value} {unit}. We need at least {limit}.",
+      "why": "If we can't talk to Earth, nobody ever sees our pictures.",
+      "fix": "Use a bigger antenna."
+    },
+    "data": {
+      "what": "Data: the camera collects {value} {unit}. We need at least {limit}.",
+      "why": "Not enough pictures to make a useful ice map.",
+      "fix": "Use a better camera."
+    },
+    "mission_lifetime": {
+      "what": "Mission lifetime: the spacecraft lasts {value} {unit}. We need at least {limit}.",
+      "why": "The spacecraft wears out before the map is finished.",
+      "fix": "A bigger solar panel keeps the batteries healthy longer."
+    },
+    "data_live": {
+      "what": "Data: by the end we had {value} {unit}. We needed at least {limit}.",
+      "why": "The camera was turned off, so the data stopped coming in. The ice map has holes in it.",
+      "fix": "Build with a camera that collects more than the minimum. Then you still have enough if you have to turn it off. Watch the Data row on your wrist."
+    },
+    "communications_live": {
+      "what": "Communications: at the end we had {value} {unit}. We needed at least {limit}.",
+      "why": "The antenna was switched off, so no messages reached Earth.",
+      "fix": "Switch the antenna back on at the power panel as soon as there is enough power. Watch the Communications row on your wrist."
+    },
+    "mission_lifetime_live": {
+      "what": "Mission lifetime: at the end we had {value} {unit}. We needed at least {limit}.",
+      "why": "The heater was off too long. The cold wore out the batteries.",
+      "fix": "Switch the heater back on as soon as the storm is over. Every second it is off costs battery life."
+    },
+    "power_event": {
+      "title": "Power alarm",
+      "what": "Power: the batteries ran out during the mission.",
+      "why": "A dust storm covered the solar panels, and power stayed in the red.",
+      "fix": "When the alarm sounds, go to the power panel and switch systems off until power fits. If even that is not enough, build with a bigger solar panel."
+    }
+  },
+  "parts": {
+    "solar_panel": {
+      "small": "The small solar panel. Cheap and light, but it barely makes enough power.",
+      "medium": "The medium solar panel. A middle choice for power, cost, and weight.",
+      "large": "The large solar panel. Lots of power, but heavy and expensive."
+    },
+    "camera": {
+      "basic": "The basic camera. Uses little power, but the pictures are blurry.",
+      "high_res": "The high resolution camera. Sharp pictures, but it eats power."
+    },
+    "antenna": {
+      "small": "The small antenna. Light and cheap, but it sends data slowly.",
+      "large": "The large antenna. Fast to Earth, but heavy and power hungry."
+    }
+  },
+  "walk": {
+    "start": "Okay. This is the ship. I start on the Bridge. Walk around the rooms. Press E near a part to look at it.",
+    "press_e_hint": "Press E",
+    "numbers_intro": "Its numbers:",
+    "alarm": "Dust storm! The solar panels are covered. POWER LOW! Get to the power panel and switch something off!",
+    "alarm_banner": "POWER LOW! Go to the power panel: {seconds}",
+    "alarm_again": "Too much power again! The storm isn't over yet. Switch something off!",
+    "alarm_fixed": "It fits. Phew. But everything I switched off is costing me something. I'd better check my wrist.",
+    "alarm_failed": "Too late. The batteries are empty.",
+    "mission_complete": "That's it. The spacecraft made it to Mars. Time to report to the general.",
+    "storm_ok": "Dust storm! The solar panels are covered, but we still have enough spare power. Good planning.",
+    "storm_over": "The storm is over! The sun is back on the solar panels. I can switch everything back on at the power panel.",
+    "storm_over_all_on": "The storm is over. The sun is back on the solar panels.",
+    "panel_name": "Power panel",
+    "panel_sign": "POWER"
+  },
+  "reroute": {
+    "_readme": "The words on the power panel (Reroute Power mini-game).",
+    "title": "POWER PANEL",
+    "close_hint": "E or Esc = close",
+    "countdown": "POWER LOW! {seconds} s left",
+    "available_label": "Power available (solar panels)",
+    "body_label": "Spacecraft body (always on)",
+    "used_label": "Power used",
+    "of_word": "of",
+    "on_word": "ON",
+    "off_word": "OFF",
+    "fits": "It fits. Power used is not more than power available.",
+    "too_much": "Too much! Turn something off.",
+    "heater_name": "Heater",
+    "watt_unit": "W",
+    "off_costs": {
+      "camera": "Off: no pictures, no new data",
+      "antenna": "Off: no messages to Earth",
+      "heater": "Off: the cold wears out batteries"
+    }
+  },
+  "debrief": {
+    "success_title": "Mission success",
+    "success_text": "The ice map is coming in. The general nods. Just once. That's a lot, for the general.",
+    "failed_title": "Mission failed",
+    "failed_intro": "Let's figure out what happened.",
+    "report_label": "MISSION REPORT",
+    "designer_label": "Mission designer:",
+    "time_label": "Mission time:",
+    "findings_label": "FINDINGS",
+    "finding_word": "Finding",
+    "readings_label": "FINAL READINGS",
+    "header_resource": "Resource",
+    "header_end": "At the end",
+    "header_limit": "Limit",
+    "header_result": "Result",
+    "success_note": "All six readings stayed inside their limits. No problems to report.",
+    "what_label": "What failed",
+    "why_label": "Why it failed",
+    "fix_label": "How to fix it",
+    "try_again": "Try again"
+  },
+  "dashboard_warnings": {
+    "_readme": "What the inner voice says when a dashboard row turns yellow (warning) or red (danger) during the walk.",
+    "budget": {
+      "warning": "Budget is getting close to the limit.",
+      "danger": "Budget is over the limit!"
+    },
+    "mass": {
+      "warning": "Mass is getting close to the limit.",
+      "danger": "Too heavy! Mass is over the limit."
+    },
+    "power": {
+      "warning": "Spare power is getting low.",
+      "danger": "Power is in the red! We're using more than we make."
+    },
+    "communications": {
+      "warning": "The antenna is barely fast enough.",
+      "danger": "Communications are too slow! Earth can't hear us."
+    },
+    "data": {
+      "warning": "Data is barely keeping up with the plan.",
+      "danger": "Data is falling behind! We're not collecting enough."
+    },
+    "mission_lifetime": {
+      "warning": "No spare months. The spacecraft will barely last.",
+      "danger": "The spacecraft won't last long enough!"
+    }
+  }
+}
