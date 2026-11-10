@@ -253,7 +253,7 @@
             "data": 0,
             "mission_lifetime": 0
           },
-          "source": "Mars Odyssey 1.3 m high-gain antenna. mass (\"Mass (kg) 3.150\"; the catalog says \"Masses of MGA and HGA are combined\", so this is the high-gain antenna plus the small medium-gain antenna on it): https://pds-geosciences.wustl.edu/ody/ody-m-rss-1-raw-v1/odrs_0299/catalog/inst.cat; communications (\"maximum supported data rate of 124.425 kbps\" = 0.124 Mb/s): https://discovery.larc.nasa.gov/PDF_FILES/28Mars_Relay_Description.pdf; power: game-design choice, same 172 W amplifier as MRO (power used, electricity in; Odyssey really sends with a 15 W amplifier): https://descanso.jpl.nasa.gov/DPSummary/MRO_092106.pdf; budget: no public source",
+          "source": "Mars Odyssey 1.3 m high-gain antenna. mass (\"Mass (kg) 3.150\"; the catalog says \"Masses of MGA and HGA are combined\", so this is the high-gain antenna plus the small medium-gain antenna on it): https://pds-geosciences.wustl.edu/ody/ody-m-rss-1-raw-v1/odrs_0299/catalog/inst.cat; communications (\"maximum supported data rate of 124.425 kbps\" = 0.124 Mb/s): https://discovery.larc.nasa.gov/PDF_FILES/28Mars_Relay_Description.pdf; power: game-design choice, same 172 W amplifier as MRO (power used, electricity in; Odyssey really sends with \"a 15 W Solid State Power Amplifier\", from the Mars Relay Description link above; 172 W is the MRO figure): https://descanso.jpl.nasa.gov/DPSummary/MRO_092106.pdf; budget: no public source",
           "look": {
             "size": [
               0.45,
