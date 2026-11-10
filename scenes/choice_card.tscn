@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/choice_card.gd" id="1_card"]
 
 [node name="ChoiceCard" type="PanelContainer"]
-custom_minimum_size = Vector2(420, 0)
+custom_minimum_size = Vector2(350, 0)
 theme_type_variation = &"NavyPanel"
 script = ExtResource("1_card")
 
@@ -17,6 +17,29 @@ theme_override_constants/margin_bottom = 6
 [node name="Column" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
 theme_override_constants/separation = 14
+
+[node name="PictureFrame" type="VBoxContainer" parent="Margin/Column"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Picture" type="TextureRect" parent="Margin/Column/PictureFrame"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Missing" type="Label" parent="Margin/Column/PictureFrame"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_type_variation = &"SmallText"
+text = "picture goes here"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="Title" type="Label" parent="Margin/Column"]
 unique_name_in_owner = true

@@ -8,6 +8,16 @@
 extends Node
 
 var character_id: String = ""   # for example "janitor"
+
+# The player's level: "easy", "medium" or "hard". It is NOT stored. It is
+# looked up from the character every time, so the two can never disagree.
+# (The character -> level link is in game_data.json, "characters".)
+var level: String:
+	get:
+		if character_id == "":
+			return ""
+		return Data.characters[character_id]["level"]
+
 var mission_id: String = ""     # for example "mars_ice"
 
 # Which version of each part the player picked.
@@ -23,7 +33,6 @@ var event_failures: Array = []
 # --- More things the game will remember later (not used by any screen yet) ---
 # They start empty or at zero. Later steps will fill them in.
 var player_name: String = ""          # what the player typed as their name
-var level: String = ""                # the player's level (scientist, janitor, student)
 var destination_id: String = ""       # where the mission goes
 var goal_id: String = ""              # what the mission wants to find out
 var launch_vehicle_id: String = ""    # which rocket the player picked
@@ -69,7 +78,6 @@ func to_dict() -> Dictionary:
 # current value, so an older save still loads.
 func from_dict(d: Dictionary) -> void:
 	player_name = d.get("player_name", player_name)
-	level = d.get("level", level)
 	character_id = d.get("character_id", character_id)
 	mission_id = d.get("mission_id", mission_id)
 	destination_id = d.get("destination_id", destination_id)
@@ -314,12 +322,12 @@ func add_effects(totals: Dictionary, effects: Dictionary) -> void:
 		totals[res_id] += effects[res_id]
 
 
-# The limits for this mission, after the character's multipliers.
+# The limits for this mission, after the level's multipliers (data/levels.json).
 # Gives back, for example: { "budget": { "rule": "max", "value": 450 }, ... }
 func get_limits() -> Dictionary:
 	var limits: Dictionary = {}
 	var mission_limits: Dictionary = Data.missions[mission_id]["limits"]
-	var multipliers: Dictionary = Data.characters[character_id]["limit_multipliers"]
+	var multipliers: Dictionary = Data.levels[level]["limit_multipliers"]
 
 	for res_id in mission_limits:
 		var multiplier: float = multipliers.get(res_id, 1.0)

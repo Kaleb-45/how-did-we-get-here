@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/character_select.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/inner_voice_bar.tscn" id="2_bar"]
 
 [node name="CharacterSelect" type="Control"]
 layout_mode = 3
@@ -44,3 +45,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 30
 alignment = 1
+
+[node name="InnerVoiceBar" parent="." instance=ExtResource("2_bar")]
+unique_name_in_owner = true
+layout_mode = 1

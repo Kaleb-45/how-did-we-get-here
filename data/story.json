@@ -61,10 +61,23 @@
     "controls_hint": "WASD = walk    Space = jump    Mouse = look    E = use    Tab = raise arm (dashboard)    Esc = free the mouse"
   },
   "characters": {
+    "scientist": {
+      "name": "The Scientist",
+      "description": "You know spacecraft, orbits and Mars better than anyone in the room. The general just needs you to decide.",
+      "button": "That's me",
+      "picture": "res://assets/characters/scientist.png"
+    },
     "janitor": {
       "name": "The Janitor",
       "description": "You know every room in this building. You know nothing about spacecraft.",
-      "button": "That's me"
+      "button": "That's me",
+      "picture": "res://assets/characters/janitor.png"
+    },
+    "student": {
+      "name": "The Student",
+      "description": "You came on a school tour and took a wrong turn. You know a little from class. The general points at you anyway.",
+      "button": "That's me",
+      "picture": "res://assets/characters/student.png"
     }
   },
   "missions": {

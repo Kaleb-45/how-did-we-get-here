@@ -3,7 +3,12 @@
   "speaker_name": "Your inner voice",
   "setup": {
     "_readme": "What the inner voice says after each setup answer. {name} = the name the player typed. It is never wrong: it only knows what the player's character knows (easy = the scientist, an expert; medium = the janitor, an everyday adult; hard = the student, a kid).",
-    "name": "{name}. Okay. That's my name. Please don't forget it, brain."
+    "name": "{name}. Okay. That's my name. Please don't forget it, brain.",
+    "character": {
+      "scientist": "Right. I'm the scientist. I actually know this stuff. Please let me remember it under pressure.",
+      "janitor": "I'm the janitor. I know where every mop is. I don't know where Mars is. Okay, I do, it's up there.",
+      "student": "I'm a student. I have homework due tomorrow, and now a spacecraft. Great."
+    }
   },
   "review": {
     "all_good": "Huh. Everything is inside the limits. Did I... do that right?",

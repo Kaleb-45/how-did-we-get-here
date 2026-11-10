@@ -29,7 +29,7 @@ var bad_color: Color
 func _ready() -> void:
 	# Safety net for pressing Play on this screen directly.
 	if GameState.character_id == "":
-		GameState.character_id = Data.characters.keys()[0]
+		GameState.character_id = Data.game_data["setup"]["default_character"]
 	if GameState.mission_id == "":
 		GameState.mission_id = Data.missions.keys()[0]
 	GameState.fill_default_choices()

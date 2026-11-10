@@ -1,5 +1,5 @@
 # Data.gd
-# This script reads our three JSON files ONE time, when the game starts.
+# This script reads our JSON files ONE time, when the game starts.
 # It is an "autoload": Godot keeps it alive the whole game, and every
 # other script can reach it by its name, like this:  Data.parts
 #
@@ -17,6 +17,7 @@ var resources: Dictionary = {}
 var parts: Dictionary = {}
 var missions: Dictionary = {}
 var characters: Dictionary = {}
+var levels: Dictionary = {}   # from data/levels.json: what each level changes
 
 
 # _ready() runs automatically when this node starts.
@@ -24,6 +25,7 @@ func _ready() -> void:
 	game_data = load_json("res://data/game_data.json")
 	story = load_json("res://data/story.json")
 	voice = load_json("res://data/inner_voice.json")
+	levels = load_json("res://data/levels.json").get("levels", {})
 
 	resources = game_data.get("resources", {})
 	parts = game_data.get("parts", {})

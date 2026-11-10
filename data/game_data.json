@@ -7,9 +7,10 @@
     "order": ["intro", "name", "character_select", "destination", "mission_select", "rocket", "build", "review", "walk", "debrief"]
   },
   "setup": {
-    "_readme": "Settings for the five setup questions (name, who are you, where, what for, rocket). reaction_seconds = after you answer, the inner voice reacts, and this many seconds later the next question appears. name_max_length = the most letters the name box accepts.",
+    "_readme": "Settings for the five setup questions (name, who are you, where, what for, rocket). reaction_seconds = after you answer, the inner voice reacts, and this many seconds later the next question appears. name_max_length = the most letters the name box accepts. default_character = who you play as if you press Play on a later screen without answering the questions.",
     "reaction_seconds": 3,
     "name_max_length": 20,
+    "default_character": "janitor",
     "source": "Game-design choice. It is NOT a NASA number."
   },
   "resources": {
@@ -90,19 +91,17 @@
     }
   },
   "characters": {
+    "_readme": "The three characters. The character is the ONLY place that says which level the player plays (easy, medium or hard), so the character and the level can never disagree. What each level changes (budget, timing, supplies, hints) is in data/levels.json.",
+    "scientist": {
+      "level": "easy"
+    },
     "janitor": {
-      "difficulty": "medium",
-      "_readme": "Multiplies the mission limits. 1.0 = no change. An easier character could get 1.2 on budget, a harder one 0.8.",
-      "limit_multipliers": {
-        "budget": 1.0,
-        "mass": 1.0,
-        "power": 1.0,
-        "communications": 1.0,
-        "data": 1.0,
-        "mission_lifetime": 1.0
-      },
-      "source": "limit_multipliers: game-design choice (the janitor is the medium character, so 1.0 = the real mission limits from step 7e, unchanged)"
-    }
+      "level": "medium"
+    },
+    "student": {
+      "level": "hard"
+    },
+    "source": "Game-design choice by Kaleb (AGENT_SOURCE.md section 2, 2026-11-10): Scientist = easy, Janitor = medium, Student = hard. It is NOT a NASA number."
   },
   "spacecraft_base": {
     "_readme": "The spacecraft body (computer, frame, empty fuel tanks, other instruments) that every build has. Its mass is dry mass: no fuel. Its numbers are added to the parts the player picks. Its power does NOT include the heater: the heater is in \"reroute_power\", because the player can switch it off.",
