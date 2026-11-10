@@ -44,6 +44,11 @@
   "_rules_readme": "rule \"max\" = the total must stay AT or BELOW value. rule \"min\" = the total must reach AT LEAST value. warning = where the dashboard turns yellow (for max: above warning; for min: below warning). bar_max = the number that fills the dashboard bar all the way.",
   "missions": {
     "mars_ice": {
+      "goal_rules": {
+        "_readme": "The 3 goal rules of this mission, shown as a checklist on the mission screen. Each name is one of the limits below, so the numbers (4 Gb/day, 24 months, 0.6 Mb/s) are read from the limits and never copied. The wording is in story.json.",
+        "resources": ["data", "mission_lifetime", "communications"],
+        "source": "Written game-design choice by Kaleb (AGENT_SOURCE.md section 2, 2026-11-10): send home at least 4 Gb/day, keep the spacecraft working 24 months, communications at least 0.6 Mb/s. The numbers come from the limits below."
+      },
       "limits": {
         "budget": {
           "rule": "max",

@@ -14,6 +14,7 @@ signal chosen
 @onready var title_label: Label = %Title
 @onready var subtitle_label: Label = %Subtitle
 @onready var description_label: Label = %Description
+@onready var extra_label: Label = %Extra
 @onready var choose_button: Button = %ChooseButton
 
 
@@ -48,3 +49,9 @@ func set_picture(path: String, missing_text: String) -> void:
 # Turn the button off (after an answer is picked) or back on.
 func set_locked(locked: bool) -> void:
 	choose_button.disabled = locked
+
+
+# Optional: extra lines under the description (for example a checklist).
+func set_extra(text: String) -> void:
+	extra_label.text = text
+	extra_label.visible = text != ""

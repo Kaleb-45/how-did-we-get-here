@@ -31,7 +31,9 @@
     "crew_no": "no"
   },
   "mission_screen": {
-    "title": "The general hands you a folder. One mission inside."
+    "title": "What is the mission for?",
+    "goal_heading": "The mission is a success if:",
+    "checklist_mark": "[ ]"
   },
   "build_screen": {
     "title": "Build your spacecraft. Pick one of each.",
@@ -98,7 +100,13 @@
     "mars_ice": {
       "name": "Map the ice on Mars",
       "description": "Send a spacecraft to orbit Mars and take pictures to find where the ice is. Future astronauts will need that water.",
-      "button": "Start building"
+      "button": "Start building",
+      "goal_rules": {
+        "_readme": "One sentence for each goal rule. {value} and {unit} are filled in from the mission limits in game_data.json.",
+        "data": "Send home at least {value} {unit}",
+        "mission_lifetime": "Keep the spacecraft working {value} {unit}",
+        "communications": "Communications at least {value} {unit}"
+      }
     }
   },
   "dashboard": {

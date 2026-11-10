@@ -11,6 +11,13 @@
         "hard": "Mars! Like in the movies! But we only go around it. Okay. Still cool."
       }
     },
+    "goal": {
+      "mars_ice": {
+        "easy": "Mapping the ice under the surface. Three rules: enough data, a long enough life, and a strong enough signal home. Clear.",
+        "medium": "We look for ice, so future astronauts have water. And there are three rules to pass. I'll try to remember them.",
+        "hard": "Ice on Mars? There's ice on Mars? Cool. Three rules. I'll write them on my hand."
+      }
+    },
     "character": {
       "scientist": "Right. I'm the scientist. I actually know this stuff. Please let me remember it under pressure.",
       "janitor": "I'm the janitor. I know where every mop is. I don't know where Mars is. Okay, I do, it's up there.",

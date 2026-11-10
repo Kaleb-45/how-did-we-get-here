@@ -61,6 +61,14 @@ theme_type_variation = &"BodyText"
 text = "Description"
 autowrap_mode = 3
 
+[node name="Extra" type="Label" parent="Margin/Column"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"BodyText"
+text = "Extra"
+autowrap_mode = 3
+
 [node name="ChooseButton" type="Button" parent="Margin/Column"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(220, 52)
