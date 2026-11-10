@@ -61,6 +61,8 @@ func fill_header() -> void:
 	report_label.text = words["report_label"]
 	mission_name.text = Data.story["missions"][GameState.mission_id]["name"]
 	var designer: String = Data.story["characters"][GameState.character_id]["name"]
+	if GameState.player_name != "":
+		designer = GameState.player_name + " (" + designer + ")"   # for example: Sam (The Janitor)
 	var months: String = GameState.fmt(GameState.mission_months) + " " + Data.resources["mission_lifetime"]["unit"]
 	details.text = "%s %s      %s %s" % [words["designer_label"], designer, words["time_label"], months]
 

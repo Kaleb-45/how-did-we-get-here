@@ -31,3 +31,11 @@ func go_to(stage_id: String) -> void:
 		push_error("StageManager: '" + stage_id + "' is not in the stages list")
 		return
 	get_tree().change_scene_to_file(stages["scene_folder"] + stage_id + ".tscn")
+
+
+# Wait a few seconds, then go to the next screen. The setup questions use
+# this: the inner voice reacts to the answer, and then the next question
+# appears. The wait time is in game_data.json ("setup" / "reaction_seconds").
+func go_next_after_reaction() -> void:
+	await get_tree().create_timer(Data.game_data["setup"]["reaction_seconds"]).timeout
+	go_next()
