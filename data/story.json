@@ -23,6 +23,13 @@
     "title": "Wait. Who are you, again?",
     "difficulty_word": "Difficulty"
   },
+  "destination_screen": {
+    "title": "Where are we going?",
+    "arrival_word": "Arrival",
+    "crew_word": "Crew",
+    "crew_yes": "yes",
+    "crew_no": "no"
+  },
   "mission_screen": {
     "title": "The general hands you a folder. One mission inside."
   },
@@ -78,6 +85,13 @@
       "description": "You came on a school tour and took a wrong turn. You know a little from class. The general points at you anyway.",
       "button": "That's me",
       "picture": "res://assets/characters/student.png"
+    }
+  },
+  "destinations": {
+    "mars_orbit": {
+      "name": "Mars orbit",
+      "description": "Fly to Mars and circle around it, high above the surface. From up there, the spacecraft can look at the whole planet.",
+      "button": "Go to Mars"
     }
   },
   "missions": {

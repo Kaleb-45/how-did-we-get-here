@@ -17,6 +17,7 @@ var resources: Dictionary = {}
 var parts: Dictionary = {}
 var missions: Dictionary = {}
 var characters: Dictionary = {}
+var destinations: Dictionary = {}   # from data/destinations.json
 var levels: Dictionary = {}   # from data/levels.json: what each level changes
 
 
@@ -26,6 +27,7 @@ func _ready() -> void:
 	story = load_json("res://data/story.json")
 	voice = load_json("res://data/inner_voice.json")
 	levels = load_json("res://data/levels.json").get("levels", {})
+	destinations = load_json("res://data/destinations.json").get("destinations", {})
 
 	resources = game_data.get("resources", {})
 	parts = game_data.get("parts", {})

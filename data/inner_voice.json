@@ -4,6 +4,13 @@
   "setup": {
     "_readme": "What the inner voice says after each setup answer. {name} = the name the player typed. It is never wrong: it only knows what the player's character knows (easy = the scientist, an expert; medium = the janitor, an everyday adult; hard = the student, a kid).",
     "name": "{name}. Okay. That's my name. Please don't forget it, brain.",
+    "destination": {
+      "mars_orbit": {
+        "easy": "Mars orbit. We circle the planet and map it from above. A good first trip, and a crew can follow later.",
+        "medium": "Mars. The red one. We go around it, not onto it. I think that's the safer way?",
+        "hard": "Mars! Like in the movies! But we only go around it. Okay. Still cool."
+      }
+    },
     "character": {
       "scientist": "Right. I'm the scientist. I actually know this stuff. Please let me remember it under pressure.",
       "janitor": "I'm the janitor. I know where every mop is. I don't know where Mars is. Okay, I do, it's up there.",

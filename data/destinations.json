@@ -1,0 +1,15 @@
+{
+  "_readme": "The places a mission can go. Each destination has an id (for example mars_orbit) and a list of facts. Every fact is written as { \"value\": ..., \"source\": ... } so you can see where it came from. A source is a link to NASA, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). arrival_type = how the spacecraft ends its trip: \"orbit\" (circle the planet), \"surface\" (land) or \"flyby\" (fly past). crew = true if people travel on a ship that carries the spacecraft you build. The words on the screen (names, descriptions) are in data/story.json.",
+  "destinations": {
+    "mars_orbit": {
+      "arrival_type": {
+        "value": "orbit",
+        "source": "Game-design choice: this mission is a Mars orbiter, like NASA's Mars Reconnaissance Orbiter (MRO), which circled Mars to map it."
+      },
+      "crew": {
+        "value": true,
+        "source": "Written game-design choice by Kaleb (AGENT_SOURCE.md section 2, 2026-11-10): Mars missions have a crew on a ship that carries the spacecraft the player built."
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/destination.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/inner_voice_bar.tscn" id="2_bar"]
+
+[node name="Destination" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"ScreenBackground"
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Column" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Title" type="Label" parent="Center/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleText"
+text = "Title"
+horizontal_alignment = 1
+
+[node name="Cards" type="HBoxContainer" parent="Center/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="InnerVoiceBar" parent="." instance=ExtResource("2_bar")]
+unique_name_in_owner = true
+layout_mode = 1
