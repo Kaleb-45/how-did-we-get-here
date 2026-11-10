@@ -43,7 +43,7 @@ file. One step per system.
 with three columns: value, real number, source link. Wait for pass, then change the
 file.
 
-- [ ] **7a. Power: solar panels and heater.** MUST · M
+- [x] **7a. Power: solar panels and heater.** MUST · M
   Solar panel small, medium and large (cost, mass, power, lifetime), and the heater
   (power used, lifetime lost when off).
   Before changing the file: show the table of value, real number, source link.
@@ -91,8 +91,9 @@ file.
 
 - [ ] **8. Balance review with the real numbers.** MUST · M
   Check that at least one build can win and one can fail, without making the player
-  "play scared". Today only Large solar builds can win. Change limits only, with a
-  source or a written reason.
+  "play scared". Change limits only, with a source or a written reason. Then
+  rewrite the inner-voice part lines in `data/inner_voice.json` (for example "barely
+  makes enough power" for the small panel) to match the real numbers.
   Test: play three different builds and see at least one success and one failure.
 
 - [ ] **9. Full playthrough, re-export, browser test.** MUST · M

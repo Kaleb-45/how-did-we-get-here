@@ -129,13 +129,13 @@
           "name": "Small",
           "effects": {
             "budget": 20,
-            "mass": 30,
-            "power": 150,
+            "mass": 32.3,
+            "power": 750,
             "communications": 0,
             "data": 0,
             "mission_lifetime": 0
           },
-          "source": "PLACEHOLDER",
+          "source": "Mars Odyssey solar array. mass: https://ntrs.nasa.gov/api/citations/20030065626/downloads/20030065626.pdf; power: https://www.jpl.nasa.gov/news/press_kits/odysseyarrival.pdf; budget: no public source; mission_lifetime: game-design choice",
           "look": {
             "size": [
               1.5,
@@ -150,12 +150,12 @@
           "effects": {
             "budget": 40,
             "mass": 60,
-            "power": 250,
+            "power": 1135,
             "communications": 0,
             "data": 0,
             "mission_lifetime": 6
           },
-          "source": "PLACEHOLDER",
+          "source": "MAVEN solar arrays. power: https://www.nasa.gov/wp-content/uploads/2015/03/mavenfactsheet_final20130610.pdf; mass: no public source; budget: no public source; mission_lifetime: game-design choice",
           "look": {
             "size": [
               2.5,
@@ -169,13 +169,13 @@
           "name": "Large",
           "effects": {
             "budget": 70,
-            "mass": 110,
-            "power": 350,
+            "mass": 96.6,
+            "power": 2000,
             "communications": 0,
             "data": 0,
             "mission_lifetime": 12
           },
-          "source": "PLACEHOLDER",
+          "source": "MRO solar arrays, both wings. mass (2 x 48.3 kg): https://ntrs.nasa.gov/api/citations/20070029236/downloads/20070029236.pdf; power: https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf; budget: no public source; mission_lifetime: game-design choice",
           "look": {
             "size": [
               3.5,
@@ -353,9 +353,9 @@
     "_readme": "The Reroute Power mini-game (the switch panel). systems = the switches, top to bottom. camera and antenna are parts: their power comes from the version the player picked. The heater is not a part: every spacecraft has one, and its effects are added to every build (it used to be inside spacecraft_base). off_lifetime_months_per_second = while the heater is OFF, the cold wears out the batteries: the mission loses this many extra months of lifetime every real second (0.2 = 1 month every 5 seconds).",
     "systems": ["camera", "antenna", "heater"],
     "heater": {
-      "effects": { "power": -40 },
+      "effects": { "power": -300 },
       "off_lifetime_months_per_second": 0.2,
-      "source": "PLACEHOLDER"
+      "source": "All MRO heaters. power (the page says \"As much as 300 watts of power are used to run heaters\"; 300 W is that figure, not a sum): https://mars.nasa.gov/mro/mission/spacecraft/parts/thermal/; off_lifetime_months_per_second: game-design choice"
     }
   },
   "dashboard": {
