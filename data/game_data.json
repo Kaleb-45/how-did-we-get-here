@@ -34,45 +34,45 @@
       "limits": {
         "budget": {
           "rule": "max",
-          "value": 450,
-          "warning": 400,
-          "bar_max": 500,
-          "source": "PLACEHOLDER"
+          "value": 671,
+          "warning": 640,
+          "bar_max": 750,
+          "source": "MAVEN's total cost (our mission gets MAVEN's money, less than MRO's $720M). value (\"Cost: $671 million over its full life cycle.\", MAVEN press kit, Quick Facts, page 4): https://mars.nasa.gov/files/resources/MAVEN_PressKit_Final.pdf; warning and bar_max: game-design choice"
         },
         "mass": {
           "rule": "max",
-          "value": 840,
-          "warning": 780,
-          "bar_max": 1000,
-          "source": "PLACEHOLDER"
+          "value": 1031,
+          "warning": 950,
+          "bar_max": 1100,
+          "source": "MRO's dry mass (the rocket and the fuel were sized for it). value (\"139 kilograms ... science payload, 892 kilograms ... other dry weight\": 139 + 892 = 1,031 kg): https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf; warning and bar_max: game-design choice"
         },
         "power": {
           "rule": "min",
           "value": 0,
-          "warning": 30,
-          "bar_max": 300,
-          "source": "PLACEHOLDER"
+          "warning": 250,
+          "bar_max": 1500,
+          "source": "value: game-design choice (the parts cannot use more power than the solar panels make); warning and bar_max: game-design choice (warning 250 makes every small solar panel build yellow)"
         },
         "communications": {
           "rule": "min",
-          "value": 10,
-          "warning": 15,
-          "bar_max": 40,
-          "source": "PLACEHOLDER"
+          "value": 0.6,
+          "warning": 1,
+          "bar_max": 8,
+          "source": "What MRO could still send when Mars is farthest from Earth. value (\"expected to send data to a 34-meter antenna on Earth at a rate of about 600 kilobits per second\" = 0.6 Mb/s): https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf; warning and bar_max: game-design choice"
         },
         "data": {
           "rule": "min",
-          "value": 30,
-          "warning": 40,
-          "bar_max": 100,
-          "source": "PLACEHOLDER"
+          "value": 4,
+          "warning": 4.5,
+          "bar_max": 20,
+          "source": "value: game-design choice (just under the basic camera's 4.8 Gb/day, so the basic camera only passes if it is switched off for a short time at most, about 10 seconds; MRO's planned \"26 terabits or more\" is all six instruments, not one camera); warning and bar_max: game-design choice"
         },
         "mission_lifetime": {
           "rule": "min",
           "value": 24,
           "warning": 27,
-          "bar_max": 36,
-          "source": "PLACEHOLDER"
+          "bar_max": 45,
+          "source": "MRO's primary science phase. value (\"a low-altitude orbit around Mars for two years\"; \"Primary science phase: November 2006 to December 2008\"): https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf; warning and bar_max: game-design choice"
         }
       }
     }

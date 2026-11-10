@@ -298,7 +298,7 @@ What Kaleb looks at or tests before saying "pass":
 4. **Visual details on the dashboard.** "yes, the warning and max bar are good" (2026-11-08): the warning and limit markers and bars.
 5. **Readability for kids.** Kaleb checks font sizes, the control hints and whether the arm or dashboard is hidden behind other UI.
 6. **Nothing else broke.** Each feature's last step is a full playthrough from the intro to Try Again: "Confirm nothing else broke." (2026-11-08)
-7. **Both outcomes play.** A losing round (do nothing at the storm → MISSION FAILED, Power alarm) and a winning round (Large solar + High-res, reroute power → MISSION SUCCESS).
+7. **Both outcomes play.** A losing round (do nothing at the storm → MISSION FAILED, Power alarm) and a winning round (reroute power → MISSION SUCCESS). The old winning build, Large solar + High-res, fails the real budget limit since step 7e (2026-11-10). The new winning build is to be set in step 8; one that works today and still needs a reroute is Small solar + Basic camera + Large antenna (turn the heater off in the storm, then back on).
 8. **Browser check.** After the web task, Kaleb plays both rounds in the browser from `build/web` using `python3 -m http.server`.
 9. **Walkability for 3D layout.** Kaleb walks through every room and checks that the walls are solid.
 
@@ -404,11 +404,11 @@ What Kaleb looks at or tests before saying "pass":
 
 ## 9. NASA data used
 
-**Only the solar panels, the heater (step 7a, 2026-11-10), the cameras (step 7b, 2026-11-10), the antennas (step 7c, 2026-11-10) and the spacecraft base (step 7d, 2026-11-10) have real NASA data so far.** Every other number in `data/game_data.json` is still marked `"source": "PLACEHOLDER"`. The table lists each dataset, its source, and where the game uses it. The full links are in each `source` string in `game_data.json`.
+**Only the solar panels, the heater (step 7a, 2026-11-10), the cameras (step 7b, 2026-11-10), the antennas (step 7c, 2026-11-10), the spacecraft base (step 7d, 2026-11-10) and the mission limits (step 7e, 2026-11-10) have real NASA data so far.** Every other number in `data/game_data.json` is still marked `"source": "PLACEHOLDER"`. The table lists each dataset, its source, and where the game uses it. The full links are in each `source` string in `game_data.json`.
 
 | Dataset (placeholder) | Source link | Where the game uses it |
 |---|---|---|
-| Mission limits for `mars_ice`: budget max 450, mass max 840, power min 0, comms min 10, data min 30, lifetime min 24 months, plus warning and bar_max for each | none (PLACEHOLDER) | Build dashboard, Review table, walk dashboard, wrist light, debrief |
+| Mission limits for `mars_ice`: budget max 671 (MAVEN's total cost), mass max 1,031 kg (MRO dry mass), comms min 0.6 Mb/s (MRO's rate when Mars is farthest), lifetime min 24 months (MRO's two-year science phase). Power min 0 and data min 4 Gb/day: game-design choice. Every warning and bar_max: game-design choice | MAVEN press kit (Nov 2013), Quick Facts; MRO launch press kit (Aug 2005) | Build dashboard, Review table, walk dashboard, wrist light, debrief |
 | Spacecraft base = MRO spacecraft without the swappable parts: budget 490 ($720M MRO total − 230 for the game costs of MRO's parts), mass 848.7 kg (1,031 kg MRO dry mass − 96.6 − 65 − 20.7; CTX stays in the base). Power −40: no public source. Communications 0, data 0, lifetime 30: game-design choice | MRO launch press kit (Aug 2005), Quick Facts | Totals on Build and Review, live values |
 | Solar panel small / medium / large = Mars Odyssey array (32.3 kg, 750 W), MAVEN arrays (1,135 W), MRO arrays (96.6 kg, 2,000 W). Costs: no public source. Lifetime bonus: game-design choice | NASA NTRS papers 20030065626 and 20070029236; Odyssey arrival and MRO launch press kits; MAVEN fact sheet 2013 | Build choices, 3D parts, storm power math |
 | Camera basic / high-res = MRO CTX (3 kg, 7 W, 4.8 Gb/day), MRO HiRISE (65 kg, 60 W, 16.4 Gb/day). Costs: no public source | NASA MRO science instruments page; CTX data guide in NASA PDS (ctxsis.pdf, "approximately 3.5 Tb"); HiRISE team science paper, McEwen et al. 2007 JGR ("more than 12 Tb") | Build choices, data collection rate, Reroute panel |

@@ -68,7 +68,7 @@ file.
   Test: search `spacecraft_base` for PLACEHOLDER and find none. On Review, the totals
   include the new base numbers.
 
-- [ ] **7e. Mission limits for "Map the ice on Mars".** MUST · M
+- [x] **7e. Mission limits for "Map the ice on Mars".** MUST · M
   The six limits (budget, mass, power, communications, data, mission lifetime), with
   their warning and bar_max values.
   Before changing the file: show the table of value, real number, source link.
