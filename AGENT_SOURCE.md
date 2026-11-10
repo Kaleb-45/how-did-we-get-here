@@ -239,10 +239,10 @@ Kaleb never answered a step with "fail". Every change Kaleb asked for to existin
     - **What Kaleb asked:** "what do I do if it does show errors:"
     - **Rule:** every MY TEST includes "If you see an error" steps, for example a table of likely errors and fixes. Why: it saves time when a test fails (Kaleb, 2026-11-09).
 
-12. **Commit and stop (2026-11-09)**
-    - **What I did:** offered to go on to step 5.
+12. **Commit each step (2026-11-09)**
+    - **What I did:** left four passed steps uncommitted and offered to go on to step 5.
     - **What Kaleb wanted:** "Step 4 passed. Commit it. Do not start step 5."
-    - **Rule:** commit only when Kaleb asks, and never start the next step without being told.
+    - **Rule:** commit after each step that passes its self-check. "Do not start step 5" was a one-time stop, not a rule (Kaleb, 2026-11-09).
 
 ---
 
@@ -305,7 +305,7 @@ What Kaleb looks at or tests before saying "pass":
   - the game premise and scope
   - the data rules
   - "FIRST STEP: Do not write code yet... give me the folder and file structure and the list of build steps... Then wait for my approval."
-- **What Kaleb does last in a session:** passes the step and asks for a git commit, then stops. "Step 4 passed. Commit it. Do not start step 5." (2026-11-09)
+- **What Kaleb does last in a session:** passes the last step, checks that it is committed, then stops. Agents commit each step that passes its self-check without waiting to be asked (see correction 12). (2026-11-09)
 - **Session length.** The whole game was built in one long session (2026-11-08 00:34 to 2026-11-09 22:44) with 3 context compactions. It was started from another project's folder (Motion Studio).
 - **Downloads.** Ask before downloading any model, package or tool. Source: Kaleb confirmed for this game (2026-11-09).
 
