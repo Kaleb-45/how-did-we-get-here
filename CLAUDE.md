@@ -46,7 +46,8 @@ team of 5 Magikid students and teaches from this project.
   layout changed. The agent does the re-export. MY TEST tells Kaleb how to do
   the full playthrough and the browser test: `cd build/web && python3 -m http.server
   8000`, then open http://localhost:8000.
-- A student replaces PLACEHOLDER values with real NASA data and a source link before
+- A student replaces PLACEHOLDER values with real NASA data and a source link, or a
+  written game-design choice that Kaleb passes, before
   the final submission. Agents never invent real-looking numbers. Mark every new
   made-up number `"source": "PLACEHOLDER"`.
 - Ask before downloading anything.
