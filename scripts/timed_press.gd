@@ -35,11 +35,22 @@ var close_time: float = 1.6        # seconds the ring takes to reach the target
 var perfect_seconds: float = 0.1   # press this close to the target = Perfect
 var good_seconds: float = 0.25     # press this close = Good
 var last_result: String = ""
+var started: bool = false          # nothing is drawn until start() is called
 
 
 func _ready() -> void:
 	make_input_actions()
 	custom_minimum_size = Vector2(300, 340)
+	caption.text = ""
+
+
+# Shows words above the ring and clears the old ring (used while waiting).
+func show_waiting(text: String) -> void:
+	caption.text = text
+	running = false
+	last_result = ""
+	elapsed = 0.0
+	queue_redraw()
 
 
 # Makes the two key actions, the same way player.gd does (no Input Map setup needed).
@@ -67,6 +78,7 @@ func start(label: String, speed: float, tightness: float, key_action: String) ->
 	elapsed = 0.0
 	last_result = ""
 	running = true
+	started = true
 	queue_redraw()
 
 
@@ -120,6 +132,8 @@ func finish(result: String) -> void:
 
 # Draws the target, the two windows and the closing ring.
 func _draw() -> void:
+	if not started:
+		return
 	var middle := Vector2(size.x / 2.0, size.y - 150.0 - 4.0)
 	var backdrop: Color = get_theme_color("backdrop_color", &"TimedPress")
 	draw_circle(middle, RING_START_RADIUS + 8.0, backdrop)

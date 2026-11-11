@@ -24,6 +24,7 @@ var voice_lines: Dictionary       # "launch" lines from inner_voice.json
 var moment_ids: Array = []        # for example ["liftoff", "stage_separation", "engine_cutoff"]
 var moment_labels: Array = []     # one Label per moment in the timeline
 var tightness: float = 1.0
+var result_counts: Dictionary = {}   # how many Perfect / Good / Miss so far
 
 
 func _ready() -> void:
@@ -72,6 +73,7 @@ func run_launch() -> void:
 	for i in moment_ids.size():
 		var moment_id: String = moment_ids[i]
 		moment_labels[i].theme_type_variation = &"AccentText"   # the current one is orange
+		press.show_waiting(words["get_ready"])   # no old name, no old ring
 		await get_tree().create_timer(numbers["ready_seconds"]).timeout
 		press.start(words["moments"][moment_id], 1.0, tightness, press.ACTION_SPACE)
 		var result: String = await press.finished
@@ -83,8 +85,13 @@ func run_launch() -> void:
 		moment_labels[i].text = words["moments"][moment_id] + "\n" + words["results"][result]
 		moment_labels[i].theme_type_variation = &"SmallText"
 		rocket_view.set_progress(i + 1, moment_ids.size())
+		# Use a count for each result type, so "Perfect again!" never comes first.
 		var lines: Array = voice_lines["results"][result]
-		inner_voice.say(lines[i % lines.size()])
+		inner_voice.say(lines[result_counts.get(result, 0) % lines.size()])
+		result_counts[result] = result_counts.get(result, 0) + 1
+		# Light the next moment now, and show "get ready" instead of the old ring.
+		if i + 1 < moment_ids.size():
+			press.show_waiting(words["get_ready"])
 		await get_tree().create_timer(numbers["between_seconds"]).timeout
 	show_summary()
 
@@ -108,7 +115,7 @@ func show_summary() -> void:
 		add_line(words["no_losses"])
 		inner_voice.say(voice_lines["summary_clean"])
 	summary_box.visible = true
-	next_button.grab_focus()
+	# No focus on Next: a kid still pressing Space must not skip the summary.
 
 
 func add_line(text: String) -> Label:

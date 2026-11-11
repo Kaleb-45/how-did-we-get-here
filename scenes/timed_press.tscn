@@ -18,5 +18,5 @@ anchor_right = 1.0
 offset_bottom = 40.0
 grow_horizontal = 2
 theme_type_variation = &"HeadingText"
-text = "Label"
+text = ""
 horizontal_alignment = 1
