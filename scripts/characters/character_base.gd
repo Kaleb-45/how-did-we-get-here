@@ -222,9 +222,9 @@ func _rebuild() -> void:
 		eye.height = 2.0
 		eye.radial_segments = 16
 		eye.rings = 8
-		var basis := dome_basis(side * 0.36, 0.42)
-		var eye_node := _add(lid, eye, eye_mat, dome_point(side * 0.36, 0.42, 0.0), Vector3(0.12, 0.19, 0.07) * top_r)
-		eye_node.basis = basis * Basis.from_scale(Vector3(0.12, 0.19, 0.07) * top_r)
+		var eye_basis := dome_basis(side * 0.36, 0.42)
+		var eye_node := _add(lid, eye, eye_mat, dome_point(side * 0.36, 0.42, 0.0))
+		eye_node.basis = eye_basis * Basis.from_scale(Vector3(0.12, 0.19, 0.07) * top_r)
 		var brow := BoxMesh.new()
 		brow.size = Vector3(0.3, 0.05, 0.04) * top_r
 		var brow_node := _add(lid, brow, eye_mat, dome_point(side * 0.38, 0.62, 0.01))
