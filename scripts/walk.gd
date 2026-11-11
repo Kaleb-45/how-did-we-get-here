@@ -22,6 +22,10 @@ extends Node3D
 @onready var dashboard: PanelContainer = %Dashboard
 @onready var wrist_panel: Control = %WristPanel   # holds the dashboard, above the wrist
 @onready var camera: Camera3D = $Player/Head/Camera
+@onready var hud: CanvasLayer = $HUD
+
+# The Life Support stations (food, water, air): see life_support.gd.
+var life_support: Node = preload("res://scripts/life_support.gd").new()
 
 var arm_is_up: bool = false
 
@@ -59,7 +63,9 @@ func _ready() -> void:
 
 	# Listen to every reach zone: "a body came in" / "a body went out".
 	# The power panel's zone works the same way as the spacecraft's.
-	for zone in spacecraft.reach_zones + [power_panel.reach_zone]:
+	life_support.setup(self, hud, inner_voice)
+	add_child(life_support)
+	for zone in spacecraft.reach_zones + [power_panel.reach_zone] + ship.station_zones.values():
 		zone.body_entered.connect(_on_zone_entered.bind(zone))
 		zone.body_exited.connect(_on_zone_exited.bind(zone))
 
@@ -350,8 +356,10 @@ func end_walk() -> void:
 func update_prompt() -> void:
 	nearby_part = find_nearest_part()
 
-	if nearby_part == "" or reroute_panel.visible:
-		prompt_label.text = ""   # nothing nearby, or the switch panel is open
+	if nearby_part == "" or reroute_panel.visible or life_support.is_busy():
+		prompt_label.text = ""   # nothing nearby, or a panel is open
+	elif nearby_part.begins_with("station_"):
+		prompt_label.text = life_support.prompt_for(nearby_part)   # a Life Support station
 	elif nearby_part == "power_panel":
 		# For example:  Press E: Power panel
 		prompt_label.text = "%s: %s" % [Data.voice["walk"]["press_e_hint"], Data.voice["walk"]["panel_name"]]
@@ -377,6 +385,11 @@ func find_nearest_part() -> String:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# While a Life Support screen is open, E or Esc closes it (and nothing else).
+	if life_support.panel_open():
+		life_support.handle_input(event)
+		return
+
 	# While the switch panel is open, E or Esc closes it (and nothing else).
 	if reroute_panel.visible:
 		if event.is_action_pressed("interact") or event.is_action_pressed("ui_cancel"):
@@ -424,6 +437,11 @@ func update_wrist_panel() -> void:
 
 # The player pressed E on a part.
 func use_part(part_id: String) -> void:
+	# A Life Support station: life_support.gd does the work.
+	if part_id.begins_with("station_"):
+		life_support.use_station(part_id)
+		return
+
 	# The power panel on the wall: open its switch screen.
 	if part_id == "power_panel":
 		open_reroute_panel()

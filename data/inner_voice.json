@@ -165,6 +165,12 @@
     "panel_name": "Power panel",
     "panel_sign": "POWER"
   },
+  "flight": {
+    "_readme": "What the inner voice says during Flight (Stage 3). The voice is never wrong. The levels do not change these lines yet.",
+    "ration_explain": "This is the Food station. If we ration, the crew eats a little less every day. They get hungry, but the food lasts longer. Smart. I think.",
+    "ration_on": "Rations on! The food will last longer now. Everyone is a little hungry, but everyone is alive.",
+    "ration_already": "We are already rationing. The food is lasting longer."
+  },
   "reroute": {
     "_readme": "The words on the power panel (Reroute Power mini-game).",
     "title": "POWER PANEL",

@@ -19,6 +19,10 @@ var thickness: float
 # { "bridge": Rect2(...), ... }  (Rect2 position = (x0, z0), size = (width, depth))
 var room_rects: Dictionary = {}
 
+# The reach zones at the Life Support stations: { "food": Area3D, "water": ..., "air": ... }
+# walk.gd listens to them (part_id "station_food" and so on).
+var station_zones: Dictionary = {}
+
 
 func build() -> void:
 	ship = Data.game_data["ship"]
@@ -39,6 +43,12 @@ func build() -> void:
 	for room_id in Data.story["ship"]["future_stations"]:
 		var spot: Array = markers[room_id]
 		add_station_marker(Vector3(spot[0], 0, spot[1]), Data.story["ship"]["future_stations"][room_id])
+
+	# The three Life Support stations also get a reach zone, so "Press E" works there.
+	for marker_id in markers:
+		if marker_id.begins_with("life_support_"):
+			var spot: Array = markers[marker_id]
+			add_station_zone(marker_id.trim_prefix("life_support_"), Vector3(spot[0], 0, spot[1]))
 
 
 # One room: floor, ceiling, and four walls. The wall on the `door` side
@@ -199,6 +209,24 @@ func add_station_marker(spot: Vector3, text: String) -> void:
 	label.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y   # always turns to face you
 	label.position = spot + Vector3(0, ship["marker_label_height"], 0)
 	add_child(label)
+
+
+# An invisible box around a station marker: the marker's size plus reach_distance.
+# Standing inside it means "you are at the station".
+func add_station_zone(station_id: String, spot: Vector3) -> void:
+	var reach: float = Data.game_data["walk"]["reach_distance"]
+	var height_of_zone := 4.0
+	var box := BoxShape3D.new()
+	box.size = Vector3(ship["marker_size"] + reach, height_of_zone, ship["marker_size"] + reach)
+	var shape := CollisionShape3D.new()
+	shape.shape = box
+
+	var zone := Area3D.new()
+	zone.add_child(shape)
+	zone.set_meta("part_id", "station_" + station_id)   # walk.gd checks this name
+	zone.position = spot + Vector3(0, height_of_zone / 2.0, 0)
+	add_child(zone)
+	station_zones[station_id] = zone
 
 
 # Text in the 3D world. letter_size = how tall the letters are, in meters.

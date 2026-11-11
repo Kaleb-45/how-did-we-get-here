@@ -153,6 +153,25 @@
     },
     "of_word": "of"
   },
+  "flight": {
+    "_readme": "Words on the screen during Flight (Stage 3): the Life Support stations. prompts = the line shown near a station (after \"Press E:\"); the _done and _none lines show when there is nothing left to do. ration_panel = the Food station's little screen.",
+    "prompts": {
+      "food": "Food station: ration the food",
+      "food_done": "Food station: rationing is on",
+      "water": "Water station: fix the leak",
+      "water_none": "Water station: no leak",
+      "air": "Air station: swap the scrubber",
+      "air_done": "Air station: the scrubber is fresh"
+    },
+    "ration_panel": {
+      "title": "FOOD STATION",
+      "body": "Rationing means the crew eats a little less each day, so the food lasts longer. Once it is on, it stays on.",
+      "button": "Start rationing",
+      "close_hint": "E or Esc = close"
+    },
+    "scrubber_label": "SWAP THE SCRUBBER",
+    "leak_banner": "WATER LEAK! Go to the Water station in Life Support"
+  },
   "dashboard": {
     "title": "Mission dashboard",
     "hint_small": "Tab = bigger",
