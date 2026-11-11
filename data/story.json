@@ -138,5 +138,25 @@
     "title": "Mission dashboard",
     "hint_small": "Tab = bigger",
     "hint_big": "Tab = lower your arm"
+  },
+  "timed_press_test": {
+    "_readme": "Words for the timed-press test bench (scenes/timed_press_test.tscn).",
+    "title": "Timed press test",
+    "label": "PRESS NOW",
+    "start_button": "Start ring",
+    "key_button": "Key: {key} (click to switch)",
+    "key_names": {
+      "space": "Space",
+      "e": "E"
+    },
+    "hint": "Press {key} (or click) when the ring closes on the target.",
+    "result_none": "Result: press Start",
+    "result_line": "Result: {result}",
+    "results": {
+      "Perfect": "Perfect",
+      "Good": "Good",
+      "Miss": "Miss"
+    },
+    "windows_line": "Windows: Perfect {perfect} s, Good {good} s"
   }
 }

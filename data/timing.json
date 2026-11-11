@@ -1,20 +1,85 @@
 {
-  "_readme": "How the launch is timed. Each rocket has a number of launch moments (times you must press a key at the right time) and a window tightness. window_tightness: 1.0 = normal. A bigger number means a TIGHTER window (harder to hit). A smaller number means a looser window (easier). The launch itself is built in a later step; for now only the numbers are stored. A cheaper rocket has more moments and tighter windows. Every value has a source: a link, a written game-design choice, or PLACEHOLDER (made up for now; a student replaces it before the final submission).",
+  "_readme": "How the launch is timed. Each rocket has a number of launch moments (times you must press a key at the right time) and a window tightness. window_tightness: 1.0 = normal. A bigger number means a TIGHTER window (harder to hit). A smaller number means a looser window (easier). A cheaper rocket has more moments and tighter windows. Every value has a source: a link, a written game-design choice, or PLACEHOLDER (made up for now; a student replaces it before the final submission). TIMED PRESS (the ring that closes on a target): base_speed 1.0 = the ring takes close_seconds to close; speed 2.0 closes twice as fast. The windows are a share of the ring's trip, so a faster ring gives less time to press. perfect_window and good_window are that share (0.06 = 6% of the trip, before and after the target). Bigger window_tightness makes both windows smaller. The levels do NOT change any of this: timing is the same for every character. LAUNCH: each rocket lists its moment_ids in order. Each moment has a miss_cost: a Miss costs fuel (percent lost) or damages a part (percent damaged). The cost is stored in GameState.damage and never ends the mission. Perfect or Good costs nothing.",
   "launch_vehicles": {
     "small": {
       "moments": 5,
       "window_tightness": 1.3,
-      "source": "PLACEHOLDER"
+      "source": "PLACEHOLDER",
+      "moment_ids": [
+        "liftoff",
+        "max_pressure",
+        "stage_separation",
+        "fairing_release",
+        "engine_cutoff"
+      ]
     },
     "medium": {
       "moments": 3,
       "window_tightness": 1.0,
-      "source": "PLACEHOLDER"
+      "source": "PLACEHOLDER",
+      "moment_ids": [
+        "liftoff",
+        "stage_separation",
+        "engine_cutoff"
+      ]
     },
     "large": {
       "moments": 2,
       "window_tightness": 0.8,
-      "source": "PLACEHOLDER"
+      "source": "PLACEHOLDER",
+      "moment_ids": [
+        "liftoff",
+        "engine_cutoff"
+      ]
+    }
+  },
+  "timed_press": {
+    "base_speed": 1.0,
+    "close_seconds": 1.6,
+    "perfect_window": 0.06,
+    "good_window": 0.16,
+    "source": "PLACEHOLDER"
+  },
+  "launch": {
+    "ready_seconds": 1.5,
+    "between_seconds": 2.2,
+    "source": "PLACEHOLDER (game-design timing, a student can change it)"
+  },
+  "launch_moments": {
+    "liftoff": {
+      "miss_cost": {
+        "kind": "fuel",
+        "amount": 10,
+        "source": "PLACEHOLDER"
+      }
+    },
+    "max_pressure": {
+      "miss_cost": {
+        "kind": "solar_panel",
+        "amount": 15,
+        "source": "PLACEHOLDER"
+      }
+    },
+    "stage_separation": {
+      "miss_cost": {
+        "kind": "antenna",
+        "amount": 15,
+        "source": "PLACEHOLDER"
+      }
+    },
+    "fairing_release": {
+      "miss_cost": {
+        "kind": "camera",
+        "amount": 15,
+        "source": "PLACEHOLDER"
+      }
+    },
+    "engine_cutoff": {
+      "miss_cost": {
+        "kind": "fuel",
+        "amount": 15,
+        "source": "PLACEHOLDER"
+      }
     }
   }
 }
