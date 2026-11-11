@@ -167,6 +167,8 @@
   },
   "flight": {
     "_readme": "What the inner voice says during Flight (Stage 3). The voice is never wrong. The levels do not change these lines yet.",
+    "start": "We are on our way to Mars! This leg of the trip stands for {days} real days of flying, sped up so I can play it. The crew eats, drinks and breathes every day. Press Tab to look at the Crew supplies on my wrist, and visit the Life Support room.",
+    "leg_end": "The leg is over. Mars is getting close! Now for the work at Mars.",
     "ration_explain": "This is the Food station. If we ration, the crew eats a little less every day. They get hungry, but the food lasts longer. Smart. I think.",
     "ration_on": "Rations on! The food will last longer now. Everyone is a little hungry, but everyone is alive.",
     "ration_already": "We are already rationing. The food is lasting longer.",

@@ -158,6 +158,25 @@ func add_damage(kind: String, amount: float) -> void:
 const SUPPLY_IDS: Array = ["food", "water", "air"]
 
 
+# The destination facts from destinations.json (Mars orbit if none is picked yet).
+func get_destination() -> Dictionary:
+	var id: String = destination_id
+	if id == "":
+		id = Data.destinations.keys()[0]
+	return Data.destinations[id]
+
+
+# How many real days one Flight leg stands for: the trip's days split into legs.
+func get_flight_leg_days() -> float:
+	var trip: Dictionary = get_destination()
+	return float(trip["trip_days"]["value"]) / float(trip["flight_legs"]["value"])
+
+
+# How many real seconds one Flight leg lasts when you play it.
+func get_flight_leg_seconds() -> float:
+	return float(get_destination()["flight_leg_seconds"]["value"])
+
+
 # Stock the ship: every supply at its start amount, no rationing, no leak.
 func start_supplies() -> void:
 	for id in SUPPLY_IDS:

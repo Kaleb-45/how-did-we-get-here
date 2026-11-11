@@ -6,6 +6,13 @@
 #  - The shadow pass (Mars blocks the Sun) and its "Power low" alarm: the player must reroute power
 #    at the power panel in time (the Reroute Power mini-game).
 #  - The mission ends when the mission clock reaches the mission length.
+#
+# This one scene is used for TWO stages:
+#   "walk"   = Arrival: the mission clock, the shadow pass and Reroute Power.
+#   "flight" = Stage 3, one flight leg (scenes/flight.tscn is this scene again).
+#              No shadow pass and no mission clock. The Life Support stations
+#              and the water leak run, and the leg ends after its length.
+# StageManager tells us which one we are (the scene's file name), see _ready().
 extends Node3D
 
 @onready var inner_voice: PanelContainer = %InnerVoiceBar
@@ -28,6 +35,7 @@ extends Node3D
 var life_support: Node = preload("res://scripts/life_support.gd").new()
 
 var arm_is_up: bool = false
+var flight_mode: bool = false   # true in Stage 3 Flight, false in the Arrival walk
 
 # The shadow pass and its alarm go through these stages:
 #   "waiting"  - counting down until the shadow pass starts
@@ -49,6 +57,7 @@ var nearby_part: String = ""
 
 
 func _ready() -> void:
+	flight_mode = StageManager.get_current() == "flight"
 	# Safety net for running this scene by itself (Cmd+R).
 	if GameState.character_id == "":
 		GameState.character_id = Data.game_data["setup"]["default_character"]
@@ -65,7 +74,10 @@ func _ready() -> void:
 	# The power panel's zone works the same way as the spacecraft's.
 	life_support.setup(self, hud, inner_voice)
 	add_child(life_support)
-	for zone in spacecraft.reach_zones + [power_panel.reach_zone] + ship.station_zones.values():
+	var zones: Array = spacecraft.reach_zones + [power_panel.reach_zone]
+	if flight_mode:
+		zones += ship.station_zones.values()   # the Life Support stations only work in Flight
+	for zone in zones:
 		zone.body_entered.connect(_on_zone_entered.bind(zone))
 		zone.body_exited.connect(_on_zone_exited.bind(zone))
 
@@ -73,15 +85,21 @@ func _ready() -> void:
 	reroute_panel.switch_changed.connect(_on_switch_changed)
 	prompt_label.text = ""
 
-	# The crew supplies: stocked once, then they keep dropping (see _process).
-	GameState.ensure_supplies()
+	# The crew supplies. Flight stocks the ship; Arrival goes on with what is left.
+	if flight_mode:
+		GameState.start_supplies()
+	else:
+		GameState.ensure_supplies()
 
 	# The mission clock starts at zero. The dashboard is hidden until Tab.
 	GameState.start_mission()
 	remember_build_colors()
 	dashboard.set_compact(false)   # the full dashboard, with the "Tab =" hint
 	update_dashboard(false)
-	say(Data.voice["walk"]["start"])
+	if flight_mode:
+		say(Data.voice["flight"]["start"].format({"days": GameState.fmt(GameState.get_flight_leg_days())}))
+	else:
+		say(Data.voice["walk"]["start"])
 
 	# Start the countdown to the alarm (the number comes from game_data.json).
 	alarm_banner.visible = false
@@ -109,22 +127,29 @@ func _on_zone_exited(body: Node3D, zone: Area3D) -> void:
 # Runs every frame. delta = seconds since the last frame (about 1/60).
 func _process(delta: float) -> void:
 	if not mission_over:
-		GameState.advance_mission(delta)   # mission time moves forward (it stops at the end)
+		if not flight_mode:
+			GameState.advance_mission(delta)   # mission time moves forward (it stops at the end)
 		GameState.advance_supplies(crew_days_passed(delta))   # the crew eats, drinks and breathes
 		for id in GameState.check_empty_supplies():   # a supply hit zero: a finding was added
 			say(Data.voice["flight"]["empty_" + id])
 	update_dashboard()
 	update_wrist_panel()
-	update_alarm(delta)
-	update_mission_end()
+	if flight_mode:
+		update_flight_end()   # no shadow pass in Flight: the leg ends after its length
+		life_support.update(delta)   # the water leak
+	else:
+		update_alarm(delta)
+		update_mission_end()
 	update_prompt()
 	update_voice(delta)
-	life_support.update(delta)   # the water leak
 
 
 # How many game days the crew supplies lose this frame. The Arrival walk stands
 # for supplies.json "arrival_crew_days" days, spread over the whole mission.
 func crew_days_passed(delta: float) -> float:
+	# Flight: one leg stands for leg_days real days, played in leg_seconds.
+	if flight_mode:
+		return delta * GameState.get_flight_leg_days() / GameState.get_flight_leg_seconds()
 	var clock: Dictionary = Data.game_data["mission_clock"]
 	var mission_months: float = GameState.get_limits()["mission_lifetime"]["value"]
 	var days_per_month: float = Data.supplies["arrival_crew_days"]["value"] / mission_months
@@ -339,6 +364,16 @@ func update_mission_end() -> void:
 		finish_mission(Data.game_data["walk"]["end_read_seconds"])
 
 
+# Flight: the leg is over once it has lasted leg_seconds. The voice says so,
+# then StageManager.go_next() goes to the Arrival walk.
+func update_flight_end() -> void:
+	if mission_over:
+		return
+	if life_support.elapsed >= GameState.get_flight_leg_seconds():
+		say(Data.voice["flight"]["leg_end"])
+		finish_mission(Data.game_data["walk"]["end_read_seconds"])
+
+
 # Wait `seconds` so the player can read the last line, then the debrief.
 func finish_mission(seconds: float) -> void:
 	mission_over = true
@@ -349,7 +384,9 @@ func finish_mission(seconds: float) -> void:
 
 func end_walk() -> void:
 	# Last look at the dashboard: anything still red counts as a failure.
-	GameState.add_end_of_mission_failures()
+	# (Flight is only the trip, so only Arrival does this.)
+	if not flight_mode:
+		GameState.add_end_of_mission_failures()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	StageManager.go_next()
 
