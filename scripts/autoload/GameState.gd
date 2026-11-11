@@ -249,12 +249,16 @@ func get_worst_supply_status() -> String:
 
 
 # A supply at zero is a finding and costs some damage. It happens once per supply.
-func check_empty_supplies() -> void:
+# It gives back the supplies that just hit zero, so the screen can say something.
+func check_empty_supplies() -> Array:
+	var just_empty: Array = []
 	if not supplies_started:
-		return
+		return just_empty
 	for id in SUPPLY_IDS:
 		if crew_supplies[id] <= 0.0 and not event_failures.has(id + "_empty"):
 			add_crew_finding(id)
+			just_empty.append(id)
+	return just_empty
 
 
 func add_crew_finding(id: String) -> void:

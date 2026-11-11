@@ -15,6 +15,8 @@ var walk: Node3D                 # the walk scene (it has say(), player and the 
 var panel: PanelContainer        # the Food station's screen
 var press: Control               # the timed press (Air station: swap the scrubber)
 var press_running: bool = false  # true while the ring is closing
+var elapsed: float = 0.0         # seconds since the stations started (the leak's clock)
+var leak_started: bool = false   # the leak starts once, then the player fixes it
 var words: Dictionary            # story.json "flight"
 var lines: Dictionary            # inner_voice.json "flight"
 
@@ -40,6 +42,16 @@ func setup(walk_scene: Node3D, hud: CanvasLayer, voice_bar: Control) -> void:
 	press.offset_bottom = press.custom_minimum_size.y / 2.0 - 90.0
 	press.visible = false
 	press.finished.connect(_on_scrubber_press_finished)
+
+
+# Called every frame by walk.gd. It starts the water leak on time, and the
+# leak pours out water until the player fixes it (events.json "water_leak").
+func update(delta: float) -> void:
+	elapsed += delta
+	var leak: Dictionary = Data.events["water_leak"]
+	if not leak_started and elapsed >= leak["start_after_seconds"]["value"]:
+		start_leak()
+	GameState.drain_leak(delta)
 
 
 # Is a station screen open? (walk.gd then leaves the keys to us.)
@@ -72,6 +84,10 @@ func prompt_for(part_id: String) -> String:
 			if GameState.scrubber_swapped:
 				return prompts["air_done"]
 			return "%s: %s" % [hint, prompts["air"]]
+		"station_water":
+			if GameState.leak_active:
+				return "%s: %s" % [hint, prompts["water"]]
+			return prompts["water_none"]
 	return ""
 
 
@@ -81,6 +97,8 @@ func use_station(part_id: String) -> void:
 			use_food()
 		"station_air":
 			use_air()
+		"station_water":
+			use_water()
 
 
 # --- Food: ration ---------------------------------------------------------------
@@ -140,3 +158,27 @@ func _on_scrubber_press_finished(result: String) -> void:
 	walk.player.set_physics_process(true)
 	await walk.get_tree().create_timer(Data.supplies["tasks"]["scrubber"]["result_show_seconds"]["value"]).timeout
 	press.visible = false
+
+
+# --- Water: the leak -------------------------------------------------------------------
+# The leak is the one Flight event (data/events.json "water_leak"). It starts on its
+# own, the voice warns, and the water meter falls fast. Pressing E at the Water
+# station stops it. (It is not the Mars shadow pass.)
+
+func start_leak() -> void:
+	leak_started = true
+	GameState.leak_active = true
+	walk.say(lines["leak_warning"])
+	walk.alarm_banner.text = words["leak_banner"]
+	walk.alarm_banner.visible = true
+	walk.dashboard.set_flashing(Data.events["water_leak"]["supply"], true)   # the Water row flashes
+
+
+func use_water() -> void:
+	if not GameState.leak_active:
+		walk.say(lines["no_leak"])
+		return
+	GameState.leak_active = false
+	walk.alarm_banner.visible = false
+	walk.dashboard.set_flashing(Data.events["water_leak"]["supply"], false)
+	walk.say(lines["leak_fixed"])

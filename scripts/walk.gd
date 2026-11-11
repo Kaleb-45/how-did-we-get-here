@@ -111,13 +111,15 @@ func _process(delta: float) -> void:
 	if not mission_over:
 		GameState.advance_mission(delta)   # mission time moves forward (it stops at the end)
 		GameState.advance_supplies(crew_days_passed(delta))   # the crew eats, drinks and breathes
-		GameState.check_empty_supplies()
+		for id in GameState.check_empty_supplies():   # a supply hit zero: a finding was added
+			say(Data.voice["flight"]["empty_" + id])
 	update_dashboard()
 	update_wrist_panel()
 	update_alarm(delta)
 	update_mission_end()
 	update_prompt()
 	update_voice(delta)
+	life_support.update(delta)   # the water leak
 
 
 # How many game days the crew supplies lose this frame. The Arrival walk stands

@@ -174,7 +174,13 @@
     "scrubber_perfect": "Perfect! The new scrubber is in tight, and lots of fresh air is coming back. I did that. Me!",
     "scrubber_good": "Good! The new scrubber is in. A good amount of air is coming back.",
     "scrubber_miss": "Missed the timing. The new scrubber is in, but not seated well, so less air comes back. A Miss still swaps it, just not as well.",
-    "scrubber_already": "The scrubber is already fresh. One swap is enough for now."
+    "scrubber_already": "The scrubber is already fresh. One swap is enough for now.",
+    "leak_warning": "Uh oh. A pipe broke! The water tank is leaking and the water meter is falling fast. Run to the Water station in Life Support and press E to stop it!",
+    "leak_fixed": "Leak stopped! We lost some water, but not all of it. That is why we keep an eye on the meters.",
+    "no_leak": "The water pipes look fine. No leak right now.",
+    "empty_food": "The food is gone. Zero. The crew is very hungry, and that is a big problem.",
+    "empty_water": "The water tank is empty. Zero. A leak pours water out fast if nobody stops it.",
+    "empty_air": "The air is gone. Zero. A fresh scrubber would have put air back."
   },
   "reroute": {
     "_readme": "The words on the power panel (Reroute Power mini-game).",

@@ -170,7 +170,7 @@
       "close_hint": "E or Esc = close"
     },
     "scrubber_label": "SWAP THE SCRUBBER",
-    "leak_banner": "WATER LEAK! Go to the Water station in Life Support"
+    "leak_banner": "WATER LEAK! Go to the Water station"
   },
   "dashboard": {
     "title": "Mission dashboard",
