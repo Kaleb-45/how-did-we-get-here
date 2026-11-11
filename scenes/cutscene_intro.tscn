@@ -9,7 +9,14 @@
 [ext_resource type="Material" path="res://materials/screen_blue.tres" id="m_screen_blue"]
 [ext_resource type="Material" path="res://materials/amber.tres" id="m_amber"]
 [ext_resource type="Material" path="res://materials/monitor_blue.tres" id="m_monitor_blue"]
-[ext_resource type="Material" path="res://materials/person_grey.tres" id="m_person_grey"]
+[ext_resource type="PackedScene" path="res://scenes/characters/general.tscn" id="char_general"]
+[ext_resource type="PackedScene" path="res://scenes/characters/commander.tscn" id="char_commander"]
+[ext_resource type="PackedScene" path="res://scenes/characters/staff1.tscn" id="char_staff1"]
+[ext_resource type="PackedScene" path="res://scenes/characters/staff2.tscn" id="char_staff2"]
+[ext_resource type="PackedScene" path="res://scenes/characters/staff3.tscn" id="char_staff3"]
+[ext_resource type="PackedScene" path="res://scenes/characters/assistant_scientist.tscn" id="char_assistant_scientist"]
+[ext_resource type="PackedScene" path="res://scenes/characters/janitor.tscn" id="char_janitor"]
+[ext_resource type="PackedScene" path="res://scenes/characters/student.tscn" id="char_student"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_1"]
 top_radius = 9.30857
@@ -91,10 +98,6 @@ size = Vector3(5.6, 3, 0.15)
 [sub_resource type="BoxMesh" id="BoxMesh_20"]
 size = Vector3(5.8, 0.1, 0.2)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_21"]
-radius = 0.3
-height = 1.7
-
 [sub_resource type="Environment" id="Env_war_room"]
 background_mode = 1
 background_color = Color(0.01, 0.01, 0.02, 1)
@@ -107,12 +110,6 @@ glow_intensity = 0.9
 glow_bloom = 0.15
 glow_hdr_threshold = 0.9
 glow_blend_mode = 1
-
-[sub_resource type="BoxMesh" id="BoxMesh_nose"]
-size = Vector3(0.16, 0.16, 0.3)
-
-[sub_resource type="BoxMesh" id="BoxMesh_arm"]
-size = Vector3(0.18, 0.18, 0.9)
 
 [sub_resource type="BoxMesh" id="BoxMesh_dooropen"]
 size = Vector3(1.3, 2.8, 0.02)
@@ -135,7 +132,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 3, 5, 9, 12, 14, 17),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Vector3(0, 3, 10.6), Vector3(-6, 5.2, -3), Vector3(1.6, 2, -1.9), Vector3(0, 3, 10.6), Vector3(-1.3, 1.9, -3), Vector3(0, 1.9, -1.9), Vector3(-3.2, 4.4, -0.6)]
+"values": [Vector3(0, 3, 10.6), Vector3(-6, 5.2, -3), Vector3(1.6, 2, -1.9), Vector3(0, 3, 10.6), Vector3(-1.85, 2.3, -2.2), Vector3(0, 1.9, -1.9), Vector3(-3.2, 4.4, -0.6)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -224,71 +221,71 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("People/Person_General/ArmPivot:visible")
+tracks/8/path = NodePath("People/Person_Staff1:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0, 14.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("People/Person_General/ArmPivot:rotation:x")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0, 14.2, 14.9),
-"transitions": PackedFloat32Array(1, 1, 0.5),
-"update": 0,
-"values": [-1.5708, -1.5708, 0.2]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("People/Person_General/ArmPivot:rotation:y")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.17]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("People/Person_Staff1:position")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
 "times": PackedFloat32Array(0, 9.3, 9.9546, 10.2854, 10.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(-4.7, 1, -8.17), Vector3(-4.7, 1, -8.17), Vector3(-3, 1, -8.7), Vector3(-3, 1, -9.6), Vector3(-4.4, 1, -9.6)]
 }
-tracks/12/type = "value"
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/path = NodePath("People/Person_Staff1:rotation:y")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/keys = {
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("People/Person_Staff1:rotation:y")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
 "times": PackedFloat32Array(0, 9.29, 9.55, 9.9446, 10.2046, 10.2754, 10.5354),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [0, 0, -1.2686, -1.2686, 0, 0, 1.5708]
 }
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("People/Person_Staff1/Rig:scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 10.8, 11.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.55, 1)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("People/Person_Staff2:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 9.3, 9.8806, 10.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1, -9), Vector3(0, 1, -9), Vector3(0, 1, -10.5), Vector3(1.6, 1, -10.5)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("People/Person_Staff2:rotation:y")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 9.29, 9.55, 9.8706, 10.1306),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 0, 0, 0, -1.5708]
+}
 tracks/13/type = "value"
 tracks/13/imported = false
 tracks/13/enabled = true
-tracks/13/path = NodePath("People/Person_Staff1/Body:scale")
+tracks/13/path = NodePath("People/Person_Staff2/Rig:scale")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
-"times": PackedFloat32Array(0, 10.8, 11.2),
+"times": PackedFloat32Array(0, 10.5, 10.9),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.55, 1)]
@@ -296,166 +293,46 @@ tracks/13/keys = {
 tracks/14/type = "value"
 tracks/14/imported = false
 tracks/14/enabled = true
-tracks/14/path = NodePath("People/Person_Staff1/Body:position")
+tracks/14/path = NodePath("People/Person_Staff3:position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
-"times": PackedFloat32Array(0, 10.8, 11.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0.85, 0), Vector3(0, 0.85, 0), Vector3(0, 0.4675, 0)]
-}
-tracks/15/type = "value"
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/path = NodePath("People/Person_Staff1/Nose:position")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/keys = {
-"times": PackedFloat32Array(0, 10.8, 11.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 1.45, -0.3), Vector3(0, 1.45, -0.3), Vector3(0, 0.8, -0.3)]
-}
-tracks/16/type = "value"
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/path = NodePath("People/Person_Staff2:position")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/keys = {
-"times": PackedFloat32Array(0, 9.3, 9.8806, 10.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 1, -9), Vector3(0, 1, -9), Vector3(0, 1, -10.5), Vector3(1.6, 1, -10.5)]
-}
-tracks/17/type = "value"
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/path = NodePath("People/Person_Staff2:rotation:y")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/keys = {
-"times": PackedFloat32Array(0, 9.29, 9.55, 9.8706, 10.1306),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [0, 0, 0, 0, -1.5708]
-}
-tracks/18/type = "value"
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/path = NodePath("People/Person_Staff2/Body:scale")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/keys = {
-"times": PackedFloat32Array(0, 10.5, 10.9),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.55, 1)]
-}
-tracks/19/type = "value"
-tracks/19/imported = false
-tracks/19/enabled = true
-tracks/19/path = NodePath("People/Person_Staff2/Body:position")
-tracks/19/interp = 1
-tracks/19/loop_wrap = true
-tracks/19/keys = {
-"times": PackedFloat32Array(0, 10.5, 10.9),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0.85, 0), Vector3(0, 0.85, 0), Vector3(0, 0.4675, 0)]
-}
-tracks/20/type = "value"
-tracks/20/imported = false
-tracks/20/enabled = true
-tracks/20/path = NodePath("People/Person_Staff2/Nose:position")
-tracks/20/interp = 1
-tracks/20/loop_wrap = true
-tracks/20/keys = {
-"times": PackedFloat32Array(0, 10.5, 10.9),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 1.45, -0.3), Vector3(0, 1.45, -0.3), Vector3(0, 0.8, -0.3)]
-}
-tracks/21/type = "value"
-tracks/21/imported = false
-tracks/21/enabled = true
-tracks/21/path = NodePath("People/Person_Staff3:position")
-tracks/21/interp = 1
-tracks/21/loop_wrap = true
-tracks/21/keys = {
 "times": PackedFloat32Array(0, 9.3, 9.9148, 10.7098, 11.35, 11.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(4.7, 1, -8.17), Vector3(4.7, 1, -8.17), Vector3(6.5, 1, -7.5), Vector3(8.4, 1, -5.9), Vector3(10, 1, -4.7), Vector3(10.6, 1, -5.2)]
 }
-tracks/22/type = "value"
-tracks/22/imported = false
-tracks/22/enabled = true
-tracks/22/path = NodePath("People/Person_Staff3:rotation:y")
-tracks/22/interp = 1
-tracks/22/loop_wrap = true
-tracks/22/keys = {
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("People/Person_Staff3:rotation:y")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
 "times": PackedFloat32Array(0, 9.29, 9.55, 9.9048, 10.1648, 10.6998, 10.9598, 11.34, 11.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [0, 0, -1.9271, -1.9271, -2.2707, -2.2707, -2.2143, -2.2143, -0.8761]
 }
-tracks/23/type = "value"
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/path = NodePath("People/Person_Staff3:visible")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/keys = {
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("People/Person_Staff3:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
 "times": PackedFloat32Array(0, 11.7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
 }
-tracks/24/type = "value"
-tracks/24/imported = false
-tracks/24/enabled = true
-tracks/24/path = NodePath("People/Person_AssistantScientist:rotation:y")
-tracks/24/interp = 1
-tracks/24/loop_wrap = true
-tracks/24/keys = {
-"times": PackedFloat32Array(0, 17.5, 18.1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0, 0, 2.8072]
-}
-tracks/25/type = "value"
-tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/path = NodePath("People/Person_Janitor:rotation:y")
-tracks/25/interp = 1
-tracks/25/loop_wrap = true
-tracks/25/keys = {
-"times": PackedFloat32Array(0, 18.3, 18.9, 19.3, 19.9),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [0, 0, 2.615, 2.615, -0.3344]
-}
-tracks/26/type = "value"
-tracks/26/imported = false
-tracks/26/enabled = true
-tracks/26/path = NodePath("People/Person_Student:rotation:y")
-tracks/26/interp = 1
-tracks/26/loop_wrap = true
-tracks/26/keys = {
-"times": PackedFloat32Array(0, 19.4, 20),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0, 0, -0.5266]
-}
-tracks/27/type = "method"
-tracks/27/imported = false
-tracks/27/enabled = true
-tracks/27/path = NodePath(".")
-tracks/27/interp = 1
-tracks/27/loop_wrap = true
-tracks/27/keys = {
+tracks/17/type = "method"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath(".")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
 "times": PackedFloat32Array(0.3, 2.8, 5.5, 8.8, 12.2, 13.8, 14.8, 16.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "values": [{
@@ -484,113 +361,137 @@ tracks/27/keys = {
 "method": &"hide_subtitle"
 }]
 }
-tracks/28/type = "value"
-tracks/28/imported = false
-tracks/28/enabled = true
-tracks/28/path = NodePath("CanvasLayer/Fade:color")
-tracks/28/interp = 1
-tracks/28/loop_wrap = true
-tracks/28/keys = {
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("CanvasLayer/Fade:color")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
 "times": PackedFloat32Array(0, 21, 23),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
 }
-tracks/29/type = "value"
-tracks/29/imported = false
-tracks/29/enabled = true
-tracks/29/path = NodePath("People/Person_General/Label:visible")
-tracks/29/interp = 1
-tracks/29/loop_wrap = true
-tracks/29/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("People/Person_AssistantScientist:rotation:y")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0, 17.8, 18.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0, 0, 2.8072]
 }
-tracks/30/type = "value"
-tracks/30/imported = false
-tracks/30/enabled = true
-tracks/30/path = NodePath("People/Person_Commander/Label:visible")
-tracks/30/interp = 1
-tracks/30/loop_wrap = true
-tracks/30/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
-}
-tracks/31/type = "value"
-tracks/31/imported = false
-tracks/31/enabled = true
-tracks/31/path = NodePath("People/Person_Staff1/Label:visible")
-tracks/31/interp = 1
-tracks/31/loop_wrap = true
-tracks/31/keys = {
-"times": PackedFloat32Array(0, 3, 9, 10.8),
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("People/Person_AssistantScientist/Rig/Head:rotation:y")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0, 17.5, 17.8, 18.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false]
+"update": 0,
+"values": [0, 1.2, 1.2, 0]
 }
-tracks/32/type = "value"
-tracks/32/imported = false
-tracks/32/enabled = true
-tracks/32/path = NodePath("People/Person_Staff2/Label:visible")
-tracks/32/interp = 1
-tracks/32/loop_wrap = true
-tracks/32/keys = {
-"times": PackedFloat32Array(0, 3, 9, 10.8),
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("People/Person_Janitor:rotation:y")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0, 18.6, 19.2, 19.6, 20.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 0, 2.615, 2.615, -0.3344]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("People/Person_Janitor/Rig/Head:rotation:y")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(0, 18.3, 18.6, 19.2, 19.3, 19.6, 20.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 1.2, 1.2, 0, 0, -1.2, 0]
+}
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("People/Person_Student:rotation:y")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(0, 19.7, 20.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0, 0, -0.5266]
+}
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("People/Person_Student/Rig/Head:rotation:y")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(0, 19.4, 19.7, 20.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false]
+"update": 0,
+"values": [0, -0.5266, -0.5266, 0]
 }
-tracks/33/type = "value"
-tracks/33/imported = false
-tracks/33/enabled = true
-tracks/33/path = NodePath("People/Person_Staff3/Label:visible")
-tracks/33/interp = 1
-tracks/33/loop_wrap = true
-tracks/33/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
+tracks/25/type = "method"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("People/Person_Commander")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [2.5],
+"method": &"talk"
+}]
 }
-tracks/34/type = "value"
-tracks/34/imported = false
-tracks/34/enabled = true
-tracks/34/path = NodePath("People/Person_AssistantScientist/Label:visible")
-tracks/34/interp = 1
-tracks/34/loop_wrap = true
-tracks/34/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
+tracks/26/type = "method"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("People/Person_General")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(5.5, 12.2, 14.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [3.3],
+"method": &"talk"
+}, {
+"args": [1.6],
+"method": &"talk"
+}, {
+"args": [2.0],
+"method": &"talk"
+}]
 }
-tracks/35/type = "value"
-tracks/35/imported = false
-tracks/35/enabled = true
-tracks/35/path = NodePath("People/Person_Janitor/Label:visible")
-tracks/35/interp = 1
-tracks/35/loop_wrap = true
-tracks/35/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
-}
-tracks/36/type = "value"
-tracks/36/imported = false
-tracks/36/enabled = true
-tracks/36/path = NodePath("People/Person_Student/Label:visible")
-tracks/36/interp = 1
-tracks/36/loop_wrap = true
-tracks/36/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
+tracks/27/type = "method"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath("People/Person_General")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = {
+"times": PackedFloat32Array(14.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"point_at_camera"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_intro"]
@@ -1213,190 +1114,29 @@ spot_attenuation = 1.0
 
 [node name="People" type="Node3D" parent="."]
 
-[node name="Person_General" type="Node3D" parent="People"]
+[node name="Person_General" parent="People" instance=ExtResource("char_general")]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0, -4.9500)
 
-[node name="Body" type="MeshInstance3D" parent="People/Person_General"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
-mesh = SubResource("CapsuleMesh_21")
-surface_material_override/0 = ExtResource("m_person_grey")
-
-[node name="Nose" type="MeshInstance3D" parent="People/Person_General"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -0.3)
-mesh = SubResource("BoxMesh_nose")
-surface_material_override/0 = ExtResource("m_amber")
-
-[node name="ArmPivot" type="Node3D" parent="People/Person_General"]
-transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0.45, 1.35, 0)
-visible = false
-
-[node name="Arm" type="MeshInstance3D" parent="People/Person_General/ArmPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.45)
-mesh = SubResource("BoxMesh_arm")
-surface_material_override/0 = ExtResource("m_amber")
-
-[node name="Label" type="Label3D" parent="People/Person_General"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 2.2000, 0)
-pixel_size = 0.034
-billboard = 1
-no_depth_test = true
-outline_size = 12
-width = 200.0
-autowrap_mode = 2
-
-[node name="Person_Commander" type="Node3D" parent="People"]
+[node name="Person_Commander" parent="People" instance=ExtResource("char_commander")]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 1.5000, 0, -4.8000)
 
-[node name="Body" type="MeshInstance3D" parent="People/Person_Commander"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
-mesh = SubResource("CapsuleMesh_21")
-surface_material_override/0 = ExtResource("m_person_grey")
-
-[node name="Nose" type="MeshInstance3D" parent="People/Person_Commander"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -0.3)
-mesh = SubResource("BoxMesh_nose")
-surface_material_override/0 = ExtResource("m_amber")
-
-[node name="Label" type="Label3D" parent="People/Person_Commander"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 3.2000, 0)
-pixel_size = 0.034
-billboard = 1
-no_depth_test = true
-outline_size = 12
-width = 200.0
-autowrap_mode = 2
-
-[node name="Person_Staff1" type="Node3D" parent="People"]
+[node name="Person_Staff1" parent="People" instance=ExtResource("char_staff1")]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -4.7000, 1.0000, -8.1700)
 
-[node name="Body" type="MeshInstance3D" parent="People/Person_Staff1"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
-mesh = SubResource("CapsuleMesh_21")
-surface_material_override/0 = ExtResource("m_person_grey")
-
-[node name="Nose" type="MeshInstance3D" parent="People/Person_Staff1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -0.3)
-mesh = SubResource("BoxMesh_nose")
-surface_material_override/0 = ExtResource("m_amber")
-
-[node name="Label" type="Label3D" parent="People/Person_Staff1"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 2.2000, 0)
-pixel_size = 0.034
-billboard = 1
-no_depth_test = true
-outline_size = 12
-width = 200.0
-autowrap_mode = 2
-
-[node name="Person_Staff2" type="Node3D" parent="People"]
+[node name="Person_Staff2" parent="People" instance=ExtResource("char_staff2")]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.0000, -9.0000)
 
-[node name="Body" type="MeshInstance3D" parent="People/Person_Staff2"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
-mesh = SubResource("CapsuleMesh_21")
-surface_material_override/0 = ExtResource("m_person_grey")
-
-[node name="Nose" type="MeshInstance3D" parent="People/Person_Staff2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -0.3)
-mesh = SubResource("BoxMesh_nose")
-surface_material_override/0 = ExtResource("m_amber")
-
-[node name="Label" type="Label3D" parent="People/Person_Staff2"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 3.2000, 0)
-pixel_size = 0.034
-billboard = 1
-no_depth_test = true
-outline_size = 12
-width = 200.0
-autowrap_mode = 2
-
-[node name="Person_Staff3" type="Node3D" parent="People"]
+[node name="Person_Staff3" parent="People" instance=ExtResource("char_staff3")]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 4.7000, 1.0000, -8.1700)
 
-[node name="Body" type="MeshInstance3D" parent="People/Person_Staff3"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
-mesh = SubResource("CapsuleMesh_21")
-surface_material_override/0 = ExtResource("m_person_grey")
-
-[node name="Nose" type="MeshInstance3D" parent="People/Person_Staff3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -0.3)
-mesh = SubResource("BoxMesh_nose")
-surface_material_override/0 = ExtResource("m_amber")
-
-[node name="Label" type="Label3D" parent="People/Person_Staff3"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 3.2000, 0)
-pixel_size = 0.034
-billboard = 1
-no_depth_test = true
-outline_size = 12
-width = 200.0
-autowrap_mode = 2
-
-[node name="Person_AssistantScientist" type="Node3D" parent="People"]
+[node name="Person_AssistantScientist" parent="People" instance=ExtResource("char_assistant_scientist")]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -8.3529, 1.0000, -6.5260)
 
-[node name="Body" type="MeshInstance3D" parent="People/Person_AssistantScientist"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
-mesh = SubResource("CapsuleMesh_21")
-surface_material_override/0 = ExtResource("m_person_grey")
-
-[node name="Nose" type="MeshInstance3D" parent="People/Person_AssistantScientist"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -0.3)
-mesh = SubResource("BoxMesh_nose")
-surface_material_override/0 = ExtResource("m_amber")
-
-[node name="Label" type="Label3D" parent="People/Person_AssistantScientist"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 2.2000, 0)
-pixel_size = 0.034
-billboard = 1
-no_depth_test = true
-outline_size = 12
-width = 200.0
-autowrap_mode = 2
-
-[node name="Person_Janitor" type="Node3D" parent="People"]
+[node name="Person_Janitor" parent="People" instance=ExtResource("char_janitor")]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -9.3000, 1.0000, -3.8000)
 
-[node name="Body" type="MeshInstance3D" parent="People/Person_Janitor"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
-mesh = SubResource("CapsuleMesh_21")
-surface_material_override/0 = ExtResource("m_person_grey")
-
-[node name="Nose" type="MeshInstance3D" parent="People/Person_Janitor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -0.3)
-mesh = SubResource("BoxMesh_nose")
-surface_material_override/0 = ExtResource("m_amber")
-
-[node name="Label" type="Label3D" parent="People/Person_Janitor"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 3.2000, 0)
-pixel_size = 0.034
-billboard = 1
-no_depth_test = true
-outline_size = 12
-width = 200.0
-autowrap_mode = 2
-
-[node name="Person_Student" type="Node3D" parent="People"]
+[node name="Person_Student" parent="People" instance=ExtResource("char_student")]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -10.4390, 1.0000, -1.8407)
-
-[node name="Body" type="MeshInstance3D" parent="People/Person_Student"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
-mesh = SubResource("CapsuleMesh_21")
-surface_material_override/0 = ExtResource("m_person_grey")
-
-[node name="Nose" type="MeshInstance3D" parent="People/Person_Student"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -0.3)
-mesh = SubResource("BoxMesh_nose")
-surface_material_override/0 = ExtResource("m_amber")
-
-[node name="Label" type="Label3D" parent="People/Person_Student"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 2.2000, 0)
-pixel_size = 0.034
-billboard = 1
-no_depth_test = true
-outline_size = 12
-width = 200.0
-autowrap_mode = 2
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9885, 0.1509, 0, -0.1509, 0.9885, 0, 3.0000, 10.6000)

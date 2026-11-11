@@ -202,6 +202,8 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "Make all text larger and easier to read. Students aged 10–15 will play this." (2026-11-08)
 - **The walk's control hints at the top are large.**
   Why: "The control hints at the top of the walk screen are too small to read. Make them larger." (2026-11-08)
+- **Characters are cute, rounded, toy-like, made only from built-in shapes: one rounded body with no neck, small capsule arms, short legs with round shoes, round hands with no fingers. The top of the head is a lid that hinges at the back and flips open to talk. Each person is easy to know by shape: General = V shape, Janitor = squash, Assistant Scientist = tall thin cylinder, Student = small. No clothes yet.**
+  Why: "Style: cute, rounded, toy-like." (2026-11-11)
 - **The intro shows Kaleb's own character art for the general and the janitor.**
   Why: "Add the character images I made to the intro screen" (2026-11-08).
 - **The debrief looks like a mission report: a stamp, numbered findings with what, why and fix, and a FINAL READINGS grid.**
