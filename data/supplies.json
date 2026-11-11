@@ -57,7 +57,8 @@
         "Miss": { "value": 100, "source": "PLACEHOLDER" }
       },
       "press_speed": { "value": 1.0, "source": "PLACEHOLDER" },
-      "press_tightness": { "value": 1.0, "source": "PLACEHOLDER" }
+      "press_tightness": { "value": 1.0, "source": "PLACEHOLDER" },
+      "result_show_seconds": { "value": 1.2, "source": "PLACEHOLDER (how long the ring stays on screen after the press)" }
     }
   }
 }

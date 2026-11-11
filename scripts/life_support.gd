@@ -9,9 +9,12 @@
 extends Node
 
 const PANEL_SCENE = preload("res://scenes/station_panel.tscn")
+const PRESS_SCENE = preload("res://scenes/timed_press.tscn")
 
 var walk: Node3D                 # the walk scene (it has say(), player and the HUD)
 var panel: PanelContainer        # the Food station's screen
+var press: Control               # the timed press (Air station: swap the scrubber)
+var press_running: bool = false  # true while the ring is closing
 var words: Dictionary            # story.json "flight"
 var lines: Dictionary            # inner_voice.json "flight"
 
@@ -26,6 +29,18 @@ func setup(walk_scene: Node3D, hud: CanvasLayer, voice_bar: Control) -> void:
 	hud.move_child(panel, voice_bar.get_index())   # under the voice bar, so it never hides the bar
 	panel.action_pressed.connect(_on_ration_pressed)
 
+	# The timed press sits in the middle of the screen, a little high, and starts hidden.
+	press = PRESS_SCENE.instantiate()
+	hud.add_child(press)
+	hud.move_child(press, voice_bar.get_index())
+	press.set_anchors_preset(Control.PRESET_CENTER)
+	press.offset_left = -press.custom_minimum_size.x / 2.0      # centered left to right
+	press.offset_right = press.custom_minimum_size.x / 2.0
+	press.offset_top = -press.custom_minimum_size.y / 2.0 - 90.0   # a little above the middle
+	press.offset_bottom = press.custom_minimum_size.y / 2.0 - 90.0
+	press.visible = false
+	press.finished.connect(_on_scrubber_press_finished)
+
 
 # Is a station screen open? (walk.gd then leaves the keys to us.)
 func panel_open() -> bool:
@@ -34,7 +49,7 @@ func panel_open() -> bool:
 
 # Something is going on at a station, so no "Press E" prompt.
 func is_busy() -> bool:
-	return panel.visible
+	return panel.visible or press_running
 
 
 # E or Esc closes the open screen.
@@ -53,6 +68,10 @@ func prompt_for(part_id: String) -> String:
 			if GameState.rationing:
 				return prompts["food_done"]
 			return "%s: %s" % [hint, prompts["food"]]
+		"station_air":
+			if GameState.scrubber_swapped:
+				return prompts["air_done"]
+			return "%s: %s" % [hint, prompts["air"]]
 	return ""
 
 
@@ -60,6 +79,8 @@ func use_station(part_id: String) -> void:
 	match part_id:
 		"station_food":
 			use_food()
+		"station_air":
+			use_air()
 
 
 # --- Food: ration ---------------------------------------------------------------
@@ -91,3 +112,31 @@ func freeze_player(frozen: bool) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if frozen else Input.MOUSE_MODE_CAPTURED
 	walk.player.set_physics_process(not frozen)
 	walk.player.set_process_unhandled_input(not frozen)
+
+
+# --- Air: swap the scrubber ---------------------------------------------------------
+# One timed press with the E key (the ring closes on the target). The result
+# decides how much air comes back (supplies.json "tasks" > "scrubber"). Even a
+# Miss swaps the scrubber, just less well.
+
+func use_air() -> void:
+	if GameState.scrubber_swapped:
+		walk.say(lines["scrubber_already"])
+		return
+	var scrubber: Dictionary = Data.supplies["tasks"]["scrubber"]
+	press_running = true
+	walk.player.set_physics_process(false)   # stand still while the ring closes
+	press.visible = true
+	walk.say(lines["scrubber_start"])
+	press.start(words["scrubber_label"], scrubber["press_speed"]["value"], scrubber["press_tightness"]["value"], press.ACTION_E)
+
+
+func _on_scrubber_press_finished(result: String) -> void:
+	var amount: float = Data.supplies["tasks"]["scrubber"]["restore"][result]["value"]
+	GameState.add_supply("air", amount)
+	GameState.scrubber_swapped = true
+	walk.say(lines["scrubber_" + result.to_lower()])
+	press_running = false
+	walk.player.set_physics_process(true)
+	await walk.get_tree().create_timer(Data.supplies["tasks"]["scrubber"]["result_show_seconds"]["value"]).timeout
+	press.visible = false
