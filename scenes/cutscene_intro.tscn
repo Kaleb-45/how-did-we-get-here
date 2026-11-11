@@ -1,0 +1,260 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cutscene_intro.gd" id="1_cut"]
+
+[sub_resource type="BoxMesh" id="Box_12_0p2_10"]
+size = Vector3(12, 0.2, 10)
+
+[sub_resource type="BoxMesh" id="Box_12_3p5_0p2"]
+size = Vector3(12, 3.5, 0.2)
+
+[sub_resource type="BoxMesh" id="Box_0p2_3p5_10"]
+size = Vector3(0.2, 3.5, 10)
+
+[sub_resource type="BoxMesh" id="Box_0p1_2p4_1p2"]
+size = Vector3(0.1, 2.4, 1.2)
+
+[sub_resource type="BoxMesh" id="Box_2_3_1p5"]
+size = Vector3(2, 3, 1.5)
+
+[sub_resource type="BoxMesh" id="Box_1p8_0p8_0p9"]
+size = Vector3(1.8, 0.8, 0.9)
+
+[sub_resource type="BoxMesh" id="Box_0p7_0p5_0p08"]
+size = Vector3(0.7, 0.5, 0.08)
+
+[sub_resource type="CapsuleMesh" id="Capsule"]
+radius = 0.3
+height = 1.7
+
+[sub_resource type="StandardMaterial3D" id="M_Floor"]
+albedo_color = Color(0.45, 0.45, 0.47, 1)
+
+[sub_resource type="StandardMaterial3D" id="M_Wall"]
+albedo_color = Color(0.6, 0.6, 0.62, 1)
+
+[sub_resource type="StandardMaterial3D" id="M_Door"]
+albedo_color = Color(0.3, 0.3, 0.32, 1)
+
+[sub_resource type="StandardMaterial3D" id="M_Furniture"]
+albedo_color = Color(0.5, 0.5, 0.52, 1)
+
+[sub_resource type="StandardMaterial3D" id="M_Monitor"]
+albedo_color = Color(0.15, 0.15, 0.17, 1)
+
+[sub_resource type="StandardMaterial3D" id="M_Person"]
+albedo_color = Color(0.75, 0.75, 0.78, 1)
+
+[node name="CutsceneIntro" type="Node3D"]
+script = ExtResource("1_cut")
+
+[node name="Room" type="Node3D" parent="."]
+
+[node name="Furniture" type="Node3D" parent="."]
+
+[node name="People" type="Node3D" parent="."]
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.7071, 0.7071, 0, -0.7071, 0.7071, 0, 8, 0)
+
+[node name="Floor" type="MeshInstance3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("Box_12_0p2_10")
+surface_material_override/0 = SubResource("M_Floor")
+
+[node name="WallNorth" type="MeshInstance3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -5)
+mesh = SubResource("Box_12_3p5_0p2")
+surface_material_override/0 = SubResource("M_Wall")
+
+[node name="WallSouth" type="MeshInstance3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 5)
+mesh = SubResource("Box_12_3p5_0p2")
+surface_material_override/0 = SubResource("M_Wall")
+
+[node name="WallEast" type="MeshInstance3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.75, 0)
+mesh = SubResource("Box_0p2_3p5_10")
+surface_material_override/0 = SubResource("M_Wall")
+
+[node name="WallWest" type="MeshInstance3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.75, 0)
+mesh = SubResource("Box_0p2_3p5_10")
+surface_material_override/0 = SubResource("M_Wall")
+
+[node name="Door" type="MeshInstance3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.85, 1.2, 2)
+mesh = SubResource("Box_0p1_2p4_1p2")
+surface_material_override/0 = SubResource("M_Door")
+
+[node name="SupplyCloset" type="MeshInstance3D" parent="Furniture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9, 1.5, -4.15)
+mesh = SubResource("Box_2_3_1p5")
+surface_material_override/0 = SubResource("M_Furniture")
+
+[node name="Desk1" type="MeshInstance3D" parent="Furniture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.4, -2.5)
+mesh = SubResource("Box_1p8_0p8_0p9")
+surface_material_override/0 = SubResource("M_Furniture")
+
+[node name="Monitor" type="MeshInstance3D" parent="Furniture/Desk1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, -0.2)
+mesh = SubResource("Box_0p7_0p5_0p08")
+surface_material_override/0 = SubResource("M_Monitor")
+
+[node name="Desk2" type="MeshInstance3D" parent="Furniture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.4, -2.5)
+mesh = SubResource("Box_1p8_0p8_0p9")
+surface_material_override/0 = SubResource("M_Furniture")
+
+[node name="Monitor" type="MeshInstance3D" parent="Furniture/Desk2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, -0.2)
+mesh = SubResource("Box_0p7_0p5_0p08")
+surface_material_override/0 = SubResource("M_Monitor")
+
+[node name="Desk3" type="MeshInstance3D" parent="Furniture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.4, 0.5)
+mesh = SubResource("Box_1p8_0p8_0p9")
+surface_material_override/0 = SubResource("M_Furniture")
+
+[node name="Monitor" type="MeshInstance3D" parent="Furniture/Desk3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, -0.2)
+mesh = SubResource("Box_0p7_0p5_0p08")
+surface_material_override/0 = SubResource("M_Monitor")
+
+[node name="Desk4" type="MeshInstance3D" parent="Furniture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.4, 0.5)
+mesh = SubResource("Box_1p8_0p8_0p9")
+surface_material_override/0 = SubResource("M_Furniture")
+
+[node name="Monitor" type="MeshInstance3D" parent="Furniture/Desk4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, -0.2)
+mesh = SubResource("Box_0p7_0p5_0p08")
+surface_material_override/0 = SubResource("M_Monitor")
+
+[node name="Person_General" type="Node3D" parent="People"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0, 2.8)
+
+[node name="Body" type="MeshInstance3D" parent="People/Person_General"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("Capsule")
+surface_material_override/0 = SubResource("M_Person")
+
+[node name="Label" type="Label3D" parent="People/Person_General"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+pixel_size = 0.012
+billboard = 1
+no_depth_test = true
+outline_size = 12
+
+[node name="Person_Commander" type="Node3D" parent="People"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="Body" type="MeshInstance3D" parent="People/Person_Commander"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("Capsule")
+surface_material_override/0 = SubResource("M_Person")
+
+[node name="Label" type="Label3D" parent="People/Person_Commander"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+pixel_size = 0.012
+billboard = 1
+no_depth_test = true
+outline_size = 12
+
+[node name="Person_Staff1" type="Node3D" parent="People"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -1.3)
+
+[node name="Body" type="MeshInstance3D" parent="People/Person_Staff1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("Capsule")
+surface_material_override/0 = SubResource("M_Person")
+
+[node name="Label" type="Label3D" parent="People/Person_Staff1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+pixel_size = 0.012
+billboard = 1
+no_depth_test = true
+outline_size = 12
+
+[node name="Person_Staff2" type="Node3D" parent="People"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -1.3)
+
+[node name="Body" type="MeshInstance3D" parent="People/Person_Staff2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("Capsule")
+surface_material_override/0 = SubResource("M_Person")
+
+[node name="Label" type="Label3D" parent="People/Person_Staff2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+pixel_size = 0.012
+billboard = 1
+no_depth_test = true
+outline_size = 12
+
+[node name="Person_Staff3" type="Node3D" parent="People"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 1.7)
+
+[node name="Body" type="MeshInstance3D" parent="People/Person_Staff3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("Capsule")
+surface_material_override/0 = SubResource("M_Person")
+
+[node name="Label" type="Label3D" parent="People/Person_Staff3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+pixel_size = 0.012
+billboard = 1
+no_depth_test = true
+outline_size = 12
+
+[node name="Person_AssistantScientist" type="Node3D" parent="People"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 0, 3)
+
+[node name="Body" type="MeshInstance3D" parent="People/Person_AssistantScientist"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("Capsule")
+surface_material_override/0 = SubResource("M_Person")
+
+[node name="Label" type="Label3D" parent="People/Person_AssistantScientist"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+pixel_size = 0.012
+billboard = 1
+no_depth_test = true
+outline_size = 12
+
+[node name="Person_Janitor" type="Node3D" parent="People"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 0, -2.8)
+
+[node name="Body" type="MeshInstance3D" parent="People/Person_Janitor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("Capsule")
+surface_material_override/0 = SubResource("M_Person")
+
+[node name="Label" type="Label3D" parent="People/Person_Janitor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+pixel_size = 0.012
+billboard = 1
+no_depth_test = true
+outline_size = 12
+
+[node name="Person_Student" type="Node3D" parent="People"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3.6)
+
+[node name="Body" type="MeshInstance3D" parent="People/Person_Student"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("Capsule")
+surface_material_override/0 = SubResource("M_Person")
+
+[node name="Label" type="Label3D" parent="People/Person_Student"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+pixel_size = 0.012
+billboard = 1
+no_depth_test = true
+outline_size = 12
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5736, 0.8192, 0, -0.8192, 0.5736, 0, 10, 7)
+current = true
+fov = 60.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

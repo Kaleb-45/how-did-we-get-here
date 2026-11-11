@@ -226,5 +226,18 @@
       "camera": "camera {amount}% damaged"
     },
     "next_button": "On to the ship"
+  },
+  "cutscene_intro": {
+    "_readme": "Names floating over the greybox people in scenes/cutscene_intro.tscn. The left side must match the person node name after Person_.",
+    "labels": {
+      "General": "General",
+      "Commander": "Commander",
+      "Staff1": "Staff 1",
+      "Staff2": "Staff 2",
+      "Staff3": "Staff 3",
+      "AssistantScientist": "Assistant Scientist",
+      "Janitor": "Janitor",
+      "Student": "Student"
+    }
   }
 }
