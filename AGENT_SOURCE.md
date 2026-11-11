@@ -41,6 +41,8 @@ Dates are local Pacific time, the same zone as the commit.
 ## 2. Design decisions
 
 ### Player experience
+- **In the intro cutscene (mission control war room), the Assistant Scientist, the Janitor and the Student are the three playable characters.** The Assistant Scientist capsule is the playable scientist (easy). Not a non-playing extra.
+  Why: "assistant is a play able character, so is janitor and the student." (2026-11-11)
 - **The general puts a person in charge: a scientist, the janitor or a student. The premise is the same for all three.** Later, in multiplayer, every player uses the same character type.
   Why: "The premise for all: the general puts this person in charge. Later, in multiplayer, every player uses the same character type." (2026-11-10) The original premise: "The player must plan a real NASA-style science mission with no training." (2026-11-08)
 - **An inner voice guides, warns and explains failures. It is the game's only teacher.**
