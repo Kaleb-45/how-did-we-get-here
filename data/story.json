@@ -138,6 +138,21 @@
       }
     }
   },
+  "crew_supplies": {
+    "_readme": "The Crew supplies group on the arm dashboard (shown in Flight and Arrival only). names and units = the words on each row. of_word = the words between the amount left and the full size, for example \"1250 kg of 1300\".",
+    "title": "Crew supplies",
+    "names": {
+      "food": "Food",
+      "water": "Water",
+      "air": "Air"
+    },
+    "units": {
+      "food": "kg",
+      "water": "L",
+      "air": "kg"
+    },
+    "of_word": "of"
+  },
   "dashboard": {
     "title": "Mission dashboard",
     "hint_small": "Tab = bigger",

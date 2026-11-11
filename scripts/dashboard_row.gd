@@ -41,6 +41,31 @@ func setup(resource_id: String) -> void:
 	bar.add_theme_stylebox_override("fill", fill_style)
 
 
+# A crew supply row (food, water or air) works the same way as a resource row.
+# Call this instead of setup(). The words are in story.json "crew_supplies".
+func setup_supply(supply_id: String) -> void:
+	res_id = supply_id
+	name_label.text = Data.story["crew_supplies"]["names"][supply_id]
+	fill_style = bar.get_theme_stylebox("fill").duplicate()
+	bar.add_theme_stylebox_override("fill", fill_style)
+
+
+# Show how much of a crew supply is left. status = "safe", "warning" or "danger".
+# The white marker shows the red line (supplies.json "status").
+func show_supply(amount: float, capacity: float, status: String) -> void:
+	var words: Dictionary = Data.story["crew_supplies"]
+	value_label.text = GameState.fmt(amount) + " " + words["units"][res_id]
+	limit_label.text = words["of_word"] + " " + GameState.fmt(capacity)
+	bar.max_value = capacity
+	bar.value = amount
+	var danger_spot: float = Data.supplies["status"]["danger_percent"]["value"] / 100.0
+	limit_marker.anchor_left = danger_spot
+	limit_marker.anchor_right = danger_spot
+	var color: Color = Color.html(Data.game_data["dashboard"]["colors"][status])
+	value_label.add_theme_color_override("font_color", color)
+	fill_style.bg_color = color
+
+
 # Compact = the small corner version: only the name and the bar.
 # The name takes the green/yellow/red color instead of the value,
 # and the white marker on the bar still shows where the limit is.

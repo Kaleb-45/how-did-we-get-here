@@ -96,6 +96,42 @@
       "what": "Power: the batteries ran out during the mission.",
       "why": "We flew into Mars' shadow. The solar panels got no sun, the batteries couldn't run everything, and power stayed in the red.",
       "fix": "When the alarm sounds, go to the power panel and switch off the heater or the antenna. The camera uses too little to help. Real NASA teams turn the heaters down before every shadow."
+    },
+    "food_empty": {
+      "title": "Food ran out",
+      "what": "Food: the crew ran out of food.",
+      "why": "The crew eats every day, about 1.8 kg each. The food store emptied before the trip was over.",
+      "fix": "Go to the Food station in Life Support and press E to start rationing early. Rationing makes the food last longer."
+    },
+    "water_empty": {
+      "title": "Water ran out",
+      "what": "Water: the crew ran out of water.",
+      "why": "The crew drinks every day, and a leak pours water out fast if nobody stops it.",
+      "fix": "When the voice warns about a leak, run to the Water station in Life Support and press E to stop it."
+    },
+    "air_empty": {
+      "title": "Air ran out",
+      "what": "Air: the crew ran out of air to breathe.",
+      "why": "Breathing uses up the air every day. A fresh scrubber puts air back, and nobody swapped it in time.",
+      "fix": "Go to the Air station in Life Support and press E to swap the scrubber. Press E again when the ring closes on the target."
+    },
+    "food_low": {
+      "title": "Food too low",
+      "what": "Food: the store was almost empty at the end.",
+      "why": "The crew eats every day, and the food was not rationed, so it ran too low.",
+      "fix": "Go to the Food station in Life Support and press E to start rationing. Rationing makes the food last longer."
+    },
+    "water_low": {
+      "title": "Water too low",
+      "what": "Water: the tank was almost empty at the end.",
+      "why": "The crew drinks every day. A leak that is fixed late loses a lot of water.",
+      "fix": "When the voice warns about a leak, run to the Water station in Life Support and press E at once."
+    },
+    "air_low": {
+      "title": "Air too low",
+      "what": "Air: the air was almost gone at the end.",
+      "why": "Breathing uses up the air every day, and the scrubber was not swapped (or was swapped badly).",
+      "fix": "Go to the Air station in Life Support and press E to swap the scrubber. A press close to the target puts back more air."
     }
   },
   "parts": {
@@ -196,6 +232,18 @@
     "mission_lifetime": {
       "warning": "No spare months. The spacecraft will barely last.",
       "danger": "The spacecraft won't last long enough!"
+    },
+    "food": {
+      "warning": "The food is running low. The crew gets hungry.",
+      "danger": "The food is almost gone! The crew is in trouble."
+    },
+    "water": {
+      "warning": "The water is running low. Everyone is thirsty.",
+      "danger": "The water is almost gone! The crew is in trouble."
+    },
+    "air": {
+      "warning": "The air is getting stale. The meter is low.",
+      "danger": "The air is almost gone! The crew can barely breathe."
     }
   },
   "launch": {

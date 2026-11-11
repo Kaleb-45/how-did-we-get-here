@@ -43,7 +43,12 @@ var damage: Dictionary = {}
 # One entry per timed press: { "stage": "launch", "moment": "liftoff", "result": "Perfect" }
 # The result is "Perfect", "Good" or "Miss".
 var timing_results: Array = []
-var findings: Array = []              # science the mission found
+var findings: Array = []              # things that went wrong on the way (crew supplies at zero)
+# Crew supplies (data/supplies.json). crew_supplies above holds how much is left.
+var supplies_started: bool = false    # true once the ship has been stocked
+var rationing: bool = false           # true once the player rations the food (Food station)
+var leak_active: bool = false         # true while the water leak is pouring (Flight)
+var scrubber_swapped: bool = false    # true once the player swapped the scrubber (Air station)
 
 
 func _ready() -> void:
@@ -67,6 +72,10 @@ func to_dict() -> Dictionary:
 		"damage": damage.duplicate(true),
 		"timing_results": timing_results.duplicate(true),
 		"findings": findings.duplicate(true),
+		"supplies_started": supplies_started,
+		"rationing": rationing,
+		"leak_active": leak_active,
+		"scrubber_swapped": scrubber_swapped,
 		"event_failures": event_failures.duplicate(true),
 		"mission_months": mission_months,
 		"data_collected": data_collected,
@@ -92,6 +101,10 @@ func from_dict(d: Dictionary) -> void:
 	damage = d.get("damage", damage).duplicate(true)
 	timing_results = d.get("timing_results", timing_results).duplicate(true)
 	findings = d.get("findings", findings).duplicate(true)
+	supplies_started = d.get("supplies_started", supplies_started)
+	rationing = d.get("rationing", rationing)
+	leak_active = d.get("leak_active", leak_active)
+	scrubber_swapped = d.get("scrubber_swapped", scrubber_swapped)
 	event_failures = d.get("event_failures", event_failures).duplicate(true)
 	mission_months = d.get("mission_months", mission_months)
 	data_collected = d.get("data_collected", data_collected)
@@ -114,6 +127,9 @@ func start_new_attempt() -> void:
 	# The launch starts again too. The parts, name, character and rocket stay.
 	damage.clear()
 	timing_results.clear()
+	# The crew supplies, the findings and the leak start again too.
+	clear_supplies()
+	findings.clear()
 
 
 # --- The launch (timed presses) -------------------------------------------
@@ -132,6 +148,130 @@ func record_press(stage: String, moment_id: String, result: String) -> void:
 # Adds damage (or lost fuel). kind is "fuel" or a part name. amount is a percent.
 func add_damage(kind: String, amount: float) -> void:
 	damage[kind] = damage.get(kind, 0.0) + amount
+
+
+# --- Crew supplies (food, water, air) --------------------------------------
+# A separate group from the six resources. They show in Flight and Arrival.
+# Every number is in data/supplies.json. Each one drops by:
+#   (use per person per day) x (crew size) x (game days that passed)
+
+const SUPPLY_IDS: Array = ["food", "water", "air"]
+
+
+# Stock the ship: every supply at its start amount, no rationing, no leak.
+func start_supplies() -> void:
+	for id in SUPPLY_IDS:
+		crew_supplies[id] = float(Data.supplies["start_amount"][id]["value"])
+	rationing = false
+	leak_active = false
+	scrubber_swapped = false
+	supplies_started = true
+	findings.clear()
+	for id in SUPPLY_IDS:   # old crew problems from a last try are gone
+		event_failures.erase(id + "_empty")
+		event_failures.erase(id + "_low")
+
+
+# Safety net: if the walk starts without a Flight (Play on the walk scene), stock the ship.
+func ensure_supplies() -> void:
+	if not supplies_started:
+		start_supplies()
+
+
+# "Try again": no supplies, no leak, no rationing. (Parts, name, character and rocket stay.)
+func clear_supplies() -> void:
+	for id in SUPPLY_IDS:
+		crew_supplies[id] = 0.0
+	rationing = false
+	leak_active = false
+	scrubber_swapped = false
+	supplies_started = false
+
+
+# How much the whole crew uses in one game day.
+func get_supply_use_per_day(id: String) -> float:
+	var use: float = Data.supplies["per_person_per_day"][id]["value"] * Data.supplies["crew_size"]["value"]
+	if id == "food" and rationing:
+		use *= Data.supplies["tasks"]["ration"]["food_use_factor"]["value"]
+	return use
+
+
+# Some game days passed: the crew used some supplies.
+func advance_supplies(days_passed: float) -> void:
+	for id in SUPPLY_IDS:
+		crew_supplies[id] = maxf(0.0, crew_supplies[id] - get_supply_use_per_day(id) * days_passed)
+
+
+# The water leak: it pours out liters_per_second every real second.
+func drain_leak(delta: float) -> void:
+	if leak_active:
+		var rate: float = Data.events["water_leak"]["drain_liters_per_second"]["value"]
+		crew_supplies["water"] = maxf(0.0, crew_supplies["water"] - rate * delta)
+
+
+# Put air (or anything else) back, but never above the meter's capacity.
+func add_supply(id: String, amount: float) -> void:
+	crew_supplies[id] = minf(get_supply_capacity(id), crew_supplies[id] + amount)
+
+
+func get_supply_capacity(id: String) -> float:
+	return float(Data.supplies["capacity"][id]["value"])
+
+
+# "safe" (green), "warning" (yellow) or "danger" (red). The thresholds are a
+# percent of the meter's capacity (supplies.json "status").
+func get_supply_status(id: String) -> String:
+	var percent: float = crew_supplies[id] / get_supply_capacity(id) * 100.0
+	if percent < Data.supplies["status"]["danger_percent"]["value"]:
+		return "danger"
+	if percent < Data.supplies["status"]["warning_percent"]["value"]:
+		return "warning"
+	return "safe"
+
+
+func get_supply_statuses() -> Dictionary:
+	var statuses: Dictionary = {}
+	for id in SUPPLY_IDS:
+		statuses[id] = get_supply_status(id)
+	return statuses
+
+
+# The worst of the three supply colors (the wrist light uses it).
+func get_worst_supply_status() -> String:
+	var worst := "safe"
+	for id in SUPPLY_IDS:
+		var status: String = get_supply_status(id)
+		if status == "danger":
+			return "danger"
+		if status == "warning":
+			worst = "warning"
+	return worst
+
+
+# A supply at zero is a finding and costs some damage. It happens once per supply.
+func check_empty_supplies() -> void:
+	if not supplies_started:
+		return
+	for id in SUPPLY_IDS:
+		if crew_supplies[id] <= 0.0 and not event_failures.has(id + "_empty"):
+			add_crew_finding(id)
+
+
+func add_crew_finding(id: String) -> void:
+	var cost: Dictionary = Data.supplies["empty_damage"]
+	findings.append({ "supply": id, "finding": id + "_empty" })
+	event_failures.append(id + "_empty")   # the debrief makes a card from it
+	add_damage(cost["kind"], cost["amount"]["value"])
+
+
+# At the end of Arrival: a supply that is still red is a failure (unless it
+# already has its "ran out" finding).
+func add_end_of_supply_failures() -> void:
+	if not supplies_started:
+		return
+	for id in SUPPLY_IDS:
+		if get_supply_status(id) == "danger" and not event_failures.has(id + "_empty") and not event_failures.has(id + "_low"):
+			event_failures.append(id + "_low")
 
 
 # --- The live mission (3D walk) ------------------------------------------
@@ -181,6 +321,7 @@ func add_end_of_mission_failures() -> void:
 			failure_id = res_id
 		if not event_failures.has(failure_id):
 			event_failures.append(failure_id)
+	add_end_of_supply_failures()   # red crew supplies count too
 
 
 # Call every frame during the walk. delta = real seconds since last frame.

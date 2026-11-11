@@ -1,5 +1,6 @@
 # dashboard.gd
-# The mission dashboard: one row per resource.
+# The mission dashboard: one row per resource, and (in Flight and Arrival)
+# a "Crew supplies" group with food, water and air.
 # It does NOT calculate anything. The screen that owns it hands it the
 # six values, and the dashboard draws them:
 #     %Dashboard.show_values(GameState.get_totals())
@@ -15,6 +16,11 @@ const ROW = preload("res://scenes/dashboard_row.tscn")
 
 # One row per resource, for example { "budget": <row>, ... }
 var rows: Dictionary = {}
+
+# The "Crew supplies" group (food, water, air). It is built the first time a
+# screen asks for it (Flight and Arrival), so Build never shows it.
+var supply_rows: Dictionary = {}
+var supply_group: VBoxContainer
 
 
 func _ready() -> void:
@@ -39,8 +45,38 @@ func set_compact(compact: bool) -> void:
 
 
 # Make one row flash (for example "power" during the alarm), or stop it.
+# It can be a crew supply too (for example "water" during the leak).
 func set_flashing(res_id: String, on: bool) -> void:
-	rows[res_id].set_flashing(on)
+	if rows.has(res_id):
+		rows[res_id].set_flashing(on)
+	elif supply_rows.has(res_id):
+		supply_rows[res_id].set_flashing(on)
+
+
+# Draw the Crew supplies group: food, water and air, below the six resources.
+# amounts = { "food": 1300, ... }  statuses = { "food": "safe", ... } (from GameState)
+func show_supplies(amounts: Dictionary, statuses: Dictionary) -> void:
+	if supply_group == null:
+		build_supply_group()
+	for id in supply_rows:
+		supply_rows[id].show_supply(amounts[id], GameState.get_supply_capacity(id), statuses[id])
+
+
+func build_supply_group() -> void:
+	supply_group = VBoxContainer.new()
+	supply_group.add_theme_constant_override("separation", 10)
+	$Column.add_child(supply_group)
+
+	var header := Label.new()
+	header.text = Data.story["crew_supplies"]["title"]
+	header.theme_type_variation = &"AccentText"
+	supply_group.add_child(header)
+
+	for id in GameState.SUPPLY_IDS:
+		var row = ROW.instantiate()
+		supply_group.add_child(row)
+		row.setup_supply(id)
+		supply_rows[id] = row
 
 
 # Draw all six values. values = { "budget": 330, "mass": 690, ... }

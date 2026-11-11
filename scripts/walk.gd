@@ -67,6 +67,9 @@ func _ready() -> void:
 	reroute_panel.switch_changed.connect(_on_switch_changed)
 	prompt_label.text = ""
 
+	# The crew supplies: stocked once, then they keep dropping (see _process).
+	GameState.ensure_supplies()
+
 	# The mission clock starts at zero. The dashboard is hidden until Tab.
 	GameState.start_mission()
 	remember_build_colors()
@@ -101,12 +104,23 @@ func _on_zone_exited(body: Node3D, zone: Area3D) -> void:
 func _process(delta: float) -> void:
 	if not mission_over:
 		GameState.advance_mission(delta)   # mission time moves forward (it stops at the end)
+		GameState.advance_supplies(crew_days_passed(delta))   # the crew eats, drinks and breathes
+		GameState.check_empty_supplies()
 	update_dashboard()
 	update_wrist_panel()
 	update_alarm(delta)
 	update_mission_end()
 	update_prompt()
 	update_voice(delta)
+
+
+# How many game days the crew supplies lose this frame. The Arrival walk stands
+# for supplies.json "arrival_crew_days" days, spread over the whole mission.
+func crew_days_passed(delta: float) -> float:
+	var clock: Dictionary = Data.game_data["mission_clock"]
+	var mission_months: float = GameState.get_limits()["mission_lifetime"]["value"]
+	var days_per_month: float = Data.supplies["arrival_crew_days"]["value"] / mission_months
+	return delta * clock["months_per_second"] * days_per_month
 
 
 # GameState works out the live numbers; the dashboard draws them.
@@ -116,13 +130,23 @@ func update_dashboard(check_warnings: bool = true) -> void:
 	var values: Dictionary = GameState.get_live_values()
 	var limits: Dictionary = GameState.get_live_limits()
 	dashboard.show_values(values, limits, true)
+	dashboard.show_supplies(GameState.crew_supplies, GameState.get_supply_statuses())   # Crew supplies group
 	if check_warnings:
 		check_for_warnings(values, limits)
 		# The wrist light shows the worst row: green, yellow or red.
-		arm.show_status(GameState.get_worst_status(values, limits))
+		arm.show_status(worse_of(GameState.get_worst_status(values, limits), GameState.get_worst_supply_status()))
 	else:
 		# First frame: use the build's colors (what the player saw on Review).
 		arm.show_status(GameState.get_worst_status(GameState.get_totals(), GameState.get_limits()))
+
+
+# The worse of two colors: "danger" beats "warning" beats "safe".
+func worse_of(a: String, b: String) -> String:
+	if a == "danger" or b == "danger":
+		return "danger"
+	if a == "warning" or b == "warning":
+		return "warning"
+	return "safe"
 
 
 # Each row's color last frame, for example { "power": "safe", ... }
@@ -136,6 +160,8 @@ func remember_build_colors() -> void:
 	var limits: Dictionary = GameState.get_limits()
 	for res_id in totals:
 		last_status[res_id] = GameState.get_status(totals[res_id], limits[res_id])
+	for id in GameState.SUPPLY_IDS:
+		last_status[id] = GameState.get_supply_status(id)
 
 
 # When a row CHANGES to yellow or red, the inner voice warns us.
@@ -151,6 +177,14 @@ func check_for_warnings(values: Dictionary, limits: Dictionary) -> void:
 		if res_id == "power" and alarm_stage != "waiting":
 			continue   # the shadow pass has started: the alarm lines already talk about power
 		say_warning(Data.voice["dashboard_warnings"][res_id][status])
+
+	# The crew supplies warn the same way: only when a color changes.
+	for id in GameState.SUPPLY_IDS:
+		var supply_status: String = GameState.get_supply_status(id)
+		var supply_before: String = last_status.get(id, "")
+		last_status[id] = supply_status
+		if supply_status != supply_before and supply_status != "safe":
+			say_warning(Data.voice["dashboard_warnings"][id][supply_status])
 
 
 # --- Talking ----------------------------------------------------------------
