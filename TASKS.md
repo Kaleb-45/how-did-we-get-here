@@ -164,6 +164,12 @@ The old unfinished steps, kept here until Phase C is done (unless Kaleb says so)
   submission needs. Update `CLAUDE.md` and `reviewer.md`.
 - [ ] **11. Public link for judges.** MUST · S
   Host the newest tested `build/web`. Where to host it is still open.
+- [x] **19a. Intro cutscene greybox (war room).** NICE · M
+  `scenes/cutscene_intro.tscn`: octagon room, glowing table, 5 screens, 8 named
+  capsules, empty AnimationPlayer. Kaleb tested: pass (2026-11-11).
+- [ ] **19b. Animate the intro cutscene.** NICE · L
+  Animate the capsules and camera, add Mars map textures to Screen_1 to Screen_5, and
+  connect the cutscene to the Intro stage. Not started.
 - [ ] **5a. Windows in the rooms.** NICE · S
 - [ ] **5b. Chosen parts outside the windows.** NICE · M
 - [ ] **5c. Press E at a window to inspect the part.** NICE · S
