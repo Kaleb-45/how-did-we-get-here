@@ -347,7 +347,8 @@
       "bridge": { "x": [-5, 5], "z": [-14, -6], "door": "south" },
       "power_room": { "x": [1.5, 9.5], "z": [-5, 3], "door": "west" },
       "science_bay": { "x": [-9.5, -1.5], "z": [-5, 3], "door": "east" },
-      "comms_room": { "x": [-5, 5], "z": [10, 18], "door": "north" }
+      "comms_room": { "x": [-5, 5], "z": [10, 18], "door": "north" },
+      "life_support": { "x": [1.5, 9.5], "z": [4, 9], "door": "west" }
     },
     "player_start": [0, 0, -11],
     "player_facing_degrees": 180,
@@ -363,7 +364,10 @@
     "station_markers": {
       "_readme": "Glowing floor squares for stations we will build later. Each one = [x, z] on the floor, inside that room. The text is in story.json (ship / future_stations).",
       "science_bay": [-5.5, -1],
-      "comms_room": [0, 14]
+      "comms_room": [0, 14],
+      "life_support_food": [4, 7.5],
+      "life_support_water": [6, 7.5],
+      "life_support_air": [8, 7.5]
     },
     "marker_size": 1.6,
     "marker_color": "#3fd0ff",

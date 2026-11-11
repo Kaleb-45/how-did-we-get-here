@@ -66,11 +66,15 @@
       "bridge": "BRIDGE",
       "power_room": "POWER ROOM",
       "science_bay": "SCIENCE BAY",
-      "comms_room": "COMMS ROOM"
+      "comms_room": "COMMS ROOM",
+      "life_support": "LIFE SUPPORT"
     },
     "future_stations": {
       "science_bay": "Future station: Data",
-      "comms_room": "Future station: Comms"
+      "comms_room": "Future station: Comms",
+      "life_support_food": "Food station",
+      "life_support_water": "Water station",
+      "life_support_air": "Air station"
     }
   },
   "walk_screen": {

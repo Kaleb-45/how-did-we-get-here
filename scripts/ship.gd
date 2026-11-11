@@ -1,6 +1,6 @@
 # ship.gd
 # Builds the ship interior (a "graybox": plain boxes, no art) from the numbers
-# in game_data.json ("ship"): one hallway and four rooms, a name sign over
+# in game_data.json ("ship"): one hallway and five rooms, a name sign over
 # each doorway, and glowing markers where future stations will go
 # (the words are in story.json "ship"). Every floor, wall
 # and ceiling is solid, and each room has a doorway into the hallway.
