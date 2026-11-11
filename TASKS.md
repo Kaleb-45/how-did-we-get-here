@@ -63,13 +63,13 @@ to the conflict list C1–C16. Submission is Nov 14–15.
 
 ### Batch 3: Timed press and Launch (GAME_PLAN 12a, 6a)
 
-- [ ] **A8. Timed-press scene and test bench.** M
+- [x] **A8. Timed-press scene and test bench.** M
   One reusable scene: a ring closes on a target. It returns Perfect, Good or Miss.
   Inputs: label, speed, window size (from `data/timing.json`) and key (Space or E). It also takes a mouse click or tap.
   Test: run the test bench with F6. Press early, on time and late, and see Miss,
   Perfect and Good. Switch the key to E, and Space does nothing.
 
-- [ ] **A9. Launch screen with 3 timed presses (Space).** M
+- [x] **A9. Launch screen with 3 timed presses (Space).** M
   A gray side view of the rocket and 3 moments (liftoff, stage separation, engine
   cutoff). The player cannot move. A miss adds a cost to GameState (lost fuel or
   damage, PLACEHOLDER). It always goes on.
