@@ -171,6 +171,8 @@ The old unfinished steps, kept here until Phase C is done (unless Kaleb says so)
   Animate the characters and camera, add Mars map textures to Screen_1 to Screen_5, and
   connect the cutscene to the Intro stage. Camera and people animation, subtitles and
   fade are built (23 s, ends at the name screen). Kaleb tested: pass (2026-11-11).
+  Re-directed as a polished short (27.5 s, 11 shots, Mars map shader, letterbox,
+  speaker-name subtitles); waiting for Kaleb's test.
   Still to do: Mars map textures, and the Intro connection (add `cutscene_intro` to
   `stages.order` after `intro`, then use `go_next()` instead of `go_to("name")`).
 - [ ] **19c. Toy-like character scenes.** NICE · M

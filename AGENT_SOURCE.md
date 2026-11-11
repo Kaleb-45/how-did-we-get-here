@@ -204,6 +204,8 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "The control hints at the top of the walk screen are too small to read. Make them larger." (2026-11-08)
 - **Characters are cute, rounded, toy-like, made only from built-in shapes: one rounded body with no neck, small capsule arms, short legs with round shoes, round hands with no fingers. The top of the head is a lid that hinges at the back and flips open to talk. Each person is easy to know by shape: General = V shape, Janitor = squash, Assistant Scientist = tall thin cylinder, Student = small. No clothes yet.**
   Why: "Style: cute, rounded, toy-like." (2026-11-11)
+- **The intro cutscene is directed like a polished animated short: hard cuts with eased camera moves, letterbox bars, a fade-in from black, warm key lights and cool rim lights, a dim table, code-drawn Mars maps on the screens (blue and amber), and subtitles with no box and an amber speaker name. Under 30 seconds. Primitive meshes and code-made graphics only.**
+  Why: "Make it look like a polished animated short." Kaleb approved the 11-shot list with "yes" (2026-11-11).
 - **Character art proportions (leg length, arm thickness, eye and mustache sizes) stay as constants in the character scripts, not in `game_data.json`.** They are drawing choices, not game numbers.
   Why: Kaleb answered "yes, do both" to keeping them in the scripts (2026-11-11).
 - **The intro shows Kaleb's own character art for the general and the janitor.**
