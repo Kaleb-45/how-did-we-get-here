@@ -149,6 +149,8 @@ Dates are local Pacific time, the same zone as the commit.
   Why: Kaleb picked "All 3 tables first (Recommended)" (2026-11-09).
 - **Real hardware for the parts: small solar = Mars Odyssey array, medium = MAVEN arrays, large = MRO arrays (both wings, 96.6 kg), basic camera = MRO CTX, high-res camera = MRO HiRISE, small antenna = Mars Odyssey 1.3 m high-gain antenna, large antenna = MRO 3 m high-gain antenna, heater = all MRO heaters.**
   Why: "pass" on the 7a–7c tables, accepting the recommended answers (2026-11-10).
+- **Crew supplies per person per day: food 1.831 kg (with packaging; Lopez et al., NASA JSC, NTRS 20150003005, "BVAD Table & ISS experience"), water 2.5 L (NASA-STD-3001 OCHMO-TB-027, minimum potable water for hydration), oxygen 0.82 kg (Lopez et al., "O 2 Metabolic ... HIDH / BVAD"). Crew size, start amounts, task effects and the leak rate stay PLACEHOLDER.** The ECLSS brief's 1.083 kg/day oxygen (with 2 h exercise) was offered and not picked.
+  Why: "pass" on the A11 table (2026-11-10).
 - **Every number comes from a NASA source. News sources do not count: where NASA has no number (for example HiRISE cost), write "no public source" and keep the game value.**
   Why: "pass", accepting the recommendation (2026-11-10).
 - **A peer-reviewed science paper by the NASA instrument team counts as a source when no NASA page has the number (for example HiRISE data per day, McEwen et al. 2007). News sources still do not count.**

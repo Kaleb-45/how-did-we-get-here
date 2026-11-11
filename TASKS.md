@@ -78,7 +78,7 @@ to the conflict list C1–C16. Submission is Nov 14–15.
 
 ### Batch 4: Stage 3 Flight (GAME_PLAN 6b)
 
-- [ ] **A10. Life Support room.** M
+- [x] **A10. Life Support room.** M
   A fifth graybox room off the hallway, with a sign (from `story.json`) and spots
   for the food, water and air stations.
   Test: walk into all five rooms. The walls are solid, and the new sign reads
