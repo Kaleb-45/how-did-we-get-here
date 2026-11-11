@@ -238,6 +238,13 @@
       "AssistantScientist": "Assistant Scientist",
       "Janitor": "Janitor",
       "Student": "Student"
+    },
+    "subtitles": {
+      "_readme": "The subtitle lines at the bottom of the cutscene. The AnimationPlayer calls show_subtitle with one of these names at the right time.",
+      "commander_quit": "I quit!",
+      "general_who": "This mission launches on schedule. Who will run it?",
+      "general_need": "I need somebody. Anybody!",
+      "general_you": "You. I want you."
     }
   }
 }
