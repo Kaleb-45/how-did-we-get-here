@@ -30,11 +30,11 @@ to the conflict list C1–C16. Submission is Nov 14–15.
 
 ### Batch 2: Setup questions (GAME_PLAN 3)
 
-- [ ] **A3. Question 1: "What is your name?"** S
+- [x] **A3. Question 1: "What is your name?"** S
   A plain screen with a text box and Next, after the intro.
   Test: type a name, play a round, and see the name on the mission report.
 
-- [ ] **A4. Question 2: "Who are you?" with three levels.** M
+- [x] **A4. Question 2: "Who are you?" with three levels.** M
   Character select shows Scientist, Janitor and Student. New `data/levels.json`
   holds the hint detail per level. Levels change guidance only; budget, timing and
   supply use are the same for everyone (Kaleb, 2026-11-10). Scientist and Student show the
@@ -42,18 +42,18 @@ to the conflict list C1–C16. Submission is Nov 14–15.
   Test: pick each character in turn. The Build budget limit reads $671M for all
   three. Each card shows its level word from story.json.
 
-- [ ] **A5. Question 3: "Where are we going?"** S
+- [x] **A5. Question 3: "Where are we going?"** S
   New `data/destinations.json` with one entry, Mars orbit (orbit type, crew: yes).
   One card on a plain screen.
   Test: pick Mars orbit, and the next question appears.
 
-- [ ] **A6. Question 4: "What is the mission for?"** S
+- [x] **A6. Question 4: "What is the mission for?"** S
   Grow mission select: the "Map the ice on Mars" card shows its 3 success rules as
   a checklist: send home at least 4 Gb/day, keep the spacecraft working 24 months,
   communications at least 0.6 Mb/s.
   Test: the card lists the rules. The report later checks the same rules.
 
-- [ ] **A7. Question 5: "What kind of rocket?"** M
+- [x] **A7. Question 5: "What kind of rocket?"** M
   Three launch vehicle cards. Each sets the number and tightness of launch moments
   and a cost. The middle rocket's cost is taken out of the $490M spacecraft base, so
   it keeps today's balance. The $671M and 1,031 kg limits do not change. New numbers
