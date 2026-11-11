@@ -25,6 +25,7 @@ func _ready() -> void:
 		# No subtitle line for missions, so we pass "" and the card hides it.
 		card.setup(words["name"], "", words["description"], words["button"])
 		card.set_extra(make_checklist(mission_id))
+		card.custom_minimum_size.x = 860   # only one mission, so the card can be wide
 		cards.append(card)
 		card.chosen.connect(_on_mission_chosen.bind(mission_id))
 
