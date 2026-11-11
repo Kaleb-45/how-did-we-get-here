@@ -158,5 +158,35 @@
       "Miss": "Miss"
     },
     "windows_line": "Windows: Perfect {perfect} s, Good {good} s"
+  },
+  "launch_screen": {
+    "_readme": "Words for the Launch screen (Stage 2). moments = the names of the launch moments. cost_kinds = how a Miss cost is written ({amount} is a percent).",
+    "title": "Launch!",
+    "hint": "Press SPACE (or click) when the ring closes on the target.",
+    "get_ready": "Get ready...",
+    "waiting": "...",
+    "moments": {
+      "liftoff": "Liftoff",
+      "max_pressure": "Max pressure",
+      "stage_separation": "Stage separation",
+      "fairing_release": "Fairing release",
+      "engine_cutoff": "Engine cutoff"
+    },
+    "results": {
+      "Perfect": "Perfect",
+      "Good": "Good",
+      "Miss": "Miss"
+    },
+    "summary_title": "Launch summary",
+    "no_losses": "No losses. A clean launch!",
+    "costs_title": "What the misses cost:",
+    "cost_line": "{moment}: {cost}",
+    "cost_kinds": {
+      "fuel": "lost {amount}% of the fuel",
+      "solar_panel": "solar panel {amount}% damaged",
+      "antenna": "antenna {amount}% damaged",
+      "camera": "camera {amount}% damaged"
+    },
+    "next_button": "On to the ship"
   }
 }

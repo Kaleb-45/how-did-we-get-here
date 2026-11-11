@@ -23,6 +23,8 @@
 ;   BannerText   the POWER LOW alarm                     46
 ; Timed press (the closing ring), type name TimedPress, read with get_theme_color:
 ;   ring_color, target_color, perfect_zone_color, good_zone_color, backdrop_color
+; Launch side view (plain gray rectangles), type name RocketView:
+;   sky_color, ground_color, body_color, nose_color, fin_color, flame_color, stage_line_color
 ; Boxes and buttons:
 ;   ScreenBackground  the navy background of a screen (a Panel)
 ;   NavyPanel         cards, the dashboard, the review table
@@ -196,3 +198,10 @@ TimedPress/colors/target_color = Color(1, 1, 1, 1)
 TimedPress/colors/perfect_zone_color = Color(1, 0.6, 0.2, 0.85)
 TimedPress/colors/good_zone_color = Color(0.45, 0.5, 0.62, 0.7)
 TimedPress/colors/backdrop_color = Color(0.03, 0.06, 0.14, 1)
+RocketView/colors/sky_color = Color(0.2, 0.22, 0.27, 1)
+RocketView/colors/ground_color = Color(0.4, 0.42, 0.46, 1)
+RocketView/colors/body_color = Color(0.75, 0.77, 0.8, 1)
+RocketView/colors/nose_color = Color(0.58, 0.6, 0.64, 1)
+RocketView/colors/fin_color = Color(0.5, 0.52, 0.56, 1)
+RocketView/colors/flame_color = Color(1, 0.6, 0.2, 1)
+RocketView/colors/stage_line_color = Color(0.3, 0.32, 0.36, 1)

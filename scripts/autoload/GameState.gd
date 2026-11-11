@@ -37,8 +37,12 @@ var destination_id: String = ""       # where the mission goes
 var goal_id: String = ""              # what the mission wants to find out
 var launch_vehicle_id: String = ""    # which rocket the player picked
 var crew_supplies: Dictionary = { "food": 0.0, "water": 0.0, "air": 0.0 }
-var damage: Dictionary = {}           # damage the ship took, by part
-var timing_results: Array = []        # "Perfect", "Good" or "Miss" from timed presses
+# Launch misses are saved here: "fuel" (percent of fuel lost) and part names
+# like "solar_panel" (percent damaged). See add_damage().
+var damage: Dictionary = {}
+# One entry per timed press: { "stage": "launch", "moment": "liftoff", "result": "Perfect" }
+# The result is "Perfect", "Good" or "Miss".
+var timing_results: Array = []
 var findings: Array = []              # science the mission found
 
 
@@ -107,6 +111,27 @@ func get_all_failures() -> Array:
 # so "Try again" lets the player change just one thing.
 func start_new_attempt() -> void:
 	event_failures.clear()
+	# The launch starts again too. The parts, name, character and rocket stay.
+	damage.clear()
+	timing_results.clear()
+
+
+# --- The launch (timed presses) -------------------------------------------
+
+# Call when the Launch screen opens: no damage and no results yet.
+func start_launch() -> void:
+	damage.clear()
+	timing_results.clear()
+
+
+# Saves one timed-press result.
+func record_press(stage: String, moment_id: String, result: String) -> void:
+	timing_results.append({ "stage": stage, "moment": moment_id, "result": result })
+
+
+# Adds damage (or lost fuel). kind is "fuel" or a part name. amount is a percent.
+func add_damage(kind: String, amount: float) -> void:
+	damage[kind] = damage.get(kind, 0.0) + amount
 
 
 # --- The live mission (3D walk) ------------------------------------------

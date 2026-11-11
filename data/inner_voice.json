@@ -197,5 +197,28 @@
       "warning": "No spare months. The spacecraft will barely last.",
       "danger": "The spacecraft won't last long enough!"
     }
+  },
+  "launch": {
+    "_readme": "What the inner voice says during Launch. start = when the screen opens. results = one short line per moment result (the game takes them in turn). summary_clean / summary_costs = after the last moment. The voice is never wrong. The levels do not change these lines yet.",
+    "start": "A rocket launch. A ring closes on a target. I press Space when they line up. Easy. Probably.",
+    "results": {
+      "Perfect": [
+        "Perfect! Right on the target. I have no idea how I did that.",
+        "Bullseye! I will pretend I planned that.",
+        "Perfect again! My thumb is a genius."
+      ],
+      "Good": [
+        "Good! Close to the target. Close counts.",
+        "Not perfect, but good. Good is fine. Good is great, really.",
+        "Good enough! Our rocket is still happy."
+      ],
+      "Miss": [
+        "Missed it! That will cost us something. But the mission is not over.",
+        "Too early or too late. Oops. Something got hurt, but we keep flying.",
+        "Miss. The ring has to line up with the target. Next time!"
+      ]
+    },
+    "summary_clean": "Nothing lost at all! A perfect launch. I may have just been lucky.",
+    "summary_costs": "Some misses. The list shows what they cost us. But we are still flying! Next, the ship."
   }
 }
