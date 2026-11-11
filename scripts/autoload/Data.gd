@@ -20,6 +20,8 @@ var characters: Dictionary = {}
 var destinations: Dictionary = {}   # from data/destinations.json
 var timing: Dictionary = {}   # from data/timing.json (launch moments)
 var levels: Dictionary = {}   # from data/levels.json: what each level changes
+var supplies: Dictionary = {}   # from data/supplies.json: crew food, water and air
+var events: Dictionary = {}   # from data/events.json: Flight events (the water leak)
 
 
 # _ready() runs automatically when this node starts.
@@ -30,6 +32,8 @@ func _ready() -> void:
 	levels = load_json("res://data/levels.json").get("levels", {})
 	timing = load_json("res://data/timing.json")
 	destinations = load_json("res://data/destinations.json").get("destinations", {})
+	supplies = load_json("res://data/supplies.json")
+	events = load_json("res://data/events.json").get("events", {})
 
 	resources = game_data.get("resources", {})
 	parts = game_data.get("parts", {})

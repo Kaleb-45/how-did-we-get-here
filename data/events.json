@@ -1,0 +1,25 @@
+{
+  "_readme": "Events that happen during a stage. Each event has a stage, a station (a place on the ship) and facts written as { \"value\": ..., \"source\": ... }. A source is a link, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). The Mars shadow pass is NOT here: it is a Mars-orbit event and lives in game_data.json (events, power_low). The words on the screen are in data/inner_voice.json (flight) and data/story.json (flight).",
+  "events": {
+    "water_leak": {
+      "stage": "flight",
+      "supply": "water",
+      "station": {
+        "value": "water",
+        "source": "Game-design choice: the Water station in the Life Support room (A10)."
+      },
+      "start_after_seconds": {
+        "value": 8,
+        "source": "PLACEHOLDER (seconds after the Flight leg starts)"
+      },
+      "drain_liters_per_second": {
+        "value": 100,
+        "source": "PLACEHOLDER (extra water lost every real second until the leak is fixed)"
+      },
+      "fix": {
+        "value": "press_e_at_station",
+        "source": "Game-design choice: press E at the Water station."
+      }
+    }
+  }
+}

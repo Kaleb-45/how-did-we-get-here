@@ -9,6 +9,18 @@
       "crew": {
         "value": true,
         "source": "Written game-design choice by Kaleb (AGENT_SOURCE.md section 2, 2026-11-10): Mars missions have a crew on a ship that carries the spacecraft the player built."
+      },
+      "trip_days": {
+        "value": 210,
+        "source": "PLACEHOLDER. NASA's MRO launched in Aug 2005 and reached Mars in March 2006 (about 7 months; the MRO launch press kit is already cited in game_data.json), but the exact quote and day count are not written down in this project yet. A student checks the press kit and replaces 210 with a quoted number: https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf"
+      },
+      "flight_legs": {
+        "value": 3,
+        "source": "GAME_PLAN.md section 6b DEFAULT (3 legs). Game-design choice, not a NASA number."
+      },
+      "flight_leg_seconds": {
+        "value": 45,
+        "source": "PLACEHOLDER (how many real seconds one Flight leg lasts)"
       }
     }
   }
