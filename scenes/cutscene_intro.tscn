@@ -736,7 +736,7 @@ width = 200.0
 autowrap_mode = 2
 
 [node name="Person_Commander" type="Node3D" parent="People"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 4.8000, 0, -4.4000)
+transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 1.5000, 0, -4.8000)
 
 [node name="Body" type="MeshInstance3D" parent="People/Person_Commander"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
@@ -744,7 +744,7 @@ mesh = SubResource("CapsuleMesh_21")
 surface_material_override/0 = ExtResource("m_person_grey")
 
 [node name="Label" type="Label3D" parent="People/Person_Commander"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 2.2000, 0)
+transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 3.2000, 0)
 pixel_size = 0.034
 billboard = 1
 no_depth_test = true
@@ -753,7 +753,7 @@ width = 200.0
 autowrap_mode = 2
 
 [node name="Person_Staff1" type="Node3D" parent="People"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -4.5000, 1.0000, -7.7942)
+transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -4.7000, 1.0000, -8.1700)
 
 [node name="Body" type="MeshInstance3D" parent="People/Person_Staff1"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
@@ -787,7 +787,7 @@ width = 200.0
 autowrap_mode = 2
 
 [node name="Person_Staff3" type="Node3D" parent="People"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 4.5000, 1.0000, -7.7942)
+transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 4.7000, 1.0000, -8.1700)
 
 [node name="Body" type="MeshInstance3D" parent="People/Person_Staff3"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
@@ -821,7 +821,7 @@ width = 200.0
 autowrap_mode = 2
 
 [node name="Person_Janitor" type="Node3D" parent="People"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -8.9010, 1.0000, -3.5962)
+transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -9.3000, 1.0000, -3.8000)
 
 [node name="Body" type="MeshInstance3D" parent="People/Person_Janitor"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.8500, 0)
