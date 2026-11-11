@@ -13,7 +13,7 @@ const PRESS_SCENE = preload("res://scenes/timed_press.tscn")
 
 var walk: Node3D                 # the walk scene (it has say(), player and the HUD)
 var panel: PanelContainer        # the Food station's screen
-var press: Control               # the timed press (Air station: swap the scrubber)
+var press: Control               # the timed press (Air station: run the oxygen generator)
 var press_running: bool = false  # true while the ring is closing
 var elapsed: float = 0.0         # seconds since the stations started (the leak's clock)
 var leak_started: bool = false   # the leak starts once, then the player fixes it
@@ -41,7 +41,7 @@ func setup(walk_scene: Node3D, hud: CanvasLayer, voice_bar: Control) -> void:
 	press.offset_top = -press.custom_minimum_size.y / 2.0 - 90.0   # a little above the middle
 	press.offset_bottom = press.custom_minimum_size.y / 2.0 - 90.0
 	press.visible = false
-	press.finished.connect(_on_scrubber_press_finished)
+	press.finished.connect(_on_generator_press_finished)
 
 
 # Called every frame by walk.gd. It starts the water leak on time, and the
@@ -52,6 +52,17 @@ func update(delta: float) -> void:
 	if not leak_started and elapsed >= leak["start_after_seconds"]["value"]:
 		start_leak()
 	GameState.drain_leak(delta)
+
+
+# The leg is over: close a station screen and stop a ring that is still closing.
+func stop_tasks() -> void:
+	if panel.visible:
+		close_panel()
+	if press_running:
+		press.running = false
+		press_running = false
+		walk.player.set_physics_process(true)
+	press.visible = false
 
 
 # Is a station screen open? (walk.gd then leaves the keys to us.)
@@ -81,7 +92,7 @@ func prompt_for(part_id: String) -> String:
 				return prompts["food_done"]
 			return "%s: %s" % [hint, prompts["food"]]
 		"station_air":
-			if GameState.scrubber_swapped:
+			if GameState.generator_run:
 				return prompts["air_done"]
 			return "%s: %s" % [hint, prompts["air"]]
 		"station_water":
@@ -132,32 +143,34 @@ func freeze_player(frozen: bool) -> void:
 	walk.player.set_process_unhandled_input(not frozen)
 
 
-# --- Air: swap the scrubber ---------------------------------------------------------
+# --- Air: run the oxygen generator ---------------------------------------------------------
 # One timed press with the E key (the ring closes on the target). The result
-# decides how much air comes back (supplies.json "tasks" > "scrubber"). Even a
-# Miss swaps the scrubber, just less well.
+# decides how much air comes back (supplies.json "tasks" > "oxygen_generator"). Even a
+# Miss runs the generator, just less well.
 
 func use_air() -> void:
-	if GameState.scrubber_swapped:
-		walk.say(lines["scrubber_already"])
+	if GameState.generator_run:
+		walk.say(lines["generator_already"])
 		return
-	var scrubber: Dictionary = Data.supplies["tasks"]["scrubber"]
+	var generator: Dictionary = Data.supplies["tasks"]["oxygen_generator"]
 	press_running = true
 	walk.player.set_physics_process(false)   # stand still while the ring closes
 	press.visible = true
-	walk.say(lines["scrubber_start"])
-	press.start(words["scrubber_label"], scrubber["press_speed"]["value"], scrubber["press_tightness"]["value"], press.ACTION_E)
+	walk.say(lines["generator_start"])
+	press.start(words["generator_label"], generator["press_speed"]["value"], generator["press_tightness"]["value"], press.ACTION_E)
 
 
-func _on_scrubber_press_finished(result: String) -> void:
-	var amount: float = Data.supplies["tasks"]["scrubber"]["restore"][result]["value"]
+func _on_generator_press_finished(result: String) -> void:
+	var amount: float = Data.supplies["tasks"]["oxygen_generator"]["restore"][result]["value"]
 	GameState.add_supply("air", amount)
-	GameState.scrubber_swapped = true
-	walk.say(lines["scrubber_" + result.to_lower()])
+	GameState.generator_run = true
+	walk.say(lines["generator_" + result.to_lower()])
 	press_running = false
 	walk.player.set_physics_process(true)
-	await walk.get_tree().create_timer(Data.supplies["tasks"]["scrubber"]["result_show_seconds"]["value"]).timeout
-	press.visible = false
+	var tree := get_tree()
+	await tree.create_timer(Data.supplies["tasks"]["oxygen_generator"]["result_show_seconds"]["value"]).timeout
+	if is_inside_tree():   # the scene may have changed while we waited
+		press.visible = false
 
 
 # --- Water: the leak -------------------------------------------------------------------

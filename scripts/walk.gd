@@ -74,9 +74,11 @@ func _ready() -> void:
 	# The power panel's zone works the same way as the spacecraft's.
 	life_support.setup(self, hud, inner_voice)
 	add_child(life_support)
-	var zones: Array = spacecraft.reach_zones + [power_panel.reach_zone]
+	var zones: Array = spacecraft.reach_zones.duplicate()
 	if flight_mode:
 		zones += ship.station_zones.values()   # the Life Support stations only work in Flight
+	else:
+		zones.append(power_panel.reach_zone)   # the power panel only works in Arrival (switching off costs nothing in Flight)
 	for zone in zones:
 		zone.body_entered.connect(_on_zone_entered.bind(zone))
 		zone.body_exited.connect(_on_zone_exited.bind(zone))
@@ -144,16 +146,14 @@ func _process(delta: float) -> void:
 	update_voice(delta)
 
 
-# How many game days the crew supplies lose this frame. The Arrival walk stands
-# for supplies.json "arrival_crew_days" days, spread over the whole mission.
+# How many game days the crew supplies lose this frame.
+#   Flight:  one leg stands for leg_days real days, played in leg_seconds.
+#   Arrival: the mission clock's real days (24 months = about 730 days).
 func crew_days_passed(delta: float) -> float:
-	# Flight: one leg stands for leg_days real days, played in leg_seconds.
 	if flight_mode:
 		return delta * GameState.get_flight_leg_days() / GameState.get_flight_leg_seconds()
 	var clock: Dictionary = Data.game_data["mission_clock"]
-	var mission_months: float = GameState.get_limits()["mission_lifetime"]["value"]
-	var days_per_month: float = Data.supplies["arrival_crew_days"]["value"] / mission_months
-	return delta * clock["months_per_second"] * days_per_month
+	return delta * clock["months_per_second"] * clock["days_per_month"]
 
 
 # GameState works out the live numbers; the dashboard draws them.
@@ -371,6 +371,7 @@ func update_flight_end() -> void:
 		return
 	if life_support.elapsed >= GameState.get_flight_leg_seconds():
 		say(Data.voice["flight"]["leg_end"])
+		life_support.stop_tasks()   # close a station screen or a ring that is still open
 		finish_mission(Data.game_data["walk"]["end_read_seconds"])
 
 
@@ -424,6 +425,10 @@ func find_nearest_part() -> String:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# The leg or mission is over: nothing may be used while the last line is read.
+	if mission_over:
+		return
+
 	# While a Life Support screen is open, E or Esc closes it (and nothing else).
 	if life_support.panel_open():
 		life_support.handle_input(event)

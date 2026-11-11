@@ -48,7 +48,7 @@ var findings: Array = []              # things that went wrong on the way (crew 
 var supplies_started: bool = false    # true once the ship has been stocked
 var rationing: bool = false           # true once the player rations the food (Food station)
 var leak_active: bool = false         # true while the water leak is pouring (Flight)
-var scrubber_swapped: bool = false    # true once the player swapped the scrubber (Air station)
+var generator_run: bool = false       # true once the player ran the oxygen generator (Air station)
 
 
 func _ready() -> void:
@@ -75,7 +75,7 @@ func to_dict() -> Dictionary:
 		"supplies_started": supplies_started,
 		"rationing": rationing,
 		"leak_active": leak_active,
-		"scrubber_swapped": scrubber_swapped,
+		"generator_run": generator_run,
 		"event_failures": event_failures.duplicate(true),
 		"mission_months": mission_months,
 		"data_collected": data_collected,
@@ -104,7 +104,7 @@ func from_dict(d: Dictionary) -> void:
 	supplies_started = d.get("supplies_started", supplies_started)
 	rationing = d.get("rationing", rationing)
 	leak_active = d.get("leak_active", leak_active)
-	scrubber_swapped = d.get("scrubber_swapped", scrubber_swapped)
+	generator_run = d.get("generator_run", generator_run)
 	event_failures = d.get("event_failures", event_failures).duplicate(true)
 	mission_months = d.get("mission_months", mission_months)
 	data_collected = d.get("data_collected", data_collected)
@@ -183,7 +183,7 @@ func start_supplies() -> void:
 		crew_supplies[id] = float(Data.supplies["start_amount"][id]["value"])
 	rationing = false
 	leak_active = false
-	scrubber_swapped = false
+	generator_run = false
 	supplies_started = true
 	findings.clear()
 	for id in SUPPLY_IDS:   # old crew problems from a last try are gone
@@ -192,9 +192,15 @@ func start_supplies() -> void:
 
 
 # Safety net: if the walk starts without a Flight (Play on the walk scene), stock the ship.
+# The Flight tasks never happened, so the ship starts as if they were done:
+# rationing is on and the oxygen generator ran (supplies.json "walk_alone").
 func ensure_supplies() -> void:
 	if not supplies_started:
 		start_supplies()
+		rationing = true
+		generator_run = true
+		var result: String = Data.supplies["walk_alone"]["air_result"]["value"]
+		add_supply("air", Data.supplies["tasks"]["oxygen_generator"]["restore"][result]["value"])
 
 
 # "Try again": no supplies, no leak, no rationing. (Parts, name, character and rocket stay.)
@@ -203,7 +209,7 @@ func clear_supplies() -> void:
 		crew_supplies[id] = 0.0
 	rationing = false
 	leak_active = false
-	scrubber_swapped = false
+	generator_run = false
 	supplies_started = false
 
 

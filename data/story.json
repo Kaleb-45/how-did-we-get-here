@@ -160,8 +160,8 @@
       "food_done": "Food station: rationing is on",
       "water": "Water station: fix the leak",
       "water_none": "Water station: no leak",
-      "air": "Air station: swap the scrubber",
-      "air_done": "Air station: the scrubber is fresh"
+      "air": "Air station: run the oxygen generator",
+      "air_done": "Air station: the oxygen generator is running"
     },
     "ration_panel": {
       "title": "FOOD STATION",
@@ -169,7 +169,7 @@
       "button": "Start rationing",
       "close_hint": "E or Esc = close"
     },
-    "scrubber_label": "SWAP THE SCRUBBER",
+    "generator_label": "RUN THE OXYGEN GENERATOR",
     "leak_banner": "WATER LEAK! Go to the Water station"
   },
   "dashboard": {

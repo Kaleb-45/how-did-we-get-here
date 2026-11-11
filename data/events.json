@@ -13,8 +13,8 @@
         "source": "PLACEHOLDER (seconds after the Flight leg starts)"
       },
       "drain_liters_per_second": {
-        "value": 100,
-        "source": "PLACEHOLDER (extra water lost every real second until the leak is fixed)"
+        "value": 50,
+        "source": "PLACEHOLDER (extra water lost every real second until the leak is fixed; a leak fixed within about 30 s of the warning leaves the water out of the red)"
       },
       "fix": {
         "value": "press_e_at_station",

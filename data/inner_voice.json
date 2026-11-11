@@ -100,7 +100,7 @@
     "food_empty": {
       "title": "Food ran out",
       "what": "Food: the crew ran out of food.",
-      "why": "The crew eats every day, about 1.8 kg each. The food store emptied before the trip was over.",
+      "why": "The crew eats every day, about 1.8 kg of food and packaging each. The food store emptied before the trip was over.",
       "fix": "Go to the Food station in Life Support and press E to start rationing early. Rationing makes the food last longer."
     },
     "water_empty": {
@@ -112,8 +112,8 @@
     "air_empty": {
       "title": "Air ran out",
       "what": "Air: the crew ran out of air to breathe.",
-      "why": "Breathing uses up the air every day. A fresh scrubber puts air back, and nobody swapped it in time.",
-      "fix": "Go to the Air station in Life Support and press E to swap the scrubber. Press E again when the ring closes on the target."
+      "why": "Breathing uses up the air every day. The oxygen generator makes more oxygen, and nobody ran it in time.",
+      "fix": "Go to the Air station in Life Support and press E to run the oxygen generator. Press E again when the ring closes on the target."
     },
     "food_low": {
       "title": "Food too low",
@@ -130,8 +130,8 @@
     "air_low": {
       "title": "Air too low",
       "what": "Air: the air was almost gone at the end.",
-      "why": "Breathing uses up the air every day, and the scrubber was not swapped (or was swapped badly).",
-      "fix": "Go to the Air station in Life Support and press E to swap the scrubber. A press close to the target puts back more air."
+      "why": "Breathing uses up the air every day, and the oxygen generator was not run (or was run badly).",
+      "fix": "Go to the Air station in Life Support and press E to run the oxygen generator. A press close to the target makes more oxygen."
     }
   },
   "parts": {
@@ -172,17 +172,17 @@
     "ration_explain": "This is the Food station. If we ration, the crew eats a little less every day. They get hungry, but the food lasts longer. Smart. I think.",
     "ration_on": "Rations on! The food will last longer now. Everyone is a little hungry, but everyone is alive.",
     "ration_already": "We are already rationing. The food is lasting longer.",
-    "scrubber_start": "The scrubber cleans the air we breathe, but it wears out. Swap it! Press E when the ring closes on the target.",
-    "scrubber_perfect": "Perfect! The new scrubber is in tight, and lots of fresh air is coming back. I did that. Me!",
-    "scrubber_good": "Good! The new scrubber is in. A good amount of air is coming back.",
-    "scrubber_miss": "Missed the timing. The new scrubber is in, but not seated well, so less air comes back. A Miss still swaps it, just not as well.",
-    "scrubber_already": "The scrubber is already fresh. One swap is enough for now.",
+    "generator_start": "This is the oxygen generator. It makes oxygen for the crew to breathe, like the real one on the Space Station. Run it! Press E when the ring closes on the target.",
+    "generator_perfect": "Perfect! The oxygen generator is running smoothly and making lots of oxygen. I did that. Me!",
+    "generator_good": "Good! The oxygen generator is running and making a good amount of oxygen.",
+    "generator_miss": "Missed the timing. The oxygen generator still starts, but it runs rough, so it makes less oxygen. A Miss still runs it, just not as well.",
+    "generator_already": "The oxygen generator is already running. That is enough for now.",
     "leak_warning": "Uh oh. A pipe broke! The water tank is leaking and the water meter is falling fast. Run to the Water station in Life Support and press E to stop it!",
     "leak_fixed": "Leak stopped! We lost some water, but not all of it. That is why we keep an eye on the meters.",
     "no_leak": "The water pipes look fine. No leak right now.",
     "empty_food": "The food is gone. Zero. The crew is very hungry, and that is a big problem.",
     "empty_water": "The water tank is empty. Zero. A leak pours water out fast if nobody stops it.",
-    "empty_air": "The air is gone. Zero. A fresh scrubber would have put air back."
+    "empty_air": "The air is gone. Zero. The oxygen generator makes oxygen, and we needed it running."
   },
   "reroute": {
     "_readme": "The words on the power panel (Reroute Power mini-game).",

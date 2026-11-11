@@ -1,5 +1,5 @@
 {
-  "_readme": "Crew supplies: food, water and air for the crew on the ship. They are a separate group from the six resources, and show only in Flight and Arrival. per_person_per_day = how much ONE person uses in ONE day (real NASA numbers, with the quote and link in each source). The game multiplies it by crew_size and by the game days that pass. Every fact is written as { \"value\": ..., \"source\": ... }. A source is a NASA link or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). start_amount = what the ship carries at the start. capacity = the most a meter can hold (the bar's full size). A meter turns yellow below warning_percent of its capacity and red below danger_percent. Tasks: rationing slows how fast food drops, and swapping the scrubber puts air back (a better timed press puts back more). The water leak is in events.json. The words on the screen are in data/story.json and data/inner_voice.json.",
+  "_readme": "Crew supplies: food, water and air for the crew on the ship. They are a separate group from the six resources, and show only in Flight and Arrival. per_person_per_day = how much ONE person uses in ONE day (real NASA numbers, with the quote and link in each source). The game multiplies it by crew_size and by the game days that pass. Every fact is written as { \"value\": ..., \"source\": ... }. A source is a NASA link or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). start_amount = what the ship carries at the start. capacity = the most a meter can hold (the bar's full size). A meter turns yellow below warning_percent of its capacity and red below danger_percent. Tasks: rationing slows how fast food drops, and running the oxygen generator makes oxygen, so the air meter goes up (a better timed press makes more). In Arrival the crew uses the real daily amounts for all the days of the mission clock (about 730). The start amounts and capacities are made up (PLACEHOLDER) so that a player who does the Flight tasks stays out of the red. The water leak is in events.json. The words on the screen are in data/story.json and data/inner_voice.json.",
   "per_person_per_day": {
     "food": {
       "value": 1.831,
@@ -22,22 +22,21 @@
     "source": "PLACEHOLDER"
   },
   "start_amount": {
-    "food": { "value": 1300, "source": "PLACEHOLDER" },
-    "water": { "value": 3800, "source": "PLACEHOLDER" },
-    "air": { "value": 600, "source": "PLACEHOLDER" }
+    "food": { "value": 6500, "source": "PLACEHOLDER" },
+    "water": { "value": 12000, "source": "PLACEHOLDER" },
+    "air": { "value": 2550, "source": "PLACEHOLDER" }
   },
   "capacity": {
-    "food": { "value": 1300, "source": "PLACEHOLDER" },
-    "water": { "value": 3800, "source": "PLACEHOLDER" },
-    "air": { "value": 900, "source": "PLACEHOLDER (the air meter can go above its start amount, because a fresh scrubber adds air)" }
+    "food": { "value": 6500, "source": "PLACEHOLDER" },
+    "water": { "value": 12000, "source": "PLACEHOLDER" },
+    "air": { "value": 4000, "source": "PLACEHOLDER (the air meter can go above its start amount, because the oxygen generator makes oxygen)" }
   },
   "status": {
     "warning_percent": { "value": 40, "source": "PLACEHOLDER" },
     "danger_percent": { "value": 15, "source": "PLACEHOLDER" }
   },
-  "arrival_crew_days": {
-    "value": 90,
-    "source": "PLACEHOLDER (how many days of crew supplies the 60 second Arrival walk stands for)"
+  "walk_alone": {
+    "air_result": { "value": "Good", "source": "PLACEHOLDER (if you play the Arrival walk on its own, with no Flight, the ship starts as if rationing was on and the oxygen generator ran with this result)" }
   },
   "empty_damage": {
     "kind": "crew",
@@ -50,11 +49,11 @@
         "source": "PLACEHOLDER (with rationing on, the crew eats 0.6 of the normal food each day)"
       }
     },
-    "scrubber": {
+    "oxygen_generator": {
       "restore": {
-        "Perfect": { "value": 300, "source": "PLACEHOLDER" },
-        "Good": { "value": 200, "source": "PLACEHOLDER" },
-        "Miss": { "value": 100, "source": "PLACEHOLDER" }
+        "Perfect": { "value": 1500, "source": "PLACEHOLDER" },
+        "Good": { "value": 1150, "source": "PLACEHOLDER" },
+        "Miss": { "value": 800, "source": "PLACEHOLDER" }
       },
       "press_speed": { "value": 1.0, "source": "PLACEHOLDER" },
       "press_tightness": { "value": 1.0, "source": "PLACEHOLDER" },
