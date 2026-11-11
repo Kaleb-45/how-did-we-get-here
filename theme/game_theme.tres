@@ -21,6 +21,7 @@
 ;   AccentText   small headings (orange)                 24
 ;   TableText    the dashboard rows                      22
 ;   BannerText   the POWER LOW alarm                     46
+;   SpeakerName  the amber speaker name in cutscene subtitles 26
 ; Timed press (the closing ring), type name TimedPress, read with get_theme_color:
 ;   ring_color, target_color, perfect_zone_color, good_zone_color, backdrop_color
 ; Launch side view (plain gray rectangles), type name RocketView:
@@ -176,6 +177,9 @@ TableText/base_type = &"Label"
 TableText/font_sizes/font_size = 22
 BannerText/base_type = &"Label"
 BannerText/font_sizes/font_size = 46
+SpeakerName/base_type = &"Label"
+SpeakerName/colors/font_color = Color(1, 0.6, 0.2, 1)
+SpeakerName/font_sizes/font_size = 26
 ScreenBackground/base_type = &"Panel"
 ScreenBackground/styles/panel = SubResource("Background")
 NavyPanel/base_type = &"PanelContainer"

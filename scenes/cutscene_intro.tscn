@@ -9,6 +9,7 @@
 [ext_resource type="Material" path="res://materials/screen_blue.tres" id="m_screen_blue"]
 [ext_resource type="Material" path="res://materials/amber.tres" id="m_amber"]
 [ext_resource type="Material" path="res://materials/monitor_blue.tres" id="m_monitor_blue"]
+[ext_resource type="Shader" path="res://shaders/mars_map.gdshader" id="shader_mars"]
 [ext_resource type="PackedScene" path="res://scenes/characters/general.tscn" id="char_general"]
 [ext_resource type="PackedScene" path="res://scenes/characters/commander.tscn" id="char_commander"]
 [ext_resource type="PackedScene" path="res://scenes/characters/staff1.tscn" id="char_staff1"]
@@ -118,10 +119,30 @@ size = Vector3(1.3, 2.8, 0.02)
 shading_mode = 0
 albedo_color = Color(0, 0, 0, 1)
 
+[sub_resource type="ShaderMaterial" id="Mat_marsmap_1"]
+shader = ExtResource("shader_mars")
+shader_parameter/seed = 0.4
+
+[sub_resource type="ShaderMaterial" id="Mat_marsmap_2"]
+shader = ExtResource("shader_mars")
+shader_parameter/seed = 2.1
+
+[sub_resource type="ShaderMaterial" id="Mat_marsmap_3"]
+shader = ExtResource("shader_mars")
+shader_parameter/seed = 3.8
+
+[sub_resource type="ShaderMaterial" id="Mat_marsmap_4"]
+shader = ExtResource("shader_mars")
+shader_parameter/seed = 5.5
+
+[sub_resource type="ShaderMaterial" id="Mat_marsmap_5"]
+shader = ExtResource("shader_mars")
+shader_parameter/seed = 7.2
+
 [sub_resource type="Animation" id="Animation_intro"]
 resource_name = "intro"
-length = 23.0
-step = 0.1
+length = 27.5
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -129,10 +150,10 @@ tracks/0/path = NodePath("Camera3D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 3, 5, 9, 12, 14, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector3(0, 3, 10.6), Vector3(-6, 5.2, -3), Vector3(1.6, 2, -1.9), Vector3(0, 3, 10.6), Vector3(-1.85, 2.3, -2.2), Vector3(0, 1.9, -1.9), Vector3(-3.2, 4.4, -0.6)]
+"times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 12.699, 12.7, 13.399, 13.4, 14.099, 14.1, 14.599, 14.6, 17.399, 17.4, 18.199, 18.2, 18.45, 18.7, 20.999, 21, 25.5),
+"transitions": PackedFloat32Array(-1.5, 1, -2, 0.4, -2, 1, -2, -2, 1, 1, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, 1, 0.4, -2, 1, -2, 1),
+"update": 0,
+"values": [Vector3(0, 6.8, 10.5), Vector3(0, 5.6, 7.8), Vector3(-0.3, 1.15, -2.9), Vector3(-0.3, 1.15, -2.9), Vector3(-0.3, 1.2, -3), Vector3(-0.3, 1.2, -3.2), Vector3(-9.1, 2.6, 1.6), Vector3(-9.2, 2.6, 0.9), Vector3(-9.3, 2.6, 0.5), Vector3(-2.1, 1.9, -4.3), Vector3(-2.1, 1.9, -4.3), Vector3(-1.7, 1.2, -8), Vector3(-1.2, 1.1, -7), Vector3(-1.2, 3.4, -3.8), Vector3(-1.4, 3.4, -3.8), Vector3(2, 3.4, -4.2), Vector3(1.8, 3.4, -4.2), Vector3(3.4, 3.6, -3.2), Vector3(3.4, 3.6, -3.2), Vector3(0, 3, -6), Vector3(0, 3, -5.8), Vector3(1.7, 2.3, -2.9), Vector3(1.9, 2.3, -3), Vector3(1.9, 2.3, -3), Vector3(1.95, 2.3, -3), Vector3(0.3, 2, -1.9), Vector3(0.3, 2, -1.9), Vector3(0.25, 2, -2), Vector3(0.1, 2, -2.2), Vector3(-8.8, 2.6, 0.2), Vector3(-9.1, 2.6, 0.1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -141,10 +162,10 @@ tracks/1/path = NodePath("Camera3D:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 3, 5, 9, 12, 14, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector3(-0.1121, 0, 0), Vector3(-0.539, 1.1607, 0), Vector3(-0.1865, 0.4831, 0), Vector3(-0.1121, 0, 0), Vector3(-0.1482, -0.588, 0), Vector3(-0.1304, 0, 0), Vector3(-0.3524, 1.0692, 0)]
+"times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 12.699, 12.7, 13.399, 13.4, 14.099, 14.1, 14.599, 14.6, 17.399, 17.4, 18.199, 18.2, 18.45, 18.7, 20.999, 21, 25.5),
+"transitions": PackedFloat32Array(-1.5, 1, -2, 0.4, -2, 1, -2, -2, 1, 1, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, 1, 0.4, -2, 1, -2, 1),
+"update": 0,
+"values": [Vector3(-0.4197, 0, 0), Vector3(-0.3869, 0, 0), Vector3(0.1003, -0.6999, 0), Vector3(0.1003, -0.6999, 0), Vector3(0.1366, -0.7854, 0), Vector3(0.1661, -0.5764, 0), Vector3(-0.1233, 0.2826, 0), Vector3(-0.0494, 0.3009, 0), Vector3(-0.0622, 0.3168, 0), Vector3(-0.0455, -1.2706, 0), Vector3(-0.0455, -1.2706, 0), Vector3(0.1702, -2.6331, 0), Vector3(0.2866, -2.612, 0), Vector3(-0.2376, 0.6504, 0), Vector3(-0.2424, 0.6223, 0), Vector3(-0.2459, 0.2537, 0), Vector3(-0.2479, 0.2187, 0), Vector3(-0.2866, -0.9828, 0), Vector3(-0.2837, -1.0304, 0), Vector3(-0.1732, 0, 0), Vector3(-0.1651, 0, 0), Vector3(-0.1751, 0.6125, 0), Vector3(-0.1736, 0.661, 0), Vector3(-0.1736, 0.661, 0), Vector3(-0.1725, 0.6696, 0), Vector3(-0.0326, 0.098, 0), Vector3(-0.0326, 0.098, 0), Vector3(-0.0338, 0.0845, 0), Vector3(-0.0363, 0.0363, 0), Vector3(-0.0172, 1.5019, 0), Vector3(-0.0192, 1.5324, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -153,46 +174,46 @@ tracks/2/path = NodePath("Camera3D:fov")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 3, 5, 9, 12, 14, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [60, 45, 55, 60, 38, 42, 55]
+"times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 12.699, 12.7, 13.399, 13.4, 14.099, 14.1, 14.599, 14.6, 17.399, 17.4, 18.199, 18.2, 18.45, 18.7, 20.999, 21, 25.5),
+"transitions": PackedFloat32Array(-1.5, 1, -2, 0.4, -2, 1, -2, -2, 1, 1, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, 1, 0.4, -2, 1, -2, 1),
+"update": 0,
+"values": [62, 58, 50, 50, 29, 30, 50, 48, 46, 34, 34, 52, 48, 40, 38, 40, 38, 42, 42, 62, 60, 44, 42, 42, 42, 40, 40, 31, 29, 60, 58]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("People/Person_Commander:position")
+tracks/3/path = NodePath("CanvasLayer/Fade:color")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6, 2, 2.999, 3, 3.4, 4.7),
-"transitions": PackedFloat32Array(1, 1, 0.5, 2, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 1, 25.5, 27.4, 27.5),
+"transitions": PackedFloat32Array(-2, 1, -2, 1, 1),
 "update": 0,
-"values": [Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0.6, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(-10.2177, 1, -4.4901), Vector3(-10.2177, 1, -4.4901), Vector3(-11.0309, 1, -5.3033)]
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 1)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("People/Person_Commander:rotation:y")
+tracks/4/path = NodePath("People/Person_Commander:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 2.999, 3),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 3.4, 3.55, 3.7, 4.3, 4.31, 4.4822, 4.6545, 4.8267, 4.999, 5, 5.1625, 5.325, 5.4875, 5.65, 5.8125, 5.975, 6.1375, 6.3, 6.31, 6.44, 6.57, 6.7),
+"transitions": PackedFloat32Array(1, 0.5, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [1.4711, 1.4711, 0.7854]
+"values": [Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0.35, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(0.825, 0.07, -5.15), Vector3(0.15, 0, -5.5), Vector3(-0.525, 0.07, -5.85), Vector3(-1.2, 0, -6.2), Vector3(-10, 1, -1.2), Vector3(-10.125, 1.07, -1.6687), Vector3(-10.25, 1, -2.1375), Vector3(-10.375, 1.07, -2.6063), Vector3(-10.5, 1, -3.075), Vector3(-10.625, 1.07, -3.5438), Vector3(-10.75, 1, -4.0125), Vector3(-10.875, 1.07, -4.4813), Vector3(-11, 1, -4.95), Vector3(-11, 1, -4.95), Vector3(-11.2067, 1.07, -5.2833), Vector3(-11.4133, 1, -5.6167), Vector3(-11.62, 1, -5.95)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Room/Door:position")
+tracks/5/path = NodePath("People/Person_Commander:rotation:y")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 3.3, 3.9, 4.9, 5.4),
-"transitions": PackedFloat32Array(1, 0.5, 1, 2, 1),
+"times": PackedFloat32Array(0, 3.9, 4.3, 4.999, 5, 6.3, 7.3),
+"transitions": PackedFloat32Array(1, -2, 1, 1, -2, 1, 1),
 "update": 0,
-"values": [Vector3(-11.2784, 2.4, -5.5508), Vector3(-11.2784, 2.4, -5.5508), Vector3(-12.2683, 2.4, -4.5609), Vector3(-12.2683, 2.4, -4.5609), Vector3(-11.2784, 2.4, -5.5508)]
+"values": [1.4711, 1.4711, -5.2032, -5.2032, 0.27, 0.785, 0.785]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -201,139 +222,262 @@ tracks/6/path = NodePath("People/Person_Commander:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 4.7),
+"times": PackedFloat32Array(0, 6.75),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
 }
-tracks/7/type = "value"
+tracks/7/type = "method"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("People/Person_General:rotation:y")
+tracks/7/path = NodePath("People/Person_Commander")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0, 5.5, 6.5, 12, 12.4, 13, 13.6, 14),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [-1.5708, -1.5708, -3.1416, -3.1416, -2.5416, -3.7416, -2.8416, -3.1416]
+"times": PackedFloat32Array(3.35),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.9],
+"method": &"talk"
+}]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("People/Person_Staff1:position")
+tracks/8/path = NodePath("Room/Door:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0, 9.3, 9.9546, 10.2854, 10.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 5.3, 5.8, 6.85, 7.25),
+"transitions": PackedFloat32Array(1, -2, 1, -2, 1),
 "update": 0,
-"values": [Vector3(-4.7, 1, -8.17), Vector3(-4.7, 1, -8.17), Vector3(-3, 1, -8.7), Vector3(-3, 1, -9.6), Vector3(-4.4, 1, -9.6)]
+"values": [Vector3(-11.2784, 2.4, -5.5508), Vector3(-11.2784, 2.4, -5.5508), Vector3(-12.2683, 2.4, -4.5609), Vector3(-12.2683, 2.4, -4.5609), Vector3(-11.2784, 2.4, -5.5508)]
 }
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("People/Person_Staff1:rotation:y")
+tracks/9/path = NodePath("People/Person_General:rotation:y")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0, 9.29, 9.55, 9.9446, 10.2046, 10.2754, 10.5354),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 5.7, 6.4, 8.4, 9.3, 18.199, 18.2),
+"transitions": PackedFloat32Array(1, -2, 1, -2, 1, 1, 1),
 "update": 0,
-"values": [0, 0, -1.2686, -1.2686, 0, 0, 1.5708]
+"values": [-1.5708, -1.5708, 1.5708, 1.5708, 0, 0, 3.2916]
 }
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("People/Person_Staff1/Rig:scale")
+tracks/10/path = NodePath("People/Person_General/Rig/Head:rotation:y")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 10.8, 11.2),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 14.9, 15.4, 16.1, 16.7, 17.7, 18.1, 18.199, 18.2),
+"transitions": PackedFloat32Array(1, -2, -2, -2, 1, -2, 1, 1, 1),
 "update": 0,
-"values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.55, 1)]
+"values": [0, 0, 0.8, -0.8, 0, 0, -1.7, -1.7, 0]
 }
-tracks/11/type = "value"
+tracks/11/type = "method"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("People/Person_Staff2:position")
+tracks/11/path = NodePath("People/Person_General")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
-"times": PackedFloat32Array(0, 9.3, 9.8806, 10.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 1, -9), Vector3(0, 1, -9), Vector3(0, 1, -10.5), Vector3(1.6, 1, -10.5)]
+"times": PackedFloat32Array(9, 14.9, 18.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [2.8],
+"method": &"talk"
+}, {
+"args": [1.9],
+"method": &"talk"
+}, {
+"args": [1.5],
+"method": &"talk"
+}]
 }
-tracks/12/type = "value"
+tracks/12/type = "method"
 tracks/12/imported = false
 tracks/12/enabled = true
-tracks/12/path = NodePath("People/Person_Staff2:rotation:y")
+tracks/12/path = NodePath("People/Person_General")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
-"times": PackedFloat32Array(0, 9.29, 9.55, 9.8706, 10.1306),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [0, 0, 0, 0, -1.5708]
+"times": PackedFloat32Array(18.45, 21.05),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"point_at_camera"
+}, {
+"args": [],
+"method": &"lower_arm"
+}]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
 tracks/13/enabled = true
-tracks/13/path = NodePath("People/Person_Staff2/Rig:scale")
+tracks/13/path = NodePath("People/Person_Staff1:position")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
-"times": PackedFloat32Array(0, 10.5, 10.9),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 12.3, 12.55),
+"transitions": PackedFloat32Array(1, -2, 1),
 "update": 0,
-"values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.55, 1)]
+"values": [Vector3(-4.7, 1, -8.17), Vector3(-4.7, 1, -8.17), Vector3(-4.83, 1, -9.5)]
 }
 tracks/14/type = "value"
 tracks/14/imported = false
 tracks/14/enabled = true
-tracks/14/path = NodePath("People/Person_Staff3:position")
+tracks/14/path = NodePath("People/Person_Staff1/Rig:scale")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
-"times": PackedFloat32Array(0, 9.3, 9.9148, 10.7098, 11.35, 11.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 12.3, 12.5),
+"transitions": PackedFloat32Array(1, 0.5, 1),
 "update": 0,
-"values": [Vector3(4.7, 1, -8.17), Vector3(4.7, 1, -8.17), Vector3(6.5, 1, -7.5), Vector3(8.4, 1, -5.9), Vector3(10, 1, -4.7), Vector3(10.6, 1, -5.2)]
+"values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.45, 1)]
 }
 tracks/15/type = "value"
 tracks/15/imported = false
 tracks/15/enabled = true
-tracks/15/path = NodePath("People/Person_Staff3:rotation:y")
+tracks/15/path = NodePath("People/Person_Staff2:position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/keys = {
-"times": PackedFloat32Array(0, 9.29, 9.55, 9.9048, 10.1648, 10.6998, 10.9598, 11.34, 11.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 13, 13.3),
+"transitions": PackedFloat32Array(1, -2, 1),
 "update": 0,
-"values": [0, 0, -1.9271, -1.9271, -2.2707, -2.2707, -2.2143, -2.2143, -0.8761]
+"values": [Vector3(0, 1, -9), Vector3(0, 1, -9), Vector3(1.67, 1, -10.52)]
 }
 tracks/16/type = "value"
 tracks/16/imported = false
 tracks/16/enabled = true
-tracks/16/path = NodePath("People/Person_Staff3:visible")
+tracks/16/path = NodePath("People/Person_Staff2/Rig:scale")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/keys = {
-"times": PackedFloat32Array(0, 11.7),
+"times": PackedFloat32Array(0, 13, 13.2),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.45, 1)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("People/Person_Staff3:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0, 13, 13.35, 13.7, 13.95, 14.05),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(4.7, 1, -8.17), Vector3(4.7, 1, -8.17), Vector3(6.6, 1.1, -7.8), Vector3(8.8, 1.1, -6.3), Vector3(10.2, 1.5, -5.4), Vector3(10.5, 1, -5.25)]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("People/Person_Staff3:rotation:y")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0, 13, 13.15),
+"transitions": PackedFloat32Array(1, -2, 1),
+"update": 0,
+"values": [0, 0, -2.05]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("People/Person_Staff3:visible")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0, 14.1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
 }
-tracks/17/type = "method"
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/path = NodePath(".")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/keys = {
-"times": PackedFloat32Array(0.3, 2.8, 5.5, 8.8, 12.2, 13.8, 14.8, 16.8),
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("People/Person_AssistantScientist:visible")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0, 20.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("People/Person_Janitor:visible")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0, 20.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("People/Person_Student:visible")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(0, 20.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("People/Person_AssistantScientist/Rig/Head:rotation:y")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(0, 21.5, 21.9),
+"transitions": PackedFloat32Array(1, -2, 1),
+"update": 0,
+"values": [0, 0, 1]
+}
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("People/Person_Janitor/Rig/Head:rotation:y")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(0, 22.6, 23),
+"transitions": PackedFloat32Array(1, -2, 1),
+"update": 0,
+"values": [0, 0, 1]
+}
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("People/Person_Student/Rig/Head:rotation:y")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(0, 23.7, 24.1),
+"transitions": PackedFloat32Array(1, -2, 1),
+"update": 0,
+"values": [0, 0, -1.1]
+}
+tracks/26/type = "method"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath(".")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(3.35, 4.7, 9, 11.9, 14.9, 17.1, 18.45, 20.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "values": [{
 "args": ["commander_quit"],
@@ -361,150 +505,18 @@ tracks/17/keys = {
 "method": &"hide_subtitle"
 }]
 }
-tracks/18/type = "value"
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/path = NodePath("CanvasLayer/Fade:color")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/keys = {
-"times": PackedFloat32Array(0, 21, 23),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-tracks/19/type = "value"
-tracks/19/imported = false
-tracks/19/enabled = true
-tracks/19/path = NodePath("People/Person_AssistantScientist:rotation:y")
-tracks/19/interp = 1
-tracks/19/loop_wrap = true
-tracks/19/keys = {
-"times": PackedFloat32Array(0, 17.8, 18.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [-2, -2, -3.476]
-}
-tracks/20/type = "value"
-tracks/20/imported = false
-tracks/20/enabled = true
-tracks/20/path = NodePath("People/Person_AssistantScientist/Rig/Head:rotation:y")
-tracks/20/interp = 1
-tracks/20/loop_wrap = true
-tracks/20/keys = {
-"times": PackedFloat32Array(0, 17.5, 17.8, 18.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [0, -1.2, -1.2, 0]
-}
-tracks/21/type = "value"
-tracks/21/imported = false
-tracks/21/enabled = true
-tracks/21/path = NodePath("People/Person_Janitor:rotation:y")
-tracks/21/interp = 1
-tracks/21/loop_wrap = true
-tracks/21/keys = {
-"times": PackedFloat32Array(0, 18.6, 19.2, 19.6, 20.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [-2, -2, -3.668, -3.668, -0.3344]
-}
-tracks/22/type = "value"
-tracks/22/imported = false
-tracks/22/enabled = true
-tracks/22/path = NodePath("People/Person_Janitor/Rig/Head:rotation:y")
-tracks/22/interp = 1
-tracks/22/loop_wrap = true
-tracks/22/keys = {
-"times": PackedFloat32Array(0, 18.3, 18.6, 19.2, 19.3, 19.6, 20.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [0, -1.2, -1.2, 0, 0, 1.2, 0]
-}
-tracks/23/type = "value"
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/path = NodePath("People/Person_Student:rotation:y")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/keys = {
-"times": PackedFloat32Array(0, 19.7, 20.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [-2, -2, -0.5266]
-}
-tracks/24/type = "value"
-tracks/24/imported = false
-tracks/24/enabled = true
-tracks/24/path = NodePath("People/Person_Student/Rig/Head:rotation:y")
-tracks/24/interp = 1
-tracks/24/loop_wrap = true
-tracks/24/keys = {
-"times": PackedFloat32Array(0, 19.4, 19.7, 20.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [0, 1.2, 1.2, 0]
-}
-tracks/25/type = "method"
-tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/path = NodePath("People/Person_Commander")
-tracks/25/interp = 1
-tracks/25/loop_wrap = true
-tracks/25/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [2.5],
-"method": &"talk"
-}]
-}
-tracks/26/type = "method"
-tracks/26/imported = false
-tracks/26/enabled = true
-tracks/26/path = NodePath("People/Person_General")
-tracks/26/interp = 1
-tracks/26/loop_wrap = true
-tracks/26/keys = {
-"times": PackedFloat32Array(5.5, 12.2, 14.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"values": [{
-"args": [3.3],
-"method": &"talk"
-}, {
-"args": [1.6],
-"method": &"talk"
-}, {
-"args": [2.0],
-"method": &"talk"
-}]
-}
 tracks/27/type = "method"
 tracks/27/imported = false
 tracks/27/enabled = true
-tracks/27/path = NodePath("People/Person_General")
+tracks/27/path = NodePath(".")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/keys = {
-"times": PackedFloat32Array(14.2),
+"times": PackedFloat32Array(18.5),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [],
-"method": &"point_at_camera"
-}]
-}
-tracks/28/type = "method"
-tracks/28/imported = false
-tracks/28/enabled = true
-tracks/28/path = NodePath("People/Person_General")
-tracks/28/interp = 1
-tracks/28/loop_wrap = true
-tracks/28/keys = {
-"times": PackedFloat32Array(17),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"lower_arm"
+"args": [0.4, 0.04],
+"method": &"shake_camera"
 }]
 }
 
@@ -1022,7 +1034,7 @@ surface_material_override/0 = ExtResource("m_monitor_blue")
 [node name="Screen_1" type="MeshInstance3D" parent="Screens"]
 transform = Transform3D(0, 0.1736, 0.9848, 0, 0.9848, -0.1736, -1.0000, 0, 0, -11.7000, 5.2000, 0)
 mesh = SubResource("BoxMesh_19")
-surface_material_override/0 = ExtResource("m_screen_blue")
+surface_material_override/0 = SubResource("Mat_marsmap_1")
 
 [node name="AccentTop" type="MeshInstance3D" parent="Screens/Screen_1"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.5800, 0.0200)
@@ -1037,7 +1049,7 @@ surface_material_override/0 = ExtResource("m_amber")
 [node name="Screen_2" type="MeshInstance3D" parent="Screens"]
 transform = Transform3D(0.7071, 0.1228, 0.6964, 0, 0.9848, -0.1736, -0.7071, 0.1228, 0.6964, -8.2731, 5.2000, -8.2731)
 mesh = SubResource("BoxMesh_19")
-surface_material_override/0 = ExtResource("m_screen_blue")
+surface_material_override/0 = SubResource("Mat_marsmap_2")
 
 [node name="AccentTop" type="MeshInstance3D" parent="Screens/Screen_2"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.5800, 0.0200)
@@ -1052,7 +1064,7 @@ surface_material_override/0 = ExtResource("m_amber")
 [node name="Screen_3" type="MeshInstance3D" parent="Screens"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9848, -0.1736, 0, 0.1736, 0.9848, 0, 5.2000, -11.7000)
 mesh = SubResource("BoxMesh_19")
-surface_material_override/0 = ExtResource("m_screen_blue")
+surface_material_override/0 = SubResource("Mat_marsmap_3")
 
 [node name="AccentTop" type="MeshInstance3D" parent="Screens/Screen_3"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.5800, 0.0200)
@@ -1067,7 +1079,7 @@ surface_material_override/0 = ExtResource("m_amber")
 [node name="Screen_4" type="MeshInstance3D" parent="Screens"]
 transform = Transform3D(0.7071, -0.1228, -0.6964, 0, 0.9848, -0.1736, 0.7071, 0.1228, 0.6964, 8.2731, 5.2000, -8.2731)
 mesh = SubResource("BoxMesh_19")
-surface_material_override/0 = ExtResource("m_screen_blue")
+surface_material_override/0 = SubResource("Mat_marsmap_4")
 
 [node name="AccentTop" type="MeshInstance3D" parent="Screens/Screen_4"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.5800, 0.0200)
@@ -1082,7 +1094,7 @@ surface_material_override/0 = ExtResource("m_amber")
 [node name="Screen_5" type="MeshInstance3D" parent="Screens"]
 transform = Transform3D(0, -0.1736, -0.9848, 0, 0.9848, -0.1736, 1.0000, 0, 0, 11.7000, 5.2000, 0)
 mesh = SubResource("BoxMesh_19")
-surface_material_override/0 = ExtResource("m_screen_blue")
+surface_material_override/0 = SubResource("Mat_marsmap_5")
 
 [node name="AccentTop" type="MeshInstance3D" parent="Screens/Screen_5"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.5800, 0.0200)
@@ -1098,9 +1110,9 @@ surface_material_override/0 = ExtResource("m_amber")
 
 [node name="TableGlowLight" type="OmniLight3D" parent="Lights"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 2.4000, 0)
-light_color = Color(0.9, 0.95, 1, 1)
-light_energy = 1.6
-omni_range = 14.0
+light_color = Color(0.55, 0.7, 1, 1)
+light_energy = 0.45
+omni_range = 9.0
 
 [node name="SpotBackWall" type="SpotLight3D" parent="Lights"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9615, 0.2747, 0, -0.2747, 0.9615, 0, 7.5000, 2.0000)
@@ -1126,6 +1138,48 @@ spot_range = 26.0
 spot_angle = 45.0
 spot_attenuation = 1.0
 
+[node name="KeyGeneral" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(0.8536, 0.3053, -0.422, 0, 0.8102, 0.5861, 0.5209, -0.5003, 0.6916, -1.8, 4.2, -2)
+light_color = Color(1, 0.78, 0.5, 1)
+light_energy = 3.2
+spot_range = 14.0
+spot_angle = 28.0
+
+[node name="KeyThree" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(0, -0.5283, 0.8491, 0, 0.8491, 0.5283, -1, 0, 0, -7, 4.6, 0)
+light_color = Color(1, 0.78, 0.5, 1)
+light_energy = 2.4
+spot_range = 14.0
+spot_angle = 30.0
+
+[node name="RimThreeA" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(0.9864, 0.1121, -0.1203, 0, 0.7317, 0.6816, 0.1644, -0.6724, 0.7217, -11.9, 4, 2.4)
+light_color = Color(0.45, 0.65, 1, 1)
+light_energy = 4.0
+spot_range = 9.0
+spot_angle = 20.0
+
+[node name="RimThreeB" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(-0.9864, 0.1121, -0.1203, 0, 0.7317, 0.6816, 0.1644, 0.6724, -0.7217, -11.9, 4, -2.4)
+light_color = Color(0.45, 0.65, 1, 1)
+light_energy = 4.0
+spot_range = 9.0
+spot_angle = 20.0
+
+[node name="KeyGeneralBack" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(-0.9249, 0.1271, -0.3582, 0, 0.9424, 0.3344, 0.3801, 0.3093, -0.8717, -1.5, 3.2, -8.6)
+light_color = Color(1, 0.78, 0.5, 1)
+light_energy = 2.6
+spot_range = 12.0
+spot_angle = 24.0
+
+[node name="RimGeneral" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(-0.9216, -0.2552, 0.2923, 0, 0.7533, 0.6577, -0.3881, 0.6062, -0.6942, 1.2, 4.2, -7.8)
+light_color = Color(0.45, 0.65, 1, 1)
+light_energy = 4.0
+spot_range = 10.0
+spot_angle = 45.0
+
 [node name="People" type="Node3D" parent="."]
 
 [node name="Person_General" parent="People" instance=ExtResource("char_general")]
@@ -1144,13 +1198,13 @@ transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.0000, -9.
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 4.7000, 1.0000, -8.1700)
 
 [node name="Person_AssistantScientist" parent="People" instance=ExtResource("char_assistant_scientist")]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -8.3529, 1.0000, -6.5260)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -11.7, 1, 1.15)
 
 [node name="Person_Janitor" parent="People" instance=ExtResource("char_janitor")]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -9.3000, 1.0000, -3.8000)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -11.7, 1, 0)
 
 [node name="Person_Student" parent="People" instance=ExtResource("char_student")]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -10.4390, 1.0000, -1.8407)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -11.7, 1, -1.15)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9885, 0.1509, 0, -0.1509, 0.9885, 0, 3.0000, 10.6000)
@@ -1168,25 +1222,46 @@ environment = SubResource("Env_war_room")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="SubtitleBox" type="PanelContainer" parent="CanvasLayer"]
-visible = false
+[node name="BarTop" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 90.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BarBottom" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 80.0
-offset_top = -130.0
-offset_right = -80.0
-offset_bottom = -30.0
+offset_top = -90.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_type_variation = &"NavyPanel"
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
-[node name="Subtitle" type="Label" parent="CanvasLayer/SubtitleBox"]
+[node name="SubtitleBox" type="VBoxContainer" parent="CanvasLayer/BarBottom"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Speaker" type="Label" parent="CanvasLayer/BarBottom/SubtitleBox"]
+layout_mode = 2
+theme_type_variation = &"SpeakerName"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CanvasLayer/BarBottom/SubtitleBox"]
 layout_mode = 2
 theme_type_variation = &"BodyText"
 horizontal_alignment = 1
-vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="Fade" type="ColorRect" parent="CanvasLayer"]
@@ -1196,4 +1271,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 0)
+color = Color(0, 0, 0, 1)

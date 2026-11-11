@@ -230,11 +230,23 @@
   "cutscene_intro": {
     "_readme": "Words for the intro cutscene in scenes/cutscene_intro.tscn.",
     "subtitles": {
-      "_readme": "The subtitle lines at the bottom of the cutscene. The AnimationPlayer calls show_subtitle with one of these names at the right time.",
-      "commander_quit": "I quit!",
-      "general_who": "This mission launches on schedule. Who will run it?",
-      "general_need": "I need somebody. Anybody!",
-      "general_you": "You. I want you."
+      "_readme": "The subtitle lines at the bottom of the cutscene. Each line has a speaker name (shown in amber) and the words (shown in white). The AnimationPlayer calls show_subtitle with one of these names at the right time.",
+      "commander_quit": {
+        "speaker": "Commander",
+        "text": "I quit!"
+      },
+      "general_who": {
+        "speaker": "General",
+        "text": "This mission launches on schedule. Who will run it?"
+      },
+      "general_need": {
+        "speaker": "General",
+        "text": "I need somebody. Anybody!"
+      },
+      "general_you": {
+        "speaker": "General",
+        "text": "You. I want you."
+      }
     }
   }
 }

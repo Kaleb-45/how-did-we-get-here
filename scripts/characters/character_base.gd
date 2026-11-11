@@ -35,6 +35,12 @@ extends Node3D
 # How far the lid flips open when talking (radians) and how long one flap takes.
 @export var mouth_open_angle: float = 0.5
 @export var talk_flap_seconds: float = 0.2
+# Idle bobbing: the person moves up and down a tiny bit so they look alive.
+# Turn it off with idle_bob. It only moves Rig's position and sway, so it does
+# not fight the animation tracks (Rig scale for crouching, Head turns, arms).
+@export var idle_bob: bool = true
+@export var bob_height: float = 0.012
+@export var bob_speed: float = 2.2
 
 # Art numbers (shape proportions). They are looks, not game numbers.
 const LEG_FRACTION := 0.18      # legs are this part of the height
@@ -52,6 +58,8 @@ var arm_r: float
 var _talk_tween: Tween
 var _point_tween: Tween
 var _rebuild_queued := false
+var _bob_time := 0.0
+var _bob_phase := 0.0
 
 @onready var rig: Node3D = $Rig
 @onready var head: Node3D = $Rig/Head
@@ -62,7 +70,21 @@ var _rebuild_queued := false
 
 
 func _ready() -> void:
+	_bob_phase = randf() * TAU   # each person bobs at a different moment
 	_rebuild()
+
+
+func _process(delta: float) -> void:
+	if Engine.is_editor_hint():
+		return
+	if not idle_bob:
+		rig.position.y = 0.0
+		rig.rotation.z = 0.0
+		return
+	_bob_time += delta
+	var wave := _bob_time * bob_speed + _bob_phase
+	rig.position.y = (sin(wave) * 0.5 + 0.5) * bob_height
+	rig.rotation.z = sin(wave * 0.5) * 0.012
 
 
 func _queue_rebuild() -> void:
