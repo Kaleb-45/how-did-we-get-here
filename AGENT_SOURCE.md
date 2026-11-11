@@ -67,8 +67,10 @@ Dates are local Pacific time, the same zone as the commit.
   Why: Kaleb picked "Show a Next button (Recommended)" over a timer (2026-11-10).
 - **The rocket's cost comes out of the spacecraft base budget: the middle rocket's cost is taken out of the $490M base, so the middle rocket keeps today's balance and the other two move it up or down.** MAVEN's $671M and MRO's $720M already include their launch.
   Why: "for all questions do recommended" (Q1, 2026-11-10).
-- **Phase A Flight: two routine tasks, food (ration) and air (swap the scrubber), and one event, a water leak, all in the Life Support room.**
-  Why: "for all questions do recommended" (Q2, 2026-11-10).
+- **Phase A Flight: two routine tasks, food (ration) and air (run the oxygen generator, like the real one on the Space Station), and one event, a water leak, all in the Life Support room.**
+  Why: "for all questions do recommended" (Q2, 2026-11-10). The air task was changed from "swap the scrubber" because a real scrubber removes carbon dioxide and makes no oxygen; Kaleb picked "Run the oxygen generator (Recommended)" (2026-11-10).
+- **In Arrival, the crew uses NASA's real daily amounts for all 730 days of the mission clock. Start amounts grow to match.**
+  Why: Kaleb picked "Use the real 730 days (Recommended)" over sending the crew home at 90 days (2026-11-10).
 - **"Map the ice on Mars" has 3 goal rules, all from numbers already passed: send home at least 4 Gb/day, keep the spacecraft working 24 months, communications at least 0.6 Mb/s.**
   Why: "for all questions do recommended" (Q4, 2026-11-10).
 - **Limits must matter, so the player cannot take everything. But they must not be so tight that the player plays scared. The player should be able to take risks and "do some damage."**
@@ -264,6 +266,8 @@ Replaced on 2026-11-10 by Kaleb's answers to the GAME_PLAN vs AGENT_SOURCE confl
 - **Only the janitor, told "You're in charge now."** Replaced by three characters, all put in charge by the general (C1, 2026-11-10).
 - **Four levels with an "Assistant", and the janitor as "Very hard"** (GAME_PLAN draft). Replaced by three levels with the janitor as medium (C1, 2026-11-10).
 - **Level multipliers on budget (×1.1 / ×1.0 / ×0.95), timing windows (×1.5 / ×1.0 / ×0.7) and supply use (×0.9 / ×1.0 / ×1.1).** Replaced the same day: the levels only change guidance (2026-11-10). It made the Student with the Large rocket unable to win.
+- **"Swap the scrubber" as the air task.** Replaced by "run the oxygen generator": a scrubber removes carbon dioxide, it makes no oxygen (2026-11-10).
+- **Crew uses only 90 days of supplies during the 730-day Arrival.** Replaced by the real 730 days (2026-11-10).
 - **A 3-second automatic pause after each setup answer.** Replaced by a Next button: 3 s was too short to read the longer voice lines (2026-11-10).
 - **"If a choice is not covered, ask one short question. Do not guess."** Replaced: use a GAME_PLAN DEFAULT when there is one and list it; otherwise ask (C2, 2026-11-10).
 - **The shadow pass as a Flight event** (GAME_PLAN draft, Phase A step 5). Replaced: it stays a Mars-orbit event in Arrival (C3, 2026-11-10).

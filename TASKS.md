@@ -100,10 +100,10 @@ to the conflict list C1–C16. Submission is Nov 14–15.
   drop.
   Test: ration, and food drops slower. Skip it, and it drops at the normal rate.
 
-- [ ] **A14. Air task: swap the scrubber.** S
-  An air station in Life Support with a "Press E" prompt. Swapping the scrubber
-  brings the air meter back up.
-  Test: swap it, and air recovers. Skip it, and air keeps falling.
+- [ ] **A14. Air task: run the oxygen generator.** S
+  An air station in Life Support with a "Press E" prompt. Running the oxygen
+  generator brings the air meter back up.
+  Test: run it, and air recovers. Skip it, and air keeps falling.
 
 - [ ] **A15. Flight event: water leak.** M
   One event from `data/events.json`, run in Life Support. Water drops fast until the

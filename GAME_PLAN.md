@@ -119,7 +119,7 @@ The ship has five rooms: Bridge, Power room, Science bay, Comms room, and **Life
 |---|---|---|---|
 | Food | The crew eats every day | Life Support | Ration, or grow food if the player packed a garden |
 | Water | Drinking and cooling | Life Support | Change the filter, fix a leak |
-| Air | Breathing | Life Support | Swap the scrubber |
+| Air | Breathing | Life Support | Run the oxygen generator |
 
 **Resources that also matter on the way** (two of the six; the six keep their exact names):
 
@@ -233,7 +233,7 @@ Goal: a player can go from Title to Report through all four stages. Everything i
 2. Setup questions 1–5, plain screens
 3. Timed-press scene (12a)
 4. Stage 2 Launch: sequence with 3 timed presses
-5. Stage 3 Flight: Life Support room, crew supply meters, 1 leg, 2 routine tasks (food: ration; air: swap the scrubber) + 1 flight event (water leak)
+5. Stage 3 Flight: Life Support room, crew supply meters, 1 leg, 2 routine tasks (food: ration; air: run the oxygen generator) + 1 flight event (water leak)
 6. Stage 4 Arrival, orbit type: burn + the existing shadow pass and Reroute Power + 1 science pass
 7. Connect Build → Launch → Flight → Arrival
 8. Checkpoints 1, 2, and 3 (12b), and the three report buttons
