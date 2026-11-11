@@ -114,6 +114,13 @@ size = Vector3(0.16, 0.16, 0.3)
 [sub_resource type="BoxMesh" id="BoxMesh_arm"]
 size = Vector3(0.18, 0.18, 0.9)
 
+[sub_resource type="BoxMesh" id="BoxMesh_dooropen"]
+size = Vector3(1.3, 2.8, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="Mat_dooropen"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
 [sub_resource type="Animation" id="Animation_intro"]
 resource_name = "intro"
 length = 23.0
@@ -164,7 +171,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6, 2, 2.999, 3, 3.4, 4.7),
 "transitions": PackedFloat32Array(1, 1, 0.5, 2, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0.6, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(-10.2177, 1, -4.4901), Vector3(-10.2177, 1, -4.4901), Vector3(-11.2077, 1, -5.4801)]
+"values": [Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0.6, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(-10.2177, 1, -4.4901), Vector3(-10.2177, 1, -4.4901), Vector3(-11.0309, 1, -5.3033)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -181,214 +188,274 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("People/Person_Commander:visible")
+tracks/5/path = NodePath("Room/Door:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
+"times": PackedFloat32Array(0, 3.3, 3.9, 4.9, 5.4),
+"transitions": PackedFloat32Array(1, 0.5, 1, 2, 1),
+"update": 0,
+"values": [Vector3(-11.2784, 2.4, -5.5508), Vector3(-11.2784, 2.4, -5.5508), Vector3(-12.2683, 2.4, -4.5609), Vector3(-12.2683, 2.4, -4.5609), Vector3(-11.2784, 2.4, -5.5508)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("People/Person_Commander:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
 "times": PackedFloat32Array(0, 4.7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
 }
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("People/Person_General:rotation:y")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("People/Person_General:rotation:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
 "times": PackedFloat32Array(0, 5.5, 6.5, 12, 12.4, 13, 13.6, 14),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [0, 0, 3.1416, 3.1416, 3.7416, 2.5416, 3.4416, 3.1416]
 }
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("People/Person_General/ArmPivot:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("People/Person_General/ArmPivot:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
 "times": PackedFloat32Array(0, 14.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
 }
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("People/Person_General/ArmPivot:rotation:x")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("People/Person_General/ArmPivot:rotation:x")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
 "times": PackedFloat32Array(0, 14.2, 14.9),
 "transitions": PackedFloat32Array(1, 1, 0.5),
 "update": 0,
 "values": [-1.5708, -1.5708, 0.2]
 }
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("People/Person_General/ArmPivot:rotation:y")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("People/Person_General/ArmPivot:rotation:y")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.17]
 }
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("People/Person_Staff1:position")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0, 9.3, 10.335, 10.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(-4.7, 1, -8.17), Vector3(-4.7, 1, -8.17), Vector3(-3, 1, -8.7), Vector3(-3, 1, -9.5)]
-}
 tracks/11/type = "value"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("People/Person_Staff1:rotation:y")
+tracks/11/path = NodePath("People/Person_Staff1:position")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
-"times": PackedFloat32Array(0, 9.29, 9.55, 10.325, 10.585),
+"times": PackedFloat32Array(0, 9.3, 9.9546, 10.2854, 10.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0, 0, -1.2686, -1.2686, 0]
+"values": [Vector3(-4.7, 1, -8.17), Vector3(-4.7, 1, -8.17), Vector3(-3, 1, -8.7), Vector3(-3, 1, -9.6), Vector3(-4.4, 1, -9.6)]
 }
 tracks/12/type = "value"
 tracks/12/imported = false
 tracks/12/enabled = true
-tracks/12/path = NodePath("People/Person_Staff1:scale")
+tracks/12/path = NodePath("People/Person_Staff1:rotation:y")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
+"times": PackedFloat32Array(0, 9.29, 9.55, 9.9446, 10.2046, 10.2754, 10.5354),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 0, -1.2686, -1.2686, 0, 0, 1.5708]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("People/Person_Staff1/Body:scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
 "times": PackedFloat32Array(0, 10.8, 11.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.55, 1)]
 }
-tracks/13/type = "value"
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/path = NodePath("People/Person_Staff2:position")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/keys = {
-"times": PackedFloat32Array(0, 9.3, 10.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 1, -9), Vector3(0, 1, -9), Vector3(0, 1, -10.3)]
-}
 tracks/14/type = "value"
 tracks/14/imported = false
 tracks/14/enabled = true
-tracks/14/path = NodePath("People/Person_Staff2:rotation:y")
+tracks/14/path = NodePath("People/Person_Staff1/Body:position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
-"times": PackedFloat32Array(0, 9.29, 9.55),
+"times": PackedFloat32Array(0, 10.8, 11.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [0, 0, 0]
+"values": [Vector3(0, 0.85, 0), Vector3(0, 0.85, 0), Vector3(0, 0.4675, 0)]
 }
 tracks/15/type = "value"
 tracks/15/imported = false
 tracks/15/enabled = true
-tracks/15/path = NodePath("People/Person_Staff2:scale")
+tracks/15/path = NodePath("People/Person_Staff1/Nose:position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/keys = {
+"times": PackedFloat32Array(0, 10.8, 11.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.45, -0.3), Vector3(0, 1.45, -0.3), Vector3(0, 0.8, -0.3)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("People/Person_Staff2:position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0, 9.3, 9.8806, 10.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1, -9), Vector3(0, 1, -9), Vector3(0, 1, -10.5), Vector3(1.6, 1, -10.5)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("People/Person_Staff2:rotation:y")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0, 9.29, 9.55, 9.8706, 10.1306),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 0, 0, 0, -1.5708]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("People/Person_Staff2/Body:scale")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
 "times": PackedFloat32Array(0, 10.5, 10.9),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.55, 1)]
 }
-tracks/16/type = "value"
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/path = NodePath("People/Person_Staff3:position")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/keys = {
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("People/Person_Staff2/Body:position")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0, 10.5, 10.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.85, 0), Vector3(0, 0.85, 0), Vector3(0, 0.4675, 0)]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("People/Person_Staff2/Nose:position")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0, 10.5, 10.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.45, -0.3), Vector3(0, 1.45, -0.3), Vector3(0, 0.8, -0.3)]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("People/Person_Staff3:position")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
 "times": PackedFloat32Array(0, 9.3, 9.9148, 10.7098, 11.35, 11.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(4.7, 1, -8.17), Vector3(4.7, 1, -8.17), Vector3(6.5, 1, -7.5), Vector3(8.4, 1, -5.9), Vector3(10, 1, -4.7), Vector3(10.6, 1, -5.2)]
 }
-tracks/17/type = "value"
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/path = NodePath("People/Person_Staff3:rotation:y")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/keys = {
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("People/Person_Staff3:rotation:y")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
 "times": PackedFloat32Array(0, 9.29, 9.55, 9.9048, 10.1648, 10.6998, 10.9598, 11.34, 11.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [0, 0, -1.9271, -1.9271, -2.2707, -2.2707, -2.2143, -2.2143, -0.8761]
 }
-tracks/18/type = "value"
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/path = NodePath("People/Person_Staff3:visible")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/keys = {
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("People/Person_Staff3:visible")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
 "times": PackedFloat32Array(0, 11.7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
 }
-tracks/19/type = "value"
-tracks/19/imported = false
-tracks/19/enabled = true
-tracks/19/path = NodePath("People/Person_AssistantScientist:rotation:y")
-tracks/19/interp = 1
-tracks/19/loop_wrap = true
-tracks/19/keys = {
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("People/Person_AssistantScientist:rotation:y")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
 "times": PackedFloat32Array(0, 17.5, 18.1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [0, 0, 2.8072]
 }
-tracks/20/type = "value"
-tracks/20/imported = false
-tracks/20/enabled = true
-tracks/20/path = NodePath("People/Person_Janitor:rotation:y")
-tracks/20/interp = 1
-tracks/20/loop_wrap = true
-tracks/20/keys = {
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("People/Person_Janitor:rotation:y")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
 "times": PackedFloat32Array(0, 18.3, 18.9, 19.3, 19.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [0, 0, 2.615, 2.615, -0.3344]
 }
-tracks/21/type = "value"
-tracks/21/imported = false
-tracks/21/enabled = true
-tracks/21/path = NodePath("People/Person_Student:rotation:y")
-tracks/21/interp = 1
-tracks/21/loop_wrap = true
-tracks/21/keys = {
+tracks/26/type = "value"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("People/Person_Student:rotation:y")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
 "times": PackedFloat32Array(0, 19.4, 20),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [0, 0, -0.5266]
 }
-tracks/22/type = "method"
-tracks/22/imported = false
-tracks/22/enabled = true
-tracks/22/path = NodePath(".")
-tracks/22/interp = 1
-tracks/22/loop_wrap = true
-tracks/22/keys = {
+tracks/27/type = "method"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath(".")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = {
 "times": PackedFloat32Array(0.3, 2.8, 5.5, 8.8, 12.2, 13.8, 14.8, 16.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "values": [{
@@ -417,82 +484,22 @@ tracks/22/keys = {
 "method": &"hide_subtitle"
 }]
 }
-tracks/23/type = "value"
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/path = NodePath("CanvasLayer/Fade:color")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/keys = {
+tracks/28/type = "value"
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/path = NodePath("CanvasLayer/Fade:color")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/keys = {
 "times": PackedFloat32Array(0, 21, 23),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
 }
-tracks/24/type = "value"
-tracks/24/imported = false
-tracks/24/enabled = true
-tracks/24/path = NodePath("People/Person_General/Label:visible")
-tracks/24/interp = 1
-tracks/24/loop_wrap = true
-tracks/24/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
-}
-tracks/25/type = "value"
-tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/path = NodePath("People/Person_Commander/Label:visible")
-tracks/25/interp = 1
-tracks/25/loop_wrap = true
-tracks/25/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
-}
-tracks/26/type = "value"
-tracks/26/imported = false
-tracks/26/enabled = true
-tracks/26/path = NodePath("People/Person_Staff1/Label:visible")
-tracks/26/interp = 1
-tracks/26/loop_wrap = true
-tracks/26/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
-}
-tracks/27/type = "value"
-tracks/27/imported = false
-tracks/27/enabled = true
-tracks/27/path = NodePath("People/Person_Staff2/Label:visible")
-tracks/27/interp = 1
-tracks/27/loop_wrap = true
-tracks/27/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
-}
-tracks/28/type = "value"
-tracks/28/imported = false
-tracks/28/enabled = true
-tracks/28/path = NodePath("People/Person_Staff3/Label:visible")
-tracks/28/interp = 1
-tracks/28/loop_wrap = true
-tracks/28/keys = {
-"times": PackedFloat32Array(0, 3, 9, 12, 17),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
-}
 tracks/29/type = "value"
 tracks/29/imported = false
 tracks/29/enabled = true
-tracks/29/path = NodePath("People/Person_AssistantScientist/Label:visible")
+tracks/29/path = NodePath("People/Person_General/Label:visible")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/keys = {
@@ -504,7 +511,7 @@ tracks/29/keys = {
 tracks/30/type = "value"
 tracks/30/imported = false
 tracks/30/enabled = true
-tracks/30/path = NodePath("People/Person_Janitor/Label:visible")
+tracks/30/path = NodePath("People/Person_Commander/Label:visible")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/keys = {
@@ -516,10 +523,70 @@ tracks/30/keys = {
 tracks/31/type = "value"
 tracks/31/imported = false
 tracks/31/enabled = true
-tracks/31/path = NodePath("People/Person_Student/Label:visible")
+tracks/31/path = NodePath("People/Person_Staff1/Label:visible")
 tracks/31/interp = 1
 tracks/31/loop_wrap = true
 tracks/31/keys = {
+"times": PackedFloat32Array(0, 3, 9, 10.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false]
+}
+tracks/32/type = "value"
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/path = NodePath("People/Person_Staff2/Label:visible")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/keys = {
+"times": PackedFloat32Array(0, 3, 9, 10.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false]
+}
+tracks/33/type = "value"
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/path = NodePath("People/Person_Staff3/Label:visible")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/keys = {
+"times": PackedFloat32Array(0, 3, 9, 12, 17),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true]
+}
+tracks/34/type = "value"
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/path = NodePath("People/Person_AssistantScientist/Label:visible")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/keys = {
+"times": PackedFloat32Array(0, 3, 9, 12, 17),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true]
+}
+tracks/35/type = "value"
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/path = NodePath("People/Person_Janitor/Label:visible")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/keys = {
+"times": PackedFloat32Array(0, 3, 9, 12, 17),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true]
+}
+tracks/36/type = "value"
+tracks/36/imported = false
+tracks/36/enabled = true
+tracks/36/path = NodePath("People/Person_Student/Label:visible")
+tracks/36/interp = 1
+tracks/36/loop_wrap = true
+tracks/36/keys = {
 "times": PackedFloat32Array(0, 3, 9, 12, 17),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
@@ -634,6 +701,11 @@ surface_material_override/0 = ExtResource("m_grey_dark")
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.4500, 0)
 mesh = SubResource("BoxMesh_5")
 surface_material_override/0 = ExtResource("m_amber")
+
+[node name="DoorOpening" type="MeshInstance3D" parent="Room"]
+transform = Transform3D(0.7071, 0, 0.7071, 0, 1, 0, -0.7071, 0, 0.7071, -11.2784, 2.4, -5.5508)
+mesh = SubResource("BoxMesh_dooropen")
+surface_material_override/0 = SubResource("Mat_dooropen")
 
 [node name="Steps" type="Node3D" parent="Room"]
 
@@ -1358,6 +1430,7 @@ theme_type_variation = &"NavyPanel"
 
 [node name="Subtitle" type="Label" parent="CanvasLayer/SubtitleBox"]
 layout_mode = 2
+theme_type_variation = &"BodyText"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
