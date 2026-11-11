@@ -170,8 +170,9 @@ The old unfinished steps, kept here until Phase C is done (unless Kaleb says so)
 - [ ] **19b. Animate the intro cutscene.** NICE · L
   Animate the capsules and camera, add Mars map textures to Screen_1 to Screen_5, and
   connect the cutscene to the Intro stage. Camera and people animation, subtitles and
-  fade are built (23 s, ends at the name screen); waiting for Kaleb's test. Mars map
-  textures and the Intro connection are not done.
+  fade are built (23 s, ends at the name screen). Kaleb tested: pass (2026-11-11).
+  Still to do: Mars map textures, and the Intro connection (add `cutscene_intro` to
+  `stages.order` after `intro`, then use `go_next()` instead of `go_to("name")`).
 - [ ] **5a. Windows in the rooms.** NICE · S
 - [ ] **5b. Chosen parts outside the windows.** NICE · M
 - [ ] **5c. Press E at a window to inspect the part.** NICE · S
