@@ -1,0 +1,132 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/character_lineup.gd" id="1_script"]
+[ext_resource type="Material" path="res://materials/room_panel_cream.tres" id="2_disc"]
+[ext_resource type="Material" path="res://materials/room_walkway_gray.tres" id="3_floor"]
+[ext_resource type="PackedScene" path="res://scenes/characters/general.tscn" id="c_general"]
+[ext_resource type="PackedScene" path="res://scenes/characters/commander.tscn" id="c_commander"]
+[ext_resource type="PackedScene" path="res://scenes/characters/assistant_scientist.tscn" id="c_assistant_scientist"]
+[ext_resource type="PackedScene" path="res://scenes/characters/janitor.tscn" id="c_janitor"]
+[ext_resource type="PackedScene" path="res://scenes/characters/student.tscn" id="c_student"]
+[ext_resource type="PackedScene" path="res://scenes/characters/staff1.tscn" id="c_staff1"]
+[ext_resource type="PackedScene" path="res://scenes/characters/staff2.tscn" id="c_staff2"]
+[ext_resource type="PackedScene" path="res://scenes/characters/staff3.tscn" id="c_staff3"]
+
+[sub_resource type="Environment" id="Environment_lineup"]
+background_mode = 1
+background_color = Color(0.62, 0.67, 0.74, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.86, 0.89, 0.95, 1)
+ambient_light_energy = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_disc"]
+top_radius = 0.75
+bottom_radius = 0.75
+height = 0.08
+radial_segments = 24
+rings = 1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+size = Vector2(40, 40)
+
+[node name="CharacterLineup" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lineup")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.906, 0.2726, -0.3243, 0, 0.7660, 0.6428, 0.4234, -0.5826, 0.6940, 0, 6, 4)
+light_energy = 0.7
+shadow_enabled = true
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_floor")
+surface_material_override/0 = ExtResource("3_floor")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9968, 0.0802, 0, -0.0802, 0.9968, 0, 1.9, 9.9)
+fov = 38.0
+current = true
+
+[node name="Stands" type="Node3D" parent="."]
+
+[node name="Stand_General" type="Node3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.250, 0, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Stands/Stand_General"]
+mesh = SubResource("CylinderMesh_disc")
+surface_material_override/0 = ExtResource("2_disc")
+
+[node name="General" parent="Stands/Stand_General" instance=ExtResource("c_general")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Stand_Commander" type="Node3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.750, 0, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Stands/Stand_Commander"]
+mesh = SubResource("CylinderMesh_disc")
+surface_material_override/0 = ExtResource("2_disc")
+
+[node name="Commander" parent="Stands/Stand_Commander" instance=ExtResource("c_commander")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Stand_AssistantScientist" type="Node3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.250, 0, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Stands/Stand_AssistantScientist"]
+mesh = SubResource("CylinderMesh_disc")
+surface_material_override/0 = ExtResource("2_disc")
+
+[node name="AssistantScientist" parent="Stands/Stand_AssistantScientist" instance=ExtResource("c_assistant_scientist")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Stand_Janitor" type="Node3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.750, 0, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Stands/Stand_Janitor"]
+mesh = SubResource("CylinderMesh_disc")
+surface_material_override/0 = ExtResource("2_disc")
+
+[node name="Janitor" parent="Stands/Stand_Janitor" instance=ExtResource("c_janitor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Stand_Student" type="Node3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.750, 0, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Stands/Stand_Student"]
+mesh = SubResource("CylinderMesh_disc")
+surface_material_override/0 = ExtResource("2_disc")
+
+[node name="Student" parent="Stands/Stand_Student" instance=ExtResource("c_student")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Stand_Staff1" type="Node3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.250, 0, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Stands/Stand_Staff1"]
+mesh = SubResource("CylinderMesh_disc")
+surface_material_override/0 = ExtResource("2_disc")
+
+[node name="Staff1" parent="Stands/Stand_Staff1" instance=ExtResource("c_staff1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Stand_Staff2" type="Node3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.750, 0, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Stands/Stand_Staff2"]
+mesh = SubResource("CylinderMesh_disc")
+surface_material_override/0 = ExtResource("2_disc")
+
+[node name="Staff2" parent="Stands/Stand_Staff2" instance=ExtResource("c_staff2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Stand_Staff3" type="Node3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.250, 0, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Stands/Stand_Staff3"]
+mesh = SubResource("CylinderMesh_disc")
+surface_material_override/0 = ExtResource("2_disc")
+
+[node name="Staff3" parent="Stands/Stand_Staff3" instance=ExtResource("c_staff3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)

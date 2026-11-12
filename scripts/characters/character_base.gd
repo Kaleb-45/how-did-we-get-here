@@ -274,7 +274,7 @@ func point_at_camera() -> void:
 		_point_tween.kill()
 	_arm_busy = true
 	_point_tween = create_tween().set_parallel(true)
-	_point_tween.tween_property(arm_r_node, "rotation", Vector3(1.5, 0.0, 0.0), 0.4) \
+	_point_tween.tween_property(arm_r_node, "rotation", POINT_POSE, 0.4) \
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	if finger:
 		_point_tween.tween_property(finger, "scale", Vector3.ONE, 0.3).set_delay(0.15)
@@ -292,6 +292,10 @@ func lower_arm() -> void:
 	_point_tween.chain().tween_callback(func() -> void: _arm_busy = false)
 
 
+# The pointing pose of the right arm (X = lift forward, Y = swing in toward the middle).
+# It is a little above straight forward and in front of the chest, so the hand and
+# the finger show up in a close-up of the face.
+const POINT_POSE := Vector3(1.8, 0.2, 0.0)
 const FINGER_CURLED := 0.05   # the finger is this part of its size while curled in the hand
 
 
@@ -675,7 +679,7 @@ func add_pointer_finger() -> void:
 	capsule.radial_segments = 6
 	capsule.rings = 2
 	_add(finger, capsule, skin, Vector3(0, -arm_r * 3.0, 0))
-	finger.rotation.x = 0.35   # the finger tips up a little, so it can be seen from the front
+	finger.rotation.x = 0.0   # the finger tips up a little, so it can be seen from the front
 
 
 # A point on the dome surface. xf is across the face (-1 left .. 1 right),
