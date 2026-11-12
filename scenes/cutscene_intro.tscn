@@ -1,15 +1,22 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/cutscene_intro.gd" id="1_cut"]
-[ext_resource type="Material" path="res://materials/grey_floor.tres" id="m_grey_floor"]
-[ext_resource type="Material" path="res://materials/grey_wall.tres" id="m_grey_wall"]
-[ext_resource type="Material" path="res://materials/grey_dark.tres" id="m_grey_dark"]
-[ext_resource type="Material" path="res://materials/grey_light.tres" id="m_grey_light"]
-[ext_resource type="Material" path="res://materials/glow_white.tres" id="m_glow_white"]
-[ext_resource type="Material" path="res://materials/screen_blue.tres" id="m_screen_blue"]
-[ext_resource type="Material" path="res://materials/amber.tres" id="m_amber"]
-[ext_resource type="Material" path="res://materials/monitor_blue.tres" id="m_monitor_blue"]
 [ext_resource type="Shader" path="res://shaders/mars_map.gdshader" id="shader_mars"]
+[ext_resource type="Shader" path="res://shaders/blob_shadow.gdshader" id="shader_blob"]
+[ext_resource type="Shader" path="res://shaders/window_sky.gdshader" id="shader_sky"]
+[ext_resource type="Material" path="res://materials/room_wall_white.tres" id="m_room_wall_white"]
+[ext_resource type="Material" path="res://materials/room_panel_cream.tres" id="m_room_panel_cream"]
+[ext_resource type="Material" path="res://materials/room_floor_navy.tres" id="m_room_floor_navy"]
+[ext_resource type="Material" path="res://materials/room_table_navy.tres" id="m_room_table_navy"]
+[ext_resource type="Material" path="res://materials/room_walkway_gray.tres" id="m_room_walkway_gray"]
+[ext_resource type="Material" path="res://materials/room_trim_dark.tres" id="m_room_trim_dark"]
+[ext_resource type="Material" path="res://materials/room_console_navy.tres" id="m_room_console_navy"]
+[ext_resource type="Material" path="res://materials/room_rocket_white.tres" id="m_room_rocket_white"]
+[ext_resource type="Material" path="res://materials/accent_cyan.tres" id="m_accent_cyan"]
+[ext_resource type="Material" path="res://materials/accent_orange.tres" id="m_accent_orange"]
+[ext_resource type="Material" path="res://materials/glow_cyan.tres" id="m_glow_cyan"]
+[ext_resource type="Material" path="res://materials/glow_orange.tres" id="m_glow_orange"]
+[ext_resource type="Material" path="res://materials/room_door_void.tres" id="m_room_door_void"]
 [ext_resource type="PackedScene" path="res://scenes/characters/general.tscn" id="char_general"]
 [ext_resource type="PackedScene" path="res://scenes/characters/commander.tscn" id="char_commander"]
 [ext_resource type="PackedScene" path="res://scenes/characters/staff1.tscn" id="char_staff1"]
@@ -99,25 +106,24 @@ size = Vector3(5.6, 3, 0.15)
 [sub_resource type="BoxMesh" id="BoxMesh_20"]
 size = Vector3(5.8, 0.1, 0.2)
 
-[sub_resource type="Environment" id="Env_war_room"]
+[sub_resource type="Environment" id="Env_bright"]
+; FILL LIGHT: the soft cool ambient light. Change ambient_light_color / energy.
+; GLOW: low intensity and a high threshold, so only the cyan screens and
+; console lights bloom. NO fog on purpose (fog is off).
 background_mode = 1
-background_color = Color(0.01, 0.01, 0.02, 1)
+background_color = Color(0.1686, 0.2471, 0.4196, 1)
 ambient_light_source = 2
-ambient_light_color = Color(0.35, 0.4, 0.6, 1)
-ambient_light_energy = 0.4
+ambient_light_color = Color(0.6157, 0.7059, 0.8392, 1)
+ambient_light_energy = 0.42
 tonemap_mode = 2
 glow_enabled = true
-glow_intensity = 0.9
-glow_bloom = 0.15
-glow_hdr_threshold = 0.9
+glow_intensity = 0.5
+glow_bloom = 0.0
+glow_hdr_threshold = 1.15
 glow_blend_mode = 1
 
 [sub_resource type="BoxMesh" id="BoxMesh_dooropen"]
 size = Vector3(1.3, 2.8, 0.02)
-
-[sub_resource type="StandardMaterial3D" id="Mat_dooropen"]
-shading_mode = 0
-albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="Mat_marsmap_1"]
 shader = ExtResource("shader_mars")
@@ -139,6 +145,125 @@ shader_parameter/seed = 5.5
 shader = ExtResource("shader_mars")
 shader_parameter/seed = 7.2
 
+[sub_resource type="BoxMesh" id="BoxMesh_wallback"]
+size = Vector3(10.3, 6.9, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pillar"]
+size = Vector3(2.25, 4.5, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lintel"]
+size = Vector3(5.8, 0.8, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sill"]
+size = Vector3(5.8, 0.14, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mullion"]
+size = Vector3(0.1, 3.7, 0.14)
+
+[sub_resource type="BoxMesh" id="BoxMesh_panel"]
+size = Vector3(2.2, 1.7, 0.06)
+
+[sub_resource type="BoxMesh" id="BoxMesh_trimstrip"]
+size = Vector3(10.3, 0.14, 0.07)
+
+[sub_resource type="BoxMesh" id="BoxMesh_screenframe"]
+size = Vector3(5.95, 3.35, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_contop"]
+size = Vector3(1.7, 0.08, 0.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_conlight"]
+size = Vector3(0.16, 0.05, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_monscreen"]
+size = Vector3(0.78, 0.43, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fgdesk"]
+size = Vector3(2.0, 1.1, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fgtop"]
+size = Vector3(2.1, 0.08, 1.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fgback"]
+size = Vector3(1.7, 0.7, 0.05)
+
+[sub_resource type="TorusMesh" id="TorusMesh_tablering"]
+inner_radius = 0.93
+outer_radius = 0.97
+rings = 32
+ring_segments = 6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cup"]
+top_radius = 0.07
+bottom_radius = 0.055
+height = 0.12
+radial_segments = 8
+rings = 1
+
+[sub_resource type="SphereMesh" id="SphereMesh_mars"]
+radius = 0.5
+height = 1.0
+radial_segments = 12
+rings = 6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_marsstand"]
+top_radius = 0.18
+bottom_radius = 0.3
+height = 0.9
+radial_segments = 8
+rings = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_crate"]
+size = Vector3(0.9, 0.7, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cratestripe"]
+size = Vector3(0.94, 0.12, 0.94)
+
+[sub_resource type="BoxMesh" id="BoxMesh_doorlight"]
+size = Vector3(0.18, 0.18, 0.08)
+
+[sub_resource type="SphereMesh" id="SphereMesh_sky"]
+radius = 80.0
+height = 160.0
+radial_segments = 24
+rings = 12
+
+[sub_resource type="ShaderMaterial" id="Mat_sky"]
+shader = ExtResource("shader_sky")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pad"]
+top_radius = 1.5
+bottom_radius = 1.8
+height = 0.4
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rocket"]
+top_radius = 0.3
+bottom_radius = 0.3
+height = 1.9
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_nose"]
+top_radius = 0.0
+bottom_radius = 0.3
+height = 0.6
+radial_segments = 12
+rings = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_fin"]
+size = Vector3(0.7, 0.55, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_towermain"]
+size = Vector3(0.28, 2.7, 0.28)
+
+[sub_resource type="BoxMesh" id="BoxMesh_towerarm"]
+size = Vector3(0.9, 0.08, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_towerbase"]
+size = Vector3(1.0, 0.2, 1.0)
+
 [sub_resource type="Animation" id="Animation_intro"]
 resource_name = "intro"
 length = 27.5
@@ -151,7 +276,7 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 12.699, 12.7, 13.399, 13.4, 14.099, 14.1, 14.599, 14.6, 17.399, 17.4, 18.199, 18.2, 18.45, 18.7, 20.999, 21, 25.5),
-"transitions": PackedFloat32Array(-1.5, 1, -2, 0.4, -2, 1, -2, -2, 1, 1, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, 1, 0.4, -2, 1, -2, 1),
+"transitions": PackedFloat32Array(-1.5, 0, -2, 0.4, -2, 0, -2, -2, 0, 1, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, 1, 0.4, -2, 0, -2, 1),
 "update": 0,
 "values": [Vector3(0, 6.8, 10.5), Vector3(0, 5.6, 7.8), Vector3(-0.3, 1.15, -2.9), Vector3(-0.3, 1.15, -2.9), Vector3(-0.3, 1.2, -3), Vector3(-0.3, 1.2, -3.2), Vector3(-9.1, 2.6, 1.6), Vector3(-9.2, 2.6, 0.9), Vector3(-9.3, 2.6, 0.5), Vector3(-2.1, 1.9, -4.3), Vector3(-2.1, 1.9, -4.3), Vector3(-1.7, 1.2, -8), Vector3(-1.2, 1.1, -7), Vector3(-1.2, 3.4, -3.8), Vector3(-1.4, 3.4, -3.8), Vector3(2, 3.4, -4.2), Vector3(1.8, 3.4, -4.2), Vector3(3.4, 3.6, -3.2), Vector3(3.4, 3.6, -3.2), Vector3(0, 3, -6), Vector3(0, 3, -5.8), Vector3(1.7, 2.3, -2.9), Vector3(1.9, 2.3, -3), Vector3(1.9, 2.3, -3), Vector3(1.95, 2.3, -3), Vector3(0.3, 2, -1.9), Vector3(0.3, 2, -1.9), Vector3(0.25, 2, -2), Vector3(0.1, 2, -2.2), Vector3(-8.8, 2.6, 0.2), Vector3(-9.1, 2.6, 0.1)]
 }
@@ -163,9 +288,9 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 12.699, 12.7, 13.399, 13.4, 14.099, 14.1, 14.599, 14.6, 17.399, 17.4, 18.199, 18.2, 18.45, 18.7, 20.999, 21, 25.5),
-"transitions": PackedFloat32Array(-1.5, 1, -2, 0.4, -2, 1, -2, -2, 1, 1, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, 1, 0.4, -2, 1, -2, 1),
+"transitions": PackedFloat32Array(-1.5, 0, -2, 0.4, -2, 0, -2, -2, 0, 1, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, 1, 0.4, -2, 0, -2, 1),
 "update": 0,
-"values": [Vector3(-0.4197, 0, 0), Vector3(-0.3869, 0, 0), Vector3(0.1003, -0.6999, 0), Vector3(0.1003, -0.6999, 0), Vector3(0.1366, -0.7854, 0), Vector3(0.1661, -0.5764, 0), Vector3(-0.1233, 0.2826, 0), Vector3(-0.0494, 0.3009, 0), Vector3(-0.0622, 0.3168, 0), Vector3(-0.0455, -1.2706, 0), Vector3(-0.0455, -1.2706, 0), Vector3(0.1702, -2.6331, 0), Vector3(0.2866, -2.612, 0), Vector3(-0.2376, 0.6504, 0), Vector3(-0.2424, 0.6223, 0), Vector3(-0.2459, 0.2537, 0), Vector3(-0.2479, 0.2187, 0), Vector3(-0.2866, -0.9828, 0), Vector3(-0.2837, -1.0304, 0), Vector3(-0.1732, 0, 0), Vector3(-0.1651, 0, 0), Vector3(-0.1751, 0.6125, 0), Vector3(-0.1736, 0.661, 0), Vector3(-0.1736, 0.661, 0), Vector3(-0.1725, 0.6696, 0), Vector3(-0.0326, 0.098, 0), Vector3(-0.0326, 0.098, 0), Vector3(-0.0338, 0.0845, 0), Vector3(-0.0363, 0.0363, 0), Vector3(-0.0172, 1.5019, 0), Vector3(-0.0192, 1.5324, 0)]
+"values": [Vector3(-0.27, 0, 0), Vector3(-0.235, 0, 0), Vector3(0.1003, -0.6999, 0), Vector3(0.1003, -0.6999, 0), Vector3(0.1366, -0.7854, 0), Vector3(0.1661, -0.5764, 0), Vector3(-0.1233, 0.2826, 0), Vector3(-0.0494, 0.3009, 0), Vector3(-0.0622, 0.3168, 0), Vector3(-0.0455, -1.2706, 0), Vector3(-0.0455, -1.2706, 0), Vector3(0.1702, -2.6331, 0), Vector3(0.2866, -2.612, 0), Vector3(-0.2376, 0.6504, 0), Vector3(-0.2424, 0.6223, 0), Vector3(-0.2459, 0.2537, 0), Vector3(-0.2479, 0.2187, 0), Vector3(-0.2866, -0.9828, 0), Vector3(-0.2837, -1.0304, 0), Vector3(-0.1732, 0, 0), Vector3(-0.1651, 0, 0), Vector3(-0.1751, 0.6125, 0), Vector3(-0.1736, 0.661, 0), Vector3(-0.1736, 0.661, 0), Vector3(-0.1725, 0.6696, 0), Vector3(-0.0326, 0.098, 0), Vector3(-0.0326, 0.098, 0), Vector3(-0.0338, 0.0845, 0), Vector3(-0.0363, 0.0363, 0), Vector3(-0.0172, 1.5019, 0), Vector3(-0.0192, 1.5324, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -175,9 +300,9 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 12.699, 12.7, 13.399, 13.4, 14.099, 14.1, 14.599, 14.6, 17.399, 17.4, 18.199, 18.2, 18.45, 18.7, 20.999, 21, 25.5),
-"transitions": PackedFloat32Array(-1.5, 1, -2, 0.4, -2, 1, -2, -2, 1, 1, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, -2, 1, 1, 0.4, -2, 1, -2, 1),
+"transitions": PackedFloat32Array(-1.5, 0, -2, 0.4, -2, 0, -2, -2, 0, 1, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, 1, 0.4, -2, 0, -2, 1),
 "update": 0,
-"values": [62, 58, 50, 50, 29, 30, 50, 48, 46, 34, 34, 52, 48, 40, 38, 40, 38, 42, 42, 62, 60, 44, 42, 42, 42, 40, 40, 31, 29, 60, 58]
+"values": [66, 62, 50, 50, 29, 30, 50, 48, 46, 34, 34, 52, 48, 40, 38, 40, 38, 42, 42, 62, 60, 44, 42, 42, 42, 40, 40, 31, 29, 60, 58]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -199,9 +324,9 @@ tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 3.4, 3.55, 3.7, 4.3, 4.31, 4.4822, 4.6545, 4.8267, 4.999, 5, 5.1625, 5.325, 5.4875, 5.65, 5.8125, 5.975, 6.1375, 6.3, 6.31, 6.44, 6.57, 6.7),
-"transitions": PackedFloat32Array(1, 0.5, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"transitions": PackedFloat32Array(1, 0.5, 2, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0.35, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(0.825, 0.07, -5.15), Vector3(0.15, 0, -5.5), Vector3(-0.525, 0.07, -5.85), Vector3(-1.2, 0, -6.2), Vector3(-10, 1, -1.2), Vector3(-10.125, 1.07, -1.6687), Vector3(-10.25, 1, -2.1375), Vector3(-10.375, 1.07, -2.6063), Vector3(-10.5, 1, -3.075), Vector3(-10.625, 1.07, -3.5438), Vector3(-10.75, 1, -4.0125), Vector3(-10.875, 1.07, -4.4813), Vector3(-11, 1, -4.95), Vector3(-11, 1, -4.95), Vector3(-11.2067, 1.07, -5.2833), Vector3(-11.4133, 1, -5.6167), Vector3(-11.62, 1, -5.95)]
+"values": [Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0.35, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(1.5, 0, -4.8), Vector3(0.825, 0.07, -5.5), Vector3(0.15, 0, -6.05), Vector3(-0.525, 0.07, -6.3), Vector3(-1.2, 0, -6.2), Vector3(-10, 1, -1.2), Vector3(-10.125, 1.07, -1.6687), Vector3(-10.25, 1, -2.1375), Vector3(-10.375, 1.07, -2.6063), Vector3(-10.5, 1, -3.075), Vector3(-10.625, 1.07, -3.5438), Vector3(-10.75, 1, -4.0125), Vector3(-10.875, 1.07, -4.4813), Vector3(-11, 1, -4.95), Vector3(-11, 1, -4.95), Vector3(-11.2067, 1.07, -5.2833), Vector3(-11.4133, 1, -5.6167), Vector3(-11.62, 1, -5.95)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -211,7 +336,7 @@ tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0, 3.9, 4.3, 4.999, 5, 6.3, 7.3),
-"transitions": PackedFloat32Array(1, -2, 1, 1, -2, 1, 1),
+"transitions": PackedFloat32Array(1, -2, 1, 0, -2, 1, 1),
 "update": 0,
 "values": [1.4711, 1.4711, -5.2032, -5.2032, 0.27, 0.785, 0.785]
 }
@@ -261,7 +386,7 @@ tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "times": PackedFloat32Array(0, 5.7, 6.4, 8.4, 9.3, 18.199, 18.2),
-"transitions": PackedFloat32Array(1, -2, 1, -2, 1, 1, 1),
+"transitions": PackedFloat32Array(1, -2, 1, -2, 1, 0, 1),
 "update": 0,
 "values": [-1.5708, -1.5708, 1.5708, 1.5708, 0, 0, 3.2916]
 }
@@ -273,7 +398,7 @@ tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
 "times": PackedFloat32Array(0, 14.9, 15.4, 16.1, 16.7, 17.7, 18.1, 18.199, 18.2),
-"transitions": PackedFloat32Array(1, -2, -2, -2, 1, -2, 1, 1, 1),
+"transitions": PackedFloat32Array(1, -2, -2, -2, 1, -2, 1, 0, 1),
 "update": 0,
 "values": [0, 0, 0.8, -0.8, 0, 0, -1.7, -1.7, 0]
 }
@@ -324,7 +449,7 @@ tracks/13/keys = {
 "times": PackedFloat32Array(0, 12.3, 12.55),
 "transitions": PackedFloat32Array(1, -2, 1),
 "update": 0,
-"values": [Vector3(-4.7, 1, -8.17), Vector3(-4.7, 1, -8.17), Vector3(-4.83, 1, -9.5)]
+"values": [Vector3(-4.83, 1, -9.5), Vector3(-4.83, 1, -9.5), Vector3(-4.83, 1, -9.5)]
 }
 tracks/14/type = "value"
 tracks/14/imported = false
@@ -348,7 +473,7 @@ tracks/15/keys = {
 "times": PackedFloat32Array(0, 13, 13.3),
 "transitions": PackedFloat32Array(1, -2, 1),
 "update": 0,
-"values": [Vector3(0, 1, -9), Vector3(0, 1, -9), Vector3(1.67, 1, -10.52)]
+"values": [Vector3(1.67, 1, -10.52), Vector3(1.67, 1, -10.52), Vector3(1.67, 1, -10.52)]
 }
 tracks/16/type = "value"
 tracks/16/imported = false
@@ -533,234 +658,245 @@ script = ExtResource("1_cut")
 [node name="LowerFloor" type="MeshInstance3D" parent="Room"]
 transform = Transform3D(0.9239, 0, 0.3827, 0, 1.0000, 0, -0.3827, 0, 0.9239, 0, -0.0500, 0)
 mesh = SubResource("CylinderMesh_1")
-surface_material_override/0 = ExtResource("m_grey_floor")
+surface_material_override/0 = ExtResource("m_room_floor_navy")
 
 [node name="Walkway" type="Node3D" parent="Room"]
 
 [node name="WalkwaySegment_1" type="MeshInstance3D" parent="Room/Walkway"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.5000, -10.2500)
 mesh = SubResource("BoxMesh_2")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="WalkwaySegment_2" type="MeshInstance3D" parent="Room/Walkway"]
 transform = Transform3D(0.7071, 0, -0.7071, 0, 1.0000, 0, 0.7071, 0, 0.7071, 7.2478, 0.5000, -7.2478)
 mesh = SubResource("BoxMesh_2")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="WalkwaySegment_3" type="MeshInstance3D" parent="Room/Walkway"]
 transform = Transform3D(0, 0, -1.0000, 0, 1.0000, 0, 1.0000, 0, 0, 10.2500, 0.5000, 0)
 mesh = SubResource("BoxMesh_2")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="WalkwaySegment_4" type="MeshInstance3D" parent="Room/Walkway"]
 transform = Transform3D(-0.7071, 0, -0.7071, 0, 1.0000, 0, 0.7071, 0, -0.7071, 7.2478, 0.5000, 7.2478)
 mesh = SubResource("BoxMesh_2")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="WalkwaySegment_5" type="MeshInstance3D" parent="Room/Walkway"]
 transform = Transform3D(-1.0000, 0, 0, 0, 1.0000, 0, 0, 0, -1.0000, 0, 0.5000, 10.2500)
 mesh = SubResource("BoxMesh_2")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="WalkwaySegment_6" type="MeshInstance3D" parent="Room/Walkway"]
 transform = Transform3D(-0.7071, 0, 0.7071, 0, 1.0000, 0, -0.7071, 0, -0.7071, -7.2478, 0.5000, 7.2478)
 mesh = SubResource("BoxMesh_2")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="WalkwaySegment_7" type="MeshInstance3D" parent="Room/Walkway"]
 transform = Transform3D(0, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0, -10.2500, 0.5000, 0)
 mesh = SubResource("BoxMesh_2")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="WalkwaySegment_8" type="MeshInstance3D" parent="Room/Walkway"]
 transform = Transform3D(0.7071, 0, 0.7071, 0, 1.0000, 0, -0.7071, 0, 0.7071, -7.2478, 0.5000, -7.2478)
 mesh = SubResource("BoxMesh_2")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Walls" type="Node3D" parent="Room"]
 
 [node name="Wall_Back" type="MeshInstance3D" parent="Room/Walls"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 4.0000, -12.2000)
-mesh = SubResource("BoxMesh_3")
-surface_material_override/0 = ExtResource("m_grey_wall")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.45, -12.2)
+mesh = SubResource("BoxMesh_wallback")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
 
 [node name="Wall_BackRight" type="MeshInstance3D" parent="Room/Walls"]
 transform = Transform3D(0.7071, 0, -0.7071, 0, 1.0000, 0, 0.7071, 0, 0.7071, 8.6267, 4.0000, -8.6267)
 mesh = SubResource("BoxMesh_3")
-surface_material_override/0 = ExtResource("m_grey_wall")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
 
 [node name="Wall_Right" type="MeshInstance3D" parent="Room/Walls"]
 transform = Transform3D(0, 0, -1.0000, 0, 1.0000, 0, 1.0000, 0, 0, 12.2000, 4.0000, 0)
 mesh = SubResource("BoxMesh_3")
-surface_material_override/0 = ExtResource("m_grey_wall")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
 
 [node name="Wall_FrontRight" type="MeshInstance3D" parent="Room/Walls"]
 transform = Transform3D(-0.7071, 0, -0.7071, 0, 1.0000, 0, 0.7071, 0, -0.7071, 8.6267, 4.0000, 8.6267)
 mesh = SubResource("BoxMesh_3")
-surface_material_override/0 = ExtResource("m_grey_wall")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
 
 [node name="Wall_Front" type="MeshInstance3D" parent="Room/Walls"]
 transform = Transform3D(-1.0000, 0, 0, 0, 1.0000, 0, 0, 0, -1.0000, 0, 4.0000, 12.2000)
 mesh = SubResource("BoxMesh_3")
-surface_material_override/0 = ExtResource("m_grey_wall")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
 
 [node name="Wall_FrontLeft" type="MeshInstance3D" parent="Room/Walls"]
 transform = Transform3D(-0.7071, 0, 0.7071, 0, 1.0000, 0, -0.7071, 0, -0.7071, -8.6267, 4.0000, 8.6267)
 mesh = SubResource("BoxMesh_3")
-surface_material_override/0 = ExtResource("m_grey_wall")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
 
 [node name="Wall_Left" type="MeshInstance3D" parent="Room/Walls"]
 transform = Transform3D(0, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0, -12.2000, 4.0000, 0)
 mesh = SubResource("BoxMesh_3")
-surface_material_override/0 = ExtResource("m_grey_wall")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
 
 [node name="Wall_BackLeft" type="MeshInstance3D" parent="Room/Walls"]
 transform = Transform3D(0.7071, 0, 0.7071, 0, 1.0000, 0, -0.7071, 0, 0.7071, -8.6267, 4.0000, -8.6267)
 mesh = SubResource("BoxMesh_3")
-surface_material_override/0 = ExtResource("m_grey_wall")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
 
 [node name="Door" type="MeshInstance3D" parent="Room"]
 transform = Transform3D(0.7071, 0, 0.7071, 0, 1.0000, 0, -0.7071, 0, 0.7071, -11.2784, 2.4000, -5.5508)
 mesh = SubResource("BoxMesh_4")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_trim_dark")
+cast_shadow = 0
 
 [node name="DoorFrameStripe" type="MeshInstance3D" parent="Room/Door"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.4500, 0)
 mesh = SubResource("BoxMesh_5")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
+cast_shadow = 0
 
 [node name="DoorOpening" type="MeshInstance3D" parent="Room"]
 transform = Transform3D(0.7071, 0, 0.7071, 0, 1, 0, -0.7071, 0, 0.7071, -11.2784, 2.4, -5.5508)
 mesh = SubResource("BoxMesh_dooropen")
-surface_material_override/0 = SubResource("Mat_dooropen")
+surface_material_override/0 = ExtResource("m_room_door_void")
+cast_shadow = 0
 
 [node name="Steps" type="Node3D" parent="Room"]
 
 [node name="Step_1" type="MeshInstance3D" parent="Room/Steps"]
 transform = Transform3D(-1.0000, 0, 0, 0, 1.0000, 0, 0, 0, -1.0000, 0, 0.3350, 8.2500)
 mesh = SubResource("BoxMesh_6")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Step_2" type="MeshInstance3D" parent="Room/Steps"]
 transform = Transform3D(-1.0000, 0, 0, 0, 1.0000, 0, 0, 0, -1.0000, 0, 0.1650, 7.7500)
 mesh = SubResource("BoxMesh_7")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Railing" type="Node3D" parent="Room"]
 
 [node name="RailBar_1" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 2.0000, -8.6000)
 mesh = SubResource("BoxMesh_8")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailBar_2" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(0.7071, 0, -0.7071, 0, 1.0000, 0, 0.7071, 0, 0.7071, 6.0811, 2.0000, -6.0811)
 mesh = SubResource("BoxMesh_8")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailBar_3" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(0, 0, -1.0000, 0, 1.0000, 0, 1.0000, 0, 0, 8.6000, 2.0000, 0)
 mesh = SubResource("BoxMesh_8")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailBar_4" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(-0.7071, 0, -0.7071, 0, 1.0000, 0, 0.7071, 0, -0.7071, 6.0811, 2.0000, 6.0811)
 mesh = SubResource("BoxMesh_8")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailBar_5A" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(-1.0000, 0, 0, 0, 1.0000, 0, 0, 0, -1.0000, 2.6000, 2.0000, 8.6000)
 mesh = SubResource("BoxMesh_9")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailBar_5B" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(-1.0000, 0, 0, 0, 1.0000, 0, 0, 0, -1.0000, -2.6000, 2.0000, 8.6000)
 mesh = SubResource("BoxMesh_9")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailBar_6" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(-0.7071, 0, 0.7071, 0, 1.0000, 0, -0.7071, 0, -0.7071, -6.0811, 2.0000, 6.0811)
 mesh = SubResource("BoxMesh_8")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailBar_7" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(0, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0, -8.6000, 2.0000, 0)
 mesh = SubResource("BoxMesh_8")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailBar_8" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(0.7071, 0, 0.7071, 0, 1.0000, 0, -0.7071, 0, 0.7071, -6.0811, 2.0000, -6.0811)
 mesh = SubResource("BoxMesh_8")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailPost_1" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 3.5622, 1.5000, -8.6000)
 mesh = SubResource("CylinderMesh_10")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailPost_2" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 8.6000, 1.5000, -3.5622)
 mesh = SubResource("CylinderMesh_10")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailPost_3" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 8.6000, 1.5000, 3.5622)
 mesh = SubResource("CylinderMesh_10")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailPost_4" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 3.5622, 1.5000, 8.6000)
 mesh = SubResource("CylinderMesh_10")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailPost_5" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -3.5622, 1.5000, 8.6000)
 mesh = SubResource("CylinderMesh_10")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailPost_6" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -8.6000, 1.5000, 3.5622)
 mesh = SubResource("CylinderMesh_10")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailPost_7" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -8.6000, 1.5000, -3.5622)
 mesh = SubResource("CylinderMesh_10")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailPost_8" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -3.5622, 1.5000, -8.6000)
 mesh = SubResource("CylinderMesh_10")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailPostSteps_A" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 1.6000, 1.5000, 8.6000)
 mesh = SubResource("CylinderMesh_10")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="RailPostSteps_B" type="MeshInstance3D" parent="Room/Railing"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -1.6000, 1.5000, 8.6000)
 mesh = SubResource("CylinderMesh_10")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Furniture" type="Node3D" parent="."]
 
 [node name="SupplyCloset" type="MeshInstance3D" parent="Furniture"]
 transform = Transform3D(0.7071, 0, -0.7071, 0, 1.0000, 0, 0.7071, 0, 0.7071, 10.6420, 2.5000, -5.2679)
 mesh = SubResource("BoxMesh_11")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_trim_dark")
 
 [node name="Table" type="Node3D" parent="Furniture"]
 
 [node name="TableTop" type="MeshInstance3D" parent="Furniture/Table"]
 transform = Transform3D(2.2000, 0, 0, 0, 1.0000, 0, 0, 0, 3.4000, 0, 0.9500, 0)
 mesh = SubResource("CylinderMesh_12")
-surface_material_override/0 = ExtResource("m_glow_white")
+surface_material_override/0 = ExtResource("m_room_table_navy")
 
 [node name="TablePedestal" type="MeshInstance3D" parent="Furniture/Table"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.4500, 0)
 mesh = SubResource("CylinderMesh_13")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_trim_dark")
 
 [node name="Chairs" type="Node3D" parent="Furniture"]
 
@@ -770,17 +906,17 @@ transform = Transform3D(0.5547, 0, 0.8321, 0, 1.0000, 0, -0.8321, 0, 0.5547, -3.
 [node name="Seat" type="MeshInstance3D" parent="Furniture/Chairs/Chair_1"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.5000, 0)
 mesh = SubResource("BoxMesh_14")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Back" type="MeshInstance3D" parent="Furniture/Chairs/Chair_1"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.9000, -0.2800)
 mesh = SubResource("BoxMesh_15")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Leg" type="MeshInstance3D" parent="Furniture/Chairs/Chair_1"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.2500, 0)
 mesh = SubResource("CylinderMesh_16")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Chair_2" type="Node3D" parent="Furniture/Chairs"]
 transform = Transform3D(0, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0, -3.0000, 0, 0)
@@ -788,17 +924,17 @@ transform = Transform3D(0, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0, -3.0000, 0, 0
 [node name="Seat" type="MeshInstance3D" parent="Furniture/Chairs/Chair_2"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.5000, 0)
 mesh = SubResource("BoxMesh_14")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Back" type="MeshInstance3D" parent="Furniture/Chairs/Chair_2"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.9000, -0.2800)
 mesh = SubResource("BoxMesh_15")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Leg" type="MeshInstance3D" parent="Furniture/Chairs/Chair_2"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.2500, 0)
 mesh = SubResource("CylinderMesh_16")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Chair_3" type="Node3D" parent="Furniture/Chairs"]
 transform = Transform3D(-0.5547, 0, 0.8321, 0, 1.0000, 0, -0.8321, 0, -0.5547, -3.0000, 0, 2.0000)
@@ -806,17 +942,17 @@ transform = Transform3D(-0.5547, 0, 0.8321, 0, 1.0000, 0, -0.8321, 0, -0.5547, -
 [node name="Seat" type="MeshInstance3D" parent="Furniture/Chairs/Chair_3"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.5000, 0)
 mesh = SubResource("BoxMesh_14")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Back" type="MeshInstance3D" parent="Furniture/Chairs/Chair_3"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.9000, -0.2800)
 mesh = SubResource("BoxMesh_15")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Leg" type="MeshInstance3D" parent="Furniture/Chairs/Chair_3"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.2500, 0)
 mesh = SubResource("CylinderMesh_16")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Chair_4" type="Node3D" parent="Furniture/Chairs"]
 transform = Transform3D(0.5547, 0, -0.8321, 0, 1.0000, 0, 0.8321, 0, 0.5547, 3.0000, 0, -2.0000)
@@ -824,17 +960,17 @@ transform = Transform3D(0.5547, 0, -0.8321, 0, 1.0000, 0, 0.8321, 0, 0.5547, 3.0
 [node name="Seat" type="MeshInstance3D" parent="Furniture/Chairs/Chair_4"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.5000, 0)
 mesh = SubResource("BoxMesh_14")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Back" type="MeshInstance3D" parent="Furniture/Chairs/Chair_4"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.9000, -0.2800)
 mesh = SubResource("BoxMesh_15")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Leg" type="MeshInstance3D" parent="Furniture/Chairs/Chair_4"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.2500, 0)
 mesh = SubResource("CylinderMesh_16")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Chair_5" type="Node3D" parent="Furniture/Chairs"]
 transform = Transform3D(0, 0, -1.0000, 0, 1.0000, 0, 1.0000, 0, 0, 3.0000, 0, 0)
@@ -842,17 +978,17 @@ transform = Transform3D(0, 0, -1.0000, 0, 1.0000, 0, 1.0000, 0, 0, 3.0000, 0, 0)
 [node name="Seat" type="MeshInstance3D" parent="Furniture/Chairs/Chair_5"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.5000, 0)
 mesh = SubResource("BoxMesh_14")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Back" type="MeshInstance3D" parent="Furniture/Chairs/Chair_5"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.9000, -0.2800)
 mesh = SubResource("BoxMesh_15")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Leg" type="MeshInstance3D" parent="Furniture/Chairs/Chair_5"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.2500, 0)
 mesh = SubResource("CylinderMesh_16")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Chair_6" type="Node3D" parent="Furniture/Chairs"]
 transform = Transform3D(-0.5547, 0, -0.8321, 0, 1.0000, 0, 0.8321, 0, -0.5547, 3.0000, 0, 2.0000)
@@ -860,17 +996,17 @@ transform = Transform3D(-0.5547, 0, -0.8321, 0, 1.0000, 0, 0.8321, 0, -0.5547, 3
 [node name="Seat" type="MeshInstance3D" parent="Furniture/Chairs/Chair_6"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.5000, 0)
 mesh = SubResource("BoxMesh_14")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Back" type="MeshInstance3D" parent="Furniture/Chairs/Chair_6"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.9000, -0.2800)
 mesh = SubResource("BoxMesh_15")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Leg" type="MeshInstance3D" parent="Furniture/Chairs/Chair_6"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.2500, 0)
 mesh = SubResource("CylinderMesh_16")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Chair_7" type="Node3D" parent="Furniture/Chairs"]
 transform = Transform3D(-1.0000, 0, 0, 0, 1.0000, 0, 0, 0, -1.0000, 0, 0, 4.2000)
@@ -878,17 +1014,17 @@ transform = Transform3D(-1.0000, 0, 0, 0, 1.0000, 0, 0, 0, -1.0000, 0, 0, 4.2000
 [node name="Seat" type="MeshInstance3D" parent="Furniture/Chairs/Chair_7"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.5000, 0)
 mesh = SubResource("BoxMesh_14")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Back" type="MeshInstance3D" parent="Furniture/Chairs/Chair_7"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.9000, -0.2800)
 mesh = SubResource("BoxMesh_15")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Leg" type="MeshInstance3D" parent="Furniture/Chairs/Chair_7"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.2500, 0)
 mesh = SubResource("CylinderMesh_16")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="Chair_8" type="Node3D" parent="Furniture/Chairs"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0, -4.2000)
@@ -896,17 +1032,17 @@ transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0, -4.2000)
 [node name="Seat" type="MeshInstance3D" parent="Furniture/Chairs/Chair_8"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.5000, 0)
 mesh = SubResource("BoxMesh_14")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Back" type="MeshInstance3D" parent="Furniture/Chairs/Chair_8"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.9000, -0.2800)
 mesh = SubResource("BoxMesh_15")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Leg" type="MeshInstance3D" parent="Furniture/Chairs/Chair_8"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.2500, 0)
 mesh = SubResource("CylinderMesh_16")
-surface_material_override/0 = ExtResource("m_grey_light")
+surface_material_override/0 = ExtResource("m_room_walkway_gray")
 
 [node name="ConsolesRowBack" type="Node3D" parent="Furniture"]
 
@@ -916,12 +1052,12 @@ transform = Transform3D(0.8090, 0, 0.5878, 0, 1.0000, 0, -0.5878, 0, 0.8090, -6.
 [node name="Desk" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A1"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.4500, 0)
 mesh = SubResource("BoxMesh_17")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Monitor" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A1"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 1.2000, -0.1000)
 mesh = SubResource("BoxMesh_18")
-surface_material_override/0 = ExtResource("m_monitor_blue")
+surface_material_override/0 = ExtResource("m_room_table_navy")
 
 [node name="Console_A2" type="Node3D" parent="Furniture/ConsolesRowBack"]
 transform = Transform3D(0.9511, 0, 0.3090, 0, 1.0000, 0, -0.3090, 0, 0.9511, -3.4610, 1.0000, -10.6518)
@@ -929,12 +1065,12 @@ transform = Transform3D(0.9511, 0, 0.3090, 0, 1.0000, 0, -0.3090, 0, 0.9511, -3.
 [node name="Desk" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A2"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.4500, 0)
 mesh = SubResource("BoxMesh_17")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Monitor" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A2"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 1.2000, -0.1000)
 mesh = SubResource("BoxMesh_18")
-surface_material_override/0 = ExtResource("m_monitor_blue")
+surface_material_override/0 = ExtResource("m_room_table_navy")
 
 [node name="Console_A3" type="Node3D" parent="Furniture/ConsolesRowBack"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.0000, -11.2000)
@@ -942,12 +1078,12 @@ transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.0000, -11
 [node name="Desk" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A3"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.4500, 0)
 mesh = SubResource("BoxMesh_17")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Monitor" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A3"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 1.2000, -0.1000)
 mesh = SubResource("BoxMesh_18")
-surface_material_override/0 = ExtResource("m_monitor_blue")
+surface_material_override/0 = ExtResource("m_room_table_navy")
 
 [node name="Console_A4" type="Node3D" parent="Furniture/ConsolesRowBack"]
 transform = Transform3D(0.9511, 0, -0.3090, 0, 1.0000, 0, 0.3090, 0, 0.9511, 3.4610, 1.0000, -10.6518)
@@ -955,12 +1091,12 @@ transform = Transform3D(0.9511, 0, -0.3090, 0, 1.0000, 0, 0.3090, 0, 0.9511, 3.4
 [node name="Desk" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A4"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.4500, 0)
 mesh = SubResource("BoxMesh_17")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Monitor" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A4"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 1.2000, -0.1000)
 mesh = SubResource("BoxMesh_18")
-surface_material_override/0 = ExtResource("m_monitor_blue")
+surface_material_override/0 = ExtResource("m_room_table_navy")
 
 [node name="Console_A5" type="Node3D" parent="Furniture/ConsolesRowBack"]
 transform = Transform3D(0.8090, 0, -0.5878, 0, 1.0000, 0, 0.5878, 0, 0.8090, 6.5832, 1.0000, -9.0610)
@@ -968,12 +1104,12 @@ transform = Transform3D(0.8090, 0, -0.5878, 0, 1.0000, 0, 0.5878, 0, 0.8090, 6.5
 [node name="Desk" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A5"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.4500, 0)
 mesh = SubResource("BoxMesh_17")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Monitor" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A5"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 1.2000, -0.1000)
 mesh = SubResource("BoxMesh_18")
-surface_material_override/0 = ExtResource("m_monitor_blue")
+surface_material_override/0 = ExtResource("m_room_table_navy")
 
 [node name="ConsolesRowFront" type="Node3D" parent="Furniture"]
 
@@ -983,12 +1119,12 @@ transform = Transform3D(0.8910, 0, 0.4540, 0, 1.0000, 0, -0.4540, 0, 0.8910, -4.
 [node name="Desk" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B1"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.4500, 0)
 mesh = SubResource("BoxMesh_17")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Monitor" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B1"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 1.2000, -0.1000)
 mesh = SubResource("BoxMesh_18")
-surface_material_override/0 = ExtResource("m_monitor_blue")
+surface_material_override/0 = ExtResource("m_room_table_navy")
 
 [node name="Console_B2" type="Node3D" parent="Furniture/ConsolesRowFront"]
 transform = Transform3D(0.9877, 0, 0.1564, 0, 1.0000, 0, -0.1564, 0, 0.9877, -1.5487, 1.0000, -9.7781)
@@ -996,12 +1132,12 @@ transform = Transform3D(0.9877, 0, 0.1564, 0, 1.0000, 0, -0.1564, 0, 0.9877, -1.
 [node name="Desk" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B2"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.4500, 0)
 mesh = SubResource("BoxMesh_17")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Monitor" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B2"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 1.2000, -0.1000)
 mesh = SubResource("BoxMesh_18")
-surface_material_override/0 = ExtResource("m_monitor_blue")
+surface_material_override/0 = ExtResource("m_room_table_navy")
 
 [node name="Console_B3" type="Node3D" parent="Furniture/ConsolesRowFront"]
 transform = Transform3D(0.9877, 0, -0.1564, 0, 1.0000, 0, 0.1564, 0, 0.9877, 1.5487, 1.0000, -9.7781)
@@ -1009,12 +1145,12 @@ transform = Transform3D(0.9877, 0, -0.1564, 0, 1.0000, 0, 0.1564, 0, 0.9877, 1.5
 [node name="Desk" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B3"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.4500, 0)
 mesh = SubResource("BoxMesh_17")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Monitor" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B3"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 1.2000, -0.1000)
 mesh = SubResource("BoxMesh_18")
-surface_material_override/0 = ExtResource("m_monitor_blue")
+surface_material_override/0 = ExtResource("m_room_table_navy")
 
 [node name="Console_B4" type="Node3D" parent="Furniture/ConsolesRowFront"]
 transform = Transform3D(0.8910, 0, -0.4540, 0, 1.0000, 0, 0.4540, 0, 0.8910, 4.4945, 1.0000, -8.8210)
@@ -1022,12 +1158,12 @@ transform = Transform3D(0.8910, 0, -0.4540, 0, 1.0000, 0, 0.4540, 0, 0.8910, 4.4
 [node name="Desk" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B4"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0.4500, 0)
 mesh = SubResource("BoxMesh_17")
-surface_material_override/0 = ExtResource("m_grey_dark")
+surface_material_override/0 = ExtResource("m_room_console_navy")
 
 [node name="Monitor" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B4"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 1.2000, -0.1000)
 mesh = SubResource("BoxMesh_18")
-surface_material_override/0 = ExtResource("m_monitor_blue")
+surface_material_override/0 = ExtResource("m_room_table_navy")
 
 [node name="Screens" type="Node3D" parent="."]
 
@@ -1039,12 +1175,12 @@ surface_material_override/0 = SubResource("Mat_marsmap_1")
 [node name="AccentTop" type="MeshInstance3D" parent="Screens/Screen_1"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.5800, 0.0200)
 mesh = SubResource("BoxMesh_20")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
 
 [node name="AccentBottom" type="MeshInstance3D" parent="Screens/Screen_1"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, -1.5800, 0.0200)
 mesh = SubResource("BoxMesh_20")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
 
 [node name="Screen_2" type="MeshInstance3D" parent="Screens"]
 transform = Transform3D(0.7071, 0.1228, 0.6964, 0, 0.9848, -0.1736, -0.7071, 0.1228, 0.6964, -8.2731, 5.2000, -8.2731)
@@ -1054,12 +1190,12 @@ surface_material_override/0 = SubResource("Mat_marsmap_2")
 [node name="AccentTop" type="MeshInstance3D" parent="Screens/Screen_2"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.5800, 0.0200)
 mesh = SubResource("BoxMesh_20")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
 
 [node name="AccentBottom" type="MeshInstance3D" parent="Screens/Screen_2"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, -1.5800, 0.0200)
 mesh = SubResource("BoxMesh_20")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
 
 [node name="Screen_3" type="MeshInstance3D" parent="Screens"]
 transform = Transform3D(1.0000, 0, 0, 0, 0.9848, -0.1736, 0, 0.1736, 0.9848, 0, 5.2000, -11.7000)
@@ -1069,12 +1205,12 @@ surface_material_override/0 = SubResource("Mat_marsmap_3")
 [node name="AccentTop" type="MeshInstance3D" parent="Screens/Screen_3"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.5800, 0.0200)
 mesh = SubResource("BoxMesh_20")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
 
 [node name="AccentBottom" type="MeshInstance3D" parent="Screens/Screen_3"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, -1.5800, 0.0200)
 mesh = SubResource("BoxMesh_20")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
 
 [node name="Screen_4" type="MeshInstance3D" parent="Screens"]
 transform = Transform3D(0.7071, -0.1228, -0.6964, 0, 0.9848, -0.1736, 0.7071, 0.1228, 0.6964, 8.2731, 5.2000, -8.2731)
@@ -1084,12 +1220,12 @@ surface_material_override/0 = SubResource("Mat_marsmap_4")
 [node name="AccentTop" type="MeshInstance3D" parent="Screens/Screen_4"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.5800, 0.0200)
 mesh = SubResource("BoxMesh_20")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
 
 [node name="AccentBottom" type="MeshInstance3D" parent="Screens/Screen_4"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, -1.5800, 0.0200)
 mesh = SubResource("BoxMesh_20")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
 
 [node name="Screen_5" type="MeshInstance3D" parent="Screens"]
 transform = Transform3D(0, -0.1736, -0.9848, 0, 0.9848, -0.1736, 1.0000, 0, 0, 11.7000, 5.2000, 0)
@@ -1099,84 +1235,609 @@ surface_material_override/0 = SubResource("Mat_marsmap_5")
 [node name="AccentTop" type="MeshInstance3D" parent="Screens/Screen_5"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.5800, 0.0200)
 mesh = SubResource("BoxMesh_20")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
 
 [node name="AccentBottom" type="MeshInstance3D" parent="Screens/Screen_5"]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, -1.5800, 0.0200)
 mesh = SubResource("BoxMesh_20")
-surface_material_override/0 = ExtResource("m_amber")
+surface_material_override/0 = ExtResource("m_accent_orange")
+
+[node name="WallPanel_A" type="MeshInstance3D" parent="Room/Walls/Wall_Back"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -2.0000, -1.0500, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_B" type="MeshInstance3D" parent="Room/Walls/Wall_Back"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 2.0000, -1.0500, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallTrim" type="MeshInstance3D" parent="Room/Walls/Wall_Back"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.1000, 0.2350)
+mesh = SubResource("BoxMesh_trimstrip")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_A" type="MeshInstance3D" parent="Room/Walls/Wall_BackRight"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_B" type="MeshInstance3D" parent="Room/Walls/Wall_BackRight"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallTrim" type="MeshInstance3D" parent="Room/Walls/Wall_BackRight"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.4500, 0.2350)
+mesh = SubResource("BoxMesh_trimstrip")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_A" type="MeshInstance3D" parent="Room/Walls/Wall_Right"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_B" type="MeshInstance3D" parent="Room/Walls/Wall_Right"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallTrim" type="MeshInstance3D" parent="Room/Walls/Wall_Right"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.4500, 0.2350)
+mesh = SubResource("BoxMesh_trimstrip")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_A" type="MeshInstance3D" parent="Room/Walls/Wall_FrontRight"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_B" type="MeshInstance3D" parent="Room/Walls/Wall_FrontRight"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallTrim" type="MeshInstance3D" parent="Room/Walls/Wall_FrontRight"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.4500, 0.2350)
+mesh = SubResource("BoxMesh_trimstrip")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_A" type="MeshInstance3D" parent="Room/Walls/Wall_Front"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_B" type="MeshInstance3D" parent="Room/Walls/Wall_Front"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallTrim" type="MeshInstance3D" parent="Room/Walls/Wall_Front"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.4500, 0.2350)
+mesh = SubResource("BoxMesh_trimstrip")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_A" type="MeshInstance3D" parent="Room/Walls/Wall_FrontLeft"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_B" type="MeshInstance3D" parent="Room/Walls/Wall_FrontLeft"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallTrim" type="MeshInstance3D" parent="Room/Walls/Wall_FrontLeft"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.4500, 0.2350)
+mesh = SubResource("BoxMesh_trimstrip")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_A" type="MeshInstance3D" parent="Room/Walls/Wall_Left"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_B" type="MeshInstance3D" parent="Room/Walls/Wall_Left"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallTrim" type="MeshInstance3D" parent="Room/Walls/Wall_Left"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.4500, 0.2350)
+mesh = SubResource("BoxMesh_trimstrip")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_A" type="MeshInstance3D" parent="Room/Walls/Wall_BackLeft"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallPanel_B" type="MeshInstance3D" parent="Room/Walls/Wall_BackLeft"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 2.0000, -1.6000, 0.2300)
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="WallTrim" type="MeshInstance3D" parent="Room/Walls/Wall_BackLeft"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.4500, 0.2350)
+mesh = SubResource("BoxMesh_trimstrip")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Window" type="Node3D" parent="Room"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000)
+
+[node name="PillarL" type="MeshInstance3D" parent="Room/Window"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -4.0250, 9.1500, -12.2000)
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
+
+[node name="PillarR" type="MeshInstance3D" parent="Room/Window"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 4.0250, 9.1500, -12.2000)
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
+
+[node name="Lintel" type="MeshInstance3D" parent="Room/Window"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 11.0000, -12.2000)
+mesh = SubResource("BoxMesh_lintel")
+surface_material_override/0 = ExtResource("m_room_wall_white")
+cast_shadow = 0
+
+[node name="Sill" type="MeshInstance3D" parent="Room/Window"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 6.9700, -11.9500)
+mesh = SubResource("BoxMesh_sill")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="MullionL" type="MeshInstance3D" parent="Room/Window"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -1.9500, 8.7500, -12.0000)
+mesh = SubResource("BoxMesh_mullion")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="MullionR" type="MeshInstance3D" parent="Room/Window"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 1.9500, 8.7500, -12.0000)
+mesh = SubResource("BoxMesh_mullion")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Outside" type="Node3D" parent="Room/Window"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000)
+
+[node name="SkyDome" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("SphereMesh_sky")
+surface_material_override/0 = SubResource("Mat_sky")
+cast_shadow = 0
+
+[node name="LaunchPad" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.9000, 7.1000, -14.5000)
+mesh = SubResource("CylinderMesh_pad")
+surface_material_override/0 = ExtResource("m_room_trim_dark")
+
+[node name="RocketBody" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.9000, 8.2500, -14.5000)
+mesh = SubResource("CylinderMesh_rocket")
+surface_material_override/0 = ExtResource("m_room_rocket_white")
+
+[node name="RocketNose" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.9000, 9.5000, -14.5000)
+mesh = SubResource("CylinderMesh_nose")
+surface_material_override/0 = ExtResource("m_accent_orange")
+
+[node name="RocketFin_1" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.9000, 7.5500, -14.8600)
+mesh = SubResource("BoxMesh_fin")
+surface_material_override/0 = ExtResource("m_accent_orange")
+
+[node name="RocketFin_2" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(-0.5000, 0.0000, 0.8660, 0.0000, 1.0000, 0.0000, -0.8660, 0.0000, -0.5000, 1.2118, 7.5500, -14.3200)
+mesh = SubResource("BoxMesh_fin")
+surface_material_override/0 = ExtResource("m_accent_orange")
+
+[node name="RocketFin_3" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(-0.5000, 0.0000, -0.8660, 0.0000, 1.0000, 0.0000, 0.8660, 0.0000, -0.5000, 0.5882, 7.5500, -14.3200)
+mesh = SubResource("BoxMesh_fin")
+surface_material_override/0 = ExtResource("m_accent_orange")
+
+[node name="TowerBase" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.9000, 7.4000, -14.5000)
+mesh = SubResource("BoxMesh_towerbase")
+surface_material_override/0 = ExtResource("m_room_trim_dark")
+
+[node name="TowerMain" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.9000, 8.8500, -14.5000)
+mesh = SubResource("BoxMesh_towermain")
+surface_material_override/0 = ExtResource("m_room_trim_dark")
+
+[node name="TowerArm_1" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.4500, 8.0000, -14.5000)
+mesh = SubResource("BoxMesh_towerarm")
+surface_material_override/0 = ExtResource("m_room_trim_dark")
+
+[node name="TowerArm_2" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.4500, 8.9000, -14.5000)
+mesh = SubResource("BoxMesh_towerarm")
+surface_material_override/0 = ExtResource("m_room_trim_dark")
+
+[node name="TowerArm_3" type="MeshInstance3D" parent="Room/Window/Outside"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.4500, 9.7000, -14.5000)
+mesh = SubResource("BoxMesh_towerarm")
+surface_material_override/0 = ExtResource("m_room_trim_dark")
+
+[node name="Frame" type="MeshInstance3D" parent="Screens/Screen_1"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, -0.0600)
+mesh = SubResource("BoxMesh_screenframe")
+surface_material_override/0 = ExtResource("m_room_table_navy")
+cast_shadow = 0
+
+[node name="Frame" type="MeshInstance3D" parent="Screens/Screen_2"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, -0.0600)
+mesh = SubResource("BoxMesh_screenframe")
+surface_material_override/0 = ExtResource("m_room_table_navy")
+cast_shadow = 0
+
+[node name="Frame" type="MeshInstance3D" parent="Screens/Screen_3"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, -0.0600)
+mesh = SubResource("BoxMesh_screenframe")
+surface_material_override/0 = ExtResource("m_room_table_navy")
+cast_shadow = 0
+
+[node name="Frame" type="MeshInstance3D" parent="Screens/Screen_4"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, -0.0600)
+mesh = SubResource("BoxMesh_screenframe")
+surface_material_override/0 = ExtResource("m_room_table_navy")
+cast_shadow = 0
+
+[node name="Frame" type="MeshInstance3D" parent="Screens/Screen_5"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, -0.0600)
+mesh = SubResource("BoxMesh_screenframe")
+surface_material_override/0 = ExtResource("m_room_table_navy")
+cast_shadow = 0
+
+[node name="TableRing" type="MeshInstance3D" parent="Furniture/Table/TableTop"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0600, 0.0000)
+mesh = SubResource("TorusMesh_tablering")
+surface_material_override/0 = ExtResource("m_accent_cyan")
+cast_shadow = 0
+
+[node name="TableProps" type="Node3D" parent="Furniture/Table"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000)
+
+[node name="Cup_1" type="MeshInstance3D" parent="Furniture/Table/TableProps"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.9000, 1.0700, -2.0000)
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+
+[node name="Cup_2" type="MeshInstance3D" parent="Furniture/Table/TableProps"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 1.2000, 1.0700, -1.0000)
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+
+[node name="Cup_3" type="MeshInstance3D" parent="Furniture/Table/TableProps"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -1.3000, 1.0700, 1.6000)
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A1"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.9400, 0.0000)
+mesh = SubResource("BoxMesh_contop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Light" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A1"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.5500, 0.9900, 0.3000)
+mesh = SubResource("BoxMesh_conlight")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="MonitorScreen" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A1/Monitor"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0350)
+mesh = SubResource("BoxMesh_monscreen")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A2"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.9400, 0.0000)
+mesh = SubResource("BoxMesh_contop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Light" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A2"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.5500, 0.9900, 0.3000)
+mesh = SubResource("BoxMesh_conlight")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="MonitorScreen" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A2/Monitor"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0350)
+mesh = SubResource("BoxMesh_monscreen")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A3"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.9400, 0.0000)
+mesh = SubResource("BoxMesh_contop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Light" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A3"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.5500, 0.9900, 0.3000)
+mesh = SubResource("BoxMesh_conlight")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="MonitorScreen" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A3/Monitor"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0350)
+mesh = SubResource("BoxMesh_monscreen")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A4"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.9400, 0.0000)
+mesh = SubResource("BoxMesh_contop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Light" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A4"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.5500, 0.9900, 0.3000)
+mesh = SubResource("BoxMesh_conlight")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="MonitorScreen" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A4/Monitor"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0350)
+mesh = SubResource("BoxMesh_monscreen")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A5"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.9400, 0.0000)
+mesh = SubResource("BoxMesh_contop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Light" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A5"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.5500, 0.9900, 0.3000)
+mesh = SubResource("BoxMesh_conlight")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="MonitorScreen" type="MeshInstance3D" parent="Furniture/ConsolesRowBack/Console_A5/Monitor"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0350)
+mesh = SubResource("BoxMesh_monscreen")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B1"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.9400, 0.0000)
+mesh = SubResource("BoxMesh_contop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Light" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B1"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.5500, 0.9900, 0.3000)
+mesh = SubResource("BoxMesh_conlight")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="MonitorScreen" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B1/Monitor"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0350)
+mesh = SubResource("BoxMesh_monscreen")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B2"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.9400, 0.0000)
+mesh = SubResource("BoxMesh_contop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Light" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B2"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.5500, 0.9900, 0.3000)
+mesh = SubResource("BoxMesh_conlight")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="MonitorScreen" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B2/Monitor"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0350)
+mesh = SubResource("BoxMesh_monscreen")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B3"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.9400, 0.0000)
+mesh = SubResource("BoxMesh_contop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Light" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B3"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.5500, 0.9900, 0.3000)
+mesh = SubResource("BoxMesh_conlight")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="MonitorScreen" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B3/Monitor"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0350)
+mesh = SubResource("BoxMesh_monscreen")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B4"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.9400, 0.0000)
+mesh = SubResource("BoxMesh_contop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Light" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B4"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.5500, 0.9900, 0.3000)
+mesh = SubResource("BoxMesh_conlight")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="MonitorScreen" type="MeshInstance3D" parent="Furniture/ConsolesRowFront/Console_B4/Monitor"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0350)
+mesh = SubResource("BoxMesh_monscreen")
+surface_material_override/0 = ExtResource("m_glow_cyan")
+cast_shadow = 0
+
+[node name="ForegroundConsoles" type="Node3D" parent="Furniture"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000)
+
+[node name="FgConsole_L" type="Node3D" parent="Furniture/ForegroundConsoles"]
+transform = Transform3D(0.9394, 0.0000, 0.3429, 0.0000, 1.0000, 0.0000, -0.3429, 0.0000, 0.9394, -5.6000, 0.0000, 1.2000)
+
+[node name="Desk" type="MeshInstance3D" parent="Furniture/ForegroundConsoles/FgConsole_L"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.5500, 0.0000)
+mesh = SubResource("BoxMesh_fgdesk")
+surface_material_override/0 = ExtResource("m_room_console_navy")
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ForegroundConsoles/FgConsole_L"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 1.1400, 0.0000)
+mesh = SubResource("BoxMesh_fgtop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="BackPanel" type="MeshInstance3D" parent="Furniture/ForegroundConsoles/FgConsole_L"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.6000, 0.4600)
+mesh = SubResource("BoxMesh_fgback")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="FgConsole_R" type="Node3D" parent="Furniture/ForegroundConsoles"]
+transform = Transform3D(0.9394, 0.0000, -0.3429, 0.0000, 1.0000, 0.0000, 0.3429, 0.0000, 0.9394, 5.6000, 0.0000, 1.2000)
+
+[node name="Desk" type="MeshInstance3D" parent="Furniture/ForegroundConsoles/FgConsole_R"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.5500, 0.0000)
+mesh = SubResource("BoxMesh_fgdesk")
+surface_material_override/0 = ExtResource("m_room_console_navy")
+
+[node name="Top" type="MeshInstance3D" parent="Furniture/ForegroundConsoles/FgConsole_R"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 1.1400, 0.0000)
+mesh = SubResource("BoxMesh_fgtop")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="BackPanel" type="MeshInstance3D" parent="Furniture/ForegroundConsoles/FgConsole_R"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.6000, 0.4600)
+mesh = SubResource("BoxMesh_fgback")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+cast_shadow = 0
+
+[node name="Props" type="Node3D" parent="Furniture"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000)
+
+[node name="MarsStand" type="MeshInstance3D" parent="Furniture/Props"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 7.2000, 0.4500, -2.0000)
+mesh = SubResource("CylinderMesh_marsstand")
+surface_material_override/0 = ExtResource("m_room_console_navy")
+
+[node name="MarsModel" type="MeshInstance3D" parent="Furniture/Props"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 7.2000, 1.4000, -2.0000)
+mesh = SubResource("SphereMesh_mars")
+surface_material_override/0 = ExtResource("m_accent_orange")
+
+[node name="Crate_1" type="MeshInstance3D" parent="Furniture/Props"]
+transform = Transform3D(0.8253, 0.0000, 0.5646, 0.0000, 1.0000, 0.0000, -0.5646, 0.0000, 0.8253, 8.6000, 1.3500, -8.0000)
+mesh = SubResource("BoxMesh_crate")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+
+[node name="CrateStripe_1" type="MeshInstance3D" parent="Furniture/Props/Crate_1"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, 0.1000, 0.0000)
+mesh = SubResource("BoxMesh_cratestripe")
+surface_material_override/0 = ExtResource("m_room_console_navy")
+cast_shadow = 0
+
+[node name="Crate_2" type="MeshInstance3D" parent="Furniture/Props"]
+transform = Transform3D(0.7643, 0.0000, 0.2364, 0.0000, 0.8000, 0.0000, -0.2364, 0.0000, 0.7643, 8.0000, 2.0500, -8.4000)
+mesh = SubResource("BoxMesh_crate")
+surface_material_override/0 = ExtResource("m_room_panel_cream")
+
+[node name="DoorLight" type="MeshInstance3D" parent="Room"]
+transform = Transform3D(0.7071, 0.0000, 0.7071, 0.0000, 1.0000, 0.0000, -0.7071, 0.0000, 0.7071, -11.1200, 3.9500, -5.7000)
+mesh = SubResource("BoxMesh_doorlight")
+surface_material_override/0 = ExtResource("m_glow_orange")
+cast_shadow = 0
 
 [node name="Lights" type="Node3D" parent="."]
 
-[node name="TableGlowLight" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 2.4000, 0)
-light_color = Color(0.55, 0.7, 1, 1)
-light_energy = 0.45
-omni_range = 9.0
-
-[node name="SpotBackWall" type="SpotLight3D" parent="Lights"]
-transform = Transform3D(1.0000, 0, 0, 0, 0.9615, 0.2747, 0, -0.2747, 0.9615, 0, 7.5000, 2.0000)
-light_color = Color(1, 0.85, 0.6, 1)
-light_energy = 2.0
-spot_range = 26.0
-spot_angle = 45.0
-spot_attenuation = 1.0
-
-[node name="SpotLeftWall" type="SpotLight3D" parent="Lights"]
-transform = Transform3D(0.4347, -0.2424, 0.8673, 0, 0.9631, 0.2692, -0.9006, -0.1170, 0.4187, 3.0000, 7.5000, 4.0000)
-light_color = Color(1, 0.85, 0.6, 1)
-light_energy = 2.0
-spot_range = 26.0
-spot_angle = 45.0
-spot_attenuation = 1.0
-
-[node name="SpotRightWall" type="SpotLight3D" parent="Lights"]
-transform = Transform3D(0.4347, 0.2424, -0.8673, 0, 0.9631, 0.2692, 0.9006, -0.1170, 0.4187, -3.0000, 7.5000, 4.0000)
-light_color = Color(1, 0.85, 0.6, 1)
-light_energy = 2.0
-spot_range = 26.0
-spot_angle = 45.0
-spot_attenuation = 1.0
+; LIGHTS (edit colour with light_color and strength with light_energy)
+; KEY  = KeyLight, the one warm Directional light, high at the front left. It makes the soft shadows.
+; FILL = the cool ambient light in the WorldEnvironment node (ambient_light_color).
+; RIM  = RimThreeA, RimThreeB and RimGeneral: dim cool spots that outline the people.
+; FACE = KeyGeneral, KeyThree and KeyGeneralBack: dim warm spots on the faces. They cast no shadows.
+[node name="KeyLight" type="DirectionalLight3D" parent="Lights"]
+transform = Transform3D(0.866, -0.3830, 0.3214, 0, 0.6428, 0.766, -0.5, -0.6634, 0.5567, -4, 9, 6)
+light_color = Color(1, 0.8863, 0.7216, 1)
+light_energy = 0.55
+shadow_enabled = true
+shadow_blur = 1.0
+directional_shadow_mode = 0
+directional_shadow_max_distance = 45.0
 
 [node name="KeyGeneral" type="SpotLight3D" parent="Lights"]
-transform = Transform3D(0.8536, 0.3053, -0.422, 0, 0.8102, 0.5861, 0.5209, -0.5003, 0.6916, -1.8, 4.2, -2)
+transform = Transform3D(0.853, 0.305, -0.42, 0, 0.81, 0.586, 0.52, -0.5, 0.691, -1.8, 4.2, -2)
 light_color = Color(1, 0.78, 0.5, 1)
-light_energy = 3.2
+light_energy = 1.2
 spot_range = 14.0
 spot_angle = 28.0
 
 [node name="KeyThree" type="SpotLight3D" parent="Lights"]
-transform = Transform3D(0, -0.5283, 0.8491, 0, 0.8491, 0.5283, -1, 0, 0, -7, 4.6, 0)
+transform = Transform3D(0, -0.52, 0.849, 0, 0.849, 0.528, -1, 0, 0, -7, 4.6, 0)
 light_color = Color(1, 0.78, 0.5, 1)
-light_energy = 2.4
+light_energy = 1.0
 spot_range = 14.0
 spot_angle = 30.0
 
 [node name="RimThreeA" type="SpotLight3D" parent="Lights"]
-transform = Transform3D(0.9864, 0.1121, -0.1203, 0, 0.7317, 0.6816, 0.1644, -0.6724, 0.7217, -11.9, 4, 2.4)
-light_color = Color(0.45, 0.65, 1, 1)
-light_energy = 4.0
+transform = Transform3D(0.986, 0.112, -0.12, 0, 0.731, 0.681, 0.164, -0.67, 0.721, -11.9, 4, 2.4)
+light_color = Color(0.749, 0.8902, 1, 1)
+light_energy = 2.0
 spot_range = 9.0
 spot_angle = 20.0
 
 [node name="RimThreeB" type="SpotLight3D" parent="Lights"]
-transform = Transform3D(-0.9864, 0.1121, -0.1203, 0, 0.7317, 0.6816, 0.1644, 0.6724, -0.7217, -11.9, 4, -2.4)
-light_color = Color(0.45, 0.65, 1, 1)
-light_energy = 4.0
+transform = Transform3D(-0.98, 0.112, -0.12, 0, 0.731, 0.681, 0.164, 0.672, -0.72, -11.9, 4, -2.4)
+light_color = Color(0.749, 0.8902, 1, 1)
+light_energy = 2.0
 spot_range = 9.0
 spot_angle = 20.0
 
 [node name="KeyGeneralBack" type="SpotLight3D" parent="Lights"]
-transform = Transform3D(-0.9249, 0.1271, -0.3582, 0, 0.9424, 0.3344, 0.3801, 0.3093, -0.8717, -1.5, 3.2, -8.6)
+transform = Transform3D(-0.92, 0.127, -0.35, 0, 0.942, 0.334, 0.38, 0.309, -0.87, -1.5, 3.2, -8.6)
 light_color = Color(1, 0.78, 0.5, 1)
-light_energy = 2.6
+light_energy = 1.0
 spot_range = 12.0
 spot_angle = 24.0
 
 [node name="RimGeneral" type="SpotLight3D" parent="Lights"]
-transform = Transform3D(-0.9216, -0.2552, 0.2923, 0, 0.7533, 0.6577, -0.3881, 0.6062, -0.6942, 1.2, 4.2, -7.8)
-light_color = Color(0.45, 0.65, 1, 1)
-light_energy = 4.0
+transform = Transform3D(-0.92, -0.25, 0.292, 0, 0.753, 0.657, -0.38, 0.606, -0.69, 1.2, 4.2, -7.8)
+light_color = Color(0.749, 0.8902, 1, 1)
+light_energy = 2.0
 spot_range = 10.0
 spot_angle = 45.0
 
@@ -1189,10 +1850,10 @@ transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 0, -4.9500)
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 1.5000, 0, -4.8000)
 
 [node name="Person_Staff1" parent="People" instance=ExtResource("char_staff1")]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, -4.7000, 1.0000, -8.1700)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -4.83, 1, -9.5)
 
 [node name="Person_Staff2" parent="People" instance=ExtResource("char_staff2")]
-transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 0, 1.0000, -9.0000)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 1.67, 1, -10.52)
 
 [node name="Person_Staff3" parent="People" instance=ExtResource("char_staff3")]
 transform = Transform3D(1.0000, 0, 0, 0, 1.0000, 0, 0, 0, 1.0000, 4.7000, 1.0000, -8.1700)
@@ -1218,7 +1879,7 @@ libraries = {
 autoplay = "intro"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Env_war_room")
+environment = SubResource("Env_bright")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -1241,26 +1902,38 @@ grow_vertical = 0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="SubtitleBox" type="VBoxContainer" parent="CanvasLayer/BarBottom"]
+; The subtitle panel: a rounded, slightly see-through navy box.
+; Its look (colour, rounded corners) comes from the theme: SubtitlePanel in theme/game_theme.tres.
+[node name="SubtitleBox" type="PanelContainer" parent="CanvasLayer/BarBottom"]
 visible = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -460.0
+offset_top = -40.0
+offset_right = 460.0
+offset_bottom = -10.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"SubtitlePanel"
+
+[node name="Lines" type="VBoxContainer" parent="CanvasLayer/BarBottom/SubtitleBox"]
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
-alignment = 1
 
-[node name="Speaker" type="Label" parent="CanvasLayer/BarBottom/SubtitleBox"]
+[node name="Speaker" type="Label" parent="CanvasLayer/BarBottom/SubtitleBox/Lines"]
 layout_mode = 2
-theme_type_variation = &"SpeakerName"
+theme_type_variation = &"SubtitleSpeaker"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="CanvasLayer/BarBottom/SubtitleBox"]
+[node name="Subtitle" type="Label" parent="CanvasLayer/BarBottom/SubtitleBox/Lines"]
 layout_mode = 2
-theme_type_variation = &"BodyText"
+theme_type_variation = &"SubtitleLine"
 horizontal_alignment = 1
 autowrap_mode = 3
 

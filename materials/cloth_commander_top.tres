@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+; cloth_commander_top.tres
+; Cloth: Commander jacket (top).
+; To change the colour: click this file, then change Albedo > Color. Hex: #5E7391
+; All library materials are matte: roughness 0.9, metallic 0, specular 0.2.
+
+[resource]
+albedo_color = Color(0.3686, 0.4510, 0.5686, 1)
+metallic_specular = 0.2
+roughness = 0.9

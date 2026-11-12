@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+; room_trim_dark.tres
+; Room: dark gray. Colours the door, the supply closet and the launch tower.
+; To change the colour: click this file, then change Albedo > Color. Hex: #4A505A
+; All library materials are matte: roughness 0.9, metallic 0, specular 0.2.
+
+[resource]
+albedo_color = Color(0.2902, 0.3137, 0.3529, 1)
+metallic_specular = 0.2
+roughness = 0.9

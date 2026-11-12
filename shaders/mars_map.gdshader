@@ -1,15 +1,17 @@
 // mars_map.gdshader
-// A small Mars map drawn in code for the war room screens. No image files.
-// It draws: a blue grid, a Mars disc, orbit lines, a moving dot on one orbit,
-// a blinking amber marker and a slow scan line.
+// A small Mars map drawn in code for the mission control screens. No image files.
+// It draws: a cyan grid, a Mars disc, orbit lines, a moving dot on one orbit,
+// a blinking orange marker and a slow scan line.
+// Colours are the Space Station palette: cyan and orange on deep navy.
+// Change the three colours below to recolour every screen.
 // Each screen uses its own "seed" number so the five screens look different.
 shader_type spatial;
 render_mode unshaded;
 
 uniform float seed = 0.0;
-uniform vec3 blue_color : source_color = vec3(0.2, 0.5, 1.0);
-uniform vec3 amber_color : source_color = vec3(1.0, 0.6, 0.1);
-uniform vec3 background_color : source_color = vec3(0.01, 0.03, 0.1);
+uniform vec3 blue_color : source_color = vec3(0.3098, 0.8196, 0.8510);    // cyan #4FD1D9
+uniform vec3 amber_color : source_color = vec3(1.0, 0.6, 0.2);            // orange #FF9933
+uniform vec3 background_color : source_color = vec3(0.0392, 0.0863, 0.2); // deep navy #0A1633
 // The screen is 5.6 wide and 3 tall (meters), so we use those to draw the map.
 uniform vec2 screen_size = vec2(5.6, 3.0);
 

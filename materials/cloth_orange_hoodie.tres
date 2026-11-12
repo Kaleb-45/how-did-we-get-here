@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+; cloth_orange_hoodie.tres
+; Cloth: orange. Student hoodie (top).
+; To change the colour: click this file, then change Albedo > Color. Hex: #E8743B
+; All library materials are matte: roughness 0.9, metallic 0, specular 0.2.
+
+[resource]
+albedo_color = Color(0.9098, 0.4549, 0.2314, 1)
+metallic_specular = 0.2
+roughness = 0.9

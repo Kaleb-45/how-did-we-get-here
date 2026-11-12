@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+; cloth_labcoat_white.tres
+; Cloth: white lab coat. Assistant Scientist top.
+; To change the colour: click this file, then change Albedo > Color. Hex: #F7F3EA
+; All library materials are matte: roughness 0.9, metallic 0, specular 0.2.
+
+[resource]
+albedo_color = Color(0.9686, 0.9529, 0.9176, 1)
+metallic_specular = 0.2
+roughness = 0.9

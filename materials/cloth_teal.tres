@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+; cloth_teal.tres
+; Cloth: teal. Staff 1 top.
+; To change the colour: click this file, then change Albedo > Color. Hex: #4A8F8C
+; All library materials are matte: roughness 0.9, metallic 0, specular 0.2.
+
+[resource]
+albedo_color = Color(0.2902, 0.5608, 0.5490, 1)
+metallic_specular = 0.2
+roughness = 0.9

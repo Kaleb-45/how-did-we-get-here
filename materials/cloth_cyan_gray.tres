@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+; cloth_cyan_gray.tres
+; Cloth: cyan-gray. Assistant Scientist trousers (bottom).
+; To change the colour: click this file, then change Albedo > Color. Hex: #5FA7AD
+; All library materials are matte: roughness 0.9, metallic 0, specular 0.2.
+
+[resource]
+albedo_color = Color(0.3725, 0.6549, 0.6784, 1)
+metallic_specular = 0.2
+roughness = 0.9

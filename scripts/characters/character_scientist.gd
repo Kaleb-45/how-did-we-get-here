@@ -4,8 +4,8 @@ extends "res://scripts/characters/character_base.gd"
 
 
 func _build_extras() -> void:
-	var hair: Material = load("res://materials/char_hair_wild.tres")
-	var glass: Material = load("res://materials/char_glasses.tres")
+	var hair: Material = load("res://materials/hair_pale.tres")
+	var glass: Material = load("res://materials/glasses.tres")
 	# Messy hair: thin capsules sticking out of the top of the head in all directions.
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 11
@@ -20,6 +20,8 @@ func _build_extras() -> void:
 		var strand := CapsuleMesh.new()
 		strand.radius = top_r * 0.13
 		strand.height = strand_len
+		strand.radial_segments = 6
+		strand.rings = 2
 		var node := add_shape(lid, strand, hair, base + dir * strand_len * 0.35)
 		node.basis = Basis(Quaternion(Vector3.UP, dir))
 	# Round glasses: two rings around the eyes and a small bridge.
@@ -27,8 +29,8 @@ func _build_extras() -> void:
 		var ring := TorusMesh.new()
 		ring.inner_radius = top_r * 0.2
 		ring.outer_radius = top_r * 0.28
-		ring.rings = 24
-		ring.ring_segments = 8
+		ring.rings = 16
+		ring.ring_segments = 6
 		var node := add_shape(lid, ring, glass, dome_point(side * 0.36, 0.42, top_r * 0.03))
 		node.basis = dome_basis(side * 0.36, 0.42) * Basis(Vector3.RIGHT, PI * 0.5)
 	var bridge := BoxMesh.new()

@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+; shoe_dark.tres
+; Shoes: dark.
+; To change the colour: click this file, then change Albedo > Color. Hex: #1E2128
+; All library materials are matte: roughness 0.9, metallic 0, specular 0.2.
+
+[resource]
+albedo_color = Color(0.1176, 0.1294, 0.1569, 1)
+metallic_specular = 0.2
+roughness = 0.9

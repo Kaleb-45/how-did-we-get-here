@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+; gold_trim.tres
+; Gold: the General's cap band and badge.
+; To change the colour: click this file, then change Albedo > Color. Hex: #D9A441
+; All library materials are matte: roughness 0.9, metallic 0, specular 0.2.
+
+[resource]
+albedo_color = Color(0.8510, 0.6431, 0.2549, 1)
+metallic_specular = 0.2
+roughness = 0.9

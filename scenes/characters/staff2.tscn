@@ -1,10 +1,14 @@
 [gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/characters/character_base.tscn" id="1_base"]
+[ext_resource type="Material" path="res://materials/skin_dark.tres" id="m_skin"]
+[ext_resource type="Material" path="res://materials/cloth_mustard.tres" id="m_top"]
+[ext_resource type="Material" path="res://materials/cloth_dark_gray.tres" id="m_bottom"]
 
 [node name="Character_Staff2" instance=ExtResource("1_base")]
 height = 1.95
 top_width = 0.38
 bottom_width = 0.32
-skin_color = Color(0.7, 0.5, 0.35, 1)
-body_color = Color(0.2, 0.55, 0.55, 1)
+skin_material = ExtResource("m_skin")
+top_material = ExtResource("m_top")
+bottom_material = ExtResource("m_bottom")

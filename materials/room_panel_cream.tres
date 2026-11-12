@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+; room_panel_cream.tres
+; Room: cream. Colours wall panels, trim and console tops.
+; To change the colour: click this file, then change Albedo > Color. Hex: #D9D0BF
+; All library materials are matte: roughness 0.9, metallic 0, specular 0.2.
+
+[resource]
+albedo_color = Color(0.8510, 0.8157, 0.7490, 1)
+metallic_specular = 0.2
+roughness = 0.9

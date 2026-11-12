@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+; room_door_void.tres
+; Room: pure black, not lit. The dark hole you see when the door slides open.
+
+[resource]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)

@@ -10,6 +10,13 @@
 #                  open when the person talks. Eyes, brows, hair and hats are on it.
 #   Rig/ArmL, Rig/ArmR      the two arms. Turn ArmR to point.
 # The person faces forward (the -Z direction).
+#
+# COLOURS (all from the material library in res://materials, see materials/README.md):
+#   skin_material    the face, head and hands
+#   top_material     the upper body (jacket, lab coat, hoodie) and the arms
+#   bottom_material  the lower body (trousers) and the legs
+# Pick them in the Inspector, or in the character's own scene file.
+# The look is "slightly faceted": the shapes use few segments on purpose.
 extends Node3D
 
 @export var height: float = 1.8:
@@ -24,13 +31,17 @@ extends Node3D
 	set(v):
 		bottom_width = v
 		_queue_rebuild()
-@export var skin_color: Color = Color(0.93, 0.74, 0.6):
+@export var skin_material: Material:
 	set(v):
-		skin_color = v
+		skin_material = v
 		_queue_rebuild()
-@export var body_color: Color = Color(0.6, 0.65, 0.75):
+@export var top_material: Material:
 	set(v):
-		body_color = v
+		top_material = v
+		_queue_rebuild()
+@export var bottom_material: Material:
+	set(v):
+		bottom_material = v
 		_queue_rebuild()
 # How far the lid flips open when talking (radians) and how long one flap takes.
 @export var mouth_open_angle: float = 0.5
@@ -41,12 +52,16 @@ extends Node3D
 @export var idle_bob: bool = true
 @export var bob_height: float = 0.012
 @export var bob_speed: float = 2.2
+# Arm sway: the arms swing a tiny bit. It stops on the right arm while it points.
+@export var arm_sway: float = 0.05
 
 # Art numbers (shape proportions). They are looks, not game numbers.
 const LEG_FRACTION := 0.18      # legs are this part of the height
 const DOME_FRACTION := 0.8      # head dome height compared to its radius
 const JAW_FRACTION := 0.35      # jaw height compared to the head radius
 const BOTTOM_CAP_FRACTION := 0.4
+const SPLIT_FRACTION := 0.5     # where the top colour block meets the bottom block
+const FACETS := 10              # side segments of the faceted body shapes
 
 var top_r: float
 var bottom_r: float
@@ -60,6 +75,7 @@ var _point_tween: Tween
 var _rebuild_queued := false
 var _bob_time := 0.0
 var _bob_phase := 0.0
+var _arm_busy := false   # true while the right arm points (no sway then)
 
 @onready var rig: Node3D = $Rig
 @onready var head: Node3D = $Rig/Head
@@ -85,6 +101,11 @@ func _process(delta: float) -> void:
 	var wave := _bob_time * bob_speed + _bob_phase
 	rig.position.y = (sin(wave) * 0.5 + 0.5) * bob_height
 	rig.rotation.z = sin(wave * 0.5) * 0.012
+	# A small arm sway (turns around the X axis only, so it never fights the
+	# pointing tween or the rest tilt that is set on the Z axis).
+	arm_l.rotation.x = sin(wave * 0.7 + 1.0) * arm_sway
+	if not _arm_busy:
+		arm_r_node.rotation.x = sin(wave * 0.7 + 3.1) * arm_sway
 
 
 func _queue_rebuild() -> void:
@@ -114,6 +135,7 @@ func talk(seconds: float) -> void:
 func point_at_camera() -> void:
 	if _point_tween:
 		_point_tween.kill()
+	_arm_busy = true
 	_point_tween = create_tween()
 	_point_tween.tween_property(arm_r_node, "rotation", Vector3(1.5, 0.0, 0.0), 0.4) \
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
@@ -123,7 +145,9 @@ func lower_arm() -> void:
 	if _point_tween:
 		_point_tween.kill()
 	_point_tween = create_tween()
+	_arm_busy = true
 	_point_tween.tween_property(arm_r_node, "rotation", Vector3(0.0, 0.0, _arm_tilt), 0.3)
+	_point_tween.tween_callback(func() -> void: _arm_busy = false)
 
 
 # ---------- building the shapes ----------
@@ -143,31 +167,42 @@ func _rebuild() -> void:
 	arm_r = 0.035 * height + 0.01
 	arm_len = 0.2 * height
 
-	var skin := _color_material(skin_color)
-	var cloth := _color_material(body_color)
-	var shoe: Material = load("res://materials/char_shoe.tres")
-	var dark: Material = load("res://materials/char_mouth_dark.tres")
+	var skin: Material = skin_material if skin_material else load("res://materials/skin_light.tres")
+	var top: Material = top_material if top_material else load("res://materials/cloth_slate.tres")
+	var bottom: Material = bottom_material if bottom_material else load("res://materials/cloth_dark_gray.tres")
+	var shoe: Material = load("res://materials/shoe_dark.tres")
+	var dark: Material = load("res://materials/mouth_dark.tres")
 
-	# --- body: a tapered tube with a rounded bottom ---
+	# --- body: a tapered tube in two colour blocks (top and bottom), rounded bottom ---
 	var leg_h := LEG_FRACTION * height
 	var cap_h := BOTTOM_CAP_FRACTION * bottom_r
 	var head_base_y := height - dome_h - jaw_h
 	var tube_bottom := leg_h + cap_h
 	var tube_h := maxf(head_base_y - tube_bottom, 0.1)
-	var tube := CylinderMesh.new()
-	tube.top_radius = top_r
-	tube.bottom_radius = bottom_r
-	tube.height = tube_h
-	tube.radial_segments = 32
-	tube.rings = 1
-	_add(rig, tube, cloth, Vector3(0, tube_bottom + tube_h * 0.5, 0))
+	var split_r := lerpf(bottom_r, top_r, SPLIT_FRACTION)
+	var low_h := tube_h * SPLIT_FRACTION
+	var up_h := tube_h - low_h
+	var low_tube := CylinderMesh.new()
+	low_tube.top_radius = split_r
+	low_tube.bottom_radius = bottom_r
+	low_tube.height = low_h
+	low_tube.radial_segments = FACETS
+	low_tube.rings = 1
+	_add(rig, low_tube, bottom, Vector3(0, tube_bottom + low_h * 0.5, 0))
+	var up_tube := CylinderMesh.new()
+	up_tube.top_radius = top_r
+	up_tube.bottom_radius = split_r
+	up_tube.height = up_h
+	up_tube.radial_segments = FACETS
+	up_tube.rings = 1
+	_add(rig, up_tube, top, Vector3(0, tube_bottom + low_h + up_h * 0.5, 0))
 	var cap := SphereMesh.new()
 	cap.radius = bottom_r
 	cap.height = bottom_r
 	cap.is_hemisphere = true
-	cap.radial_segments = 32
-	cap.rings = 8
-	_add(rig, cap, cloth, Vector3(0, tube_bottom, 0), Vector3(1, BOTTOM_CAP_FRACTION, 1), Vector3(PI, 0, 0))
+	cap.radial_segments = FACETS
+	cap.rings = 4
+	_add(rig, cap, bottom, Vector3(0, tube_bottom, 0), Vector3(1, BOTTOM_CAP_FRACTION, 1), Vector3(PI, 0, 0))
 
 	# --- legs and round shoes ---
 	var leg_r := 0.045 * height + 0.01
@@ -176,10 +211,14 @@ func _rebuild() -> void:
 		var leg := CapsuleMesh.new()
 		leg.radius = leg_r
 		leg.height = leg_h * 1.1
-		_add(rig, leg, cloth, Vector3(x, leg_h * 0.5 + 0.03, 0))
+		leg.radial_segments = 8
+		leg.rings = 2
+		_add(rig, leg, bottom, Vector3(x, leg_h * 0.5 + 0.03, 0))
 		var shoe_mesh := SphereMesh.new()
 		shoe_mesh.radius = leg_r * 1.35
 		shoe_mesh.height = leg_r * 2.7
+		shoe_mesh.radial_segments = 8
+		shoe_mesh.rings = 4
 		_add(rig, shoe_mesh, shoe, Vector3(x, leg_r * 0.8, -leg_r * 0.7), Vector3(1, 0.6, 1.5))
 
 	# --- arms: small capsules with round hands ---
@@ -197,10 +236,14 @@ func _rebuild() -> void:
 		var capsule := CapsuleMesh.new()
 		capsule.radius = arm_r
 		capsule.height = arm_len
-		_add(arm, capsule, cloth, Vector3(0, -arm_len * 0.5, 0))
+		capsule.radial_segments = 8
+		capsule.rings = 2
+		_add(arm, capsule, top, Vector3(0, -arm_len * 0.5, 0))
 		var hand := SphereMesh.new()
 		hand.radius = arm_r * 1.4
 		hand.height = arm_r * 2.8
+		hand.radial_segments = 8
+		hand.rings = 4
 		_add(arm, hand, skin, Vector3(0, -arm_len - arm_r * 0.3, 0))
 
 	# --- head: jaw (stays), dark mouth, then the lid on a back hinge ---
@@ -209,14 +252,14 @@ func _rebuild() -> void:
 	jaw.top_radius = top_r
 	jaw.bottom_radius = top_r
 	jaw.height = jaw_h
-	jaw.radial_segments = 32
+	jaw.radial_segments = 16
 	jaw.rings = 1
 	_add(head, jaw, skin, Vector3(0, jaw_h * 0.5, 0))
 	var mouth := CylinderMesh.new()
 	mouth.top_radius = top_r * 1.01
 	mouth.bottom_radius = top_r * 1.01
 	mouth.height = 0.03
-	mouth.radial_segments = 32
+	mouth.radial_segments = 16
 	mouth.rings = 1
 	_add(head, mouth, dark, Vector3(0, jaw_h - 0.014, 0))
 	lid_hinge.position = Vector3(0, jaw_h, top_r)
@@ -225,25 +268,25 @@ func _rebuild() -> void:
 	dome.radius = top_r
 	dome.height = top_r
 	dome.is_hemisphere = true
-	dome.radial_segments = 32
-	dome.rings = 12
+	dome.radial_segments = 16
+	dome.rings = 6
 	_add(lid, dome, skin, Vector3.ZERO, Vector3(1, DOME_FRACTION, 1))
 	var underside := CylinderMesh.new()
 	underside.top_radius = top_r * 0.99
 	underside.bottom_radius = top_r * 0.99
 	underside.height = 0.02
-	underside.radial_segments = 32
+	underside.radial_segments = 16
 	underside.rings = 1
 	_add(lid, underside, dark, Vector3(0, -0.004, 0))
 
 	# --- face: black oval eyes and thin brows on the lid ---
-	var eye_mat: Material = load("res://materials/char_eye_black.tres")
+	var eye_mat: Material = load("res://materials/eye_black.tres")
 	for side in [-1, 1]:
 		var eye := SphereMesh.new()
 		eye.radius = 1.0
 		eye.height = 2.0
-		eye.radial_segments = 16
-		eye.rings = 8
+		eye.radial_segments = 8
+		eye.rings = 4
 		var eye_basis := dome_basis(side * 0.36, 0.42)
 		var eye_node := _add(lid, eye, eye_mat, dome_point(side * 0.36, 0.42, 0.0))
 		eye_node.basis = eye_basis * Basis.from_scale(Vector3(0.12, 0.19, 0.07) * top_r)
@@ -286,13 +329,13 @@ func dome_basis(xf: float, yf: float) -> Basis:
 # Two gray mustache halves just above the mouth line (they ride on the lid).
 # "size" 1.0 is normal; 1.5 is large and droopy.
 func add_mustache(size: float) -> void:
-	var mat: Material = load("res://materials/char_mustache_gray.tres")
+	var mat: Material = load("res://materials/hair_gray.tres")
 	for side in [-1, 1]:
 		var m := SphereMesh.new()
 		m.radius = 1.0
 		m.height = 2.0
-		m.radial_segments = 16
-		m.rings = 8
+		m.radial_segments = 8
+		m.rings = 4
 		var node := _add(lid, m, mat, dome_point(side * 0.3 * size, 0.17, 0.0))
 		node.basis = dome_basis(side * 0.3 * size, 0.17) \
 			* Basis(Vector3.BACK, side * 0.35 * size) \
@@ -324,8 +367,3 @@ func _clear(node: Node3D) -> void:
 			node.remove_child(child)
 			child.queue_free()
 
-
-func _color_material(c: Color) -> StandardMaterial3D:
-	var m := StandardMaterial3D.new()
-	m.albedo_color = c
-	return m
