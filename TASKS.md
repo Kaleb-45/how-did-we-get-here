@@ -185,6 +185,11 @@ The old unfinished steps, kept here until Phase C is done (unless Kaleb says so)
   subtitle panel, slower staff hide (29.3 s). Polish pass: no Commander spin, walk
   cycle, readable eyes while talking, staff shots re-framed, lighting and panel fixes.
   Web build re-exported. Waiting for Kaleb's test.
+- [ ] **19e. Character design pass.** NICE · L
+  Clothes and one prop per role, front-only mouth, shoulder joints, boots, blink, brows,
+  expressions (surprised, worried, angry); test scene `scenes/character_lineup.tscn`;
+  cutscene uses the expressions. Built, reviewed and fixed (f7ee3a7); web re-exported.
+  Waiting for Kaleb's test.
 - [ ] **5a. Windows in the rooms.** NICE · S
 - [ ] **5b. Chosen parts outside the windows.** NICE · M
 - [ ] **5c. Press E at a window to inspect the part.** NICE · S
