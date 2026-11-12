@@ -78,40 +78,42 @@ to the conflict list C1–C16. Submission is Nov 14–15.
 
 ### Batch 4: Stage 3 Flight (GAME_PLAN 6b)
 
-- [ ] **A10. Life Support room.** M
+Kaleb tested: pass (2026-11-12).
+
+- [x] **A10. Life Support room.** M
   A fifth graybox room off the hallway, with a sign (from `story.json`) and spots
   for the food, water and air stations.
   Test: walk into all five rooms. The walls are solid, and the new sign reads
   "Life Support".
 
-- [ ] **A11. NASA crew supply numbers.** S
+- [x] **A11. NASA crew supply numbers.** S
   Find NASA's per-person daily food, water and oxygen numbers. Show Kaleb a table:
   value, real number, source link. After the pass, put them in
   `data/supplies.json`. Crew size and start amounts are PLACEHOLDER.
   Test: search `supplies.json` and every per-person number has a NASA link.
 
-- [ ] **A12. Crew supply meters.** M
+- [x] **A12. Crew supply meters.** M
   A "Crew supplies" group (food, water, air) on the arm dashboard, shown only in
   Flight and Arrival. The meters drop by the real use per day. The six resources keep their names and their place.
   Test: start Flight, raise the arm with Tab, and watch the three meters fall.
 
-- [ ] **A13. Food task: ration.** S
+- [x] **A13. Food task: ration.** S
   A food station in Life Support with a "Press E" prompt. Rationing slows the food
   drop.
   Test: ration, and food drops slower. Skip it, and it drops at the normal rate.
 
-- [ ] **A14. Air task: run the oxygen generator.** S
+- [x] **A14. Air task: run the oxygen generator.** S
   An air station in Life Support with a "Press E" prompt. Running the oxygen
   generator brings the air meter back up.
   Test: run it, and air recovers. Skip it, and air keeps falling.
 
-- [ ] **A15. Flight event: water leak.** M
+- [x] **A15. Flight event: water leak.** M
   One event from `data/events.json`, run in Life Support. Water drops fast until the
   player fixes the leak at the water station. It is not the shadow pass.
   Test: the leak starts, the inner voice warns, water falls fast, and pressing E at
   the water station stops it.
 
-- [ ] **A16. One flight leg.** M
+- [x] **A16. One flight leg.** M
   The walk scene runs in Flight mode: the two tasks and the Flight event, with no
   shadow pass. The inner voice says how many real days the leg stands for. A meter at
   zero adds a finding and a damage cost. The leg ends with a move to Arrival.
