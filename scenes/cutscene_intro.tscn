@@ -266,7 +266,7 @@ size = Vector3(1.0, 0.2, 1.0)
 
 [sub_resource type="Animation" id="Animation_intro"]
 resource_name = "intro"
-length = 27.5
+length = 29.3
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -275,7 +275,7 @@ tracks/0/path = NodePath("Camera3D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 12.699, 12.7, 13.399, 13.4, 14.099, 14.1, 14.599, 14.6, 17.399, 17.4, 18.199, 18.2, 18.45, 18.7, 20.999, 21, 25.5),
+"times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 13.299, 13.3, 14.599, 14.6, 15.899, 15.9, 16.399, 16.4, 19.199, 19.2, 19.999, 20, 20.25, 20.5, 22.799, 22.8, 27.3),
 "transitions": PackedFloat32Array(-1.5, 0, -2, 0.4, -2, 0, -2, -2, 0, 1, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, 1, 0.4, -2, 0, -2, 1),
 "update": 0,
 "values": [Vector3(0, 6.8, 10.5), Vector3(0, 5.6, 7.8), Vector3(-0.3, 1.15, -2.9), Vector3(-0.3, 1.15, -2.9), Vector3(-0.3, 1.2, -3), Vector3(-0.3, 1.2, -3.2), Vector3(-9.1, 2.6, 1.6), Vector3(-9.2, 2.6, 0.9), Vector3(-9.3, 2.6, 0.5), Vector3(-2.1, 1.9, -4.3), Vector3(-2.1, 1.9, -4.3), Vector3(-1.7, 1.2, -8), Vector3(-1.2, 1.1, -7), Vector3(-1.2, 3.4, -3.8), Vector3(-1.4, 3.4, -3.8), Vector3(2, 3.4, -4.2), Vector3(1.8, 3.4, -4.2), Vector3(3.4, 3.6, -3.2), Vector3(3.4, 3.6, -3.2), Vector3(0, 3, -6), Vector3(0, 3, -5.8), Vector3(1.7, 2.3, -2.9), Vector3(1.9, 2.3, -3), Vector3(1.9, 2.3, -3), Vector3(1.95, 2.3, -3), Vector3(0.3, 2, -1.9), Vector3(0.3, 2, -1.9), Vector3(0.25, 2, -2), Vector3(0.1, 2, -2.2), Vector3(-8.8, 2.6, 0.2), Vector3(-9.1, 2.6, 0.1)]
@@ -287,7 +287,7 @@ tracks/1/path = NodePath("Camera3D:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 12.699, 12.7, 13.399, 13.4, 14.099, 14.1, 14.599, 14.6, 17.399, 17.4, 18.199, 18.2, 18.45, 18.7, 20.999, 21, 25.5),
+"times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 13.299, 13.3, 14.599, 14.6, 15.899, 15.9, 16.399, 16.4, 19.199, 19.2, 19.999, 20, 20.25, 20.5, 22.799, 22.8, 27.3),
 "transitions": PackedFloat32Array(-1.5, 0, -2, 0.4, -2, 0, -2, -2, 0, 1, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, 1, 0.4, -2, 0, -2, 1),
 "update": 0,
 "values": [Vector3(-0.27, 0, 0), Vector3(-0.235, 0, 0), Vector3(0.1003, -0.6999, 0), Vector3(0.1003, -0.6999, 0), Vector3(0.1366, -0.7854, 0), Vector3(0.1661, -0.5764, 0), Vector3(-0.1233, 0.2826, 0), Vector3(-0.0494, 0.3009, 0), Vector3(-0.0622, 0.3168, 0), Vector3(-0.0455, -1.2706, 0), Vector3(-0.0455, -1.2706, 0), Vector3(0.1702, -2.6331, 0), Vector3(0.2866, -2.612, 0), Vector3(-0.2376, 0.6504, 0), Vector3(-0.2424, 0.6223, 0), Vector3(-0.2459, 0.2537, 0), Vector3(-0.2479, 0.2187, 0), Vector3(-0.2866, -0.9828, 0), Vector3(-0.2837, -1.0304, 0), Vector3(-0.1732, 0, 0), Vector3(-0.1651, 0, 0), Vector3(-0.1751, 0.6125, 0), Vector3(-0.1736, 0.661, 0), Vector3(-0.1736, 0.661, 0), Vector3(-0.1725, 0.6696, 0), Vector3(-0.0326, 0.098, 0), Vector3(-0.0326, 0.098, 0), Vector3(-0.0338, 0.0845, 0), Vector3(-0.0363, 0.0363, 0), Vector3(-0.0172, 1.5019, 0), Vector3(-0.0192, 1.5324, 0)]
@@ -299,7 +299,7 @@ tracks/2/path = NodePath("Camera3D:fov")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 12.699, 12.7, 13.399, 13.4, 14.099, 14.1, 14.599, 14.6, 17.399, 17.4, 18.199, 18.2, 18.45, 18.7, 20.999, 21, 25.5),
+"times": PackedFloat32Array(0, 2.999, 3, 3.36, 3.58, 4.999, 5, 6.4, 7.299, 7.3, 8.099, 8.1, 11.999, 12, 13.299, 13.3, 14.599, 14.6, 15.899, 15.9, 16.399, 16.4, 19.199, 19.2, 19.999, 20, 20.25, 20.5, 22.799, 22.8, 27.3),
 "transitions": PackedFloat32Array(-1.5, 0, -2, 0.4, -2, 0, -2, -2, 0, 1, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, -2, 0, 1, 0.4, -2, 0, -2, 1),
 "update": 0,
 "values": [66, 62, 50, 50, 29, 30, 50, 48, 46, 34, 34, 52, 48, 40, 38, 40, 38, 42, 42, 62, 60, 44, 42, 42, 42, 40, 40, 31, 29, 60, 58]
@@ -311,7 +311,7 @@ tracks/3/path = NodePath("CanvasLayer/Fade:color")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 1, 25.5, 27.4, 27.5),
+"times": PackedFloat32Array(0, 1, 27.3, 29.2, 29.3),
 "transitions": PackedFloat32Array(-2, 1, -2, 1, 1),
 "update": 0,
 "values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 1)]
@@ -385,7 +385,7 @@ tracks/9/path = NodePath("People/Person_General:rotation:y")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0, 5.7, 6.4, 8.4, 9.3, 18.199, 18.2),
+"times": PackedFloat32Array(0, 5.7, 6.4, 8.4, 9.3, 19.999, 20),
 "transitions": PackedFloat32Array(1, -2, 1, -2, 1, 0, 1),
 "update": 0,
 "values": [-1.5708, -1.5708, 1.5708, 1.5708, 0, 0, 3.2916]
@@ -397,7 +397,7 @@ tracks/10/path = NodePath("People/Person_General/Rig/Head:rotation:y")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 14.9, 15.4, 16.1, 16.7, 17.7, 18.1, 18.199, 18.2),
+"times": PackedFloat32Array(0, 16.7, 17.2, 17.9, 18.5, 19.5, 19.9, 19.999, 20),
 "transitions": PackedFloat32Array(1, -2, -2, -2, 1, -2, 1, 0, 1),
 "update": 0,
 "values": [0, 0, 0.8, -0.8, 0, 0, -1.7, -1.7, 0]
@@ -409,7 +409,7 @@ tracks/11/path = NodePath("People/Person_General")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
-"times": PackedFloat32Array(9, 14.9, 18.45),
+"times": PackedFloat32Array(9, 16.7, 20.25),
 "transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [2.8],
@@ -429,7 +429,7 @@ tracks/12/path = NodePath("People/Person_General")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
-"times": PackedFloat32Array(18.45, 21.05),
+"times": PackedFloat32Array(20.25, 22.85),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -446,7 +446,7 @@ tracks/13/path = NodePath("People/Person_Staff1:position")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
-"times": PackedFloat32Array(0, 12.3, 12.55),
+"times": PackedFloat32Array(0, 12.9, 13.15),
 "transitions": PackedFloat32Array(1, -2, 1),
 "update": 0,
 "values": [Vector3(-4.83, 1, -9.5), Vector3(-4.83, 1, -9.5), Vector3(-4.83, 1, -9.5)]
@@ -458,7 +458,7 @@ tracks/14/path = NodePath("People/Person_Staff1/Rig:scale")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
-"times": PackedFloat32Array(0, 12.3, 12.5),
+"times": PackedFloat32Array(0, 12.9, 13.1),
 "transitions": PackedFloat32Array(1, 0.5, 1),
 "update": 0,
 "values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.45, 1)]
@@ -470,7 +470,7 @@ tracks/15/path = NodePath("People/Person_Staff2:position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/keys = {
-"times": PackedFloat32Array(0, 13, 13.3),
+"times": PackedFloat32Array(0, 14.2, 14.5),
 "transitions": PackedFloat32Array(1, -2, 1),
 "update": 0,
 "values": [Vector3(1.67, 1, -10.52), Vector3(1.67, 1, -10.52), Vector3(1.67, 1, -10.52)]
@@ -482,7 +482,7 @@ tracks/16/path = NodePath("People/Person_Staff2/Rig:scale")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/keys = {
-"times": PackedFloat32Array(0, 13, 13.2),
+"times": PackedFloat32Array(0, 14.2, 14.4),
 "transitions": PackedFloat32Array(1, 0.5, 1),
 "update": 0,
 "values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 0.45, 1)]
@@ -494,7 +494,7 @@ tracks/17/path = NodePath("People/Person_Staff3:position")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/keys = {
-"times": PackedFloat32Array(0, 13, 13.35, 13.7, 13.95, 14.05),
+"times": PackedFloat32Array(0, 15.2, 15.55, 15.7, 15.85, 15.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(4.7, 1, -8.17), Vector3(4.7, 1, -8.17), Vector3(6.6, 1.1, -7.8), Vector3(8.8, 1.1, -6.3), Vector3(10.2, 1.5, -5.4), Vector3(10.5, 1, -5.25)]
@@ -506,7 +506,7 @@ tracks/18/path = NodePath("People/Person_Staff3:rotation:y")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/keys = {
-"times": PackedFloat32Array(0, 13, 13.15),
+"times": PackedFloat32Array(0, 15.05, 15.2),
 "transitions": PackedFloat32Array(1, -2, 1),
 "update": 0,
 "values": [0, 0, -2.05]
@@ -518,7 +518,7 @@ tracks/19/path = NodePath("People/Person_Staff3:visible")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/keys = {
-"times": PackedFloat32Array(0, 14.1),
+"times": PackedFloat32Array(0, 15.9),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -530,7 +530,7 @@ tracks/20/path = NodePath("People/Person_AssistantScientist:visible")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/keys = {
-"times": PackedFloat32Array(0, 20.9),
+"times": PackedFloat32Array(0, 22.7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -542,7 +542,7 @@ tracks/21/path = NodePath("People/Person_Janitor:visible")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/keys = {
-"times": PackedFloat32Array(0, 20.9),
+"times": PackedFloat32Array(0, 22.7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -554,7 +554,7 @@ tracks/22/path = NodePath("People/Person_Student:visible")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/keys = {
-"times": PackedFloat32Array(0, 20.9),
+"times": PackedFloat32Array(0, 22.7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -566,7 +566,7 @@ tracks/23/path = NodePath("People/Person_AssistantScientist/Rig/Head:rotation:y"
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/keys = {
-"times": PackedFloat32Array(0, 21.5, 21.9),
+"times": PackedFloat32Array(0, 23.3, 23.7),
 "transitions": PackedFloat32Array(1, -2, 1),
 "update": 0,
 "values": [0, 0, 1]
@@ -578,7 +578,7 @@ tracks/24/path = NodePath("People/Person_Janitor/Rig/Head:rotation:y")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/keys = {
-"times": PackedFloat32Array(0, 22.6, 23),
+"times": PackedFloat32Array(0, 24.4, 24.8),
 "transitions": PackedFloat32Array(1, -2, 1),
 "update": 0,
 "values": [0, 0, 1]
@@ -590,7 +590,7 @@ tracks/25/path = NodePath("People/Person_Student/Rig/Head:rotation:y")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/keys = {
-"times": PackedFloat32Array(0, 23.7, 24.1),
+"times": PackedFloat32Array(0, 25.5, 25.9),
 "transitions": PackedFloat32Array(1, -2, 1),
 "update": 0,
 "values": [0, 0, -1.1]
@@ -602,7 +602,7 @@ tracks/26/path = NodePath(".")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/keys = {
-"times": PackedFloat32Array(3.35, 4.7, 9, 11.9, 14.9, 17.1, 18.45, 20.6),
+"times": PackedFloat32Array(3.35, 4.7, 9, 11.9, 16.7, 18.9, 20.25, 22.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "values": [{
 "args": ["commander_quit"],
@@ -637,7 +637,7 @@ tracks/27/path = NodePath(".")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/keys = {
-"times": PackedFloat32Array(18.5),
+"times": PackedFloat32Array(20.3),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [0.4, 0.04],

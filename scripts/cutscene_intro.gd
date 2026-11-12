@@ -1,5 +1,5 @@
 # cutscene_intro.gd
-# The intro cutscene in the bright mission control room (about 27.5 seconds).
+# The intro cutscene in the bright mission control room (about 29.3 seconds).
 # The AnimationPlayer node plays one animation called "intro" by itself
 # (Autoplay). The animation moves the camera and the people, shows and
 # hides the subtitles, shakes the camera and fades in and out.
@@ -13,13 +13,14 @@
 #   Shot 3   5.0  door shot from the walkway, the door slides, he leaves
 #   Shot 4   7.3  close up of the General, held still (silent pause)
 #   Shot 5   8.1  low angle medium shot of the General: "Who will run it?"
-#   Shot 6  12.0  three quick cuts: Staff 1 ducks, Staff 2 ducks, Staff 3 dives
+#   Shot 6  12.0  three cuts, each with a short frozen "uh-oh" hold (comedy) and then
+#                 a quick move: Staff 1 ducks (12.0), Staff 2 ducks (13.3), Staff 3 dives
 #                 into the closet, then a wide beat of the empty consoles
-#   Shot 7  14.6  over the General's shoulder: "I need somebody. Anybody!"
-#   Shot 8  17.4  same shot held, pause, his head turns toward us
-#   Shot 9  18.2  front close up, punch in and shake: "You. I want you."
-#   Shot 10 21.0  front three shot: Assistant Scientist, Janitor, Student
-#   Shot 11 25.5  fade to black, then the name screen
+#   Shot 7  16.4  over the General's shoulder: "I need somebody. Anybody!"
+#   Shot 8  19.2  same shot held, pause, his head turns toward us
+#   Shot 9  20.0  front close up, punch in and shake: "You. I want you."
+#   Shot 10 22.8  front three shot: Assistant Scientist, Janitor, Student
+#   Shot 11 27.3  fade to black, then the name screen
 #
 # LOOK (the "Space Station" palette, see docs/ART_DIRECTION.md):
 #   Colours are in the material library: res://materials (see materials/README.md).
