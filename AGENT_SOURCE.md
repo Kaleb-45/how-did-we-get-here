@@ -133,8 +133,8 @@ Dates are local Pacific time, the same zone as the commit.
   Why: Kaleb's brief (2026-11-09). Archiving the hangar was accepted at G1. "Add one room: Life Support (food, water, air). Five rooms total." (2026-11-10)
 - **The Reroute Power station lives in the Power room and "must work exactly as it does now."**
   Why: Kaleb's brief (2026-11-09).
-- **The Science bay and Comms room each have an empty station spot with a glowing floor marker and a label: "Future station: Data" and "Future station: Comms".**
-  Why: Kaleb's brief (2026-11-09). These are slots for future mini-games (guess).
+- **The Science bay and Comms room stations are the science pass stations: capture at the Science bay, downlink at the Comms room, in the Arrival walk only. In Flight their labels say they work in Mars orbit.**
+  Why: Kaleb picked "all recommended" for Batch 5 (2026-11-12).
 - **Difficulty is set by how much guidance the character gets, not by changing the numbers.**
   Why: the brief named "janitor (medium difficulty)" (2026-11-08). "the budget should be the same or everyone, the different levels will just be how much guidance we give them." Kaleb then picked "guidance only": timing windows and supply use are the same for all levels too (2026-11-10).
 - **When `GAME_PLAN.md` gives a DEFAULT, agents use it and list it in the report. Otherwise they ask one short question.**
@@ -264,6 +264,7 @@ Dates are local Pacific time, the same zone as the commit.
 
 ## 3. Rejected choices
 
+- **Empty "Future station: Data" and "Future station: Comms" markers in the Science bay and Comms room.** Replaced by the science pass stations (A18, 2026-11-12).
 - **Bald Janitor, and round hands with no fingers on everyone.** Replaced by the Janitor's cap and the General's pointing finger (2026-11-12).
 - **Broad top/bottom colour blocks as the only clothes.** Replaced by role clothes and one prop per character (2026-11-12).
 - **A dark, moody war room lit mainly by the table and screens, with a dim table and subtitles with no box.** Replaced by the bright Space Station look from `docs/ART_DIRECTION.md` (2026-11-11).
@@ -529,7 +530,7 @@ The inner-voice text uses real-world reasoning in plain words, for example "NASA
 
 - **Graybox ship, G5:** show the chosen part version in each room, for example the solar panels through the Power room window, with E inspection at the windows. Not started; Kaleb said "Do not start step 5." The spacecraft is still parked off-map at x=40 in `scenes/walk.tscn` as a stand-in until G5.
 - **Graybox ship, G6:** a dashboard wall screen on the Bridge. My planned approach was a second dashboard on a SubViewport on a 3D quad. Not started.
-- **Future stations:** the Science bay ("Future station: Data") and Comms room ("Future station: Comms") have markers only. No mini-games yet.
+- **Science and Comms stations:** they run one science pass (capture, then downlink) in Arrival. The Data and Comms mini-games (TASKS 15, 16) and the three passes of GAME_PLAN wait for Phase C.
 - **Real 3D models:** the `"model"` slot in each part version is empty.
 - **Ideas I offered that Kaleb never picked up:**
   - an alarm sound
