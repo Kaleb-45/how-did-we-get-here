@@ -4,7 +4,7 @@
     "_readme": "The order of the game screens. go_next() in StageManager.gd walks down this list, one screen at a time. Each name is a scene file in the scenes folder (intro means scenes/intro.tscn). To change the order, change this list. Nothing else needs to change.",
     "source": "Game-design choice by Kaleb. It is NOT a NASA number.",
     "scene_folder": "res://scenes/",
-    "order": ["intro", "name", "character_select", "destination", "mission_select", "rocket", "build", "review", "launch", "flight", "walk", "debrief"]
+    "order": ["intro", "cutscene_intro", "name", "character_select", "destination", "mission_select", "rocket", "build", "review", "launch", "flight", "walk", "debrief"]
   },
   "setup": {
     "_readme": "Settings for the five setup questions (name, who are you, where, what for, rocket). After you answer, the inner voice reacts and a Next button appears; the player clicks it to go on. name_max_length = the most letters the name box accepts. default_character = who you play as if you press Play on a later screen without answering the questions.",
