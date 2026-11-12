@@ -3,15 +3,14 @@
   "intro": {
     "lines": [
       "NASA Mission Control. 7:42 AM.",
-      "The chief mission designer just quit. No warning. No notes.",
-      "The general walks in, looks around the room, and points at you."
+      "A rocket waits on the launch pad. Something is about to go very wrong."
     ],
     "general_name": "The General",
-    "general_says": "You're in charge now.",
-    "button": "Uh... okay?",
+    "general_says": "Where is my mission designer?",
+    "button": "Start",
     "general_picture": "res://assets/characters/general.png",
     "janitor_picture": "res://assets/characters/janitor.png",
-    "janitor_caption": "You (the janitor)",
+    "janitor_caption": "The Janitor",
     "missing_picture": "Picture goes here:"
   },
   "setup_next_button": "Next",

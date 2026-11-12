@@ -212,6 +212,8 @@ Dates are local Pacific time, the same zone as the commit.
   Why: Kaleb answered "yes, do both" to keeping them in the scripts (2026-11-11).
 - **The intro shows Kaleb's own character art for the general and the janitor.**
   Why: "Add the character images I made to the intro screen" (2026-11-08).
+- **The Intro screen is a short teaser before the cutscene: it keeps Kaleb's character art but does not tell the story ("points at you" and "You (the janitor)" are gone). The cutscene tells the story.**
+  Why: Kaleb picked "Short teaser" when the Intro screen gave the cutscene away (2026-11-12).
 - **The debrief looks like a mission report: a stamp, numbered findings with what, why and fix, and a FINAL READINGS grid.**
   Why: "Make the 'Mission success' and 'Mission failed' screens look like a mission report, not a plain list." (2026-11-08)
 - **Soft fill light, so no part of the craft is pitch black.**
