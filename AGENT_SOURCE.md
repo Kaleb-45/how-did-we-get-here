@@ -202,10 +202,12 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "Make all text larger and easier to read. Students aged 10–15 will play this." (2026-11-08)
 - **The walk's control hints at the top are large.**
   Why: "The control hints at the top of the walk screen are too small to read. Make them larger." (2026-11-08)
-- **Characters are cute, rounded, toy-like, made only from built-in shapes: one rounded body with no neck, small capsule arms, short legs with round shoes, round hands with no fingers. The top of the head is a lid that hinges at the back and flips open to talk. Each person is easy to know by shape: General = V shape, Janitor = squash, Assistant Scientist = tall thin cylinder, Student = small. No clothes yet.**
+- **Characters are cute, rounded, toy-like, made only from built-in shapes: one rounded body with no neck, small capsule arms, short legs with round shoes, round hands with no fingers. The top of the head is a lid that hinges at the back and flips open to talk. Each person is easy to know by shape: General = V shape, Janitor = squash, Assistant Scientist = tall thin cylinder, Student = small. Clothes are broad color blocks (top and bottom colors), no helmets.**
   Why: "Style: cute, rounded, toy-like." (2026-11-11)
-- **The intro cutscene is directed like a polished animated short: hard cuts with eased camera moves, letterbox bars, a fade-in from black, warm key lights and cool rim lights, a dim table, code-drawn Mars maps on the screens (blue and amber), and subtitles with no box and an amber speaker name. Under 30 seconds. Primitive meshes and code-made graphics only.**
+- **The intro cutscene is directed like a polished animated short: hard cuts with eased camera moves, letterbox bars, a fade-in from black, code-drawn Mars maps on the screens. Under 30 seconds. Primitive meshes and code-made graphics only.**
   Why: "Make it look like a polished animated short." Kaleb approved the 11-shot list with "yes" (2026-11-11).
+- **3D art follows `docs/ART_DIRECTION.md`. Mission control is a BRIGHT room in the "Space Station" palette (warm white, navy, desaturated gray, small cyan and orange accents), with matte shared materials, a soft warm key light, a cool fill and rim light, low glow only on screens and console lights, no indoor fog, and rounded subtitle panels.**
+  Why: "Apply docs/ART_DIRECTION.md to cutscene_intro.tscn" and "lets make it bright." (2026-11-11)
 - **Character art proportions (leg length, arm thickness, eye and mustache sizes) stay as constants in the character scripts, not in `game_data.json`.** They are drawing choices, not game numbers.
   Why: Kaleb answered "yes, do both" to keeping them in the scripts (2026-11-11).
 - **The intro shows Kaleb's own character art for the general and the janitor.**
@@ -254,6 +256,8 @@ Dates are local Pacific time, the same zone as the commit.
 
 ## 3. Rejected choices
 
+- **A dark, moody war room lit mainly by the table and screens, with a dim table and subtitles with no box.** Replaced by the bright Space Station look from `docs/ART_DIRECTION.md` (2026-11-11).
+- **"No clothes yet" on the characters.** Replaced by broad color-block clothes (2026-11-11).
 - **The project folder `~/Desktop/OCAI Center/space-apps-game/`.** Rejected: "Use this folder for the project, not the OCAI folder" (2026-11-08). The project lives at `~/Desktop/Nasa Space App Challenge/how-did-we-get-here/`.
 - **An auto-popup dashboard ("Red light pops it up") and "Both, player choice".** Rejected for "Light warns, Tab raises arm" (2026-11-08). Kaleb gave no reason beyond wanting the dashboard "hidden but also still can notify".
 - **A dashboard drawn on a 3D wrist screen.** Rejected for a 2D panel above the wrist (2026-11-08). My stated tradeoff: the 3D screen's "text is smaller and harder to read" (guess that this was Kaleb's reason).

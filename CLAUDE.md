@@ -78,3 +78,7 @@ When Kaleb makes a new design choice, add it to `AGENT_SOURCE.md`: one line, the
 "Why:" with Kaleb's own words and the date. If it replaces an earlier choice, replace
 the old line in section 2, and move the old choice to section 3, Rejected choices,
 with the date.
+
+## Art direction
+
+Follow docs/ART_DIRECTION.md for all 3D art.
