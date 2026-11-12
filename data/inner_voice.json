@@ -287,5 +287,16 @@
     },
     "summary_clean": "Nothing lost at all! A perfect launch. I may have just been lucky.",
     "summary_costs": "Some misses. The list shows what they cost us. But we are still flying! Next, the ship."
+  },
+  "orbit_burn": {
+    "_readme": "What the inner voice says at the orbit burn (Stage 4, before the walk). The voice is never wrong. The levels do not change these lines yet.",
+    "start": "We are at Mars! To stay here, the engine must slow us down. If I miss, we waste fuel. Press E when the ring closes on the target.",
+    "results": {
+      "Perfect": "Perfect burn! We slid into orbit like a pro. I was not even scared. Okay, a little.",
+      "Good": "Good burn! We are in orbit. A little fuel wasted, maybe, but we are here.",
+      "Miss": "Missed the timing. The engine burned too early or too late and wasted fuel. We are in orbit, but we paid for it."
+    },
+    "summary_clean": "Nothing lost. Now the ship has to survive Mars' shadow.",
+    "summary_costs": "The burn cost us some fuel. But we are in orbit! Now the ship has to survive Mars' shadow."
   }
 }

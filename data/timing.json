@@ -81,5 +81,25 @@
         "source": "PLACEHOLDER"
       }
     }
+  },
+  "orbit_burn": {
+    "_readme": "The orbit burn (Stage 4, before the Mars shadow pass): one timed press with the E key. The ring speed and tightness work like the launch ones (tightness 1.0 = normal). Perfect or Good costs nothing. A Miss adds miss_cost to GameState.damage (it is only stored, like the launch costs, and never ends the mission). ready_seconds = the wait before the ring starts.",
+    "press_speed": {
+      "value": 1.0,
+      "source": "PLACEHOLDER"
+    },
+    "press_tightness": {
+      "value": 1.0,
+      "source": "PLACEHOLDER"
+    },
+    "ready_seconds": {
+      "value": 1.5,
+      "source": "PLACEHOLDER (game-design timing, a student can change it)"
+    },
+    "miss_cost": {
+      "kind": "fuel",
+      "amount": 15,
+      "source": "PLACEHOLDER"
+    }
   }
 }

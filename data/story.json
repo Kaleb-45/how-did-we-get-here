@@ -247,5 +247,21 @@
         "text": "You. I want you."
       }
     }
+  },
+  "orbit_burn_screen": {
+    "_readme": "Words for the Orbit burn screen (Stage 4, before the walk). The cost text uses launch_screen.cost_kinds ({amount} is a percent).",
+    "title": "Orbit burn",
+    "hint": "Press E (or click) when the ring closes on the target.",
+    "get_ready": "Get ready...",
+    "burn_label": "ORBIT BURN",
+    "results": {
+      "Perfect": "Perfect",
+      "Good": "Good",
+      "Miss": "Miss"
+    },
+    "summary_title": "Orbit burn summary",
+    "no_loss": "No losses. We are in orbit!",
+    "cost_line": "Orbit burn: {cost}",
+    "next_button": "On to Mars orbit"
   }
 }
