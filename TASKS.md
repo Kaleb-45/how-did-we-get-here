@@ -182,8 +182,8 @@ The old unfinished steps, kept here until Phase C is done (unless Kaleb says so)
 - [ ] **19d. Art pass on the intro cutscene (docs/ART_DIRECTION.md).** NICE · L
   Bright "Space Station" palette, shared matte material library in `materials/`, key,
   fill and rim lights, colour-block clothes, window with a rocket on its pad, rounded
-  subtitle panel. Built (6525659); reviewer fixes waiting for Kaleb; waiting for
-  Kaleb's test.
+  subtitle panel, slower staff hide (29.3 s). Built and cleaned up (4709887); waiting
+  for Kaleb's test.
 - [ ] **5a. Windows in the rooms.** NICE · S
 - [ ] **5b. Chosen parts outside the windows.** NICE · M
 - [ ] **5c. Press E at a window to inspect the part.** NICE · S
