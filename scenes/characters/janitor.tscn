@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/character_base.tscn" id="1_base"]
 [ext_resource type="Script" path="res://scripts/characters/character_janitor.gd" id="2_s"]
 [ext_resource type="Material" path="res://materials/skin_medium.tres" id="m_skin"]
-[ext_resource type="Material" path="res://materials/cloth_work_green.tres" id="m_top"]
+[ext_resource type="Material" path="res://materials/cloth_cream.tres" id="m_top"]
 [ext_resource type="Material" path="res://materials/cloth_work_green.tres" id="m_bottom"]
 
 [node name="Character_Janitor" instance=ExtResource("1_base")]
