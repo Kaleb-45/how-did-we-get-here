@@ -42,7 +42,7 @@ So this README is the real list of notes. Do not rely on comments in those files
 - `room_console_navy`: Room: navy. Colours the console bodies and the chairs.
 - `room_door_void`: Room: pure black, not lit. The dark hole you see when the door slides open.
 - `room_floor_navy`: Room: navy. Colours the lower floor.
-- `room_panel_cream`: Room: cream. Colours wall panels, trim and console tops.
+- `room_panel_cream`: Room: cream. Colours wall panels and trim.
 - `room_rocket_white`: Room: warm white. Colours the rocket outside the window.
 - `room_table_navy`: Room: deep navy. Colours the table top and the screen frames.
 - `room_trim_dark`: Room: dark gray. Colours the door, the supply closet and the launch tower.

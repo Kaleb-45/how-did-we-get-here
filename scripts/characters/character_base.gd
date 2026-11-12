@@ -131,7 +131,7 @@ func _walk_cycle(delta: float) -> void:
 	if _leg_l:
 		_leg_l.rotation.x = swing * walk_leg_swing
 		_leg_r.rotation.x = -swing * walk_leg_swing
-	rig.position.y = absf(swing) * walk_bob_height
+	rig.position.y = (1.0 - absf(swing)) * walk_bob_height   # highest when the legs pass under the body
 	rig.rotation.z = 0.0
 	arm_l.rotation.x = -swing * walk_leg_swing * 0.8
 	if not _arm_busy:
@@ -146,6 +146,9 @@ func walk(on: bool) -> void:
 			_leg_l.rotation.x = 0.0
 			_leg_r.rotation.x = 0.0
 		rig.position.y = 0.0
+		arm_l.rotation.x = 0.0
+		if not _arm_busy:
+			arm_r_node.rotation.x = 0.0
 
 
 func _queue_rebuild() -> void:
