@@ -12,3 +12,4 @@ bottom_width = 0.36
 skin_material = ExtResource("m_skin")
 top_material = ExtResource("m_top")
 bottom_material = ExtResource("m_bottom")
+mouth_open_angle = 0.28

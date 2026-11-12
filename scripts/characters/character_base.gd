@@ -9,6 +9,9 @@
 #   Rig/Head/LidHinge/Lid   the top of the head. It hinges at the BACK and flips
 #                  open when the person talks. Eyes, brows, hair and hats are on it.
 #   Rig/ArmL, Rig/ArmR      the two arms. Turn ArmR to point.
+#   Rig/LegL, Rig/LegR      the two legs (a leg and its shoe turn together at the hip).
+# WALKING: call walk(true) to start a simple walk cycle (legs swing, body bobs,
+# arms swing more) and walk(false) to stop. The animation does this with a method track.
 # The person faces forward (the -Z direction).
 #
 # COLOURS (all from the material library in res://materials, see materials/README.md):
@@ -54,6 +57,11 @@ extends Node3D
 @export var bob_speed: float = 2.2
 # Arm sway: the arms swing a tiny bit. It stops on the right arm while it points.
 @export var arm_sway: float = 0.05
+# Walk cycle (only while walk(true) is on): how fast, how far the legs swing
+# (radians) and how high the body bobs (meters).
+@export var walk_speed: float = 9.0
+@export var walk_leg_swing: float = 0.6
+@export var walk_bob_height: float = 0.05
 
 # Art numbers (shape proportions). They are looks, not game numbers.
 const LEG_FRACTION := 0.18      # legs are this part of the height
@@ -75,6 +83,10 @@ var _point_tween: Tween
 var _rebuild_queued := false
 var _bob_time := 0.0
 var _bob_phase := 0.0
+var _walking := false
+var _walk_time := 0.0
+var _leg_l: Node3D
+var _leg_r: Node3D
 var _arm_busy := false   # true while the right arm points (no sway then)
 
 @onready var rig: Node3D = $Rig
@@ -93,6 +105,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
+	if _walking:
+		_walk_cycle(delta)
+		return
 	if not idle_bob:
 		rig.position.y = 0.0
 		rig.rotation.z = 0.0
@@ -106,6 +121,31 @@ func _process(delta: float) -> void:
 	arm_l.rotation.x = sin(wave * 0.7 + 1.0) * arm_sway
 	if not _arm_busy:
 		arm_r_node.rotation.x = sin(wave * 0.7 + 3.1) * arm_sway
+
+
+# One step of the walk cycle: legs swing in opposite directions, the body bobs
+# twice per full stride, and the arms swing against the legs.
+func _walk_cycle(delta: float) -> void:
+	_walk_time += delta * walk_speed
+	var swing := sin(_walk_time)
+	if _leg_l:
+		_leg_l.rotation.x = swing * walk_leg_swing
+		_leg_r.rotation.x = -swing * walk_leg_swing
+	rig.position.y = absf(swing) * walk_bob_height
+	rig.rotation.z = 0.0
+	arm_l.rotation.x = -swing * walk_leg_swing * 0.8
+	if not _arm_busy:
+		arm_r_node.rotation.x = swing * walk_leg_swing * 0.8
+
+
+# Start or stop walking. Called by the animation (a method track).
+func walk(on: bool) -> void:
+	_walking = on
+	if not on:
+		if _leg_l:
+			_leg_l.rotation.x = 0.0
+			_leg_r.rotation.x = 0.0
+		rig.position.y = 0.0
 
 
 func _queue_rebuild() -> void:
@@ -204,22 +244,31 @@ func _rebuild() -> void:
 	cap.rings = 4
 	_add(rig, cap, bottom, Vector3(0, tube_bottom, 0), Vector3(1, BOTTOM_CAP_FRACTION, 1), Vector3(PI, 0, 0))
 
-	# --- legs and round shoes ---
+	# --- legs and round shoes (each leg is a pivot at the hip, so it can swing) ---
 	var leg_r := 0.045 * height + 0.01
 	for side in [-1, 1]:
 		var x: float = side * bottom_r * 0.45
+		var pivot := Node3D.new()
+		pivot.name = "LegL" if side < 0 else "LegR"
+		pivot.set_meta("gen", true)
+		rig.add_child(pivot)
+		pivot.position = Vector3(x, leg_h, 0)
+		if side < 0:
+			_leg_l = pivot
+		else:
+			_leg_r = pivot
 		var leg := CapsuleMesh.new()
 		leg.radius = leg_r
 		leg.height = leg_h * 1.1
 		leg.radial_segments = 8
 		leg.rings = 2
-		_add(rig, leg, bottom, Vector3(x, leg_h * 0.5 + 0.03, 0))
+		_add(pivot, leg, bottom, Vector3(0, leg_h * 0.5 + 0.03 - leg_h, 0))
 		var shoe_mesh := SphereMesh.new()
 		shoe_mesh.radius = leg_r * 1.35
 		shoe_mesh.height = leg_r * 2.7
 		shoe_mesh.radial_segments = 8
 		shoe_mesh.rings = 4
-		_add(rig, shoe_mesh, shoe, Vector3(x, leg_r * 0.8, -leg_r * 0.7), Vector3(1, 0.6, 1.5))
+		_add(pivot, shoe_mesh, shoe, Vector3(0, leg_r * 0.8 - leg_h, -leg_r * 0.7), Vector3(1, 0.6, 1.5))
 
 	# --- arms: small capsules with round hands ---
 	var shoulder_y := head_base_y - arm_r * 1.6

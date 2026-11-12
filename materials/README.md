@@ -52,3 +52,5 @@ So this README is the real list of notes. Do not rely on comments in those files
 - `skin_dark`: Character skin: dark.
 - `skin_light`: Character skin: light.
 - `skin_medium`: Character skin: medium.
+- `glow_cyan_screen`: Cyan screens on the console monitors. A dimmer, darker version of glow_cyan so the monitors read as accents. Change BOTH Albedo > Color and Emission > Color.
+- `room_console_top`: The tops of the consoles (a muted cream, darker than room_panel_cream).

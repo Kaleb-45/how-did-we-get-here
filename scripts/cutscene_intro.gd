@@ -138,7 +138,7 @@ func _process(delta: float) -> void:
 		camera.v_offset = 0.0
 
 
-# Go to the name screen. StageManager is the same way every other screen
-# moves on (the screen list is in data/game_data.json, "stages").
+# Go to the next screen (the name screen). StageManager is the same way every
+# other screen moves on (the screen list is in data/game_data.json, "stages").
 func _on_animation_finished(_animation_name: StringName) -> void:
-	StageManager.go_to("name")
+	StageManager.go_next()
