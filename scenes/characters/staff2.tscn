@@ -1,14 +1,18 @@
 [gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/characters/character_base.tscn" id="1_base"]
+[ext_resource type="Script" path="res://scripts/characters/character_staff.gd" id="2_s"]
+[ext_resource type="Material" path="res://materials/hair_gray.tres" id="m_hair"]
 [ext_resource type="Material" path="res://materials/skin_dark.tres" id="m_skin"]
 [ext_resource type="Material" path="res://materials/cloth_mustard.tres" id="m_top"]
 [ext_resource type="Material" path="res://materials/cloth_dark_gray.tres" id="m_bottom"]
 
 [node name="Character_Staff2" instance=ExtResource("1_base")]
+script = ExtResource("2_s")
 height = 1.95
 top_width = 0.38
 bottom_width = 0.32
 skin_material = ExtResource("m_skin")
 top_material = ExtResource("m_top")
 bottom_material = ExtResource("m_bottom")
+hair_material = ExtResource("m_hair")

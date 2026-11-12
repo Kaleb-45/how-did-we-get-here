@@ -643,8 +643,9 @@ func add_headset() -> void:
 # Two gray mustache halves just above the mouth line (they ride on the lid, so the
 # mustache lifts with the top lip when the person talks).
 # "size" 1.0 is normal; 1.5 is large and droopy. "spread" is how far apart the
-# two halves are (smaller = they meet in the middle).
-func add_mustache(size: float, spread: float = 0.3, yf: float = 0.17) -> void:
+# two halves are (smaller = they meet in the middle). "droop" makes the outer ends
+# hang DOWN (a walrus mustache) instead of curling up.
+func add_mustache(size: float, spread: float = 0.3, yf: float = 0.17, droop: bool = false) -> void:
 	var mat: Material = load("res://materials/hair_gray.tres")
 	for side in [-1, 1]:
 		var m := SphereMesh.new()
@@ -654,7 +655,7 @@ func add_mustache(size: float, spread: float = 0.3, yf: float = 0.17) -> void:
 		m.rings = 4
 		var node := _add(lid, m, mat, dome_point(side * spread * size, yf, 0.0))
 		node.basis = dome_basis(side * spread * size, yf) \
-			* Basis(Vector3.BACK, side * 0.35 * size) \
+			* Basis(Vector3.BACK, side * (-0.3 if droop else 0.35 * size)) \
 			* Basis.from_scale(Vector3(0.42, 0.14 * size, 0.14) * top_r * Vector3(size, 1, 1))
 
 
