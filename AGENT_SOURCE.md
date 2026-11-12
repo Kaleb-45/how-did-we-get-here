@@ -115,6 +115,10 @@ Dates are local Pacific time, the same zone as the commit.
   Why: the brief: "When the player walks close to a part and presses E, the inner voice explains that part and its numbers." (2026-11-08) Inspecting parts at the windows was accepted at G1 (2026-11-09).
 
 ### Game structure
+- **Arrival (orbit type) = an Orbit burn screen between Flight and the Arrival walk (one timed press with E; a miss costs 15% fuel, PLACEHOLDER, stored like Launch costs), then the walk, shadow pass and Reroute Power unchanged.**
+  Why: Kaleb picked "all recommended" for Batch 5 (2026-11-12).
+- **One science pass inside the Arrival walk: capture with E at the Science bay while the target is in view (4-16 s), downlink with E at the Comms room while the ground station is in view (44-58 s), shown by a calm banner with a countdown and the station label. Data sent home is limited by a fixed storage size (PLACEHOLDER), the camera and antenna switches (off = nothing), and the real antenna speed. Science sent home does not change the report or MISSION SUCCESS yet (A22 adds it to the report). Levels do not change the burn or the science pass yet. One pass now; three passes wait for Phase C.**
+  Why: Kaleb picked "all recommended" for Batch 5 (2026-11-12).
 - **Screen flow (GAME_PLAN.md section 2): Title → setup questions 1–5 → Build → Review → Checkpoint 1 → Launch → Checkpoint 2 → Flight → Checkpoint 3 → Arrival → Report.**
   Why: "GAME_PLAN.md is the design source. Build in its phase order." (2026-11-10)
 - **The full game has five destinations (Mars orbit, Jezero, Gale, Arcadia Planitia, Europa).**
