@@ -24,13 +24,21 @@
 #
 # LOOK (the "Space Station" palette, see docs/ART_DIRECTION.md):
 #   Colours are in the material library: res://materials (see materials/README.md).
-#   Lights are in the Lights node and the WorldEnvironment node. Each light is
-#   explained in the comment above it in the scene. Short version:
-#     KEY  = KeyLight (warm sun-like light from the front left, makes soft shadows)
+#   Lights are in the Lights node and the WorldEnvironment node. Short version:
+#     KEY  = KeyLight (the one warm Directional light, makes the soft shadows).
+#            It shines from the front right. A Directional light's direction comes
+#            from its ROTATION; its position does nothing. Edit light_color / light_energy.
 #     FILL = WorldEnvironment ambient light (cool and gentle)
 #     RIM  = RimThreeA, RimThreeB, RimGeneral (dim cool outline lights)
 #     FACE = KeyGeneral, KeyThree, KeyGeneralBack (dim warm spots, no shadows)
-#   Glow is low and only the cyan screens and console lights bloom. No fog.
+#     The FILL colour and strength are ambient_light_color / ambient_light_energy
+#     in the WorldEnvironment node. RIM and FACE are SpotLight3D nodes (edit
+#     light_color and light_energy). FACE lights cast no shadows.
+#   Glow (WorldEnvironment) is low with a high threshold, so only the cyan screens
+#   and console lights bloom. There is NO fog on purpose.
+#   (Comments inside .tscn and .tres files disappear when Godot saves them, so the
+#   real notes live here and in materials/README.md.)
+#   SUBTITLE panel: rounded, slightly see-through navy box, set by the theme.
 #   Subtitle colours and sizes are in theme/game_theme.tres (SubtitlePanel,
 #   SubtitleSpeaker, SubtitleLine).
 #
