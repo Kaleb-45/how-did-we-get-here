@@ -52,6 +52,10 @@ func _ready() -> void:
 	bar_fill = StyleBoxFlat.new()
 	used_bar.add_theme_stylebox_override("fill", bar_fill)
 
+	# Safety net for running the walk or flight scene by itself (F6):
+	# Godot starts this panel BEFORE walk.gd, so the parts may not be picked
+	# yet. This only fills parts that have no choice, so a real game is unchanged.
+	GameState.fill_default_choices()
 	make_rows()
 	refresh()
 	visible = false

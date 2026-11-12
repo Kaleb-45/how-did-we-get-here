@@ -58,7 +58,8 @@ var nearby_part: String = ""
 
 func _ready() -> void:
 	flight_mode = StageManager.get_current() == "flight"
-	# Safety net for running this scene by itself (Cmd+R).
+	# Safety net for running this scene by itself (F6).
+	# (The Reroute Power panel starts before this, so it fills the parts itself.)
 	if GameState.character_id == "":
 		GameState.character_id = Data.game_data["setup"]["default_character"]
 	if GameState.mission_id == "":
