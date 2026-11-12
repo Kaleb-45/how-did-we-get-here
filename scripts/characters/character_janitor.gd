@@ -6,6 +6,11 @@
 extends "res://scripts/characters/character_base.gd"
 
 
+# Brows sit lower so they stay under the cap, even when surprised.
+func _brow_yf() -> float:
+	return 0.54
+
+
 func _build_extras() -> void:
 	var green: Material = load("res://materials/cloth_work_green.tres")
 
@@ -26,7 +31,7 @@ func _build_extras() -> void:
 		add_on_body(strap, green, (strap_top + strap_bottom) * 0.5, side * top_r * 0.62, 0.012, true)
 
 	# --- green work cap: a flat dome high on the lid (above the eyebrows) and a short peak ---
-	var rim := 0.66                                  # how high up the dome the cap starts (0..1)
+	var rim := 0.78                                  # how high up the dome the cap starts (0..1)
 	var rim_r := top_r * sqrt(1.0 - rim * rim) * 1.06
 	var cap := SphereMesh.new()
 	cap.radius = rim_r

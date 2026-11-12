@@ -59,7 +59,7 @@ mesh = SubResource("CylinderMesh_disc")
 surface_material_override/0 = ExtResource("2_disc")
 
 [node name="General" parent="Stands/Stand_General" instance=ExtResource("c_general")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.04, 0)
 
 [node name="Stand_Commander" type="Node3D" parent="Stands"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.750, 0, 0)
@@ -69,7 +69,7 @@ mesh = SubResource("CylinderMesh_disc")
 surface_material_override/0 = ExtResource("2_disc")
 
 [node name="Commander" parent="Stands/Stand_Commander" instance=ExtResource("c_commander")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.04, 0)
 
 [node name="Stand_AssistantScientist" type="Node3D" parent="Stands"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.250, 0, 0)
@@ -79,7 +79,7 @@ mesh = SubResource("CylinderMesh_disc")
 surface_material_override/0 = ExtResource("2_disc")
 
 [node name="AssistantScientist" parent="Stands/Stand_AssistantScientist" instance=ExtResource("c_assistant_scientist")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.04, 0)
 
 [node name="Stand_Janitor" type="Node3D" parent="Stands"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.750, 0, 0)
@@ -89,7 +89,7 @@ mesh = SubResource("CylinderMesh_disc")
 surface_material_override/0 = ExtResource("2_disc")
 
 [node name="Janitor" parent="Stands/Stand_Janitor" instance=ExtResource("c_janitor")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.04, 0)
 
 [node name="Stand_Student" type="Node3D" parent="Stands"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.750, 0, 0)
@@ -99,7 +99,7 @@ mesh = SubResource("CylinderMesh_disc")
 surface_material_override/0 = ExtResource("2_disc")
 
 [node name="Student" parent="Stands/Stand_Student" instance=ExtResource("c_student")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.04, 0)
 
 [node name="Stand_Staff1" type="Node3D" parent="Stands"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.250, 0, 0)
@@ -109,7 +109,7 @@ mesh = SubResource("CylinderMesh_disc")
 surface_material_override/0 = ExtResource("2_disc")
 
 [node name="Staff1" parent="Stands/Stand_Staff1" instance=ExtResource("c_staff1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.04, 0)
 
 [node name="Stand_Staff2" type="Node3D" parent="Stands"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.750, 0, 0)
@@ -119,7 +119,7 @@ mesh = SubResource("CylinderMesh_disc")
 surface_material_override/0 = ExtResource("2_disc")
 
 [node name="Staff2" parent="Stands/Stand_Staff2" instance=ExtResource("c_staff2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.04, 0)
 
 [node name="Stand_Staff3" type="Node3D" parent="Stands"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.250, 0, 0)
@@ -129,4 +129,4 @@ mesh = SubResource("CylinderMesh_disc")
 surface_material_override/0 = ExtResource("2_disc")
 
 [node name="Staff3" parent="Stands/Stand_Staff3" instance=ExtResource("c_staff3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.04, 0)

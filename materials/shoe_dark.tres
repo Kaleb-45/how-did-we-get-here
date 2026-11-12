@@ -2,10 +2,10 @@
 
 ; shoe_dark.tres
 ; Shoes: dark.
-; To change the colour: click this file, then change Albedo > Color. Hex: #4A505A
+; To change the colour: click this file, then change Albedo > Color. Hex: #2A2E35
 ; All library materials are matte: roughness 0.9, metallic 0, specular 0.2.
 
 [resource]
-albedo_color = Color(0.2902, 0.3137, 0.3529, 1)
+albedo_color = Color(0.1647, 0.1804, 0.2078, 1)
 metallic_specular = 0.2
 roughness = 0.9

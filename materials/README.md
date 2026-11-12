@@ -48,7 +48,7 @@ So this README is the real list of notes. Do not rely on comments in those files
 - `room_trim_dark`: Room: dark gray. Colours the door, the supply closet and the launch tower.
 - `room_walkway_gray`: Room: gray. Colours the walkway, the steps and the railing.
 - `room_wall_white`: Room: warm white. Colours the walls.
-- `shoe_dark`: Boots: dark gray (#4A505A). Everybody except the Student.
+- `shoe_dark`: Boots: very dark gray (#2A2E35). Everybody except the Student.
 - `skin_dark`: Character skin: dark.
 - `skin_light`: Character skin: light.
 - `skin_medium`: Character skin: medium.

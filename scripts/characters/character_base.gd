@@ -492,8 +492,8 @@ func _rebuild() -> void:
 		brow_pivot.name = "BrowL" if side < 0 else "BrowR"
 		brow_pivot.set_meta("gen", true)
 		lid.add_child(brow_pivot)
-		var brow_basis := dome_basis(side * 0.38, 0.62)
-		var brow_pos := dome_point(side * 0.38, 0.62, -top_r * 0.01)
+		var brow_basis := dome_basis(side * 0.38, _brow_yf())
+		var brow_pos := dome_point(side * 0.38, _brow_yf(), -top_r * 0.01)
 		brow_pivot.transform = Transform3D(brow_basis, brow_pos)
 		var brow := BoxMesh.new()
 		brow.size = Vector3(0.3, 0.05, 0.04) * top_r * _brow_scale()
@@ -536,6 +536,10 @@ func _boot_has_stripe() -> bool:
 # Eye size: 1.0 is normal. The Student has bigger eyes.
 func _eye_size_factor() -> float:
 	return 1.0
+
+# How high up the dome the brows sit (0 = mouth line, 1 = top). The Janitor's are lower, under his cap.
+func _brow_yf() -> float:
+	return 0.62
 
 # Brow size (length, thickness, depth). The General has heavy brows.
 func _brow_scale() -> Vector3:
@@ -679,7 +683,7 @@ func add_pointer_finger() -> void:
 	capsule.radial_segments = 6
 	capsule.rings = 2
 	_add(finger, capsule, skin, Vector3(0, -arm_r * 3.0, 0))
-	finger.rotation.x = 0.0   # the finger tips up a little, so it can be seen from the front
+	finger.rotation.x = 0.0   # the finger points straight along the arm (toward the camera when the arm is raised)
 
 
 # A point on the dome surface. xf is across the face (-1 left .. 1 right),

@@ -4,7 +4,8 @@
 # (Autoplay). The animation moves the camera and the people, shows and
 # hides the subtitles, shakes the camera and fades in and out.
 # The people are character scenes (scenes/characters). The animation also
-# calls talk() and point_at_camera() on them, and turns their heads.
+# calls talk(), walk(), express() (the faces) and point_at_camera() on them,
+# and turns their heads.
 #
 # SHOT LIST (each shot is a hard cut; the times are in the animation):
 #   Shot 0   0.0  fade in from black

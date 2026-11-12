@@ -11,7 +11,7 @@
 #   T         everybody talks for 2 seconds
 #   B         everybody blinks
 #   P         stop or start the turning
-#   A         point (General's arm); press again to lower it
+#   A         everybody points (the right arm and the General's finger); press again to lower it
 #   SPACE     turn the automatic face changes back on
 extends Node3D
 
