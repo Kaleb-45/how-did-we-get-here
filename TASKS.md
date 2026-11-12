@@ -172,9 +172,9 @@ The old unfinished steps, kept here until Phase C is done (unless Kaleb says so)
   connect the cutscene to the Intro stage. Camera and people animation, subtitles and
   fade are built (23 s, ends at the name screen). Kaleb tested: pass (2026-11-11).
   Re-directed as a polished short (27.5 s, 11 shots, code-drawn Mars map shader,
-  letterbox, speaker-name subtitles); waiting for Kaleb's test.
-  Still to do: the Intro connection (add `cutscene_intro` to `stages.order` after
-  `intro`, then use `go_next()` instead of `go_to("name")`).
+  letterbox, speaker-name subtitles). Connected to the game flow: `cutscene_intro` is
+  in `stages.order` after `intro`, and the cutscene calls `go_next()` (7bb25b2).
+  Waiting for Kaleb's test.
 - [ ] **19c. Toy-like character scenes.** NICE · M
   `scenes/characters/character_base.tscn` plus General, Janitor, Assistant Scientist,
   Student, Commander, Staff 1-3; used in the cutscene (talk, point, head turns). Built;
@@ -182,8 +182,9 @@ The old unfinished steps, kept here until Phase C is done (unless Kaleb says so)
 - [ ] **19d. Art pass on the intro cutscene (docs/ART_DIRECTION.md).** NICE · L
   Bright "Space Station" palette, shared matte material library in `materials/`, key,
   fill and rim lights, colour-block clothes, window with a rocket on its pad, rounded
-  subtitle panel, slower staff hide (29.3 s). Built and cleaned up (4709887); waiting
-  for Kaleb's test.
+  subtitle panel, slower staff hide (29.3 s). Polish pass: no Commander spin, walk
+  cycle, readable eyes while talking, staff shots re-framed, lighting and panel fixes.
+  Web build re-exported. Waiting for Kaleb's test.
 - [ ] **5a. Windows in the rooms.** NICE · S
 - [ ] **5b. Chosen parts outside the windows.** NICE · M
 - [ ] **5c. Press E at a window to inspect the part.** NICE · S
