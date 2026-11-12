@@ -202,8 +202,10 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "Make all text larger and easier to read. Students aged 10–15 will play this." (2026-11-08)
 - **The walk's control hints at the top are large.**
   Why: "The control hints at the top of the walk screen are too small to read. Make them larger." (2026-11-08)
-- **Characters are cute, rounded, toy-like, made only from built-in shapes: one rounded body with no neck, small capsule arms, short legs with round shoes, round hands with no fingers. The top of the head is a lid that hinges at the back and flips open to talk. Each person is easy to know by shape: General = V shape, Janitor = squash, Assistant Scientist = tall thin cylinder, Student = small. Clothes are broad color blocks (top and bottom colors), no helmets.**
-  Why: "Style: cute, rounded, toy-like." (2026-11-11)
+- **Characters are cute, rounded, toy-like, made only from built-in shapes and the shared materials: one rounded body with no neck, arms attached at shoulder joints, short legs with two small rounded boots, soft facets (few mesh segments). The top of the head is a lid that hinges at the back and flips open to talk; the dark mouth shows only on the front, only while open. Eyes flush on the head, movable brows, a blink, and expressions (surprised, worried, angry). Each person is easy to know by shape: General = V shape, Janitor = wider at the bottom, Assistant Scientist = tall thin cylinder, Student = small. No helmets.**
+  Why: "Style: cute, rounded, toy-like." (2026-11-11) and "Improve the character design for the cutscene. Follow docs/ART_DIRECTION.md." (2026-11-12)
+- **Each character has clothes and one prop so the role reads in 3 seconds:** General (navy uniform, peaked cap, gray mustache, gold shoulder boards, 3 medal blocks, belt, one pointing finger); Commander (light blue shirt, gray pants, headset, ID badge); Assistant Scientist (open white lab coat over teal shirt, round glasses, pens, clipboard, bald top with 4 chunky gray tufts); Janitor (green overalls with straps over a lighter shirt, a cap, centered gray mustache, a mop); Student (orange hoodie, brown bowl cut, large eyes, backpack, sneakers); Staff (different shirt colours, headsets). Hand props sit in the left hand. The cutscene uses the expressions: staff surprised before hiding, General angry on "I need somebody. Anybody!", the three worried at the end.
+  Why: Kaleb's character brief, approved with "yes, build" (2026-11-12).
 - **The intro cutscene is directed like a polished animated short: hard cuts with eased camera moves, letterbox bars, a fade-in from black, code-drawn Mars maps on the screens. Under 30 seconds. Primitive meshes and code-made graphics only.**
   Why: "Make it look like a polished animated short." Kaleb approved the 11-shot list with "yes" (2026-11-11).
 - **3D art follows `docs/ART_DIRECTION.md`. Mission control is a BRIGHT room in the "Space Station" palette (warm white, navy, desaturated gray, small cyan and orange accents), with matte shared materials, a soft warm key light, a cool fill and rim light, low glow only on screens and console lights, no indoor fog, and rounded subtitle panels.**
@@ -258,6 +260,8 @@ Dates are local Pacific time, the same zone as the commit.
 
 ## 3. Rejected choices
 
+- **Bald Janitor, and round hands with no fingers on everyone.** Replaced by the Janitor's cap and the General's pointing finger (2026-11-12).
+- **Broad top/bottom colour blocks as the only clothes.** Replaced by role clothes and one prop per character (2026-11-12).
 - **A dark, moody war room lit mainly by the table and screens, with a dim table and subtitles with no box.** Replaced by the bright Space Station look from `docs/ART_DIRECTION.md` (2026-11-11).
 - **"No clothes yet" on the characters.** Replaced by broad color-block clothes (2026-11-11).
 - **The project folder `~/Desktop/OCAI Center/space-apps-game/`.** Rejected: "Use this folder for the project, not the OCAI folder" (2026-11-08). The project lives at `~/Desktop/Nasa Space App Challenge/how-did-we-get-here/`.
