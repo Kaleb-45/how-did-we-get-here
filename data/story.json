@@ -60,7 +60,7 @@
     "launch_button": "Launch mission"
   },
   "ship": {
-    "_readme": "Names on the ship. room_names = the sign above each room's doorway (left side of the colon must match the room names in game_data.json). future_stations = the floating label over each glowing floor marker.",
+    "_readme": "Names on the ship. room_names = the sign above each room's doorway (left side of the colon must match the room names in game_data.json). future_stations = the floating label over each glowing floor marker. flight_stations = the label over the Science and Comms markers during Flight (they only work in Mars orbit).",
     "room_names": {
       "bridge": "BRIDGE",
       "power_room": "POWER ROOM",
@@ -74,6 +74,10 @@
       "life_support_food": "Food station",
       "life_support_water": "Water station",
       "life_support_air": "Air station"
+    },
+    "flight_stations": {
+      "capture": "Science station: works in Mars orbit",
+      "downlink": "Comms station: works in Mars orbit"
     }
   },
   "walk_screen": {
@@ -254,22 +258,16 @@
     "hint": "Press E (or click) when the ring closes on the target.",
     "get_ready": "Get ready...",
     "burn_label": "ORBIT BURN",
-    "results": {
-      "Perfect": "Perfect",
-      "Good": "Good",
-      "Miss": "Miss"
-    },
     "summary_title": "Orbit burn summary",
     "no_loss": "No losses. We are in orbit!",
     "cost_line": "Orbit burn: {cost}",
     "next_button": "On to Mars orbit"
   },
   "science": {
-    "_readme": "Words for the science pass (Stage 4, in the walk). banner_* = the calm banner at the top while a window is open ({seconds} = seconds left). station_* = the floating label over the glowing floor marker (open = while its window is open). prompts = the line after the Press E hint. sent_home / stored = result lines ({gb} = gigabits).",
+    "_readme": "Words for the science pass (Stage 4, in the walk). banner_* = the calm banner at the top while a window is open ({seconds} = seconds left). station_* = the floating label over the glowing floor marker (open = while its window is open). prompts = the line after the Press E hint. sent_home = result line ({gb} = gigabits).",
     "banner_capture": "TARGET IN VIEW: Science bay, press E ({seconds})",
     "banner_downlink": "GROUND STATION IN VIEW: Comms room, press E ({seconds})",
     "sent_home": "Sent home: {gb} Gb",
-    "stored": "Stored: {gb} Gb",
     "station_capture": "Science station: capture",
     "station_capture_open": "Capture now!",
     "station_downlink": "Comms station: downlink",

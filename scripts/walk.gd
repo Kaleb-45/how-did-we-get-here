@@ -71,6 +71,10 @@ func _ready() -> void:
 	GameState.fill_default_choices()
 
 	ship.build()
+	if flight_mode:
+		# The Science and Comms stations only work in Mars orbit: say so on their labels.
+		for kind in ship.science_labels:
+			ship.science_labels[kind].text = Data.story["ship"]["flight_stations"][kind]
 	spacecraft.build()   # (parked outside the ship for now: the parts move to the windows later)
 	power_panel.build()
 	put_player_at_start()

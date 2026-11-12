@@ -21,6 +21,7 @@
 ;   AccentText   small headings (orange)                 24
 ;   TableText    the dashboard rows                      22
 ;   BannerText   the POWER LOW alarm                     46
+;   CalmBannerText  the cyan science pass banner         34
 ;   SubtitleSpeaker  the amber speaker name in the cutscene subtitles  22
 ;   SubtitleLine     the white subtitle words in the cutscene          26
 ;   SubtitlePanel    the rounded, slightly see-through navy box behind the subtitles
@@ -190,6 +191,11 @@ TableText/base_type = &"Label"
 TableText/font_sizes/font_size = 22
 BannerText/base_type = &"Label"
 BannerText/font_sizes/font_size = 46
+CalmBannerText/base_type = &"Label"
+CalmBannerText/colors/font_color = Color(0.25, 0.82, 1, 1)
+CalmBannerText/colors/font_outline_color = Color(0, 0, 0, 1)
+CalmBannerText/constants/outline_size = 8
+CalmBannerText/font_sizes/font_size = 34
 ScreenBackground/base_type = &"Panel"
 ScreenBackground/styles/panel = SubResource("Background")
 NavyPanel/base_type = &"PanelContainer"

@@ -30,6 +30,7 @@ var downlink_open: bool = false  # is the ground station in view now?
 var captured: bool = false       # the capture press was done
 var downlinked: bool = false     # the downlink press was done
 var sent_home_text: String = ""  # "Sent home: X Gb", shown in the banner after the downlink
+var downlink_line_waiting: bool = false   # the "ground station in view" line waits until all parts are back on
 var press_kind: String = ""      # "capture" or "downlink" while a ring runs
 
 
@@ -61,6 +62,9 @@ func update(delta: float) -> void:
 	elapsed += delta
 	set_window("capture", elapsed >= numbers["capture_start_seconds"]["value"] and elapsed < numbers["capture_end_seconds"]["value"])
 	set_window("downlink", elapsed >= numbers["downlink_start_seconds"]["value"] and elapsed < numbers["downlink_end_seconds"]["value"])
+	if downlink_line_waiting and downlink_open and GameState.parts_off.is_empty():
+		downlink_line_waiting = false
+		walk.say(lines["station_in_view"])
 	update_banner()
 
 
@@ -77,9 +81,15 @@ func set_window(kind: String, is_open: bool) -> void:
 	var label: Label3D = ship.science_labels[kind]
 	if is_open:
 		label.text = words["station_" + kind + "_open"]
-		walk.say(lines["target_in_view"] if kind == "capture" else lines["station_in_view"])
+		if kind == "capture":
+			walk.say(lines["target_in_view"])
+		elif GameState.parts_off.is_empty():
+			walk.say(lines["station_in_view"])
+		else:
+			downlink_line_waiting = true   # do not hide the "switch things back on" reminder
 	else:
 		label.text = words["station_" + kind]
+		downlink_line_waiting = false
 		var done: bool = captured if kind == "capture" else downlinked
 		if not done:
 			walk.say(lines[kind + "_window_missed"])

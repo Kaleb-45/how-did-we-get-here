@@ -57,7 +57,7 @@ func run_burn() -> void:
 	if result == "Miss":
 		GameState.add_damage(cost["kind"], cost["amount"])
 	inner_voice.say(voice_lines["results"][result])
-	await get_tree().create_timer(Data.timing["launch"]["between_seconds"]).timeout
+	await get_tree().create_timer(numbers["between_seconds"]["value"]).timeout
 	show_summary(result, cost)
 
 
