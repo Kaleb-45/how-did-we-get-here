@@ -23,6 +23,11 @@ var room_rects: Dictionary = {}
 # walk.gd listens to them (part_id "station_food" and so on).
 var station_zones: Dictionary = {}
 
+# The science pass stations (Arrival): { "capture": Area3D, "downlink": Area3D }
+# and the floating label over each marker: { "capture": Label3D, "downlink": Label3D }.
+var science_zones: Dictionary = {}
+var science_labels: Dictionary = {}
+
 
 func build() -> void:
 	ship = Data.game_data["ship"]
@@ -42,7 +47,16 @@ func build() -> void:
 	var markers: Dictionary = ship["station_markers"]
 	for room_id in Data.story["ship"]["future_stations"]:
 		var spot: Array = markers[room_id]
-		add_station_marker(Vector3(spot[0], 0, spot[1]), Data.story["ship"]["future_stations"][room_id])
+		var marker_label := add_station_marker(Vector3(spot[0], 0, spot[1]), Data.story["ship"]["future_stations"][room_id])
+		# The Science bay marker is the capture station, the Comms room marker is the downlink station.
+		var science_id: String = {"science_bay": "capture", "comms_room": "downlink"}.get(room_id, "")
+		if science_id != "":
+			science_labels[science_id] = marker_label
+			var science_spot: Array = markers[room_id]
+			var zone := add_station_zone("science_" + science_id, Vector3(science_spot[0], 0, science_spot[1]))
+			zone.set_meta("part_id", "science_" + science_id)   # walk.gd checks this name
+			science_zones[science_id] = zone
+			station_zones.erase("science_" + science_id)   # only the Life Support stations belong in station_zones
 
 	# The three Life Support stations also get a reach zone, so "Press E" works there.
 	for marker_id in markers:
@@ -182,7 +196,7 @@ func add_room_signs(room_id: String, rect: Rect2, door: String) -> void:
 
 # A glowing square on the floor, a small light above it, and a floating label.
 # It marks the spot where a future station will go.
-func add_station_marker(spot: Vector3, text: String) -> void:
+func add_station_marker(spot: Vector3, text: String) -> Label3D:
 	var color := Color.html(ship["marker_color"])
 	var marker_size: float = ship["marker_size"]
 
@@ -209,11 +223,12 @@ func add_station_marker(spot: Vector3, text: String) -> void:
 	label.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y   # always turns to face you
 	label.position = spot + Vector3(0, ship["marker_label_height"], 0)
 	add_child(label)
+	return label
 
 
 # An invisible box around a station marker: the marker's size plus reach_distance.
 # Standing inside it means "you are at the station".
-func add_station_zone(station_id: String, spot: Vector3) -> void:
+func add_station_zone(station_id: String, spot: Vector3) -> Area3D:
 	var reach: float = Data.game_data["walk"]["reach_distance"]
 	var height_of_zone := 4.0
 	var box := BoxShape3D.new()
@@ -227,6 +242,7 @@ func add_station_zone(station_id: String, spot: Vector3) -> void:
 	zone.position = spot + Vector3(0, height_of_zone / 2.0, 0)
 	add_child(zone)
 	station_zones[station_id] = zone
+	return zone
 
 
 # Text in the 3D world. letter_size = how tall the letters are, in meters.

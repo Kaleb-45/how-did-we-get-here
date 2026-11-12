@@ -298,5 +298,23 @@
     },
     "summary_clean": "Nothing lost. Now the ship has to survive Mars' shadow.",
     "summary_costs": "The burn cost us some fuel. But we are in orbit! Now the ship has to survive Mars' shadow."
+  },
+  "science": {
+    "_readme": "What the inner voice says during the science pass (in the Arrival walk). The voice is never wrong. The levels do not change these lines yet. {gb} = gigabits (Gb).",
+    "target_in_view": "The target is in view! Hurry to the Science station and press E to capture it.",
+    "capture_perfect": "Perfect picture! I stored {gb} Gb of data.",
+    "capture_good": "Good picture! I stored {gb} Gb of data.",
+    "capture_miss": "Blurry picture. Only {gb} Gb of good data stored. A Miss still counts a little.",
+    "capture_camera_off": "The camera is switched off at the power panel, so I got nothing. Zero. Hmm.",
+    "storage_full": "The storage is full. It can only hold {gb} Gb, so the rest of the picture was lost.",
+    "capture_window_missed": "The target went out of view and I never took the picture. Oops.",
+    "station_in_view": "The ground station is in view! Go to the Comms station and press E to send the data home.",
+    "downlink_perfect": "Perfect link! {gb} Gb is on its way to Earth.",
+    "downlink_good": "Good link! {gb} Gb is on its way to Earth.",
+    "downlink_miss": "A shaky link. Only {gb} Gb got through.",
+    "downlink_antenna_off": "The antenna is switched off at the power panel, so nothing was sent. Zero. The data is still stored.",
+    "nothing_to_send": "There is nothing stored to send. I need a picture first!",
+    "downlink_window_missed": "The ground station went out of view. The data stays stored, and none got home.",
+    "small_antenna_slow": "The antenna is slow, so only part of the data fit through the link. A bigger antenna sends it faster."
   }
 }

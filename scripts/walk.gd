@@ -19,6 +19,7 @@ extends Node3D
 @onready var controls_hint: Label = %ControlsHint
 @onready var prompt_label: Label = %PromptLabel
 @onready var alarm_banner: Label = %AlarmBanner
+@onready var science_banner: Label = %ScienceBanner   # the calm banner of the science pass
 @onready var red_flash: ColorRect = %RedFlash
 @onready var ship: Node3D = $Ship                 # the ship interior (built from data)
 @onready var spacecraft: Node3D = $Spacecraft
@@ -33,6 +34,9 @@ extends Node3D
 
 # The Life Support stations (food, water, air): see life_support.gd.
 var life_support: Node = preload("res://scripts/life_support.gd").new()
+
+# The science pass (capture, then downlink): Arrival only, see science_pass.gd.
+var science: Node = null
 
 var arm_is_up: bool = false
 var flight_mode: bool = false   # true in Stage 3 Flight, false in the Arrival walk
@@ -80,6 +84,11 @@ func _ready() -> void:
 		zones += ship.station_zones.values()   # the Life Support stations only work in Flight
 	else:
 		zones.append(power_panel.reach_zone)   # the power panel only works in Arrival (switching off costs nothing in Flight)
+		# The science pass stations (Science bay and Comms room) only work in Arrival too.
+		science = preload("res://scripts/science_pass.gd").new()
+		science.setup(self, hud, inner_voice, science_banner, ship)
+		add_child(science)
+		zones += ship.science_zones.values()
 	for zone in zones:
 		zone.body_entered.connect(_on_zone_entered.bind(zone))
 		zone.body_exited.connect(_on_zone_exited.bind(zone))
@@ -142,6 +151,7 @@ func _process(delta: float) -> void:
 		life_support.update(delta)   # the water leak
 	else:
 		update_alarm(delta)
+		science.update(delta)   # opens and closes the capture and downlink windows
 		update_mission_end()
 	update_prompt()
 	update_voice(delta)
@@ -379,6 +389,8 @@ func update_flight_end() -> void:
 # Wait `seconds` so the player can read the last line, then the debrief.
 func finish_mission(seconds: float) -> void:
 	mission_over = true
+	if science:
+		science.stop_tasks()   # a ring that is still closing stops
 	await get_tree().create_timer(seconds).timeout
 	if is_inside_tree():   # unless the player already left this screen
 		end_walk()
@@ -397,8 +409,10 @@ func end_walk() -> void:
 func update_prompt() -> void:
 	nearby_part = find_nearest_part()
 
-	if nearby_part == "" or reroute_panel.visible or life_support.is_busy():
+	if nearby_part == "" or reroute_panel.visible or life_support.is_busy() or (science and science.is_busy()):
 		prompt_label.text = ""   # nothing nearby, or a panel is open
+	elif nearby_part.begins_with("science_"):
+		prompt_label.text = science.prompt_for(nearby_part)   # a science pass station
 	elif nearby_part.begins_with("station_"):
 		prompt_label.text = life_support.prompt_for(nearby_part)   # a Life Support station
 	elif nearby_part == "power_panel":
@@ -485,6 +499,11 @@ func use_part(part_id: String) -> void:
 	# A Life Support station: life_support.gd does the work.
 	if part_id.begins_with("station_"):
 		life_support.use_station(part_id)
+		return
+
+	# A science pass station: science_pass.gd does the work.
+	if part_id.begins_with("science_"):
+		science.use_station(part_id)
 		return
 
 	# The power panel on the wall: open its switch screen.

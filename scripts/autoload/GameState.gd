@@ -82,6 +82,8 @@ func to_dict() -> Dictionary:
 		"parts_off": parts_off.duplicate(true),
 		"lifetime_lost": lifetime_lost,
 		"storm_active": storm_active,
+		"science_stored": science_stored,
+		"science_returned": science_returned,
 		"end_values": end_values.duplicate(true),
 		"end_limits": end_limits.duplicate(true),
 	}
@@ -111,6 +113,8 @@ func from_dict(d: Dictionary) -> void:
 	parts_off = d.get("parts_off", parts_off).duplicate(true)
 	lifetime_lost = d.get("lifetime_lost", lifetime_lost)
 	storm_active = d.get("storm_active", storm_active)
+	science_stored = d.get("science_stored", science_stored)
+	science_returned = d.get("science_returned", science_returned)
 	end_values = d.get("end_values", end_values).duplicate(true)
 	end_limits = d.get("end_limits", end_limits).duplicate(true)
 
@@ -310,6 +314,8 @@ var data_collected: float = 0.0     # science data collected so far
 var parts_off: Array = []           # systems turned off, for example ["camera", "heater"]
 var lifetime_lost: float = 0.0      # extra months lost while the heater was off
 var storm_active: bool = false      # true during the shadow pass (no sunlight on the solar panels)
+var science_stored: float = 0.0     # science pass: data captured and waiting in storage (Gb)
+var science_returned: float = 0.0   # science pass: data that got home (Gb)
 
 # The live numbers at the moment the mission ended (for the debrief's blanks).
 var end_values: Dictionary = {}
@@ -323,6 +329,8 @@ func start_mission() -> void:
 	parts_off.clear()
 	lifetime_lost = 0.0
 	storm_active = false
+	science_stored = 0.0
+	science_returned = 0.0
 	end_values.clear()
 	end_limits.clear()
 
@@ -351,6 +359,53 @@ func add_end_of_mission_failures() -> void:
 		if not event_failures.has(failure_id):
 			event_failures.append(failure_id)
 	add_end_of_supply_failures()   # red crew supplies count too
+
+
+# --- The science pass (Arrival) -------------------------------------------
+# Two timed presses: capture (Science station), then downlink (Comms station).
+# The numbers are in data/events.json "science_pass". The result is kept in
+# science_stored / science_returned. It does NOT change the dashboard's Data row.
+
+# Capture: the camera takes a picture. How much it holds = the camera's data
+# (Gb per day) x capture_days_worth x the press result. The storage is limited.
+# A camera that is switched off at the power panel takes nothing.
+# Returns the Gb that were really stored.
+func capture_science(result: String) -> float:
+	if not is_system_on("camera"):
+		return 0.0
+	var pass_data: Dictionary = Data.events["science_pass"]
+	var camera_gb_per_day: float = system_effects("camera")["data"]
+	var wanted: float = camera_gb_per_day * pass_data["capture_days_worth"]["value"] * pass_data["result_factor"][result]["value"]
+	var room: float = maxf(0.0, pass_data["storage_gb"]["value"] - science_stored)
+	var added: float = minf(wanted, room)
+	science_stored += added
+	return added
+
+
+# True if the last capture wanted more than the storage could hold.
+func is_science_storage_full() -> bool:
+	return science_stored >= Data.events["science_pass"]["storage_gb"]["value"]
+
+
+# What the antenna could send during the pass (Gb) = speed (Mb/s) x hours x 3600 / 1000.
+# The speed is the antenna's "communications" number (real NASA numbers).
+func get_downlink_capacity() -> float:
+	var pass_data: Dictionary = Data.events["science_pass"]
+	var megabits_per_second: float = system_effects("antenna")["communications"]
+	return megabits_per_second * pass_data["downlink_hours"]["value"] * 3600.0 / 1000.0
+
+
+# Downlink: send the stored data home. sent = min(stored, what the antenna can
+# send x the press result). An antenna that is switched off sends nothing.
+# Returns the Gb that really got home.
+func downlink_science(result: String) -> float:
+	if not is_system_on("antenna"):
+		return 0.0
+	var factor: float = Data.events["science_pass"]["result_factor"][result]["value"]
+	var sent: float = minf(science_stored, get_downlink_capacity() * factor)
+	science_stored -= sent
+	science_returned += sent
+	return sent
 
 
 # Call every frame during the walk. delta = real seconds since last frame.

@@ -69,8 +69,8 @@
       "life_support": "LIFE SUPPORT"
     },
     "future_stations": {
-      "science_bay": "Future station: Data",
-      "comms_room": "Future station: Comms",
+      "science_bay": "Science station: capture",
+      "comms_room": "Comms station: downlink",
       "life_support_food": "Food station",
       "life_support_water": "Water station",
       "life_support_air": "Air station"
@@ -263,5 +263,26 @@
     "no_loss": "No losses. We are in orbit!",
     "cost_line": "Orbit burn: {cost}",
     "next_button": "On to Mars orbit"
+  },
+  "science": {
+    "_readme": "Words for the science pass (Stage 4, in the walk). banner_* = the calm banner at the top while a window is open ({seconds} = seconds left). station_* = the floating label over the glowing floor marker (open = while its window is open). prompts = the line after the Press E hint. sent_home / stored = result lines ({gb} = gigabits).",
+    "banner_capture": "TARGET IN VIEW: Science bay, press E ({seconds})",
+    "banner_downlink": "GROUND STATION IN VIEW: Comms room, press E ({seconds})",
+    "sent_home": "Sent home: {gb} Gb",
+    "stored": "Stored: {gb} Gb",
+    "station_capture": "Science station: capture",
+    "station_capture_open": "Capture now!",
+    "station_downlink": "Comms station: downlink",
+    "station_downlink_open": "Send now!",
+    "prompts": {
+      "capture": "Science station: capture the target",
+      "capture_wait": "Science station: the target is not in view",
+      "capture_done": "Science station: captured",
+      "downlink": "Comms station: send the data home",
+      "downlink_wait": "Comms station: the ground station is not in view",
+      "downlink_done": "Comms station: data sent"
+    },
+    "capture_label": "CAPTURE",
+    "downlink_label": "DOWNLINK"
   }
 }
