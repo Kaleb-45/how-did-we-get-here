@@ -107,10 +107,10 @@
     }
   },
   "landing": {
-    "_readme": "The landing (Stage 4 for surface destinations): a chain of timed presses with the SPACE key, like the launch (the player cannot move). moment_ids = the presses in order. press_speed and press_tightness work like the orbit burn ones; the site also has its own landing_window_tightness in destinations.json, and the two are multiplied. Perfect or Good costs nothing. A Miss adds its miss_cost (landing_moments) to GameState.damage. 'distance' means the lander ended that many percent of the way off the target. It is only stored and never ends the mission. Real landings are built from NASA's Perseverance entry: heat shield, parachute, then the landing engines, then touchdown (https://science.nasa.gov/mission/mars-2020-perseverance/), but every number here is made up.",
+    "_readme": "The landing (Stage 4 for surface destinations): a chain of timed presses with the SPACE key, like the launch (the player cannot move). moment_ids = the presses in order. press_speed and press_tightness work like the orbit burn ones; the site also has its own landing_window_tightness in destinations.json, and the two are multiplied. Perfect or Good costs nothing. A Miss adds its miss_cost (landing_moments) to GameState.damage. 'distance' means the lander ended that many percent of the way off the target. It is only stored and never ends the mission. The order follows NASA's Perseverance entry: the parachute comes out first, then the heat shield is dropped about 20 seconds later, then the landing engines, then touchdown (https://science.nasa.gov/mission/mars-2020-perseverance/), but every number here is made up.",
     "moment_ids": [
-      "heat_shield_off",
       "parachute_out",
+      "heat_shield_off",
       "landing_engine_on",
       "touchdown"
     ],

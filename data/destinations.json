@@ -147,7 +147,7 @@
       },
       "what_makes_it_different": {
         "value": "Low ground: more air to slow the landing",
-        "source": "PLACEHOLDER for the 'more air' idea (NASA says Gale is 96 miles (154 km) wide with a layered mountain about 5 km high, https://science.nasa.gov/resource/gale-crater-future-home-of-mars-rover-curiosity/, but a student must still find a NASA quote that Gale's low height gives thicker air)"
+        "source": "PLACEHOLDER idea (GAME_PLAN.md section 4: low ground, more air to slow the landing). It is NOT verified: no NASA page we read says Gale's low height gives thicker air, so the game text does not claim it. A student finds a NASA source or removes the idea. What NASA does say: Gale is 96 miles (154 km) wide and holds a layered mountain about 3 miles (5 km) tall, https://science.nasa.gov/resource/gale-crater-future-home-of-mars-rover-curiosity/"
       },
       "materials": {
         "value": [
@@ -157,7 +157,7 @@
       },
       "landing_window_tightness": {
         "value": 0.9,
-        "source": "PLACEHOLDER (game-design number, a student can change it)"
+        "source": "PLACEHOLDER (game-design number, a student can change it). 0.9 = a little easier; it stands for the unverified 'more air' idea above."
       }
     },
     "arcadia_planitia": {
@@ -245,7 +245,7 @@
       },
       "trip_days": {
         "value": 2009,
-        "source": "Worked out from NASA's Europa Clipper page: launched Oct. 14, 2024, reaches Jupiter in April 2030 (the 15th is assumed, so this is about 2,009 days). https://science.nasa.gov/mission/europa-clipper/"
+        "source": "ESTIMATE worked out from NASA's Europa Clipper page: launched Oct. 14, 2024, reaches Jupiter in \"April 2030\" (NASA gives no day, so the 15th of April 2030 is ASSUMED; the answer is about 2,009 days). https://science.nasa.gov/mission/europa-clipper/"
       },
       "flight_legs": {
         "value": 3,

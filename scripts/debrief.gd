@@ -52,7 +52,12 @@ func _ready() -> void:
 
 	fill_header()
 	var failures: Array = GameState.get_all_failures()
-	if failures.is_empty():
+	if failures.is_empty() and GameState.get_arrival_type() != "orbit":
+		# Surface and flyby have no goal rules yet: a neutral stamp, never MISSION SUCCESS.
+		show_stamp(report_words["trip_ended_title"], warn_color)
+		inner_voice.say(words["trip_ended_text"])
+		findings_label.visible = false
+	elif failures.is_empty():
 		show_stamp(words["success_title"], ok_color)
 		inner_voice.say(words["success_text"])
 		add_success_note()
@@ -310,7 +315,7 @@ func add_log_line(text: String, color: Color = Color.WHITE, heading: bool = fals
 	log_box.add_child(line)
 
 
-# The cost of each missed press (launch, orbit burn and landing), then crew damage.
+# The cost of each missed press (launch, orbit burn and landing; other presses cost nothing), then crew damage.
 func add_costs() -> void:
 	add_log_line(report_words["costs_title"], Color.WHITE, true)
 	var any_cost := false
@@ -325,9 +330,11 @@ func add_costs() -> void:
 		elif entry["stage"] == "landing":
 			cost = Data.timing["landing_moments"][entry["moment"]]["miss_cost"]
 			moment_name = Data.story["landing_screen"]["moments"][entry["moment"]]
-		else:
+		elif entry["stage"] == "orbit_burn":
 			cost = Data.timing["orbit_burn"]["miss_cost"]
 			moment_name = Data.story["orbit_burn_screen"]["title"]
+		else:
+			continue   # other presses (oxygen generator, science pass) have no damage cost
 		var cost_text: String = Data.story["launch_screen"]["cost_kinds"][cost["kind"]].format({"amount": GameState.fmt(cost["amount"])})
 		add_log_line(report_words["cost_line"].format({"moment": moment_name, "cost": cost_text}), bad_color)
 		any_cost = true

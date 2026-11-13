@@ -127,7 +127,7 @@
     },
     "gale_crater": {
       "name": "Gale Crater",
-      "description": "Low ground: more air for landing.",
+      "description": "Big crater, tall layered mountain.",
       "button": "Land at Gale"
     },
     "arcadia_planitia": {
@@ -331,8 +331,8 @@
       "launch_vehicle": "Rocket"
     },
     "log_label": "WHAT HAPPENED ON THE WAY",
-    "costs_title": "Launch, orbit burn and landing costs",
-    "no_costs": "No damage. A clean launch, orbit burn and landing!",
+    "costs_title": "Costs of missed presses",
+    "no_costs": "No damage from any missed press!",
     "cost_line": "{moment} (missed): {cost}",
     "crew_damage_line": "Crew harmed because a supply ran out: {amount}%",
     "stage_names": {
@@ -354,7 +354,8 @@
     "no_presses": "No timed presses were played.",
     "placeholder_title": "NOT BUILT YET",
     "surface_placeholder": "This destination is a surface site. The work on the surface (collect, run an instrument, send data home) is not built yet, so this report ends right after the landing.",
-    "flyby_placeholder": "This destination is a flyby. The flyby itself is not built yet, so this report ends right after the trip."
+    "flyby_placeholder": "This destination is a flyby. The flyby itself is not built yet, so this report ends right after the trip.",
+    "trip_ended_title": "TRIP ENDED: NOT BUILT YET"
   },
   "destination_materials": {
     "_readme": "Names of the things a surface site has (the ids are in data/destinations.json, materials).",

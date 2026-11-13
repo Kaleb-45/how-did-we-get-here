@@ -29,7 +29,8 @@ var science_zones: Dictionary = {}
 var science_labels: Dictionary = {}
 
 
-func build() -> void:
+# with_life_support = false hides the Food, Water and Air markers (a trip with no crew).
+func build(with_life_support: bool = true) -> void:
 	ship = Data.game_data["ship"]
 	height = ship["wall_height"]
 	thickness = ship["wall_thickness"]
@@ -46,6 +47,8 @@ func build() -> void:
 
 	var markers: Dictionary = ship["station_markers"]
 	for room_id in Data.story["ship"]["future_stations"]:
+		if not with_life_support and room_id.begins_with("life_support_"):
+			continue   # no crew, no Life Support markers or labels
 		var spot: Array = markers[room_id]
 		var marker_label := add_station_marker(Vector3(spot[0], 0, spot[1]), Data.story["ship"]["future_stations"][room_id])
 		# The Science bay marker is the capture station, the Comms room marker is the downlink station.
@@ -60,7 +63,7 @@ func build() -> void:
 
 	# The three Life Support stations also get a reach zone, so "Press E" works there.
 	for marker_id in markers:
-		if marker_id.begins_with("life_support_"):
+		if with_life_support and marker_id.begins_with("life_support_"):
 			var spot: Array = markers[marker_id]
 			add_station_zone(marker_id.trim_prefix("life_support_"), Vector3(spot[0], 0, spot[1]))
 

@@ -32,6 +32,7 @@
 ; Boxes and buttons:
 ;   ScreenBackground  the navy background of a screen (a Panel)
 ;   NavyPanel         cards, the dashboard, the review table
+;   LockedPanel       a card that cannot be picked yet (grey)
 ;   VoiceBar          the inner voice bar at the bottom
 ;   Button            (no style needed) main buttons: orange with navy text
 ;   SmallButton       the part version buttons: navy, orange when picked
@@ -51,6 +52,22 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 0.6, 0.2, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="LockedPanel"]
+content_margin_left = 22.0
+content_margin_top = 16.0
+content_margin_right = 22.0
+content_margin_bottom = 18.0
+bg_color = Color(0.06, 0.09, 0.16, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.4, 0.5, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
@@ -200,6 +217,8 @@ ScreenBackground/base_type = &"Panel"
 ScreenBackground/styles/panel = SubResource("Background")
 NavyPanel/base_type = &"PanelContainer"
 NavyPanel/styles/panel = SubResource("NavyPanel")
+LockedPanel/base_type = &"PanelContainer"
+LockedPanel/styles/panel = SubResource("LockedPanel")
 VoiceBar/base_type = &"PanelContainer"
 VoiceBar/styles/panel = SubResource("VoiceBar")
 SmallButton/base_type = &"Button"

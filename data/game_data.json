@@ -51,6 +51,15 @@
     },
     "source": "Game-design choice. It is NOT a NASA number."
   },
+  "destination_screen_layout": {
+    "_readme": "Sizes for the destination screen so that five cards fit in one row (pixels). row_width = the whole row; card_min_width = the narrowest card; button_min_width and button_height = the card button; row_gap = space between cards.",
+    "source": "Game-design choice (agent's choice 2026-11-13). It is NOT a NASA number.",
+    "row_width": 1200,
+    "row_gap": 12,
+    "card_min_width": 225,
+    "button_min_width": 150,
+    "button_height": 52
+  },
   "resources": {
     "budget": {
       "name": "Budget",

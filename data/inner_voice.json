@@ -16,9 +16,9 @@
         "hard": "Jezero Crater! We get to land on Mars! The ground is rough, though. I will be very careful. Very, very careful."
       },
       "gale_crater": {
-        "easy": "Gale Crater. It is low ground, so there is more air to slow us down, which helps the landing. A tall layered mountain sits in the middle.",
-        "medium": "Gale. It is low, so there is more air to catch us when we fall. That sounds good? I like air.",
-        "hard": "Gale Crater! It is a big hole with a mountain in it! And the air is thick, so landing should be a little easier. I hope."
+        "easy": "Gale Crater. A crater 154 kilometers wide, with a layered mountain about 5 kilometers tall in the middle. Layers like that are like pages of a history book.",
+        "medium": "Gale. A giant crater with a mountain inside it. A mountain inside a hole. Mars is weird. I like it.",
+        "hard": "Gale Crater! It is a big hole with a mountain in it! Layers of rock, like a cake. I hope the landing is easy. I hope."
       },
       "arcadia_planitia": {
         "easy": "Arcadia Planitia. Ice hides under the soil here. Ice means water and oxygen for the crew, but it is cold, and cold is hard on the ship.",
@@ -244,7 +244,8 @@
     "success_note": "All six readings stayed inside their limits. No problems to report.",
     "what_label": "What failed",
     "why_label": "Why it failed",
-    "fix_label": "How to fix it"
+    "fix_label": "How to fix it",
+    "trip_ended_text": "The trip is over for now. This part of the game is not built yet, so there is nothing to grade. The general nods slowly. He says to come back soon."
   },
   "dashboard_warnings": {
     "_readme": "What the inner voice says when a dashboard row turns yellow (warning) or red (danger) during the walk.",
@@ -339,7 +340,7 @@
   },
   "landing": {
     "_readme": "What the inner voice says during the Landing (Stage 4, surface destinations). The voice is never wrong. The levels do not change these lines yet.",
-    "start": "We are going down to the surface! First the heat shield comes off, then the parachute, then the landing engine, and then touchdown. Press Space when the ring closes on the target.",
+    "start": "We are going down to the surface! First the parachute comes out, then the heat shield drops away, then the landing engine fires, and then touchdown. Press Space when the ring closes on the target.",
     "results": {
       "Perfect": [
         "Perfect! Right on the target. I am as surprised as you are.",

@@ -19,8 +19,10 @@ var cards: Array = []
 func _ready() -> void:
 	var screen_text: Dictionary = Data.story["destination_screen"]
 	title_label.text = screen_text["title"]
-	cards_row.custom_minimum_size = Vector2(1200, 0)   # the whole row fits the screen
-	cards_row.add_theme_constant_override("separation", 12)
+	# Sizes are in game_data.json ("destination_screen_layout"): five cards fit in one row.
+	var layout: Dictionary = Data.game_data["destination_screen_layout"]
+	cards_row.custom_minimum_size = Vector2(layout["row_width"], 0)
+	cards_row.add_theme_constant_override("separation", layout["row_gap"])
 
 	for destination_id in Data.destinations:
 		var facts: Dictionary = Data.destinations[destination_id]   # from destinations.json
@@ -34,20 +36,20 @@ func _ready() -> void:
 		})
 
 		var card = CHOICE_CARD.instantiate()
-		card.custom_minimum_size = Vector2(225, 0)   # five cards must fit in one row
+		card.custom_minimum_size = Vector2(layout["card_min_width"], 0)
 		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		cards_row.add_child(card)
 		card.setup(words["name"], facts_line, words["description"], words["button"])
 		card.set_extra(extra_lines(facts, screen_text))
-		card.choose_button.custom_minimum_size = Vector2(150, 52)   # a smaller button, so the card can be narrow
+		card.choose_button.custom_minimum_size = Vector2(layout["button_min_width"], layout["button_height"])   # a smaller button, so the card can be narrow
 		card.subtitle_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART   # so a narrow card can wrap it
 		card.extra_label.theme_type_variation = &"SmallText"   # five cards: smaller words
 		cards.append(card)
 		card.chosen.connect(_on_destination_chosen.bind(destination_id))
 
-		# A trip type that is not built yet: grey card, "coming soon", no button.
+		# A trip type that is not built yet: grey card, and its button is off and says "Coming soon".
 		if not is_pickable(destination_id):
-			card.modulate = Color(1, 1, 1, 0.5)
+			card.theme_type_variation = &"LockedPanel"   # grey colors from the theme
 			card.choose_button.tooltip_text = screen_text["coming_soon_line"]
 			card.choose_button.text = screen_text["coming_soon_button"]
 			card.set_locked(true)
@@ -78,7 +80,6 @@ func _on_destination_chosen(destination_id: String) -> void:
 	if not is_pickable(destination_id):
 		return   # safety net: a greyed card can never be picked
 	GameState.destination_id = destination_id
-	print("Destination chosen: ", destination_id)
 
 	for card in cards:
 		card.set_locked(true)

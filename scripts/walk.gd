@@ -72,7 +72,7 @@ func _ready() -> void:
 		GameState.mission_id = Data.missions.keys()[0]
 	GameState.fill_default_choices()
 
-	ship.build()
+	ship.build(has_crew or not flight_mode)   # a Flight with no crew has no Life Support markers
 	if flight_mode:
 		# The Science and Comms stations only work in Mars orbit: say so on their labels.
 		for kind in ship.science_labels:

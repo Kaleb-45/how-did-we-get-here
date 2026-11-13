@@ -171,7 +171,7 @@ Kaleb tested: pass (2026-11-13).
   Test: Mars orbit still plays as before; the other four cards cannot be picked.
 
 - [x] **B2. Landing sequence for surface destinations.** M
-  Four timed presses with SPACE (heat shield off, parachute out, landing engine on,
+  Four timed presses with SPACE (parachute out, heat shield off, landing engine on,
   touchdown). Misses cost fuel, damage or distance (timing.json, PLACEHOLDER), shown
   on a summary and in the report. Checkpoint 3 still saves after Flight.
   Test: (until batch 8 a surface site cannot be picked, so Kaleb's final test uses
