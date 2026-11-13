@@ -248,6 +248,8 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "Add the character images I made to the intro screen" (2026-11-08).
 - **The Intro screen is a short teaser before the cutscene: it keeps Kaleb's character art but does not tell the story ("points at you" and "You (the janitor)" are gone). The cutscene tells the story.**
   Why: Kaleb picked "Short teaser" when the Intro screen gave the cutscene away (2026-11-12).
+- **The intro cutscene has a Skip button (top right, also Esc) for return players only: it shows for anyone who has started the cutscene before on that computer or browser (remembered in user://). First-time players see the whole story.**
+  Why: "lets create a skip button to skip the cutscene for return players" (2026-11-13). Showing it only to return players is the agent's choice for Kaleb, so new players do not skip the story.
 - **The debrief looks like a mission report: a stamp, numbered findings with what, why and fix, and a FINAL READINGS grid.**
   Why: "Make the 'Mission success' and 'Mission failed' screens look like a mission report, not a plain list." (2026-11-08)
 - **Soft fill light, so no part of the craft is pitch black.**

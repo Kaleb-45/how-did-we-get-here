@@ -43,12 +43,14 @@
 #   Subtitle colours and sizes are in theme/game_theme.tres (SubtitlePanel,
 #   SubtitleSpeaker, SubtitleLine).
 #
-# This script does four small jobs:
+# This script does five small jobs:
 #   1. show_subtitle() / hide_subtitle(): speaker name (amber) and line (white).
 #   2. shake_camera(): a quick camera shake that the animation can call.
 #   3. Soft dark "blob" spots on the floor under every person and console, so
 #      they look grounded (the Compatibility renderer has no contact shadows).
 #   4. When the animation ends, it goes to the name screen.
+#   5. A Skip button (and Esc) for return players: anyone who has started the
+#      cutscene before on this computer or browser.
 # The words come from data/story.json ("cutscene_intro").
 extends Node3D
 
@@ -69,11 +71,62 @@ const BLOB_SHADER := preload("res://shaders/blob_shadow.gdshader")
 @onready var camera: Camera3D = $Camera3D
 
 
+var _leaving := false   # true once we have moved on, so we never move on twice
+
+
 func _ready() -> void:
 	# When the animation is over, move on to the next screen.
 	animation_player.animation_finished.connect(_on_animation_finished)
 	subtitle_box.visible = false
 	_add_blob_shadows()
+	# Return players get a Skip button. First-time players see the whole story.
+	if _has_seen_intro():
+		_add_skip_button()
+	_remember_intro_seen()
+
+
+# --- Skip button for return players --------------------------------------------
+# Settings: game_data.json "cutscene_intro". Words: story.json "cutscene_intro".
+
+func _has_seen_intro() -> bool:
+	return FileAccess.file_exists(Data.game_data["cutscene_intro"]["seen_file"])
+
+
+func _remember_intro_seen() -> void:
+	var file := FileAccess.open(Data.game_data["cutscene_intro"]["seen_file"], FileAccess.WRITE)
+	if file:
+		file.store_string(JSON.stringify({"seen": true}))
+
+
+func _add_skip_button() -> void:
+	var margin: float = Data.game_data["cutscene_intro"]["skip_margin_px"]
+	var button := Button.new()
+	button.name = "SkipButton"
+	button.text = Data.story["cutscene_intro"]["skip_button"]
+	button.theme_type_variation = &"SmallButton"
+	# Stick to the top-right corner, on top of the black bar and the fade.
+	button.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, int(margin))
+	button.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	button.pressed.connect(skip)
+	$CanvasLayer.add_child(button)
+
+
+# Esc also skips, but only when the Skip button is there.
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel") and $CanvasLayer.has_node("SkipButton"):
+		skip()
+
+
+func skip() -> void:
+	animation_player.stop()
+	_leave()
+
+
+func _leave() -> void:
+	if _leaving:
+		return
+	_leaving = true
+	StageManager.go_next()
 
 
 # Put a soft round dark spot (a flat quad) on the floor under each person,
@@ -142,4 +195,4 @@ func _process(delta: float) -> void:
 # Go to the next screen (the name screen). StageManager is the same way every
 # other screen moves on (the screen list is in data/game_data.json, "stages").
 func _on_animation_finished(_animation_name: StringName) -> void:
-	StageManager.go_next()
+	_leave()
