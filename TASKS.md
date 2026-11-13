@@ -139,7 +139,7 @@ Kaleb tested: pass (2026-11-13).
 
 ### Batch 6: Connect, save, report (GAME_PLAN 12b, 8)
 
-- [ ] **A19. Connect the whole order.** S
+- [x] **A19. Connect the whole order.** S
   Title → questions → Build → Review → Launch → Flight → Arrival → Report.
   Test: play from the title to the report with no skipped screen.
 
