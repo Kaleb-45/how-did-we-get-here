@@ -317,6 +317,10 @@ Dates are local Pacific time, the same zone as the commit.
 - **Agent's choice for Kaleb (2026-11-13), Batch 9 review fixes: a perfect Mars orbit run ends with food, water and air above the 40 percent warning line (start amounts raised: food 7500, water 14000, air 3300 with an air capacity of 5200, PLACEHOLDER). A player who skips the ration, or does nothing, still ends in the red. New finding "Data not sent home" when the instrument ran but the send never happened; "Not enough data got home" stays for a send that fell short. The food, water and air "too low" cards name the skipped water filter, oxygen generator and ration, the spoiling food and the air leak.**
   Why: Kaleb's standing instruction "just finish the game, do what you think i would do based off my past decisions" (2026-11-13), and the Batch 9 review.
 
+### Batch 10 (Phase C items 4-6)
+- **Agent's choice for Kaleb (2026-11-13): characters as levels. `levels.json` gives each level a `hint_parts` list ("warning", "problem", "part"): Scientist = all three, Janitor = warning and problem, Student = warning only. The sentences are in `inner_voice.json` "dashboard_warnings" (the problem line has one wording per level, so the voice only knows what its character knows). `GameState.get_hint_text()` joins the pieces; the code has no sentences. Hints show on the walk's dashboard warnings and on the Review screen's red-row line. The report (what / why / fix / cause) is the same for every level, because it is the lesson after the run, and a hint never gives the answer.**
+  Why: Kaleb's standing instruction "just finish the game, do what you think i would do based off my past decisions" (2026-11-13), and "the different levels will just be how much guidance we give them" (2026-11-10).
+
 ---
 
 ## 3. Rejected choices

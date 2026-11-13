@@ -248,7 +248,7 @@ func check_for_warnings(values: Dictionary, limits: Dictionary) -> void:
 			continue   # no change, or it got better: say nothing
 		if res_id == "power" and alarm_stage != "waiting":
 			continue   # the shadow pass has started: the alarm lines already talk about power
-		say_warning(Data.voice["dashboard_warnings"][res_id][status])
+		say_warning(GameState.get_hint_text(res_id, Data.voice["dashboard_warnings"][res_id][status]))
 
 	# The crew supplies warn the same way: only when a color changes.
 	for id in GameState.SUPPLY_IDS if has_crew else []:
@@ -256,7 +256,7 @@ func check_for_warnings(values: Dictionary, limits: Dictionary) -> void:
 		var supply_before: String = last_status.get(id, "")
 		last_status[id] = supply_status
 		if supply_status != supply_before and supply_status != "safe":
-			say_warning(Data.voice["dashboard_warnings"][id][supply_status])
+			say_warning(GameState.get_hint_text(id, Data.voice["dashboard_warnings"][id][supply_status]))
 
 
 # --- Talking ----------------------------------------------------------------

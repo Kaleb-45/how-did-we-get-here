@@ -1105,6 +1105,30 @@ func fill_blanks(line: String, res_id: String) -> String:
 	})
 
 
+# A hint for one problem, as long as this level allows.
+# levels.json "hint_parts" says which pieces the level hears, in order: "warning", "problem", "part".
+# "warning_line" is the warning piece (the caller picked it). The other pieces are
+# in inner_voice.json "dashboard_warnings" > the resource or supply id. A piece can be one
+# sentence for everybody, or a dictionary with one sentence per level (easy, medium, hard).
+# There are no sentences in this code: only the names of the pieces.
+func get_hint_text(res_id: String, warning_line: String) -> String:
+	var parts: Array = ["warning"]   # the warning is always said
+	if Data.levels.has(level):
+		parts = Data.levels[level]["hint_parts"]
+	var entry: Dictionary = Data.voice["dashboard_warnings"].get(res_id, {})
+	var lines: PackedStringArray = []
+	for piece in parts:
+		if piece == "warning":
+			lines.append(warning_line)
+			continue
+		var text = entry.get(piece, "")
+		if text is Dictionary:
+			text = text.get(level, "")   # one wording per level; a level with no wording says nothing for this piece
+		if text != "":
+			lines.append(text)
+	return " ".join(lines)
+
+
 # Lists what a part version changes, for example:
 #   "Budget +40 million $, Power -50 W spare, Data +30 Gb/day"
 # Used by the build screen (hover text) and the 3D walk (press E).

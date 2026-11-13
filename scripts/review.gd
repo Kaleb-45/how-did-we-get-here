@@ -108,7 +108,9 @@ func inner_voice_comment() -> void:
 		# "Something is in the red..." plus the first problem, with numbers filled in.
 		var first: String = failed[0]
 		var what: String = GameState.fill_blanks(Data.voice["resource_failures"][first]["what"], first)
-		inner_voice.say(Data.voice["review"]["some_over"] + " " + what)
+		# The hint is as long as this level allows (levels.json): the warning is the line with the numbers,
+		# then the problem (medium, easy) and the part (easy).
+		inner_voice.say(Data.voice["review"]["some_over"] + " " + GameState.get_hint_text(first, what))
 
 
 func _on_back_pressed() -> void:

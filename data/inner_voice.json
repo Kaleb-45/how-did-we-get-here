@@ -310,42 +310,87 @@
     "success_note_flyby": "Enough data got home from Europa."
   },
   "dashboard_warnings": {
-    "_readme": "What the inner voice says when a dashboard row turns yellow (warning) or red (danger) during the walk.",
+    "_readme": "What the inner voice says when a dashboard row turns yellow (warning) or red (danger) during the walk, and when a row is in the red on the Review screen. warning / danger = the warning itself (every level hears it). problem = names what is wrong (medium and easy hear it; it can have one wording per level, because the voice only knows what its character knows: easy = the scientist, medium = the janitor). part = names the part that causes it (easy only). Which pieces each level hears is in levels.json hint_parts. Hints never give the answer.",
     "budget": {
       "warning": "Budget is getting close to the limit.",
-      "danger": "Budget is over the limit!"
+      "danger": "Budget is over the limit!",
+      "problem": {
+        "easy": "We are spending more than the plan allows. Money is counted from every part and from the rocket.",
+        "medium": "It costs more than we are allowed to spend. Like a shopping trip with too much in the cart."
+      },
+      "part": "The rocket, the high resolution camera and the large solar panel cost the most."
     },
     "mass": {
       "warning": "Mass is getting close to the limit.",
-      "danger": "Too heavy! Mass is over the limit."
+      "danger": "Too heavy! Mass is over the limit.",
+      "problem": {
+        "easy": "The total weight is high. The rocket can only lift so much, so every kilogram counts.",
+        "medium": "The spacecraft is getting heavy. Heavy things are hard to throw up into space."
+      },
+      "part": "The large solar panel and the high resolution camera weigh a lot. On a landing trip, the landing system weighs even more."
     },
     "power": {
       "warning": "Spare power is getting low.",
-      "danger": "Power is in the red! We're using more than we make."
+      "danger": "Power is in the red! We're using more than we make.",
+      "problem": {
+        "easy": "The parts use more power than the power source makes, so the spare power is falling.",
+        "medium": "Things use electricity, and we are running out of it. Like too many lights on at home."
+      },
+      "part": "The heater, the antenna and the high resolution camera use the most power."
     },
     "communications": {
       "warning": "The antenna is barely fast enough.",
-      "danger": "Communications are too slow! Earth can't hear us."
+      "danger": "Communications are too slow! Earth can't hear us.",
+      "problem": {
+        "easy": "The antenna is too slow to send the data home, and the radio gets slower the farther we go.",
+        "medium": "The messages go out too slowly. It is like a very slow phone line."
+      },
+      "part": "The antenna sets this number. The small antenna is the slow one."
     },
     "data": {
       "warning": "Data is barely keeping up with the plan.",
-      "danger": "Data is falling behind! We're not collecting enough."
+      "danger": "Data is falling behind! We're not collecting enough.",
+      "problem": {
+        "easy": "The instrument collects less data than the mission needs each day.",
+        "medium": "We are not collecting enough pictures for what we promised."
+      },
+      "part": "The camera sets this number. The basic camera collects less than the high resolution camera."
     },
     "mission_lifetime": {
       "warning": "No spare months. The spacecraft will barely last.",
-      "danger": "The spacecraft won't last long enough!"
+      "danger": "The spacecraft won't last long enough!",
+      "problem": {
+        "easy": "The spacecraft will wear out before the mission is done, because the cold and the batteries age it.",
+        "medium": "The spacecraft will not last as long as we need. Things wear out."
+      },
+      "part": "The solar panel adds spare months. A heater that is switched off makes the wear worse."
     },
     "food": {
       "warning": "The food is running low. The crew gets hungry.",
-      "danger": "The food is almost gone! The crew is in trouble."
+      "danger": "The food is almost gone! The crew is in trouble.",
+      "problem": {
+        "easy": "The crew eats every day, so the food store drops all the time, faster if a task is skipped.",
+        "medium": "The crew is eating and the food is going down. Hungry people are cranky people."
+      },
+      "part": "The food store and the ration task in the Life Support room decide this."
     },
     "water": {
       "warning": "The water is running low. Everyone is thirsty.",
-      "danger": "The water is almost gone! The crew is in trouble."
+      "danger": "The water is almost gone! The crew is in trouble.",
+      "problem": {
+        "easy": "The crew drinks water every day, and a leak or a dirty filter makes it drop faster.",
+        "medium": "The water is going down. Maybe something is leaking, or the filter is dirty?"
+      },
+      "part": "The water filter task and any leak in the Life Support room decide this."
     },
     "air": {
       "warning": "The air is getting stale. The meter is low.",
-      "danger": "The air is almost gone! The crew can barely breathe."
+      "danger": "The air is almost gone! The crew can barely breathe.",
+      "problem": {
+        "easy": "The crew breathes air every day, and a leak or an oxygen generator that is not running makes it drop faster.",
+        "medium": "The air is getting used up. People need it. A lot."
+      },
+      "part": "The oxygen generator and any air leak in the Life Support room decide this."
     }
   },
   "launch": {

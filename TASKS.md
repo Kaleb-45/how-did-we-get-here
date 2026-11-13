@@ -226,6 +226,26 @@ Kaleb's standing instruction (2026-11-13): finish the game with the recommended 
   Test: the win and the loss at the shadow pass still work as before.
 - [ ] **C-end. Playthrough check, web export, push.** S
 
+### Batch 10: Phase C items 4-6 (characters as levels, score, content loader)
+
+Kaleb's standing instruction (2026-11-13): finish the game with the recommended answers.
+
+- [x] **C4. Characters as levels.** M
+  Hint detail comes from `data/levels.json` (`hint_parts`) plus `data/inner_voice.json`
+  (`dashboard_warnings`: warning, problem per level, part). Scientist hears the warning, the
+  problem and the part; Janitor the warning and the problem; Student only the warning.
+  Test: pick each character and see the same warning get longer or shorter.
+- [ ] **C5. Score out of 1000.** M
+  Goal rules, science returned, budget left and timing accuracy, with weights in
+  `game_data.json` "score". Shown on the report with a breakdown, and as a live predicted
+  score on the Build screen.
+  Test: change a part on Build and watch the predicted score move; finish a run and see the breakdown.
+- [ ] **C6. Content loader and the example pack.** M
+  Loads the base data, then every pack in `res://content/` (and `user://content/`), merging by id.
+  A bad pack is skipped with a clear message. `content/example_pack/` and `docs/STUDENT_GUIDE.md`.
+  Test: the Build screen shows "Example Wing (pack)"; break the pack's JSON and the game still starts.
+- [ ] **C-end (Batch 10). Playthrough check, web export, push.** S
+
 ## Later
 
 The old unfinished steps, kept here until Phase C is done (unless Kaleb says so).

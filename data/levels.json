@@ -1,18 +1,30 @@
 {
-  "_readme": "What each play level changes. The character picks the level (see \"characters\" in game_data.json). The levels change only how much the inner voice tells you: full (names the problem and the part), some (names the problem), few (only the warning). Budget, mass, timing windows and supply use are the same for every level. To change how much help a level gives, change hint_detail here and nothing else.",
+  "_readme": "What each play level changes. The character picks the level (see \"characters\" in game_data.json). The levels change only how much the inner voice tells you. hint_parts = which pieces of a hint the voice says, in order: \"warning\" (only that something is wrong), \"problem\" (names what is wrong), \"part\" (names the part that causes it). The words for \"problem\" and \"part\" are in inner_voice.json, in dashboard_warnings (a problem line can have one wording per level: easy, medium). Budget, mass, timing windows and supply use are the same for every level. To give a level more or less help, change its hint_parts here and nothing else.",
   "source": "Written game-design choice by Kaleb, passed 2026-11-10 (AGENT_SOURCE.md section 2, levels change guidance only). It is NOT a NASA number and NOT a PLACEHOLDER.",
   "levels": {
     "easy": {
       "hint_detail": "full",
-      "source": "Written game-design choice (Scientist). Most guidance."
+      "source": "Written game-design choice (Scientist). Most guidance.",
+      "hint_parts": [
+        "warning",
+        "problem",
+        "part"
+      ]
     },
     "medium": {
       "hint_detail": "some",
-      "source": "Written game-design choice (Janitor). Some guidance."
+      "source": "Written game-design choice (Janitor). Some guidance.",
+      "hint_parts": [
+        "warning",
+        "problem"
+      ]
     },
     "hard": {
       "hint_detail": "few",
-      "source": "Written game-design choice (Student). Least guidance."
+      "source": "Written game-design choice (Student). Least guidance.",
+      "hint_parts": [
+        "warning"
+      ]
     }
   }
 }
