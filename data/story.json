@@ -282,5 +282,12 @@
     },
     "capture_label": "CAPTURE",
     "downlink_label": "DOWNLINK"
+  },
+  "report_screen": {
+    "_readme": "Words for the three buttons at the bottom of the mission report (more report words are added below in the next steps). retry = go back to the newest checkpoint. same_design = keep your parts, pick a destination again. start_fresh = forget everything, start with your name.",
+    "retry_button": "Retry from checkpoint",
+    "same_design_button": "Same design / new destination",
+    "start_fresh_button": "Start fresh",
+    "no_checkpoint_tip": "There is no checkpoint saved yet."
   }
 }

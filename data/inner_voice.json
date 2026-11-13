@@ -223,8 +223,7 @@
     "success_note": "All six readings stayed inside their limits. No problems to report.",
     "what_label": "What failed",
     "why_label": "Why it failed",
-    "fix_label": "How to fix it",
-    "try_again": "Try again"
+    "fix_label": "How to fix it"
   },
   "dashboard_warnings": {
     "_readme": "What the inner voice says when a dashboard row turns yellow (warning) or red (danger) during the walk.",

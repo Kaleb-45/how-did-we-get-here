@@ -27,7 +27,7 @@ func go_next() -> void:
 
 
 # Go to one named screen, for example go_to("build").
-# Used by the Back button and by Try again.
+# Used by the Back button and by the report buttons.
 func go_to(stage_id: String) -> void:
 	var stages: Dictionary = Data.game_data["stages"]
 	if not stages["order"].has(stage_id):

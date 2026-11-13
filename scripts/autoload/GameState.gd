@@ -193,6 +193,17 @@ func clear_checkpoints() -> void:
 		DirAccess.remove_absolute(path)
 
 
+# "Same design / new destination": the parts, name and character stay. The
+# destination, the mission results and every checkpoint are forgotten, because
+# a checkpoint belongs to one destination.
+func keep_design_new_destination() -> void:
+	start_new_attempt()
+	start_mission()
+	destination_id = ""
+	goal_id = ""
+	clear_checkpoints()
+
+
 # "Start fresh": everything goes back to how the game starts, checkpoints too.
 func reset_all() -> void:
 	player_name = ""
@@ -212,8 +223,7 @@ func get_all_failures() -> Array:
 	return get_failed_resources() + event_failures
 
 
-# Clears what happened during the last mission, but keeps the part choices,
-# so "Try again" lets the player change just one thing.
+# Clears what happened during the last mission, but keeps the part choices.
 func start_new_attempt() -> void:
 	event_failures.clear()
 	# The launch starts again too. The parts, name, character and rocket stay.
@@ -624,7 +634,7 @@ func get_live_limits() -> Dictionary:
 
 
 # If a part has no choice yet, pick its FIRST version from the data file.
-# (When the player comes back with "Try again", their old choices stay.)
+# (When the player comes back from the report, their old choices stay.)
 func fill_default_choices() -> void:
 	for part_id in Data.parts:
 		if not choices.has(part_id):

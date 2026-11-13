@@ -148,7 +148,7 @@ Kaleb tested: pass (2026-11-13).
   the web build.
   Test: reach each checkpoint and see the save line in the Output panel.
 
-- [ ] **A21. The three report buttons.** M
+- [x] **A21. The three report buttons.** M
   Retry from checkpoint, Same design / new destination, Start fresh. In Phase A
   there is only one destination, so "new destination" returns to question 3.
   Test: fail a round. Each button goes to the right place, with the right parts

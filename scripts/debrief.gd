@@ -18,7 +18,9 @@ extends Control
 @onready var findings_list: VBoxContainer = %Findings
 @onready var readings_label: Label = %ReadingsLabel
 @onready var readings: GridContainer = %Readings
-@onready var try_again_button: Button = %TryAgainButton
+@onready var retry_button: Button = %RetryButton
+@onready var same_design_button: Button = %SameDesignButton
+@onready var start_fresh_button: Button = %StartFreshButton
 @onready var inner_voice: PanelContainer = %InnerVoiceBar
 
 var words: Dictionary
@@ -39,8 +41,7 @@ func _ready() -> void:
 	ok_color = Color.html(colors["safe"])
 	bad_color = Color.html(colors["danger"])
 
-	try_again_button.text = words["try_again"]
-	try_again_button.pressed.connect(_on_try_again_pressed)
+	setup_buttons()
 
 	fill_header()
 	var failures: Array = GameState.get_all_failures()
@@ -54,6 +55,21 @@ func _ready() -> void:
 		for i in failures.size():
 			add_finding(i + 1, failures[i])
 	fill_readings()
+
+
+# The three report buttons. All their words are in story.json ("report_screen").
+func setup_buttons() -> void:
+	var button_words: Dictionary = Data.story["report_screen"]
+	retry_button.text = button_words["retry_button"]
+	same_design_button.text = button_words["same_design_button"]
+	start_fresh_button.text = button_words["start_fresh_button"]
+	# Retry needs a saved checkpoint. Without one, the button is off.
+	if GameState.get_latest_checkpoint() == 0:
+		retry_button.disabled = true
+		retry_button.tooltip_text = button_words["no_checkpoint_tip"]
+	retry_button.pressed.connect(_on_retry_pressed)
+	same_design_button.pressed.connect(_on_same_design_pressed)
+	start_fresh_button.pressed.connect(_on_start_fresh_pressed)
 
 
 # The top of the report: mission name, designer, mission time.
@@ -195,6 +211,31 @@ func add_cell(text: String, color: Color) -> void:
 	readings.add_child(cell)
 
 
-func _on_try_again_pressed() -> void:
-	GameState.start_new_attempt()
-	StageManager.go_to("build")   # Try again goes to Build
+# Lock all three buttons at once, so a double click cannot skip two screens.
+func lock_buttons() -> void:
+	retry_button.disabled = true
+	same_design_button.disabled = true
+	start_fresh_button.disabled = true
+
+
+# Retry from checkpoint: the newest checkpoint comes back, and we go to the
+# screen after it (Launch, Flight or the orbit burn).
+func _on_retry_pressed() -> void:
+	lock_buttons()
+	if not StageManager.retry_from_checkpoint():
+		push_error("debrief: there was no checkpoint to go back to")
+
+
+# Same design / new destination: the parts stay. We go to the destination
+# question (right now Mars orbit is the only destination you can pick).
+func _on_same_design_pressed() -> void:
+	lock_buttons()
+	GameState.keep_design_new_destination()
+	StageManager.go_to("destination")
+
+
+# Start fresh: everything is cleared, and we start with the name question.
+func _on_start_fresh_pressed() -> void:
+	lock_buttons()
+	GameState.reset_all()
+	StageManager.go_to("name")

@@ -84,13 +84,6 @@ theme_type_variation = &"HeadingText"
 text = "MISSION ..."
 horizontal_alignment = 1
 
-[node name="TryAgainButton" type="Button" parent="Margin/Column/Header/HeaderRow/RightSide"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 56)
-layout_mode = 2
-size_flags_horizontal = 8
-text = "Try again"
-
 [node name="Scroll" type="ScrollContainer" parent="Margin/Column"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -128,6 +121,31 @@ layout_mode = 2
 theme_override_constants/h_separation = 40
 theme_override_constants/v_separation = 4
 columns = 4
+
+[node name="Buttons" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="RetryButton" type="Button" parent="Margin/Column/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Retry from checkpoint"
+
+[node name="SameDesignButton" type="Button" parent="Margin/Column/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Same design / new destination"
+
+[node name="StartFreshButton" type="Button" parent="Margin/Column/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Start fresh"
 
 [node name="InnerVoiceBar" parent="." instance=ExtResource("2_bar")]
 unique_name_in_owner = true
