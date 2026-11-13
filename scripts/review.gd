@@ -31,6 +31,7 @@ func _ready() -> void:
 	launch_button.pressed.connect(_on_launch_pressed)
 
 	fill_table()
+	add_surface_days_card()
 	inner_voice_comment()
 
 
@@ -68,6 +69,34 @@ func add_cell(text: String, color: Color) -> void:
 	cell.theme_type_variation = &"BodyText"
 	cell.add_theme_color_override("font_color", color)
 	table.add_child(cell)
+
+
+# A surface trip: how many days the build gives. Fewer than the three tasks need = a red card (text in inner_voice.json).
+func add_surface_days_card() -> void:
+	if GameState.get_arrival_type() != "surface":
+		return
+	var days: int = GameState.get_surface_days_estimate()
+	var needed: int = int(Data.events["surface_work"]["days_needed"]["value"])
+	var enough: bool = days >= needed
+	var color: Color = OK_COLOR if enough else BAD_COLOR
+	add_cell(words["days_label"], color)
+	add_cell("%d %s" % [maxi(days, 0), words["days_unit"]], color)
+	add_cell(words["days_need"].format({"n": needed}), Color.WHITE)
+	add_cell(words["ok_word"] if enough else words["under_word"], color)
+	if enough:
+		return
+	var card := PanelContainer.new()
+	var style: StyleBoxFlat = get_theme_stylebox("panel", &"NavyPanel").duplicate()
+	style.border_color = BAD_COLOR
+	card.add_theme_stylebox_override("panel", style)
+	var note := Label.new()
+	note.text = Data.voice["review"]["surface_days_short"].format({"days": maxi(days, 0), "needed": needed})
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	note.theme_type_variation = &"BodyText"
+	note.add_theme_color_override("font_color", BAD_COLOR)
+	card.add_child(note)
+	table.get_parent().add_child(card)
+	table.get_parent().move_child(card, table.get_index() + 1)
 
 
 # What the inner voice says about this build.

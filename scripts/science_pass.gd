@@ -34,6 +34,7 @@ var capture_done: Array = []           # per pass: the capture press was done
 var downlink_done: Array = []          # per pass: the downlink press was done
 var sent_home_text: String = ""  # "Sent home: X Gb", shown in the banner after a downlink
 var downlink_line_waiting: bool = false   # the "ground station in view" line waits until all parts are back on
+var capture_line_waiting: bool = false    # the "target in view" line waits the same way
 var press_kind: String = ""      # "capture" or "downlink" while a ring runs
 var press_pass: int = 0          # the pass the ring is for
 
@@ -59,8 +60,9 @@ func setup(walk_scene: Node3D, hud: CanvasLayer, voice_bar: Control, banner_labe
 	press.set_anchors_preset(Control.PRESET_CENTER)
 	press.offset_left = -press.custom_minimum_size.x / 2.0
 	press.offset_right = press.custom_minimum_size.x / 2.0
-	press.offset_top = -press.custom_minimum_size.y / 2.0 - 90.0
-	press.offset_bottom = press.custom_minimum_size.y / 2.0 - 90.0
+	var lift: float = Data.game_data["walk"]["ring_lift_pixels"]
+	press.offset_top = -press.custom_minimum_size.y / 2.0 - lift
+	press.offset_bottom = press.custom_minimum_size.y / 2.0 - lift
 	press.visible = false
 	press.finished.connect(_on_press_finished)
 
@@ -73,6 +75,9 @@ func update(delta: float) -> void:
 	if downlink_line_waiting and downlink_open_index >= 0 and GameState.parts_off.is_empty():
 		downlink_line_waiting = false
 		walk.say(lines["station_in_view"])
+	if capture_line_waiting and capture_open_index >= 0 and GameState.parts_off.is_empty():
+		capture_line_waiting = false
+		walk.say(lines["target_in_view"])
 	update_banner()
 
 
@@ -99,7 +104,10 @@ func set_window(kind: String, index: int) -> void:
 	if index >= 0:
 		label.text = words["station_" + kind + "_open"]
 		if kind == "capture":
-			walk.say(lines["target_in_view"])
+			if GameState.parts_off.is_empty():
+				walk.say(lines["target_in_view"])
+			else:
+				capture_line_waiting = true   # do not hide the "switch things back on" reminder
 		elif GameState.parts_off.is_empty():
 			walk.say(lines["station_in_view"])
 		else:
@@ -107,6 +115,7 @@ func set_window(kind: String, index: int) -> void:
 	else:
 		label.text = words["station_" + kind]
 		downlink_line_waiting = false
+		capture_line_waiting = false
 		var done: bool = capture_done[was] if kind == "capture" else downlink_done[was]
 		if not done:
 			walk.say(lines[kind + "_window_missed"])

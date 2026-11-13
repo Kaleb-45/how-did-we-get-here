@@ -49,6 +49,7 @@ var rationing: bool = false           # true once the player rations the food (F
 var leak_active: bool = false         # true while a Flight event (a leak or spoil) is pouring out a supply
 var flight_event: String = ""         # the id of the event that is pouring now (events.json), "" = none
 var flight_leg: int = 0               # the Flight leg being played (0 = the first)
+var fuel_days_added: float = 0.0      # extra trip days from fuel lost at the launch (set when Flight starts)
 var leg_tasks_done: Array = []        # the tasks done in this leg, for example ["oxygen_generator"]
 var generator_run: bool = false       # true once the player ran the oxygen generator (Air station)
 # The surface work (Stage 4, surface destinations) and the flyby (Europa). See start_surface() and start_flyby().
@@ -81,6 +82,7 @@ func to_dict() -> Dictionary:
 		"rationing": rationing,
 		"leak_active": leak_active,
 		"flight_event": flight_event,
+		"fuel_days_added": fuel_days_added,
 		"generator_run": generator_run,
 		"surface": surface.duplicate(true),
 		"flyby": flyby.duplicate(true),
@@ -115,6 +117,7 @@ func from_dict(d: Dictionary) -> void:
 	rationing = pick(d, "rationing", rationing)
 	leak_active = pick(d, "leak_active", leak_active)
 	flight_event = pick(d, "flight_event", flight_event)
+	fuel_days_added = pick(d, "fuel_days_added", fuel_days_added)
 	flight_leg = 0   # a saved game is always between legs: Flight starts from its first leg
 	leg_tasks_done.clear()
 	generator_run = pick(d, "generator_run", generator_run)
@@ -214,6 +217,11 @@ func get_latest_checkpoint() -> int:
 func get_retry_checkpoint() -> int:
 	var latest: int = get_latest_checkpoint()
 	var n: int = latest
+	# A crew supply that ended low was decided in Flight (tasks, rationing), and checkpoint 3 is saved AFTER Flight,
+	# so a retry from it could never change the ending. Go back to checkpoint 2 (before Flight).
+	for id in SUPPLY_IDS:
+		if event_failures.has(id + "_low") or event_failures.has(id + "_empty"):
+			n = mini(n, 2)
 	while n > 1:
 		var saved = checkpoints.get(n)
 		if saved is Dictionary and saved.get("event_failures", []).is_empty() and float(saved.get("damage", {}).get("crew", 0.0)) <= 0.0:
@@ -368,7 +376,7 @@ func get_flight_legs() -> int:
 
 # How many real days one Flight leg stands for: the trip's days split into the legs we play.
 func get_flight_leg_days() -> float:
-	return float(get_destination()["trip_days"]["value"]) / float(get_flight_legs())
+	return (float(get_destination()["trip_days"]["value"]) + fuel_days_added) / float(get_flight_legs())
 
 
 # How many real seconds one Flight leg lasts when you play it.
@@ -414,6 +422,7 @@ func clear_supplies() -> void:
 	flight_event = ""
 	generator_run = false
 	supplies_started = false
+	fuel_days_added = 0.0
 	flight_leg = 0
 	leg_tasks_done.clear()
 
@@ -466,6 +475,9 @@ func get_leg_tasks() -> Array:
 
 # A new leg starts: its tasks are not done yet and nothing is pouring. Rationing stays on once it is on.
 func begin_leg() -> void:
+	if flight_leg == 0:
+		# Fuel lost at the launch (a missed press) makes the trip longer: extra days for every percent lost.
+		fuel_days_added = damage.get("fuel", 0.0) * float(Data.events["flight_plan"]["days_per_fuel_percent"]["value"])
 	generator_run = false
 	leak_active = false
 	flight_event = ""
@@ -718,7 +730,7 @@ func get_running_values() -> Dictionary:
 		var solar_id: String = storm["solar_part"]
 		var solar_power: float = get_version_effects(solar_id, choices[solar_id])["power"]
 		values["power"] -= solar_power * storm["solar_drop_percent"] / 100.0
-		values["power"] += get_shadow_battery_power()
+		values["power"] += storm["battery_power"]
 	return values
 
 
@@ -761,13 +773,17 @@ func get_power_available() -> float:
 	var solar: float = get_version_effects(solar_id, choices[solar_id])["power"]
 	if storm_active:
 		solar -= solar * storm["solar_drop_percent"] / 100.0
-		solar += get_shadow_battery_power()
+		solar += storm["battery_power"]
 	return solar
 
 
-# What the batteries give in the shadow pass (W): the normal number (game_data.json events) plus the picked battery's bonus.
-func get_shadow_battery_power() -> float:
-	return float(Data.game_data["events"]["power_low"]["battery_power"]) + float(get_part_fact("battery", "shadow_battery_bonus_w"))
+# Seconds the player has to fix the shadow-pass alarm: the normal time (game_data.json events) plus the picked
+# battery's alarm_extra_seconds. It always stays below storm_seconds, or a player who does nothing would be saved
+# when the shadow pass ends.
+func get_alarm_seconds() -> float:
+	var storm: Dictionary = Data.game_data["events"]["power_low"]
+	var seconds: float = float(storm["time_to_fix_seconds"]) + float(get_part_fact("battery", "alarm_extra_seconds"))
+	return clampf(seconds, 1.0, float(storm["storm_seconds"]) - 1.0)
 
 
 # What the body uses (always on). The data says -40, which means "uses 40 W".
@@ -852,7 +868,7 @@ func get_default_version(part_id: String, allowed: Array) -> String:
 	return allowed[0]
 
 
-# One number that belongs to the picked version of a slot (for example the battery's "shadow_battery_bonus_w").
+# One number that belongs to the picked version of a slot (for example the battery's "alarm_extra_seconds").
 # 0 (or the default you give) if the slot does not exist here, or the version has no such fact.
 func get_part_fact(part_id: String, key: String, default = 0.0):
 	if not choices.has(part_id) or not is_part_allowed(part_id, choices[part_id]):
@@ -1130,24 +1146,38 @@ func get_surface_start_power() -> float:
 	return power
 
 
-# Call when the surface stage starts. The parts decide how many days there are:
-# the smallest of max_days, (spare power / power cost per day) and the days the crew supplies last.
-func start_surface() -> void:
+# How many surface days the parts give. The smallest of max_days and (spare power, minus the three tasks, divided by
+# the power one day costs). With with_supplies = true the days the crew supplies from Flight last count too.
+# It can be 0 or less: nothing forces a day the power cannot pay for.
+func calc_surface_days(start_power: float, with_supplies: bool) -> int:
 	var work: Dictionary = Data.events["surface_work"]
-	var start_power: float = get_surface_start_power()
 	var days: int = int(work["max_days"]["value"])
 	# Power: leave room for one sample try, the instrument run and sending the data home, so doing the three tasks on the last day still works.
 	var power_for_days: float = start_power - get_sample_power_cost() - float(work["instrument_power_cost_w"]["value"]) - float(work["send_power_cost_w"]["value"])
 	days = mini(days, int(floor(power_for_days / get_surface_day_power_cost())))
-	if has_crew():
-		ensure_supplies()
+	if with_supplies and has_crew():
 		for id in SUPPLY_IDS:
 			# Supplies: count the days only down to the red line (supplies.json status danger_percent), not to zero.
 			var red_line: float = get_supply_capacity(id) * float(Data.supplies["status"]["danger_percent"]["value"]) / 100.0
 			var per_day: float = get_supply_use_per_day(id) * float(work["supply_days_per_day"]["value"])
 			days = mini(days, int(floor((crew_supplies[id] - red_line) / per_day)))
+	return days
+
+
+# The days this build gives, worked out from power alone (the Review screen uses it, before Flight).
+func get_surface_days_estimate() -> int:
+	return calc_surface_days(get_surface_start_power(), false)
+
+
+# Call when the surface stage starts. The parts decide how many days there are.
+func start_surface() -> void:
+	var work: Dictionary = Data.events["surface_work"]
+	var start_power: float = get_surface_start_power()
+	if has_crew():
+		ensure_supplies()
+	var days: int = calc_surface_days(start_power, true)
 	surface = {
-		"days_total": maxi(1, days),
+		"days_total": maxi(0, days),
 		"days_used": 0.0,
 		"sample": false,
 		"attempts": 0,
@@ -1284,6 +1314,9 @@ func add_end_of_surface_failures() -> void:
 	if not surface["instrument"]:
 		if not event_failures.has("surface_instrument_skipped"):
 			event_failures.append("surface_instrument_skipped")
+	elif not surface["send_done"]:
+		if not event_failures.has("surface_data_not_sent"):
+			event_failures.append("surface_data_not_sent")   # the instrument ran, but the data never went home
 	elif surface["sent"] < surface["planned"] and not event_failures.has("surface_data_short"):
 		event_failures.append("surface_data_short")
 	if get_surface_power() < 0.0 and not get_failed_resources().has("power") and not event_failures.has("surface_power"):

@@ -70,7 +70,10 @@
     "over_word": "OVER THE LIMIT",
     "under_word": "TOO LOW",
     "back_button": "Back to build",
-    "launch_button": "Launch mission"
+    "launch_button": "Launch mission",
+    "days_label": "Surface days",
+    "days_unit": "days",
+    "days_need": "need at least {n}"
   },
   "ship": {
     "_readme": "Names on the ship. room_names = the sign above each room's doorway (left side of the colon must match the room names in game_data.json). future_stations = the floating label over each glowing floor marker. flight_stations = the label over the Science and Comms markers during Flight (they only work in Mars orbit).",
@@ -190,11 +193,10 @@
     "of_word": "of"
   },
   "flight": {
-    "_readme": "Words on the screen during Flight (Stage 3): the Life Support stations. prompts = the line shown near a station (after \"Press E:\"); the _done and _none lines show when there is nothing left to do. ration_panel = the Food station's little screen. Batch 9: three legs. event_banners = the red banner while an event pours out a supply. leg_line = which leg it is. task_names = the names used when a skipped task is mentioned.",
+    "_readme": "Words on the screen during Flight (Stage 3): the Life Support stations. prompts = the line shown near a station (after \"Press E:\"); the _done and _none lines show when there is nothing left to do. ration_panel = the Food station's little screen. Batch 9: three legs. event_banners = the red banner while an event pours out a supply.",
     "prompts": {
       "food": "Food station: ration the food",
       "food_done": "Food station: rationing is on",
-      "water": "Water station: fix the leak",
       "water_none": "Water station: no leak",
       "air": "Air station: run the oxygen generator",
       "air_done": "Air station: the oxygen generator is running",
@@ -204,8 +206,7 @@
       "water_filter": "Water station: change the filter",
       "water_filter_done": "Water station: the filter is changed",
       "harvest": "Food station: harvest the garden",
-      "harvest_done": "Food station: the garden is harvested",
-      "nothing": "Nothing to do here right now"
+      "harvest_done": "Food station: the garden is harvested"
     },
     "ration_panel": {
       "title": "FOOD STATION",
@@ -220,13 +221,6 @@
       "water_leak": "WATER LEAK! Go to the Water station",
       "air_leak": "AIR LEAK! Go to the Air station",
       "food_spoil": "FOOD SPOILING! Go to the Food station"
-    },
-    "leg_line": "Leg {leg} of {legs}",
-    "task_names": {
-      "ration": "ration",
-      "oxygen_generator": "oxygen generator",
-      "water_filter": "water filter",
-      "harvest": "garden harvest"
     }
   },
   "dashboard": {
@@ -395,7 +389,8 @@
     "surface_instrument_yes": "Instrument run: yes ({gb} Gb stored)",
     "surface_instrument_no": "Instrument run: no",
     "surface_sent_line": "Sent home: {gb} Gb (planned: {planned} Gb)",
-    "surface_bonus_line": "The {material} gave the crew: {list}"
+    "surface_bonus_line": "The {material} gave the crew: {list}",
+    "fuel_days_line": "Lost fuel made the trip {days} days longer, so the crew used more supplies."
   },
   "destination_materials": {
     "_readme": "Names of the things a surface site has (the ids are in data/destinations.json, materials).",
@@ -451,8 +446,6 @@
     "_readme": "Words for the surface area (Stage 4, surface destinations). {material} is a name from destination_materials. Batch 9: three tasks. next_task = the banner at the top shows the next task to do.",
     "controls_hint": "WASD = walk    Space = jump    Mouse = look    E = use    Esc = free the mouse",
     "day_line": "Day {day} of {total}",
-    "banner_start": "Collect the {material} sample before the days run out!",
-    "banner_done": "Sample collected! Well done.",
     "banner_over": "The days ran out.",
     "sample_label": "COLLECT SAMPLE",
     "sample_marker": "{material}",

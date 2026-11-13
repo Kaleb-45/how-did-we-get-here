@@ -355,6 +355,9 @@ func add_costs() -> void:
 		var cost_text: String = Data.story["launch_screen"]["cost_kinds"][cost["kind"]].format({"amount": GameState.fmt(cost["amount"])})
 		add_log_line(report_words["cost_line"].format({"moment": moment_name, "cost": cost_text}), bad_color)
 		any_cost = true
+	if GameState.fuel_days_added > 0.0:
+		add_log_line(report_words["fuel_days_line"].format({"days": GameState.fmt(GameState.fuel_days_added)}), bad_color)
+		any_cost = true
 	if GameState.damage.get("crew", 0.0) > 0.0:
 		add_log_line(report_words["crew_damage_line"].format({"amount": GameState.fmt(GameState.damage["crew"])}), bad_color)
 		any_cost = true

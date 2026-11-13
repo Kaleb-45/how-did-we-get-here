@@ -27,36 +27,36 @@
         "value": [
           {
             "capture": [
-              3,
-              9
+              2,
+              6
             ],
             "downlink": [
-              9,
+              15,
               17
             ]
           },
           {
             "capture": [
-              41,
-              47
+              6,
+              9
             ],
             "downlink": [
-              47,
-              52
+              17,
+              19.5
             ]
           },
           {
             "capture": [
-              51,
-              55
+              41,
+              45
             ],
             "downlink": [
-              54,
-              59
+              51,
+              55
             ]
           }
         ],
-        "source": "PLACEHOLDER (seconds after the Arrival walk starts, three science passes as in GAME_PLAN.md section 7: each pass is a capture window, then a downlink window. The shadow pass owns 20 to 40 s, so the windows stay outside it; the mission clock ends at 60 s. A student can move them.)"
+        "source": "PLACEHOLDER (seconds after the Arrival walk starts; three science passes as in GAME_PLAN.md section 7: each pass is a capture window, then a downlink window). No two windows overlap. Between a window in one room and the next window in the other room there are at least 6 s, and the real walk speed is 4 m/s (player.gd) over about 16 m between the Science bay and the Comms room (4 s). Two passes come before the shadow pass (20 to 40 s) and one after it, and the mission clock ends at 60 s. A student can move them."
       },
       "capture_days_worth": {
         "value": 10,
@@ -107,22 +107,22 @@
     },
     "surface_work": {
       "stage": "surface",
-      "_readme": "The surface work (Stage 4, surface destinations): a walkable area, a surface clock, and one task: collect the sample with a timed press (E). max_days = the most days a surface stay can have. The parts decide the real number of days: days = the smallest of (max_days), (spare power / power_cost_per_day_w) and (how many days the crew supplies from Flight last, when each surface day uses supply_days_per_day days of food, water and air). seconds_per_day = real seconds for one surface day. Every day costs power_cost_per_day_w of spare power. Every try (Perfect, Good or Miss) costs attempt_power_cost_w (the drill). A Miss also loses miss_days_lost day (the lander is moved). The sample is sample_distance_m meters from the lander, plus the 'distance' percent from a bad landing. A broken solar panel (landing damage) makes solar power smaller by that percent. Success rules are in game_data.json arrival_goals. THREE TASKS (batch 9): 1 collect the sample, 2 run the instrument at the instrument station, 3 send the data home at the lander. All three must be done for MISSION SUCCESS, and at least planned_gb of data must get home. The instrument stores camera Gb per day x capture_days_worth x its press result factor x the surface tool's instrument_data_factor, never more than the computer's storage (storage_gb plus the computer's bonus). Sending home sends the least of what is stored and (the antenna's real speed x downlink_hours x the press result factor). instrument_power_cost_w and send_power_cost_w are used from the spare power, like the sample tries, and are kept back when the days are counted. instrument_distance_m = how far the instrument station is from the lander.",
+      "_readme": "The surface work (Stage 4, surface destinations): a walkable area, a surface clock, and one task: collect the sample with a timed press (E). max_days = the most days a surface stay can have. The parts decide the real number of days: days = the smallest of (max_days), (spare power / power_cost_per_day_w) and (how many days the crew supplies from Flight last, when each surface day uses supply_days_per_day days of food, water and air). seconds_per_day = real seconds for one surface day. Every day costs power_cost_per_day_w of spare power. Every try (Perfect, Good or Miss) costs attempt_power_cost_w (the drill). A Miss also loses miss_days_lost day (the lander is moved). The sample is sample_distance_m meters from the lander, plus the 'distance' percent from a bad landing. A broken solar panel (landing damage) makes solar power smaller by that percent. Success rules are in game_data.json arrival_goals. THREE TASKS (batch 9): 1 collect the sample, 2 run the instrument at the instrument station, 3 send the data home at the lander. All three must be done for MISSION SUCCESS, and at least planned_gb of data must get home. The instrument stores camera Gb per day x capture_days_worth x its press result factor x the surface tool's instrument_data_factor, never more than the computer's storage (storage_gb plus the computer's bonus). Sending home sends the least of what is stored and (the antenna's real speed x downlink_hours x the press result factor). instrument_power_cost_w and send_power_cost_w are used from the spare power, like the sample tries, and are kept back when the days are counted. instrument_distance_m = how far the instrument station is from the lander. days_needed = the fewest days the three tasks need (Review shows a red card below it). A build can give 0 days: nothing forces a day the power cannot pay for.",
       "max_days": {
         "value": 10,
         "source": "PLACEHOLDER"
       },
       "seconds_per_day": {
-        "value": 12,
-        "source": "PLACEHOLDER (real seconds for one surface day)"
+        "value": 15,
+        "source": "PLACEHOLDER (real seconds for one surface day; 15 s so that two days are enough to walk to every station)"
       },
       "power_cost_per_day_w": {
         "value": 60,
         "source": "PLACEHOLDER (watts of spare power each surface day uses up)"
       },
       "attempt_power_cost_w": {
-        "value": 120,
-        "source": "PLACEHOLDER (watts of spare power one sample try uses)"
+        "value": 12,
+        "source": "PLACEHOLDER (watts of spare power one sample try uses). Small numbers, so that even the default Small solar build gets at least 3 days at Jezero."
       },
       "supply_days_per_day": {
         "value": 25,
@@ -153,12 +153,12 @@
         "source": "PLACEHOLDER (seconds to read the last line before the report)"
       },
       "instrument_power_cost_w": {
-        "value": 60,
-        "source": "PLACEHOLDER (watts of spare power the instrument run uses)"
+        "value": 18,
+        "source": "PLACEHOLDER (watts of spare power the instrument run uses; small, see the sample try)"
       },
       "send_power_cost_w": {
-        "value": 30,
-        "source": "PLACEHOLDER (watts of spare power sending the data home uses)"
+        "value": 9,
+        "source": "PLACEHOLDER (watts of spare power sending the data home uses; small, see the sample try)"
       },
       "instrument_distance_m": {
         "value": 14,
@@ -209,6 +209,10 @@
       "send_press_tightness": {
         "value": 1.0,
         "source": "PLACEHOLDER"
+      },
+      "days_needed": {
+        "value": 2,
+        "source": "PLACEHOLDER (the fewest surface days the three tasks need: a build that gives fewer shows a red card on the Review screen)"
       }
     },
     "flyby_pass": {
@@ -379,6 +383,10 @@
             "source": "PLACEHOLDER"
           }
         }
+      },
+      "days_per_fuel_percent": {
+        "value": 1.0,
+        "source": "PLACEHOLDER (extra trip days for every percent of fuel lost at the launch: lost fuel means a slower trip, so the crew uses more supplies)"
       }
     }
   }

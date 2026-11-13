@@ -114,6 +114,8 @@ func _ready() -> void:
 			GameState.begin_leg()
 		else:
 			GameState.ensure_supplies()
+	elif flight_mode:
+		GameState.begin_leg()   # no crew: no supplies, but the trip still has its days
 
 	# The mission clock starts at zero. The dashboard is hidden until Tab.
 	GameState.start_mission()
@@ -336,7 +338,7 @@ func start_storm() -> void:
 
 func ring_alarm(line: String) -> void:
 	alarm_stage = "ringing"
-	seconds_left = Data.game_data["events"]["power_low"]["time_to_fix_seconds"]
+	seconds_left = GameState.get_alarm_seconds()   # the picked battery gives more or less time
 	alarm_banner.visible = true
 	say(line)
 	dashboard.set_flashing("power", true)

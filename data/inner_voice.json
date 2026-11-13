@@ -63,7 +63,9 @@
   },
   "review": {
     "all_good": "Huh. Everything is inside the limits. Did I... do that right?",
-    "some_over": "Something is in the red. The general is going to ask about that."
+    "some_over": "Something is in the red. The general is going to ask about that.",
+    "surface_days_short": "Careful! This build gives only {days} surface days, but the three jobs need at least {needed}. Add spare power (a bigger solar panel, or parts that use less) or the stay will run out.",
+    "_readme": "What the inner voice says on the Review screen. surface_days_short is the text of the red card for a surface trip ({days} = the days this build gives, {needed} = the days the three tasks need)."
   },
   "resource_failures": {
     "budget": {
@@ -115,7 +117,7 @@
       "title": "Power alarm",
       "what": "Power: the batteries ran out during the mission.",
       "why": "We flew into Mars' shadow. The solar panels got no sun, the batteries couldn't run everything, and power stayed in the red.",
-      "fix": "When the alarm sounds, go to the power panel and switch off the heater or the antenna. The camera uses too little to help. Real NASA teams turn the heaters down before every shadow."
+      "fix": "When the alarm sounds, go to the power panel and switch off the parts that use the most power until power fits again: the heater, the antenna and, for the high resolution camera, the camera too. Real NASA teams turn the heaters down before every shadow."
     },
     "food_empty": {
       "title": "Food ran out",
@@ -138,20 +140,20 @@
     "food_low": {
       "title": "Food too low",
       "what": "Food: the store was almost empty at the end.",
-      "why": "The crew eats every day, and the food was not rationed, so it ran too low.",
-      "fix": "Go to the Food station in Life Support and press E to start rationing. Rationing makes the food last longer."
+      "why": "The crew eats every day. The food was not rationed, or the freezer broke and the food spoiled and nobody fixed it fast, or the garden was never harvested.",
+      "fix": "Go to the Food station in Life Support in the first leg and press E to start rationing. When the voice says the freezer broke, fix it at once. With a garden, harvest it in every leg."
     },
     "water_low": {
       "title": "Water too low",
       "what": "Water: the tank was almost empty at the end.",
-      "why": "The crew drinks every day. A leak that is fixed late loses a lot of water.",
-      "fix": "When the voice warns about a leak, run to the Water station in Life Support and press E at once."
+      "why": "The crew drinks every day. The water filter was not changed in a leg, or a leak was fixed late and lost a lot of water.",
+      "fix": "Change the water filter at the Water station in every leg (legs 2 and 3), and when the voice warns about a leak, run to the Water station and press E at once."
     },
     "air_low": {
       "title": "Air too low",
       "what": "Air: the air was almost gone at the end.",
-      "why": "Breathing uses up the air every day, and the oxygen generator was not run (or was run badly).",
-      "fix": "Go to the Air station in Life Support and press E to run the oxygen generator. A press close to the target makes more oxygen."
+      "why": "Breathing uses up the air every day. The oxygen generator was skipped in a leg (or run badly), or an air leak was sealed late.",
+      "fix": "Run the oxygen generator at the Air station in every leg, and when the voice warns of an air leak, run to the Air station and press E at once. A press close to the target makes more oxygen."
     },
     "surface_sample_missed": {
       "title": "Sample not collected",
@@ -180,8 +182,14 @@
     "surface_data_short": {
       "title": "Not enough data got home",
       "what": "The surface work sent home less data than planned.",
-      "why": "A small antenna is slow, so little data fits through the link. A small computer stores less, and a bad press loses data.",
+      "why": "The send press worked, but not enough data got through. A small antenna is slow, a small computer stores less, and a bad press sends less.",
       "fix": "Use the Large antenna, press the send ring on time, and run the instrument before you send."
+    },
+    "surface_data_not_sent": {
+      "title": "Data not sent home",
+      "what": "The instrument ran, but we never sent the data home.",
+      "why": "The data only helps if it reaches Earth. The send ring at the lander was not pressed before the days ran out.",
+      "fix": "After the instrument runs, walk to the lander and press E to send the data home. Do it early, while there are still days left."
     }
   },
   "parts": {
@@ -228,7 +236,6 @@
     "generator_good": "Good! The oxygen generator is running and making a good amount of oxygen.",
     "generator_miss": "Missed the timing. The oxygen generator still starts, but it runs rough, so it makes less oxygen. A Miss still runs it, just not as well.",
     "generator_already": "The oxygen generator is already running. That is enough for now.",
-    "no_leak": "Nothing is broken here right now. No problem.",
     "empty_food": "The food is gone. Zero. The crew is very hungry, and that is a big problem.",
     "empty_water": "The water tank is empty. Zero. A leak pours water out fast if nobody stops it.",
     "empty_air": "The air is gone. Zero. The oxygen generator makes oxygen, and we needed it running.",
@@ -419,18 +426,17 @@
   "surface": {
     "_readme": "What the inner voice says on the surface (Stage 4, surface destinations). {days} {material} {gb} and {left} are filled in. The voice is never wrong. The levels do not change these lines yet.",
     "start": "We made it! Mars under our boots! We have {days} days here, and every day uses power and supplies. Three jobs: collect the glowing {material} sample, run the instrument at its station, and send the data home from the lander.",
-    "lander": "This is our lander. It brought us here and it holds everything we built.",
     "sample_start": "Hold steady. Press E when the ring closes on the target.",
     "results": {
       "Perfect": "Perfect! The sample is in the box. I did a tiny dance. Nobody saw.",
       "Good": "Good! We got the sample. Not pretty, but we got it.",
-      "Miss": "Missed! The drill slipped. That cost us power and a day. Try again!"
+      "Miss": "Missed! The sample slipped away. That cost us power and a day. Try again!"
     },
     "day_warning": "Day {day}. Only {left} days left. Hurry!",
     "last_day": "The last day! Get the sample now!",
     "done": "All three jobs are done! Science from another world, collected by us and sent home!",
     "out_of_days": "The days are over and we did not finish all three jobs. We have to go home early.",
-    "power_red": "Power is in the red! The drill and the days used too much.",
+    "power_red": "Power is in the red! The sample tries, the instrument and the days used too much.",
     "bonus": "The {material} melts into extra supplies for the crew: {list}!",
     "instrument_start": "This is the instrument. It studies the site and stores data. Press E when the ring closes on the target.",
     "instrument_results": {

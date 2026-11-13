@@ -79,7 +79,7 @@ func make_part_rows() -> void:
 			button.text = version["name"]
 			button.toggle_mode = true
 			button.button_group = group
-			button.custom_minimum_size = Vector2(100, 50)   # at least 100 wide, wider if the text needs it
+			button.custom_minimum_size = Vector2(layout["button_min_width"], layout["button_min_height"])   # at least this big, wider if the text needs it
 			button.theme_type_variation = &"SmallButton"
 			button.tooltip_text = GameState.effects_text(GameState.get_version_effects(part_id, version_id), "\n")
 			var trade_off: String = Data.story["part_trade_offs"].get(part_id, {}).get(version_id, "")

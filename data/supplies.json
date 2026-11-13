@@ -22,14 +22,14 @@
     "source": "PLACEHOLDER"
   },
   "start_amount": {
-    "food": { "value": 6500, "source": "PLACEHOLDER" },
-    "water": { "value": 12000, "source": "PLACEHOLDER" },
-    "air": { "value": 2550, "source": "PLACEHOLDER" }
+    "food": { "value": 7500, "source": "PLACEHOLDER (raised in batch 9 so a perfect Mars orbit run ends above the 40 percent warning line)" },
+    "water": { "value": 14000, "source": "PLACEHOLDER (raised in batch 9, same reason)" },
+    "air": { "value": 3300, "source": "PLACEHOLDER (raised in batch 9, same reason)" }
   },
   "capacity": {
-    "food": { "value": 6500, "source": "PLACEHOLDER" },
-    "water": { "value": 12000, "source": "PLACEHOLDER" },
-    "air": { "value": 4000, "source": "PLACEHOLDER (the air meter can go above its start amount, because the oxygen generator makes oxygen)" }
+    "food": { "value": 7500, "source": "PLACEHOLDER" },
+    "water": { "value": 14000, "source": "PLACEHOLDER" },
+    "air": { "value": 5200, "source": "PLACEHOLDER (the air meter can go above its start amount, because the oxygen generator makes oxygen)" }
   },
   "status": {
     "warning_percent": { "value": 40, "source": "PLACEHOLDER" },

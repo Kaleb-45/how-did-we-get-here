@@ -47,8 +47,9 @@ func setup(walk_scene: Node3D, hud: CanvasLayer, voice_bar: Control) -> void:
 	press.set_anchors_preset(Control.PRESET_CENTER)
 	press.offset_left = -press.custom_minimum_size.x / 2.0      # centered left to right
 	press.offset_right = press.custom_minimum_size.x / 2.0
-	press.offset_top = -press.custom_minimum_size.y / 2.0 - 90.0   # a little above the middle
-	press.offset_bottom = press.custom_minimum_size.y / 2.0 - 90.0
+	var lift: float = Data.game_data["walk"]["ring_lift_pixels"]   # a little above the middle
+	press.offset_top = -press.custom_minimum_size.y / 2.0 - lift
+	press.offset_bottom = press.custom_minimum_size.y / 2.0 - lift
 	press.visible = false
 	press.finished.connect(_on_task_press_finished)
 
