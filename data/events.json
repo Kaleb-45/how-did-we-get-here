@@ -88,7 +88,7 @@
     },
     "surface_work": {
       "stage": "surface",
-      "_readme": "The surface work (Stage 4, surface destinations): a walkable area, a surface clock, and one task: collect the sample with a timed press (E). max_days = the most days a surface stay can have. The parts decide the real number of days: days = the smallest of (max_days), (spare power / power_cost_per_day_w) and (how many days the crew supplies from Flight last, when each surface day uses supply_days_per_day days of food, water and air). seconds_per_day = real seconds for one surface day. Every day costs power_cost_per_day_w of spare power. Every try (Perfect, Good or Miss) costs attempt_power_cost_w (the drill). A Miss also loses miss_days_lost day (the lander is moved). The sample is sample_distance_m meters from the lander, plus the 'distance' percent from a bad landing. A broken solar panel (landing damage) makes solar power smaller by that percent. Success rules are in game_data.json arrival_goals.",
+      "_readme": "The surface work (Stage 4, surface destinations): a walkable area, a surface clock, and one task: collect the sample with a timed press (E). max_days = the most days a surface stay can have. The parts decide the real number of days: days = the smallest of (max_days), (spare power / power_cost_per_day_w) and (how many days the crew supplies from Flight last, when each surface day uses supply_days_per_day days of food, water and air). seconds_per_day = real seconds for one surface day. Every day costs power_cost_per_day_w of spare power. Every try (Perfect, Good or Miss) costs attempt_power_cost_w (the drill). A Miss also loses miss_days_lost day (the lander is moved). The sample is sample_distance_m meters from the lander, plus the 'distance' percent from a bad landing. A broken solar panel (landing damage) makes solar power smaller by that percent. Success rules are in game_data.json arrival_goals. THREE TASKS (batch 9): 1 collect the sample, 2 run the instrument at the instrument station, 3 send the data home at the lander. All three must be done for MISSION SUCCESS, and at least planned_gb of data must get home. The instrument stores camera Gb per day x capture_days_worth x its press result factor x the surface tool's instrument_data_factor, never more than the computer's storage (storage_gb plus the computer's bonus). Sending home sends the least of what is stored and (the antenna's real speed x downlink_hours x the press result factor). instrument_power_cost_w and send_power_cost_w are used from the spare power, like the sample tries, and are kept back when the days are counted. instrument_distance_m = how far the instrument station is from the lander.",
       "max_days": {
         "value": 10,
         "source": "PLACEHOLDER"
@@ -132,6 +132,64 @@
       "end_read_seconds": {
         "value": 4,
         "source": "PLACEHOLDER (seconds to read the last line before the report)"
+      },
+      "instrument_power_cost_w": {
+        "value": 60,
+        "source": "PLACEHOLDER (watts of spare power the instrument run uses)"
+      },
+      "send_power_cost_w": {
+        "value": 30,
+        "source": "PLACEHOLDER (watts of spare power sending the data home uses)"
+      },
+      "instrument_distance_m": {
+        "value": 14,
+        "source": "PLACEHOLDER (meters from the lander to the instrument station)"
+      },
+      "planned_gb": {
+        "value": 3,
+        "source": "PLACEHOLDER (the least data that must get home, in Gb: a small antenna can only just do it with a Perfect press, a large antenna always can; a student sets a goal from a real mission)"
+      },
+      "capture_days_worth": {
+        "value": 10,
+        "source": "PLACEHOLDER (days of the camera's data one instrument run holds, in Gb per day times this)"
+      },
+      "storage_gb": {
+        "value": 50,
+        "source": "PLACEHOLDER (onboard storage size in Gb, the same as the science pass)"
+      },
+      "downlink_hours": {
+        "value": 8,
+        "source": "PLACEHOLDER (hours the ground station is in view)"
+      },
+      "result_factor": {
+        "Perfect": {
+          "value": 1.0,
+          "source": "PLACEHOLDER"
+        },
+        "Good": {
+          "value": 0.75,
+          "source": "PLACEHOLDER"
+        },
+        "Miss": {
+          "value": 0.4,
+          "source": "PLACEHOLDER"
+        }
+      },
+      "instrument_press_speed": {
+        "value": 1.0,
+        "source": "PLACEHOLDER"
+      },
+      "instrument_press_tightness": {
+        "value": 1.0,
+        "source": "PLACEHOLDER"
+      },
+      "send_press_speed": {
+        "value": 1.0,
+        "source": "PLACEHOLDER"
+      },
+      "send_press_tightness": {
+        "value": 1.0,
+        "source": "PLACEHOLDER"
       }
     },
     "flyby_pass": {

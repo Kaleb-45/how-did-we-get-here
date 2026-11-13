@@ -406,6 +406,16 @@ func add_surface() -> void:
 	var sample_ok: bool = GameState.surface["sample"]
 	add_log_line(report_words["surface_sample_yes" if sample_ok else "surface_sample_no"].format({"material": material_name}), ok_color if sample_ok else bad_color)
 	add_log_line(report_words["surface_days_line"].format({"used": GameState.fmt(minf(GameState.surface["days_used"], GameState.surface["days_total"])), "total": GameState.fmt(GameState.surface["days_total"])}))
+	var instrument_ok: bool = GameState.surface["instrument"]
+	if instrument_ok:
+		add_log_line(report_words["surface_instrument_yes"].format({"gb": GameState.fmt(GameState.surface["captured"])}), ok_color)
+	else:
+		add_log_line(report_words["surface_instrument_no"], bad_color)
+	var enough: bool = GameState.surface["sent"] >= GameState.surface["planned"]
+	add_log_line(report_words["surface_sent_line"].format({"gb": GameState.fmt(GameState.surface["sent"]), "planned": GameState.fmt(GameState.surface["planned"])}), ok_color if enough else bad_color)
+	var bonus_text: String = GameState.get_surface_bonus_text()
+	if bonus_text != "":
+		add_log_line(report_words["surface_bonus_line"].format({"material": material_name, "list": bonus_text}), ok_color)
 	var power_left: float = GameState.get_surface_power()
 	add_log_line(report_words["surface_power_line"].format({"w": GameState.fmt(power_left)}), ok_color if power_left >= 0.0 else bad_color)
 

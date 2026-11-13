@@ -34,6 +34,8 @@
       "mission_lifetime_live": ["solar_panel"],
       "power_event": [],
       "surface_sample_missed": ["solar_panel", "camera", "antenna", "landing_system", "surface_tools"],
+      "surface_instrument_skipped": ["solar_panel", "camera", "antenna", "computer", "surface_tools"],
+      "surface_data_short": ["camera", "antenna", "computer", "surface_tools"],
       "surface_power": ["solar_panel", "camera", "antenna", "computer", "thermal", "life_support", "surface_tools"],
       "flyby_data_short": ["camera", "antenna", "computer", "radiation_shield"],
       "food_empty": ["life_support"],
@@ -96,7 +98,7 @@
     "source": "Agent's choice for Kaleb (2026-11-13), from the recommended answers in the batch 8 task. It is NOT a NASA number."
   },
   "surface_area": {
-    "_readme": "The walkable surface area (graybox: plain boxes and spheres, Mars colors from docs/ART_DIRECTION.md: dusty orange, terracotta, sandstone, rust, beige; matte). All sizes are in meters on the same x/z map as the ship (x left/right, z front/back). half_size = the ground runs from -half_size to +half_size. The lander sits at lander_position. player_start = where you stand when you arrive. sample_direction = which way from the lander the sample lies (a unit-less x, z pair); sample_distance_m (events.json surface_work) says how far. rim_height = the low ridge around the area. rocks = how many scenery rocks. Colors are web color codes. sun_* and sky_* set the light and sky.",
+    "_readme": "The walkable surface area (graybox: plain boxes and spheres, Mars colors from docs/ART_DIRECTION.md: dusty orange, terracotta, sandstone, rust, beige; matte). All sizes are in meters on the same x/z map as the ship (x left/right, z front/back). half_size = the ground runs from -half_size to +half_size. The lander sits at lander_position. player_start = where you stand when you arrive. sample_direction and instrument_direction = which way from the lander the sample and the instrument station lie (a unit-less x, z pair); sample_distance_m (events.json surface_work) says how far. rim_height = the low ridge around the area. rocks = how many scenery rocks. Colors are web color codes. sun_* and sky_* set the light and sky.",
     "source": "Game-design choice (agent's choice 2026-11-13). It is NOT a NASA number.",
     "half_size": 34,
     "rim_height": 2.5,
@@ -106,6 +108,8 @@
     "player_start": [0, 0, 5],
     "player_facing_degrees": 0,
     "sample_direction": [-0.6, -0.8],
+    "instrument_direction": [0.9, -0.4],
+    "instrument_zone_radius": 1.8,
     "sample_zone_radius": 1.8,
     "lander_zone_radius": 3.0,
     "colors": {
@@ -115,6 +119,8 @@
       "rock": ["#a65a35", "#d4a373", "#8a4a2b"],
       "sample_rock": "#d9b88a",
       "sample_glow": "#ffb347",
+      "instrument_body": "#5a6a8a",
+      "instrument_glow": "#7fd6ff",
       "lander_body": "#e8d8bd",
       "lander_leg": "#9c9186",
       "lander_panel": "#3a4a7a",
@@ -133,7 +139,7 @@
       "patches": { "count": 8, "size_min": 5.0, "size_max": 11.0, "thickness": 0.02, "edge": 6.0 },
       "rock_edge": 3.0,
       "rock_tries": 500,
-      "rock_keepout": { "lander": 6.0, "sample": 5.0, "player": 4.0 },
+      "rock_keepout": { "lander": 6.0, "sample": 5.0, "instrument": 5.0, "player": 4.0 },
       "rock_size_min": [0.6, 0.4, 0.6],
       "rock_size_max": [2.4, 1.6, 2.4],
       "rock_sink": 0.1,
@@ -144,6 +150,12 @@
         "leg_spots": [[-1.0, -1.0], [1.0, -1.0], [0.0, 1.3]],
         "panel_size": [2.2, 0.06, 1.4], "panel_x": 2.6, "panel_height": 1.9,
         "label_height": 3.6
+      },
+      "instrument": {
+        "body_size": [1.2, 0.9, 1.2], "body_height": 0.45,
+        "mast_size": [0.12, 1.4, 0.12], "mast_height": 1.6,
+        "glow_radius": 0.22, "glow_height": 2.4, "glow_energy": 2.0,
+        "label_height": 3.2
       },
       "sample": {
         "rock_size": [1.1, 0.7, 1.1], "rock_height": 0.3,

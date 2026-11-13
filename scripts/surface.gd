@@ -4,9 +4,12 @@
 # It uses the same controls as the ship: WASD walk, mouse look, Space jump,
 # E to use. The lander sits in the middle.
 #
-# One task: walk to the glowing sample and press E for a timed press.
-#   Perfect or Good: the sample is collected, and the stay ends.
-#   Miss: the drill slipped. It costs power and one day. Try again.
+# Three tasks, each with a timed press on E (GAME_PLAN 7):
+#   1. Collect the sample at the glowing rock.
+#      Perfect or Good: collected. Miss: the drill slipped. It costs power and one day. Try again.
+#   2. Run the instrument at its station. Any result runs it (a Miss stores less data).
+#   3. Send the data home at the lander. Any result sends (a Miss sends less). Needs the instrument run first.
+# The stay ends when all three are done, or when the days run out.
 # The surface clock: every day costs power and crew supplies, and the parts
 # from Stage 1 decide how many days there are (GameState.start_surface()).
 # When the days run out without the sample, the mission fails (a finding).
@@ -39,6 +42,9 @@ var press: Control               # the timed press
 var press_running: bool = false
 var mission_over: bool = false
 var sample_position: Vector3     # where the sample lies (meters)
+var instrument_position: Vector3 # where the instrument station stands (meters)
+var press_kind: String = ""      # which task the ring is for: sample, instrument or send
+var in_instrument_zone: bool = false
 var in_sample_zone: bool = false
 var in_lander_zone: bool = false
 var power_row: HBoxContainer
@@ -71,11 +77,12 @@ func _ready() -> void:
 
 	GameState.start_surface()   # the parts decide how many days
 	sample_position = get_sample_position()
+	instrument_position = get_instrument_position()
 	build_world()
 	build_hud()
 	put_player_at_start()
 
-	banner.text = words["banner_start"].format({"material": material_name})
+	update_banner()
 	say(lines["start"].format({"days": GameState.surface["days_total"], "material": material_name}))
 
 
@@ -89,6 +96,15 @@ func get_sample_position() -> Vector3:
 	var limit: float = float(layout["half_size"]) - float(dims["sample_edge"])   # never outside the area
 	var lander: Array = layout["lander_position"]
 	var spot := Vector2(lander[0], lander[2]) + direction * minf(distance, limit)
+	return Vector3(spot.x, 0, spot.y)
+
+
+# Where the instrument station stands: from the lander, in the data's direction, instrument_distance_m away.
+func get_instrument_position() -> Vector3:
+	var direction := Vector2(layout["instrument_direction"][0], layout["instrument_direction"][1]).normalized()
+	var limit: float = float(layout["half_size"]) - float(dims["sample_edge"])
+	var lander: Array = layout["lander_position"]
+	var spot := Vector2(lander[0], lander[2]) + direction * minf(float(numbers["instrument_distance_m"]["value"]), limit)
 	return Vector3(spot.x, 0, spot.y)
 
 
@@ -121,6 +137,7 @@ func build_world() -> void:
 	build_rocks()
 	build_lander()
 	build_sample()
+	build_instrument()
 
 
 # A box with a matte color. A body makes it solid (the player cannot walk through it).
@@ -190,7 +207,7 @@ func build_rocks() -> void:
 		var edge: float = dims["rock_edge"]
 		var spot := Vector3(rng.randf_range(-half + edge, half - edge), 0, rng.randf_range(-half + edge, half - edge))
 		var keepout: Dictionary = dims["rock_keepout"]
-		if spot.length() < keepout["lander"] or spot.distance_to(sample_position) < keepout["sample"] or spot.distance_to(player_start_position()) < keepout["player"]:
+		if spot.length() < keepout["lander"] or spot.distance_to(sample_position) < keepout["sample"] or spot.distance_to(instrument_position) < keepout["instrument"] or spot.distance_to(player_start_position()) < keepout["player"]:
 			continue
 		var small: Vector3 = v3(dims["rock_size_min"])
 		var big: Vector3 = v3(dims["rock_size_max"])
@@ -247,6 +264,29 @@ func build_sample() -> void:
 	zone.body_entered.connect(_on_zone_entered.bind("sample"))
 	zone.body_exited.connect(_on_zone_exited.bind("sample"))
 	add_label(sample_position + Vector3(0, m["label_height"], 0), words["sample_marker"].format({"material": material_name}))
+
+
+# The instrument station: a blue box with a mast and a cyan glow, away from the lander.
+func build_instrument() -> void:
+	var m: Dictionary = dims["instrument"]
+	make_box(v3(m["body_size"]), instrument_position + Vector3(0, m["body_height"], 0), Color.html(colors["instrument_body"]), true)
+	make_box(v3(m["mast_size"]), instrument_position + Vector3(0, m["mast_height"], 0), Color.html(colors["instrument_body"]), false)
+	var glow := MeshInstance3D.new()
+	var sphere := SphereMesh.new()
+	sphere.radius = m["glow_radius"]
+	sphere.height = float(m["glow_radius"]) * 2.0
+	glow.mesh = sphere
+	var glow_material := make_material(Color.html(colors["instrument_glow"]))
+	glow_material.emission_enabled = true
+	glow_material.emission = Color.html(colors["instrument_glow"])
+	glow_material.emission_energy_multiplier = m["glow_energy"]
+	glow.material_override = glow_material
+	glow.position = instrument_position + Vector3(0, m["glow_height"], 0)
+	add_child(glow)
+	var zone := add_zone(instrument_position, float(layout["instrument_zone_radius"]))
+	zone.body_entered.connect(_on_zone_entered.bind("instrument"))
+	zone.body_exited.connect(_on_zone_exited.bind("instrument"))
+	add_label(instrument_position + Vector3(0, m["label_height"], 0), words["instrument_marker"])
 
 
 # A round area that tells us when the player walks in (same idea as the ship's reach zones).
@@ -363,7 +403,7 @@ func _process(delta: float) -> void:
 func check_days() -> void:
 	var left: int = GameState.get_surface_days_left()
 	if GameState.is_surface_time_up():
-		if not GameState.surface["sample"]:
+		if not GameState.is_surface_done():
 			banner.text = words["banner_over"]
 			say(lines["out_of_days"])
 			finish(true)
@@ -380,10 +420,17 @@ func check_days() -> void:
 func update_prompt() -> void:
 	if mission_over or press_running:
 		prompt_label.text = ""
-	elif in_sample_zone:
+	elif in_sample_zone and not GameState.surface["sample"]:
 		prompt_label.text = words["prompts"]["sample"].format({"material": material_name})
+	elif in_instrument_zone:
+		prompt_label.text = words["prompts"]["instrument_done" if GameState.surface["instrument"] else "instrument"]
 	elif in_lander_zone:
-		prompt_label.text = words["prompts"]["lander"]
+		if GameState.surface["instrument"] and not GameState.surface["send_done"]:
+			prompt_label.text = words["prompts"]["send"]
+		elif GameState.surface["send_done"]:
+			prompt_label.text = words["prompts"]["send_done"]
+		else:
+			prompt_label.text = words["prompts"]["lander"]
 	else:
 		prompt_label.text = ""
 
@@ -401,6 +448,8 @@ func _on_zone_exited(body: Node3D, which: String) -> void:
 func set_zone(which: String, inside: bool) -> void:
 	if which == "sample":
 		in_sample_zone = inside
+	elif which == "instrument":
+		in_instrument_zone = inside
 	else:
 		in_lander_zone = inside
 
@@ -409,32 +458,73 @@ func _unhandled_input(event: InputEvent) -> void:
 	if mission_over or press_running:
 		return
 	if event.is_action_pressed("interact"):
-		if in_sample_zone:
-			start_sample_press()
+		if in_sample_zone and not GameState.surface["sample"]:
+			start_press("sample")
+		elif in_instrument_zone:
+			if GameState.surface["instrument"]:
+				say(lines["instrument_already"])
+			else:
+				start_press("instrument")
 		elif in_lander_zone:
-			say(lines["lander"])
+			if GameState.surface["send_done"]:
+				say(lines["sent_already"])
+			elif GameState.surface["instrument"] and GameState.surface["stored"] > 0.0:
+				start_press("send")
+			else:
+				say(lines["nothing_to_send"])   # the instrument has not stored anything yet
 
 
-# The timed press for the sample. The player stands still while the ring closes.
-func start_sample_press() -> void:
+# One timed press (task = sample, instrument or send). The player stands still while the ring closes.
+func start_press(task: String) -> void:
+	press_kind = task
 	press_running = true
 	player.set_physics_process(false)
 	press.visible = true
-	say(lines["sample_start"])
-	press.start(words["sample_label"], numbers["press_speed"]["value"], numbers["press_tightness"]["value"], press.ACTION_E)
+	var speed: float = numbers["press_speed"]["value"]
+	var tightness: float = numbers["press_tightness"]["value"]
+	var label: String = words["sample_label"]
+	var start_line: String = lines["sample_start"]
+	if task == "instrument":
+		speed = numbers["instrument_press_speed"]["value"]
+		tightness = numbers["instrument_press_tightness"]["value"]
+		label = words["instrument_label"]
+		start_line = lines["instrument_start"]
+	elif task == "send":
+		speed = numbers["send_press_speed"]["value"]
+		tightness = numbers["send_press_tightness"]["value"]
+		label = words["send_label"]
+		start_line = lines["send_start"]
+	say(start_line)
+	press.start(label, speed, tightness, press.ACTION_E)
 
 
 func _on_press_finished(result: String) -> void:
 	press_running = false
 	player.set_physics_process(true)
-	GameState.record_press("surface", "collect_sample", result)
-	GameState.collect_sample(result)
-	say(lines["results"][result])
-	if GameState.surface["sample"]:
-		var bonus_text := bonus_line()
-		if bonus_text != "":
-			say(lines["results"][result] + " " + bonus_text)
-		banner.text = words["banner_done"]
+	match press_kind:
+		"sample":
+			GameState.record_press("surface", "collect_sample", result)
+			GameState.collect_sample(result)
+			var line: String = lines["results"][result]
+			if GameState.surface["sample"]:
+				sample_marker.visible = false
+				var bonus_text := bonus_line()
+				if bonus_text != "":
+					line += " " + bonus_text
+			say(line)
+		"instrument":
+			GameState.record_press("surface", "run_instrument", result)
+			var stored: float = GameState.run_instrument(result)
+			say(lines["instrument_results"][result].format({"gb": GameState.fmt(stored)}))
+		"send":
+			GameState.record_press("surface", "send_data", result)
+			var sent: float = GameState.send_surface_data(result)
+			var line: String = lines["send_results"][result].format({"gb": GameState.fmt(sent)})
+			if GameState.surface["stored"] > 0.0:
+				line += " " + lines["send_antenna_slow"]   # some data is still waiting: the link was the limit
+			say(line)
+	update_banner()
+	if GameState.is_surface_done():
 		finish(false)
 	var tree := get_tree()
 	await tree.create_timer(numbers["result_show_seconds"]["value"]).timeout
@@ -442,16 +532,27 @@ func _on_press_finished(result: String) -> void:
 		press.visible = false
 
 
-# "+1,500 L water, +400 kg air" when the site's material gave the crew something (ice at Arcadia), else "".
+# The banner at the top shows the next task to do (sample, then the instrument, then sending the data home).
+func update_banner() -> void:
+	var next := ""
+	if not GameState.surface["sample"]:
+		next = "sample"
+	elif not GameState.surface["instrument"]:
+		next = "instrument"
+	elif not GameState.surface["send_done"]:
+		next = "send"
+	if next == "":
+		banner.text = words["banner_all_done"]
+	else:
+		banner.text = words["next_task"][next].format({"material": material_name})
+
+
+# "The ice melts into extra supplies for the crew: ..." when the site's material gave the crew something (ice at Arcadia), else "".
 func bonus_line() -> String:
-	var bonus: Dictionary = GameState.surface.get("bonus", {})
-	var parts: PackedStringArray = []
-	for id in bonus:
-		if bonus[id] > 0.0:
-			parts.append("%s %s %s" % [GameState.fmt(bonus[id]), Data.story["crew_supplies"]["units"][id], Data.story["crew_supplies"]["names"][id].to_lower()])
-	if parts.is_empty():
+	var list: String = GameState.get_surface_bonus_text()
+	if list == "":
 		return ""
-	return lines["bonus"].format({"material": material_name, "list": ", ".join(parts)})
+	return lines["bonus"].format({"material": material_name, "list": list})
 
 
 # The stay is over (sample collected, or the days ran out). Wait so the player can read, then the report.
@@ -465,7 +566,6 @@ func finish(out_of_days: bool) -> void:
 		press.visible = false
 		player.set_physics_process(true)
 	if not out_of_days:
-		sample_marker.visible = false
 		say(lines["done"])
 	if GameState.get_surface_power() < 0.0:
 		say(lines["power_red"])

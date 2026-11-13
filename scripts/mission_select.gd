@@ -65,7 +65,7 @@ func make_arrival_checklist(arrival: String) -> String:
 	var lines: PackedStringArray = [screen_text["goal_heading"]]
 	for rule_id in Data.story["arrival_goals"][arrival]["rules"]:
 		var sentence: String = Data.story["arrival_goals"][arrival]["rules"][rule_id].format({
-			"gb": GameState.fmt(Data.events["flyby_pass"]["planned_gb"]["value"]),
+			"gb": GameState.fmt(Data.events["flyby_pass" if arrival == "flyby" else "surface_work"]["planned_gb"]["value"]),
 		})
 		lines.append(screen_text["checklist_mark"] + " " + sentence)
 	return "\n".join(lines)

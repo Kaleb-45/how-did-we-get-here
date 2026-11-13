@@ -378,7 +378,7 @@
     "timing_total_line": "All presses: {perfect} Perfect, {good} Good, {miss} Miss",
     "no_presses": "No timed presses were played.",
     "placeholder_title": "NOT BUILT YET",
-    "surface_placeholder": "This destination is a surface site. The work on the surface (collect, run an instrument, send data home) is not built yet, so this report ends right after the landing.",
+    "surface_placeholder": "This destination is a surface site. The work on the surface is not built yet, so this report ends right after the landing.",
     "flyby_placeholder": "This destination is a flyby. The flyby itself is not built yet, so this report ends right after the trip.",
     "trip_ended_title": "TRIP ENDED: NOT BUILT YET",
     "destination_label": "Destination:",
@@ -391,7 +391,11 @@
     "flyby_captured_line": "Captured: {gb} Gb",
     "flyby_lost_line": "Lost to radiation: {gb} Gb",
     "flyby_sent_line": "Sent home: {gb} Gb (planned: {planned} Gb)",
-    "flyby_delay_line": "Radio delay (one way): {min} to {max} minutes"
+    "flyby_delay_line": "Radio delay (one way): {min} to {max} minutes",
+    "surface_instrument_yes": "Instrument run: yes ({gb} Gb stored)",
+    "surface_instrument_no": "Instrument run: no",
+    "surface_sent_line": "Sent home: {gb} Gb (planned: {planned} Gb)",
+    "surface_bonus_line": "The {material} gave the crew: {list}"
   },
   "destination_materials": {
     "_readme": "Names of the things a surface site has (the ids are in data/destinations.json, materials).",
@@ -423,12 +427,14 @@
     "next_button": "Next"
   },
   "arrival_goals": {
-    "_readme": "Words for the mission goal when the trip is NOT Mars orbit (the numbers are in data/events.json: surface_work, flyby_pass). name and description replace the Mars orbit mission card on the mission screen and the name on the report. rules = the checklist lines. {gb} is the planned data in Gb.",
+    "_readme": "Words for the mission goal when the trip is NOT Mars orbit (the numbers are in data/events.json: surface_work, flyby_pass; {gb} is the planned data in Gb). name and description replace the Mars orbit mission card on the mission screen and the name on the report. rules = the checklist lines. {gb} is the planned data in Gb.",
     "surface": {
-      "name": "Collect a rock sample",
-      "description": "Land, walk out and bring home one sample from the site. The days on the surface are limited by your power and your crew supplies.",
+      "name": "Collect a sample and send data home",
+      "description": "Land, walk out, collect one sample, run the instrument and send the data home. The days on the surface are limited by your power and your crew supplies.",
       "rules": {
         "sample": "Collect the sample before the days run out",
+        "instrument": "Run the instrument",
+        "data_sent": "Send home at least {gb} Gb of data",
         "power_ok": "Keep power out of the red",
         "supplies_ok": "Keep food, water and air out of the red"
       }
@@ -442,7 +448,7 @@
     }
   },
   "surface_screen": {
-    "_readme": "Words for the surface area (Stage 4, surface destinations). {material} is a name from destination_materials.",
+    "_readme": "Words for the surface area (Stage 4, surface destinations). {material} is a name from destination_materials. Batch 9: three tasks. next_task = the banner at the top shows the next task to do.",
     "controls_hint": "WASD = walk    Space = jump    Mouse = look    E = use    Esc = free the mouse",
     "day_line": "Day {day} of {total}",
     "banner_start": "Collect the {material} sample before the days run out!",
@@ -453,8 +459,21 @@
     "lander_marker": "Lander",
     "prompts": {
       "sample": "Press E: Collect the {material} sample",
-      "lander": "Press E: Lander"
-    }
+      "lander": "Press E: Lander",
+      "instrument": "Press E: Run the instrument",
+      "instrument_done": "Instrument: done",
+      "send": "Press E: Send the data home",
+      "send_done": "Lander: the data is sent"
+    },
+    "instrument_label": "RUN THE INSTRUMENT",
+    "send_label": "SEND THE DATA HOME",
+    "instrument_marker": "Instrument",
+    "next_task": {
+      "sample": "Next: collect the {material} sample",
+      "instrument": "Next: run the instrument",
+      "send": "Next: send the data home from the lander"
+    },
+    "banner_all_done": "All three tasks done! Well done."
   },
   "flyby_screen": {
     "_readme": "Words for the Europa flyby (Stage 4, flyby destinations). The player stands in mission control and cannot walk, so Space is the key.",

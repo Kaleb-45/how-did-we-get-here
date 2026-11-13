@@ -170,6 +170,18 @@
       "what": "The flyby sent home less data than planned.",
       "why": "Far from Earth, a small antenna sends almost nothing. A bad press can lose pictures, and radiation destroys data when there is no radiation shield.",
       "fix": "Use the Large antenna, take the radiation shield, and press each command on time."
+    },
+    "surface_instrument_skipped": {
+      "title": "Instrument not run",
+      "what": "The days ran out before we ran the instrument.",
+      "why": "Every surface day uses power and supplies, and your parts decide how many days you get. The instrument also uses power.",
+      "fix": "More spare power means more days: a bigger solar panel, or parts that use less. A drill makes the sample tries cheaper. Run the instrument early."
+    },
+    "surface_data_short": {
+      "title": "Not enough data got home",
+      "what": "The surface work sent home less data than planned.",
+      "why": "A small antenna is slow, so little data fits through the link. A small computer stores less, and a bad press loses data.",
+      "fix": "Use the Large antenna, press the send ring on time, and run the instrument before you send."
     }
   },
   "parts": {
@@ -405,8 +417,8 @@
     "summary_costs": "Some misses. The list shows what they cost us. But we are on the ground! Surface work comes next, so hold on to your hat."
   },
   "surface": {
-    "_readme": "What the inner voice says on the surface (Stage 4, surface destinations). {days} {material} and {left} are filled in. The voice is never wrong. The levels do not change these lines yet.",
-    "start": "We made it! Mars under our boots! We have {days} days here, and every day uses power and supplies. Walk to the glowing {material} and press E to collect the sample.",
+    "_readme": "What the inner voice says on the surface (Stage 4, surface destinations). {days} {material} {gb} and {left} are filled in. The voice is never wrong. The levels do not change these lines yet.",
+    "start": "We made it! Mars under our boots! We have {days} days here, and every day uses power and supplies. Three jobs: collect the glowing {material} sample, run the instrument at its station, and send the data home from the lander.",
     "lander": "This is our lander. It brought us here and it holds everything we built.",
     "sample_start": "Hold steady. Press E when the ring closes on the target.",
     "results": {
@@ -416,10 +428,26 @@
     },
     "day_warning": "Day {day}. Only {left} days left. Hurry!",
     "last_day": "The last day! Get the sample now!",
-    "done": "The sample is safe! Science from another world, collected by us!",
-    "out_of_days": "The days are over and we have no sample. We have to go home with empty hands.",
+    "done": "All three jobs are done! Science from another world, collected by us and sent home!",
+    "out_of_days": "The days are over and we did not finish all three jobs. We have to go home early.",
     "power_red": "Power is in the red! The drill and the days used too much.",
-    "bonus": "The {material} melts into extra supplies for the crew: {list}!"
+    "bonus": "The {material} melts into extra supplies for the crew: {list}!",
+    "instrument_start": "This is the instrument. It studies the site and stores data. Press E when the ring closes on the target.",
+    "instrument_results": {
+      "Perfect": "Perfect! The instrument ran beautifully. {gb} Gb of data is stored.",
+      "Good": "Good! The instrument ran well. {gb} Gb of data is stored.",
+      "Miss": "Missed the timing. The instrument ran rough, so only {gb} Gb of data is stored."
+    },
+    "send_start": "Time to send the data home. Hold steady. Press E when the ring closes on the target.",
+    "send_results": {
+      "Perfect": "Perfect link! {gb} Gb is on its way to Earth.",
+      "Good": "Good link! {gb} Gb is on its way to Earth.",
+      "Miss": "A shaky link. Only {gb} Gb got through."
+    },
+    "send_antenna_slow": "The antenna is slow, so only part of the data fit through. A bigger antenna sends faster.",
+    "nothing_to_send": "There is nothing stored to send yet. Run the instrument first!",
+    "instrument_already": "The instrument already ran. Its data is stored.",
+    "sent_already": "The data is already sent home."
   },
   "flyby": {
     "_readme": "What the inner voice says during the Europa flyby (Stage 4, flyby destinations). The voice is never wrong. The levels do not change these lines yet.",

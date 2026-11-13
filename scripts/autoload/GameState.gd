@@ -1136,8 +1136,8 @@ func start_surface() -> void:
 	var work: Dictionary = Data.events["surface_work"]
 	var start_power: float = get_surface_start_power()
 	var days: int = int(work["max_days"]["value"])
-	# Power: leave room for one sample try (attempt_power_cost_w), so collecting on the last day still works.
-	var power_for_days: float = start_power - get_sample_power_cost()
+	# Power: leave room for one sample try, the instrument run and sending the data home, so doing the three tasks on the last day still works.
+	var power_for_days: float = start_power - get_sample_power_cost() - float(work["instrument_power_cost_w"]["value"]) - float(work["send_power_cost_w"]["value"])
 	days = mini(days, int(floor(power_for_days / get_surface_day_power_cost())))
 	if has_crew():
 		ensure_supplies()
@@ -1153,6 +1153,12 @@ func start_surface() -> void:
 		"attempts": 0,
 		"start_power": start_power,
 		"extra_power_used": 0.0,
+		"instrument": false,   # the instrument was run
+		"stored": 0.0,         # Gb stored and waiting
+		"captured": 0.0,       # Gb the instrument stored
+		"sent": 0.0,           # Gb sent home
+		"send_done": false,    # the send press was done
+		"planned": float(work["planned_gb"]["value"]),
 	}
 
 
@@ -1206,6 +1212,49 @@ func collect_sample(result: String) -> void:
 		give_material_bonus()
 
 
+# Task 2: run the instrument. Any result runs it (a Miss stores less). It uses power.
+# Stored = camera Gb per day x capture_days_worth x the result's factor x the surface tool's instrument_data_factor,
+# never more than the ship can store. Returns the Gb stored.
+func run_instrument(result: String) -> float:
+	var work: Dictionary = Data.events["surface_work"]
+	surface["instrument"] = true
+	surface["extra_power_used"] += float(work["instrument_power_cost_w"]["value"])
+	var camera_gb_per_day: float = system_effects("camera")["data"]
+	var wanted: float = camera_gb_per_day * float(work["capture_days_worth"]["value"]) * float(work["result_factor"][result]["value"]) * float(get_part_fact("surface_tools", "instrument_data_factor", 1.0))
+	surface["captured"] = minf(wanted, get_storage_gb(float(work["storage_gb"]["value"])))
+	surface["stored"] = surface["captured"]
+	return surface["captured"]
+
+
+# Task 3: send the data home from the lander. Any result sends (a Miss sends less). It uses power.
+# Sent = the least of what is stored and (the antenna's real speed x downlink_hours x the result's factor). Returns the Gb sent.
+func send_surface_data(result: String) -> float:
+	var work: Dictionary = Data.events["surface_work"]
+	surface["send_done"] = true
+	surface["extra_power_used"] += float(work["send_power_cost_w"]["value"])
+	var megabits_per_second: float = system_effects("antenna")["communications"]
+	var capacity: float = megabits_per_second * float(work["downlink_hours"]["value"]) * 3600.0 / 1000.0 * float(work["result_factor"][result]["value"])
+	var sent: float = minf(surface["stored"], capacity)
+	surface["stored"] -= sent
+	surface["sent"] += sent
+	return sent
+
+
+# What the site's material gave the crew, as words, for example "1500 L water, 300 kg air". "" if nothing.
+func get_surface_bonus_text() -> String:
+	var bonus: Dictionary = surface.get("bonus", {})
+	var parts: PackedStringArray = []
+	for id in bonus:
+		if bonus[id] > 0.0:
+			parts.append("%s %s %s" % [fmt(bonus[id]), Data.story["crew_supplies"]["units"][id], Data.story["crew_supplies"]["names"][id].to_lower()])
+	return ", ".join(parts)
+
+
+# All three tasks are done: the stay can end early.
+func is_surface_done() -> bool:
+	return surface["sample"] and surface["instrument"] and surface["send_done"]
+
+
 # The site's material gives the crew something (destinations.json material_bonus), for example ice
 # gives water and oxygen. Nothing happens at a site with no bonus. The amounts are kept for the report.
 func give_material_bonus() -> void:
@@ -1231,6 +1280,12 @@ func add_end_of_surface_failures() -> void:
 		return
 	if not surface["sample"] and not event_failures.has("surface_sample_missed"):
 		event_failures.append("surface_sample_missed")
+	# The instrument: not run is one finding. Run but too little data sent home is another (never both).
+	if not surface["instrument"]:
+		if not event_failures.has("surface_instrument_skipped"):
+			event_failures.append("surface_instrument_skipped")
+	elif surface["sent"] < surface["planned"] and not event_failures.has("surface_data_short"):
+		event_failures.append("surface_data_short")
 	if get_surface_power() < 0.0 and not get_failed_resources().has("power") and not event_failures.has("surface_power"):
 		event_failures.append("surface_power")
 	add_end_of_supply_failures()   # red crew supplies count too
