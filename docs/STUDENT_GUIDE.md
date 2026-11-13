@@ -38,15 +38,17 @@ Keep the same name on the left of the colon. Only change what is on the right.
 ## Job 2: Make a content pack
 
 A pack is one folder inside `content/`. The folder name is your name: `content/sam/`.
-Look at `content/example_pack/` first. It adds one solar panel called "Example Wing (pack)".
+Look at `content/_example_pack/` first. It adds one solar panel called "Example Wing (pack)".
+It is switched OFF, because its name starts with `_`. To see it work, rename the folder to `example_pack`
+(no `_`), then press Play. Rename it back to switch it off.
 
 Inside your folder, put any of these files. Each one looks like the game's own file, but holds only your new things:
 
 | File | What it adds | Starts with |
 |---|---|---|
 | `parts.json` | a new part version | `{ "parts": { "solar_panel": { "versions": { ... } } } }` |
-| `destination.json` | a new place to go | `{ "destinations": { ... } }` |
-| `events.json` | a new event | `{ "events": { ... } }` |
+| `destination.json` (not destinations) | a new place to go | `{ "destinations": { ... } }` |
+| `events.json` | a new event (it is read, but the game does not run it yet: Flight uses a fixed plan) | `{ "events": { ... } }` |
 | `mission.json` | a new mission goal | `{ "missions": { ... } }` |
 | `inner_voice.json` | inner voice lines | same shape as `data/inner_voice.json` |
 | `story.json` | screen words | same shape as `data/story.json` |
@@ -57,14 +59,17 @@ Rules:
 - Every new part also needs a voice line in your `inner_voice.json`, under `parts` > the part > your version name.
 - Every made-up number gets `"source": "PLACEHOLDER"` until you find a real one (Job 1).
 - A new place or mission also needs its words in `story.json` and a voice line for each level: easy, medium and hard.
-- Your pack can only ADD new names. If you use a name the game already has, the game keeps its own.
+- Your pack can only ADD new names. A destination, mission, event or part that the game already has is closed: that entry is left out and a note tells you. You can add a new version to a part the game already has (under `"versions"`), but you cannot change its other settings.
+- `story.json` and `inner_voice.json` also only add new lines. A line the game already has stays as it is.
+- Every fact of a new place looks like `{ "value": ..., "source": ... }`, and a new mission needs all six limits (rule, value, warning, bar_max, source).
+- Only these file names are read: `destination.json`, `parts.json`, `events.json`, `mission.json`, `inner_voice.json`, `story.json`. Another `.json` name is ignored, and the game tells you.
 - Start a folder name with `_` (like `_sam`) to switch the pack off.
 
 Then press Play. In the Output panel you will see `Content pack 'sam' loaded.`
 
 ### If your pack has a mistake
 
-The game does not crash. It skips your whole pack and says why, for example:
+A pack with a mistake never stops the game from starting. The game skips your whole pack (nothing from it is added) and says why, for example:
 
 `Content pack 'sam' was SKIPPED: parts.json > camera > mini is missing "source"`
 

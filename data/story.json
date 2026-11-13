@@ -584,6 +584,16 @@
       "budget": "{left} million $ left",
       "timing": "{percent}% of the best timing"
     },
-    "tip": "Four parts: goal rules, science sent home, budget left and timing. The weights are in game_data.json."
+    "rule_line": "   {mark} {name}",
+    "mark_met": "[x]",
+    "mark_unmet": "[ ]",
+    "rule_names": {
+      "sample": "Collect the sample",
+      "instrument": "Run the instrument",
+      "send": "Send enough data home",
+      "mission": "No failures"
+    },
+    "budget_failed": "(0 points: the mission failed)",
+    "failed_cap": "The mission failed, so the score is at most {max}."
   }
 }

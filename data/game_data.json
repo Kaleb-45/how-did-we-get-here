@@ -108,6 +108,8 @@
     "version_keys": ["name", "effects", "source", "look"],
     "destination_keys": ["arrival_type", "crew", "distance_from_sun_au", "distance_from_sun_million_km", "sunlight_vs_earth", "signal_delay_minutes", "trip_days", "flight_legs", "flight_leg_seconds", "what_makes_it_different", "materials"],
     "mission_keys": ["limits", "goal_rules"],
+    "limit_keys": ["rule", "value", "warning", "bar_max", "source"],
+    "fact_wrapper_keys": ["value", "source"],
     "source": "Game-design choice (agent's choice for Kaleb, 2026-11-13). It is NOT a NASA number."
   },
   "score": {
@@ -118,6 +120,7 @@
       "budget": { "value": 200, "source": "PLACEHOLDER" },
       "timing": { "value": 200, "source": "PLACEHOLDER" }
     },
+    "failed_max": { "value": 399, "source": "PLACEHOLDER (game-design choice: a failed mission scores at most this, and gets 0 budget points, so it can never beat a success; a success always scores at least the goal weight, 400, because it meets every goal rule)" },
     "budget_full_left": { "value": 0.2, "source": "PLACEHOLDER (leaving 20 percent of the budget limit unspent gives full budget marks)" },
     "timing_credit": {
       "Perfect": { "value": 1.0, "source": "PLACEHOLDER" },
@@ -126,7 +129,7 @@
     },
     "predicted_timing": { "value": 0.6, "source": "PLACEHOLDER (the Build screen guesses you will average Good presses; same as the Good credit)" },
     "science": {
-      "orbit": { "event": "science_pass", "repeats": 3, "target_gb": { "value": 20, "source": "PLACEHOLDER (Gb that three Mars orbit science passes should send home for full science marks)" } },
+      "orbit": { "event": "science_pass", "repeats": 3, "target_gb": { "value": 20, "source": "PLACEHOLDER (Gb that three Mars orbit science passes should send home for full science marks). NOTE: this is too low, because a good run sends about 100 Gb; the Phase D balance pass must raise it" } },
       "surface": { "event": "surface_work", "repeats": 1 },
       "flyby": { "event": "flyby_pass", "repeats": 1 },
       "source": "The target for surface and flyby trips is the planned_gb of their event in events.json (PLACEHOLDER there). repeats = how many times the capture and send is done."
@@ -290,7 +293,7 @@
     }
   },
   "characters": {
-    "_readme": "The three characters. The character is the ONLY place that says which level the player plays (easy, medium or hard), so the character and the level can never disagree. What each level changes (budget, timing, supplies, hints) is in data/levels.json.",
+    "_readme": "The three characters. The character is the ONLY place that says which level the player plays (easy, medium or hard), so the character and the level can never disagree. Each level only changes how much hint the inner voice gives (hint_parts in data/levels.json). Budget, timing and supplies are the same for every level.",
     "scientist": {
       "level": "easy"
     },

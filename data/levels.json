@@ -3,7 +3,6 @@
   "source": "Written game-design choice by Kaleb, passed 2026-11-10 (AGENT_SOURCE.md section 2, levels change guidance only). It is NOT a NASA number and NOT a PLACEHOLDER.",
   "levels": {
     "easy": {
-      "hint_detail": "full",
       "source": "Written game-design choice (Scientist). Most guidance.",
       "hint_parts": [
         "warning",
@@ -12,7 +11,6 @@
       ]
     },
     "medium": {
-      "hint_detail": "some",
       "source": "Written game-design choice (Janitor). Some guidance.",
       "hint_parts": [
         "warning",
@@ -20,7 +18,6 @@
       ]
     },
     "hard": {
-      "hint_detail": "few",
       "source": "Written game-design choice (Student). Least guidance.",
       "hint_parts": [
         "warning"

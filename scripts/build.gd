@@ -59,8 +59,10 @@ func make_part_rows() -> void:
 		name_label.text = GameState.get_part_name(part_id)
 		name_label.theme_type_variation = &"HeadingText"   # text style from the theme
 
-		var button_row := HBoxContainer.new()
-		button_row.add_theme_constant_override("separation", int(layout["button_gap"]))
+		var button_row := HFlowContainer.new()   # a flow box: buttons that do not fit in the width wrap to the next line
+		button_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button_row.add_theme_constant_override("h_separation", int(layout["button_gap"]))
+		button_row.add_theme_constant_override("v_separation", int(layout["button_gap"]))
 		if side_by_side:
 			name_label.custom_minimum_size = Vector2(layout["name_width"], 0)
 			var line := HBoxContainer.new()
@@ -187,7 +189,6 @@ func refresh_score() -> void:
 # Runs when the player clicks a version button.
 func _on_version_picked(part_id: String, version_id: String) -> void:
 	GameState.choices[part_id] = version_id
-	print("Picked ", part_id, " = ", version_id)
 	refresh_dashboard()
 
 

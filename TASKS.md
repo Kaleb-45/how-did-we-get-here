@@ -242,8 +242,13 @@ Kaleb's standing instruction (2026-11-13): finish the game with the recommended 
   Test: change a part on Build and watch the predicted score move; finish a run and see the breakdown.
 - [x] **C6. Content loader and the example pack.** M
   Loads the base data, then every pack in `res://content/` (and `user://content/`), merging by id.
-  A bad pack is skipped with a clear message. `content/example_pack/` and `docs/STUDENT_GUIDE.md`.
-  Test: the Build screen shows "Example Wing (pack)"; break the pack's JSON and the game still starts.
+  A bad pack is skipped with a clear message. `content/_example_pack/` (switched off by the `_`)
+  and `docs/STUDENT_GUIDE.md`.
+  Test: rename `_example_pack` to `example_pack`, press Play, and the Build screen shows
+  "Example Wing (pack)"; break the pack's JSON and the game still starts.
+- [x] **C-fix. Batch 10 review fixes.** M
+  Example pack off by default, failed score capped, closed ids and type checks in the loader,
+  goal rules listed with ticks, honest predicted score, Build rows wrap.
 - [x] **C-end (Batch 10). Playthrough check, web export, push.** S
   Scripted win and lose runs: Mars orbit, Jezero and Europa at all three levels, plus an example-pack run, all pass (2026-11-13). Web re-exported. Kaleb's browser test is still to do.
 

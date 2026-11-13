@@ -1423,14 +1423,22 @@ func get_goal_rules(predicted: bool) -> Array:
 	# One more rule: no failures at all (the same test as MISSION SUCCESS). Predicted: no red row in the build.
 	rules.append({"id": "mission", "met": get_failed_resources().is_empty() if predicted else get_all_failures().is_empty()})
 	var arrival: String = get_arrival_type()
+	# Predicted: a surface trip only does its tasks if the parts give enough surface days (events.json days_needed),
+	# and the send only counts if the parts can send at least planned_gb (with Good presses).
+	var enough_days: bool = true
+	var enough_data: bool = true
+	if predicted:
+		if arrival == "surface":
+			enough_days = get_surface_days_estimate() >= int(Data.events["surface_work"]["days_needed"]["value"])
+		enough_data = get_science_gb(true) >= get_science_target() if arrival != "orbit" else true
 	if arrival == "surface":
 		var done: bool = not predicted and not surface.is_empty()
-		rules.append({"id": "sample", "met": predicted or (done and surface["sample"])})
-		rules.append({"id": "instrument", "met": predicted or (done and surface["instrument"])})
-		rules.append({"id": "send", "met": predicted or (done and surface["sent"] >= surface["planned"])})
+		rules.append({"id": "sample", "met": (predicted and enough_days) or (done and surface["sample"])})
+		rules.append({"id": "instrument", "met": (predicted and enough_days) or (done and surface["instrument"])})
+		rules.append({"id": "send", "met": (predicted and enough_days and enough_data) or (done and surface["sent"] >= surface["planned"])})
 	elif arrival == "flyby":
 		var done_flyby: bool = not predicted and not flyby.is_empty()
-		rules.append({"id": "send", "met": predicted or (done_flyby and flyby["sent"] >= flyby["planned"])})
+		rules.append({"id": "send", "met": (predicted and enough_data) or (done_flyby and flyby["sent"] >= flyby["planned"])})
 	return rules
 
 
@@ -1458,7 +1466,13 @@ func get_science_gb(predicted: bool) -> float:
 	var good: float = float(numbers["result_factor"]["Good"]["value"])
 	var camera_gb_per_day: float = system_effects("camera")["data"]
 	var wanted: float = camera_gb_per_day * float(numbers["capture_days_worth"]["value"]) * good * float(get_part_fact("surface_tools", "instrument_data_factor", 1.0))
+	if arrival == "flyby":
+		wanted *= good   # the pointing press counts too (point_instrument, then capture)
 	var captured: float = minf(wanted, get_storage_gb(float(numbers["storage_gb"]["value"])))
+	if arrival == "flyby":
+		# The radiation hit (protect_computer press, Good) destroys part of what is stored; the radiation shield stops some of it.
+		var loss_percent: float = float(numbers["radiation_loss_percent"]["value"]) * (1.0 - get_radiation_protection() / 100.0) * float(numbers["radiation_result_loss"]["Good"]["value"])
+		captured -= captured * loss_percent / 100.0
 	var megabits_per_second: float = system_effects("antenna")["communications"]
 	var capacity: float = megabits_per_second * float(numbers["downlink_hours"]["value"]) * 3600.0 / 1000.0 * good
 	return minf(captured, capacity) * float(cfg["repeats"])
@@ -1475,7 +1489,7 @@ func get_timing_fraction(predicted: bool) -> float:
 	return total / float(timing_results.size())
 
 
-# The whole score. Returns { "total": int, "max": int, "parts": { "goal": {"fraction", "points", "max"}, ... } }.
+# The whole score. Returns { "total": int, "max": int, "failed": bool, "capped": bool, "rules": [...], "parts": { "goal": {"fraction", "points", "max"}, ... } }.
 func get_score(predicted: bool) -> Dictionary:
 	var score_data: Dictionary = Data.game_data["score"]
 	var fractions: Dictionary = {}
@@ -1490,6 +1504,11 @@ func get_score(predicted: bool) -> Dictionary:
 	var left: float = (budget_limit - get_totals()["budget"]) / maxf(0.001, budget_limit)
 	fractions["budget"] = clampf(left / maxf(0.001, float(score_data["budget_full_left"]["value"])), 0.0, 1.0)
 	fractions["timing"] = clampf(get_timing_fraction(predicted), 0.0, 1.0)
+	# A failed mission (the real one, or a build that is already red when predicted) gets 0 budget points
+	# and a total of at most failed_max, so it can never beat a success.
+	var failed: bool = get_failed_resources().size() > 0 if predicted else get_all_failures().size() > 0
+	if failed:
+		fractions["budget"] = 0.0
 	var parts: Dictionary = {}
 	var total: float = 0.0
 	var best: float = 0.0
@@ -1498,7 +1517,11 @@ func get_score(predicted: bool) -> Dictionary:
 		parts[id] = {"fraction": fractions[id], "points": fractions[id] * weight, "max": weight}
 		total += fractions[id] * weight
 		best += weight
-	return {"total": int(round(total)), "max": int(round(best)), "parts": parts, "rules_met": met, "rules_total": rules.size()}
+	var capped: bool = false
+	if failed and total > float(score_data["failed_max"]["value"]):
+		total = float(score_data["failed_max"]["value"])
+		capped = true
+	return {"total": int(round(total)), "max": int(round(best)), "parts": parts, "rules": rules, "rules_met": met, "rules_total": rules.size(), "failed": failed, "capped": capped}
 
 
 # The score as words: one line per part, for the Build screen tooltip and the report.
@@ -1525,4 +1548,13 @@ func get_score_lines(score: Dictionary, predicted: bool) -> Array:
 			"max": fmt(part["max"]),
 			"detail": words["details"][id].format(detail_values),
 		}))
+		if id == "goal":
+			# Each goal rule by name, with a tick or a cross.
+			for rule in score["rules"]:
+				var rule_name: String = Data.resources[rule["id"]]["name"] if Data.resources.has(rule["id"]) else words["rule_names"][rule["id"]]
+				lines.append(words["rule_line"].format({"mark": words["mark_met"] if rule["met"] else words["mark_unmet"], "name": rule_name}))
+		if id == "budget" and score["failed"]:
+			lines[lines.size() - 1] += "   " + words["budget_failed"]
+	if score["capped"]:
+		lines.append(words["failed_cap"].format({"max": fmt(float(Data.game_data["score"]["failed_max"]["value"]))}))
 	return lines
