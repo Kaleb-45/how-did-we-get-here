@@ -18,6 +18,7 @@
 ;   HeadingText  card titles, part names                 34
 ;   BodyText     story, inner voice, tables              28
 ;   SmallText    hints (gray-blue)                       24
+;   SkipHintText "Press Space to skip" on the cutscene     18
 ;   AccentText   small headings (orange)                 24
 ;   TableText    the dashboard rows                      22
 ;   BannerText   the POWER LOW alarm                     46
@@ -201,6 +202,9 @@ BodyText/font_sizes/font_size = 28
 SmallText/base_type = &"Label"
 SmallText/colors/font_color = Color(0.72, 0.78, 0.9, 1)
 SmallText/font_sizes/font_size = 24
+SkipHintText/base_type = &"Label"
+SkipHintText/colors/font_color = Color(0.72, 0.78, 0.9, 1)
+SkipHintText/font_sizes/font_size = 18
 AccentText/base_type = &"Label"
 AccentText/colors/font_color = Color(1, 0.6, 0.2, 1)
 AccentText/font_sizes/font_size = 24

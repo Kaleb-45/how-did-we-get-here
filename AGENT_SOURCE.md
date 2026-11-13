@@ -248,8 +248,10 @@ Dates are local Pacific time, the same zone as the commit.
   Why: "Add the character images I made to the intro screen" (2026-11-08).
 - **The Intro screen is a short teaser before the cutscene: it keeps Kaleb's character art but does not tell the story ("points at you" and "You (the janitor)" are gone). The cutscene tells the story.**
   Why: Kaleb picked "Short teaser" when the Intro screen gave the cutscene away (2026-11-12).
-- **The intro cutscene has a Skip button (top right, also Esc) for return players only: it shows for anyone who has started the cutscene before on that computer or browser (remembered in user://). First-time players see the whole story.**
-  Why: "lets create a skip button to skip the cutscene for return players" (2026-11-13). Showing it only to return players is the agent's choice for Kaleb, so new players do not skip the story.
+- **The intro cutscene shows a small "Press Space to skip" line at the bottom right, every time (also the first time). Space (or Esc) jumps to the name screen.**
+  Why: "make a small text on the bottom, even on th first go that says press space to skip the cutscenen" (2026-11-13).
+- **On the Review screen the Back and Launch buttons always stay above the inner-voice bar, however long the hint is; the table scrolls if it does not fit.**
+  Why: "when i get to the befoe launch page, sometimes the text increases so much that it covers up the buttons" (2026-11-13).
 - **The debrief looks like a mission report: a stamp, numbered findings with what, why and fix, and a FINAL READINGS grid.**
   Why: "Make the 'Mission success' and 'Mission failed' screens look like a mission report, not a plain list." (2026-11-08)
 - **Soft fill light, so no part of the craft is pitch black.**
@@ -332,6 +334,8 @@ Dates are local Pacific time, the same zone as the commit.
 ---
 
 ## 3. Rejected choices
+
+- A Skip button (top right) only for return players, remembered in user:// (2026-11-13). Replaced the same day by "Press Space to skip" for everyone.
 
 - **Only Mars orbit can be picked on the destination screen; surface and flyby cards are grey with "Coming soon"; a surface or flyby trip ends at the report with a neutral "TRIP ENDED: NOT BUILT YET" stamp.** Replaced in batch 8 (2026-11-13): all three arrival types are built.
 - **Empty "Future station: Data" and "Future station: Comms" markers in the Science bay and Comms room.** Replaced by the science pass stations (A18, 2026-11-12).

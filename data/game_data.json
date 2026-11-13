@@ -19,11 +19,15 @@
       "saved_when_leaving": { "review": 1, "launch": 2, "flight": 3 }
     }
   },
+  "review_screen_layout": {
+    "_readme": "Review screen layout. The table and its cards scroll; the Back and Launch buttons always stay this many pixels above the inner-voice bar, even when a long hint makes the bar taller.",
+    "source": "Game-design choice (layout, 2026-11-13). It is NOT a NASA number.",
+    "gap_above_voice_bar_px": 20
+  },
   "cutscene_intro": {
-    "_readme": "The Skip button on the intro cutscene, for return players. It only shows for a player who has started the cutscene before on this computer or browser. seen_file = where we remember that (on the web, user:// is kept in the browser). skip_margin_px = how far the button sits from the top-right corner of the screen.",
-    "source": "Game-design choice by Kaleb (2026-11-13): a skip button for return players. It is NOT a NASA number.",
-    "seen_file": "user://intro_seen.json",
-    "skip_margin_px": 24
+    "_readme": "The 'Press Space to skip' line on the intro cutscene. It shows every time, at the bottom-right of the black bar. skip_hint_margin_px = how far it sits from the right and bottom edges of the screen.",
+    "source": "Game-design choice by Kaleb (2026-11-13): 'make a small text on the bottom, even on the first go that says press space to skip'. It is NOT a NASA number.",
+    "skip_hint_margin_px": 12
   },
   "report": {
     "_readme": "The mission report. failure_causes = for each finding, which Stage 1 choices could have caused it. The names are part ids from 'parts' (solar_panel, camera, antenna) or 'launch_vehicle' (the rocket). The report prints the choice you made for each one. An empty list means no Stage 1 choice caused it (for example, a crew supply that ran out because of what you did in Flight). The finding names match inner_voice.json 'resource_failures'.",

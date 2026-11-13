@@ -49,8 +49,8 @@
 #   3. Soft dark "blob" spots on the floor under every person and console, so
 #      they look grounded (the Compatibility renderer has no contact shadows).
 #   4. When the animation ends, it goes to the name screen.
-#   5. A Skip button (and Esc) for return players: anyone who has started the
-#      cutscene before on this computer or browser.
+#   5. A small "Press Space to skip" line at the bottom, every time. Space
+#      (or Esc) jumps straight to the name screen.
 # The words come from data/story.json ("cutscene_intro").
 extends Node3D
 
@@ -79,41 +79,42 @@ func _ready() -> void:
 	animation_player.animation_finished.connect(_on_animation_finished)
 	subtitle_box.visible = false
 	_add_blob_shadows()
-	# Return players get a Skip button. First-time players see the whole story.
-	if _has_seen_intro():
-		_add_skip_button()
-	_remember_intro_seen()
+	_add_skip_hint()
 
 
-# --- Skip button for return players --------------------------------------------
-# Settings: game_data.json "cutscene_intro". Words: story.json "cutscene_intro".
+# --- Skipping ------------------------------------------------------------------
+# A small "Press Space to skip" line, every time (also the first time).
+# Setting: game_data.json "cutscene_intro". Words: story.json "cutscene_intro".
+# Size and colour: the theme's SkipHintText.
 
-func _has_seen_intro() -> bool:
-	return FileAccess.file_exists(Data.game_data["cutscene_intro"]["seen_file"])
+func _add_skip_hint() -> void:
+	var margin: int = int(Data.game_data["cutscene_intro"]["skip_hint_margin_px"])
+	var hint := Label.new()
+	hint.name = "SkipHint"
+	hint.text = Data.story["cutscene_intro"]["skip_hint"]
+	hint.theme_type_variation = &"SkipHintText"
+	hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Bottom-right, just above the black bottom bar (so it never covers a
+	# subtitle). It is a child of the bar: pinned to the bar's top-right corner,
+	# growing up and to the left.
+	var bar: Control = $CanvasLayer/BarBottom
+	bar.add_child(hint)
+	hint.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	hint.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	hint.offset_right = -margin
+	hint.offset_left = -margin
+	hint.offset_bottom = -margin
+	hint.offset_top = -margin
+	# (The Fade is drawn on top of the bar, so the hint fades in and out with the picture.)
 
 
-func _remember_intro_seen() -> void:
-	var file := FileAccess.open(Data.game_data["cutscene_intro"]["seen_file"], FileAccess.WRITE)
-	if file:
-		file.store_string(JSON.stringify({"seen": true}))
-
-
-func _add_skip_button() -> void:
-	var margin: float = Data.game_data["cutscene_intro"]["skip_margin_px"]
-	var button := Button.new()
-	button.name = "SkipButton"
-	button.text = Data.story["cutscene_intro"]["skip_button"]
-	button.theme_type_variation = &"SmallButton"
-	# Stick to the top-right corner, on top of the black bar and the fade.
-	button.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, int(margin))
-	button.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	button.pressed.connect(skip)
-	$CanvasLayer.add_child(button)
-
-
-# Esc also skips, but only when the Skip button is there.
+# Space skips (Esc too).
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel") and $CanvasLayer.has_node("SkipButton"):
+	var space_pressed: bool = event is InputEventKey and event.pressed and not event.echo \
+		and event.keycode == KEY_SPACE
+	if space_pressed or event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
 		skip()
 
 

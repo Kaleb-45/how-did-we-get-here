@@ -11,6 +11,8 @@ const BAD_COLOR := Color(1, 0.38, 0.38)
 @onready var back_button: Button = %BackButton
 @onready var launch_button: Button = %LaunchButton
 @onready var inner_voice: PanelContainer = %InnerVoiceBar
+@onready var content: VBoxContainer = %Content     # the table and its cards (they scroll)
+@onready var margin: MarginContainer = $Margin
 
 var words: Dictionary   # the review_screen text from story.json
 
@@ -33,6 +35,16 @@ func _ready() -> void:
 	fill_table()
 	add_surface_days_card()
 	inner_voice_comment()
+
+	# A long hint makes the inner-voice bar taller (it grows upward). Keep the
+	# buttons above it: whenever the bar changes size, move the bottom edge up.
+	inner_voice.resized.connect(keep_buttons_above_voice_bar)
+	keep_buttons_above_voice_bar()
+
+
+func keep_buttons_above_voice_bar() -> void:
+	var gap: float = Data.game_data["review_screen_layout"]["gap_above_voice_bar_px"]
+	margin.add_theme_constant_override("margin_bottom", int(inner_voice.size.y + gap))
 
 
 # The table has 4 columns. A GridContainer fills cells left to right,
@@ -95,8 +107,7 @@ func add_surface_days_card() -> void:
 	note.theme_type_variation = &"BodyText"
 	note.add_theme_color_override("font_color", BAD_COLOR)
 	card.add_child(note)
-	table.get_parent().add_child(card)
-	table.get_parent().move_child(card, table.get_index() + 1)
+	content.add_child(card)   # under the table, inside the scroll box
 
 
 # What the inner voice says about this build.
