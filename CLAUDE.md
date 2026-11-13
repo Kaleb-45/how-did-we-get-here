@@ -66,7 +66,7 @@ cd "/Users/kalebtovar/Desktop/Nasa Space App Challenge/how-did-we-get-here" && /
 
 Check every feature against the five Space Apps judging criteria:
 
-1. Influence (called Impact in older years; confirm in the 2026 guide on Nov 13)
+1. Impact (confirmed in the 2026 Project Submission Guide, Nov 13)
 2. Creativity
 3. Validity
 4. Relevance

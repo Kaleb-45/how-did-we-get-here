@@ -163,9 +163,20 @@ Kaleb tested: pass (2026-11-13).
 
 The old unfinished steps, kept here until Phase C is done (unless Kaleb says so).
 
-- [ ] **10. Confirm the 2026 rules (on Nov 13).** MUST · S
-  Read the 2026 Space Apps guide. Confirm the judging criteria names and what a
-  submission needs. Update `CLAUDE.md` and `reviewer.md`.
+- [x] **10. Confirm the 2026 rules (on Nov 13).** MUST · S
+  Done 2026-11-13 from the official Project Submission Guide
+  (https://www.spaceappschallenge.org/resources/project-submission-guide/):
+  criteria are Impact, Creativity, Validity, Relevance, Presentation. Submit before
+  Sunday Nov 15, 11:59 p.m. (team owner's local time). Needs: a public link with no
+  login, a 30-second video or a slide deck of at most 7 slides (English, or English
+  subtitles), the NASA data used (at least one NASA resource), all other data, tools
+  and code listed, and NO images, video, audio or likeness of anyone under 18.
+- [ ] **10b. AI disclosure in the submission.** MUST · S
+  The guide says code and data made with AI tools must be acknowledged "in
+  descriptive text and metadata", and AI-made images or video need a visible
+  watermark. Write the AI note for the project description and add it to the repo
+  README. AI must not be used to come up with the idea (the idea is Kaleb's team's).
+  Generated content must not use NASA logos, flags or mission identifiers.
 - [ ] **11. Public link for judges.** MUST · S
   Host the newest tested `build/web`. Where to host it is still open.
 - [x] **19a. Intro cutscene greybox (war room).** NICE · M

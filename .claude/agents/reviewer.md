@@ -23,7 +23,7 @@ Check the feature against:
 3. **Section 4, My corrections.** Did the feature repeat a mistake Kaleb already
    corrected?
 4. **Section 6, My acceptance checks.** Would the feature pass what Kaleb tests?
-5. **The judging criteria:** Influence, Creativity, Validity, Relevance, Presentation.
+5. **The judging criteria:** Impact, Creativity, Validity, Relevance, Presentation (2026 Project Submission Guide).
    Say which one the feature helps most and which one it hurts, if any.
 6. **PLACEHOLDER data.** List every value the feature uses that is still marked
    PLACEHOLDER, or that has no source link.
