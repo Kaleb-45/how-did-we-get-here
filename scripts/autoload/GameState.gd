@@ -306,6 +306,17 @@ func get_destination() -> Dictionary:
 	return Data.destinations[id]
 
 
+# How the trip ends: "orbit", "surface" or "flyby" (destinations.json).
+func get_arrival_type() -> String:
+	return get_destination()["arrival_type"]["value"]
+
+
+# Is there a crew? Only then do the crew supplies (food, water, air) exist.
+# Europa has no crew, so Flight shows no crew supplies there.
+func has_crew() -> bool:
+	return bool(get_destination()["crew"]["value"])
+
+
 # How many real days one Flight leg stands for: the trip's days split into legs.
 func get_flight_leg_days() -> float:
 	var trip: Dictionary = get_destination()

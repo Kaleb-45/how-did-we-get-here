@@ -159,6 +159,24 @@ Kaleb tested: pass (2026-11-13).
   rules. Any red meter fails the mission.
   Test: a losing round and a winning round both end on the right report.
 
+## Phase B: Surface and flyby skeletons
+
+### Batch 7: Phase B destinations and landing
+
+- [x] **B1. Destination data file and the destination question.** M
+  `data/destinations.json` holds all five destinations with real NASA facts (source
+  links) or PLACEHOLDER. The destination screen shows all five; only built arrival
+  types can be picked, the others are grey with "Coming soon". Routing by arrival type
+  (orbit, surface, flyby). No crew (Europa) means no crew supplies in Flight.
+  Test: Mars orbit still plays as before; the other four cards cannot be picked.
+
+- [x] **B2. Landing sequence for surface destinations.** M
+  Four timed presses with SPACE (heat shield off, parachute out, landing engine on,
+  touchdown). Misses cost fuel, damage or distance (timing.json, PLACEHOLDER), shown
+  on a summary and in the report. Checkpoint 3 still saves after Flight.
+  Test: (until batch 8 a surface site cannot be picked, so Kaleb's final test uses
+  the scripted run or batch 8's unlocked cards).
+
 ## Later
 
 The old unfinished steps, kept here until Phase C is done (unless Kaleb says so).

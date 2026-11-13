@@ -39,6 +39,7 @@ var life_support: Node = preload("res://scripts/life_support.gd").new()
 var science: Node = null
 
 var arm_is_up: bool = false
+var has_crew: bool = true       # false for a trip with no crew (Europa): no crew supplies
 var flight_mode: bool = false   # true in Stage 3 Flight, false in the Arrival walk
 
 # The shadow pass and its alarm go through these stages:
@@ -62,6 +63,7 @@ var nearby_part: String = ""
 
 func _ready() -> void:
 	flight_mode = StageManager.get_current() == "flight"
+	has_crew = GameState.has_crew()
 	# Safety net for running this scene by itself (F6).
 	# (The Reroute Power panel starts before this, so it fills the parts itself.)
 	if GameState.character_id == "":
@@ -85,7 +87,8 @@ func _ready() -> void:
 	add_child(life_support)
 	var zones: Array = spacecraft.reach_zones.duplicate()
 	if flight_mode:
-		zones += ship.station_zones.values()   # the Life Support stations only work in Flight
+		if has_crew:
+			zones += ship.station_zones.values()   # the Life Support stations only work in Flight, and only with a crew
 	else:
 		zones.append(power_panel.reach_zone)   # the power panel only works in Arrival (switching off costs nothing in Flight)
 		# The science pass stations (Science bay and Comms room) only work in Arrival too.
@@ -102,10 +105,12 @@ func _ready() -> void:
 	prompt_label.text = ""
 
 	# The crew supplies. Flight stocks the ship; Arrival goes on with what is left.
-	if flight_mode:
-		GameState.start_supplies()
-	else:
-		GameState.ensure_supplies()
+	# No crew (Europa) means no crew supplies at all.
+	if has_crew:
+		if flight_mode:
+			GameState.start_supplies()
+		else:
+			GameState.ensure_supplies()
 
 	# The mission clock starts at zero. The dashboard is hidden until Tab.
 	GameState.start_mission()
@@ -113,7 +118,8 @@ func _ready() -> void:
 	dashboard.set_compact(false)   # the full dashboard, with the "Tab =" hint
 	update_dashboard(false)
 	if flight_mode:
-		say(Data.voice["flight"]["start"].format({"days": GameState.fmt(GameState.get_flight_leg_days())}))
+		var start_key: String = "start" if has_crew else "start_no_crew"
+		say(Data.voice["flight"][start_key].format({"days": GameState.fmt(GameState.get_flight_leg_days())}))
 	else:
 		say(Data.voice["walk"]["start"])
 
@@ -145,14 +151,18 @@ func _process(delta: float) -> void:
 	if not mission_over:
 		if not flight_mode:
 			GameState.advance_mission(delta)   # mission time moves forward (it stops at the end)
-		GameState.advance_supplies(crew_days_passed(delta))   # the crew eats, drinks and breathes
-		for id in GameState.check_empty_supplies():   # a supply hit zero: a finding was added
-			say(Data.voice["flight"]["empty_" + id])
+		if has_crew:
+			GameState.advance_supplies(crew_days_passed(delta))   # the crew eats, drinks and breathes
+			for id in GameState.check_empty_supplies():   # a supply hit zero: a finding was added
+				say(Data.voice["flight"]["empty_" + id])
 	update_dashboard()
 	update_wrist_panel()
 	if flight_mode:
 		update_flight_end()   # no shadow pass in Flight: the leg ends after its length
-		life_support.update(delta)   # the water leak
+		if has_crew:
+			life_support.update(delta)   # the water leak
+		else:
+			life_support.elapsed += delta   # the leg clock still runs (no leak without a crew)
 	else:
 		update_alarm(delta)
 		science.update(delta)   # opens and closes the capture and downlink windows
@@ -178,11 +188,13 @@ func update_dashboard(check_warnings: bool = true) -> void:
 	var values: Dictionary = GameState.get_live_values()
 	var limits: Dictionary = GameState.get_live_limits()
 	dashboard.show_values(values, limits, true)
-	dashboard.show_supplies(GameState.crew_supplies, GameState.get_supply_statuses())   # Crew supplies group
+	if has_crew:
+		dashboard.show_supplies(GameState.crew_supplies, GameState.get_supply_statuses())   # Crew supplies group
 	if check_warnings:
 		check_for_warnings(values, limits)
 		# The wrist light shows the worst row: green, yellow or red.
-		arm.show_status(worse_of(GameState.get_worst_status(values, limits), GameState.get_worst_supply_status()))
+		var worst_supply: String = GameState.get_worst_supply_status() if has_crew else "safe"
+		arm.show_status(worse_of(GameState.get_worst_status(values, limits), worst_supply))
 	else:
 		# First frame: use the build's colors (what the player saw on Review).
 		arm.show_status(GameState.get_worst_status(GameState.get_totals(), GameState.get_limits()))
@@ -208,8 +220,9 @@ func remember_build_colors() -> void:
 	var limits: Dictionary = GameState.get_limits()
 	for res_id in totals:
 		last_status[res_id] = GameState.get_status(totals[res_id], limits[res_id])
-	for id in GameState.SUPPLY_IDS:
-		last_status[id] = GameState.get_supply_status(id)
+	if has_crew:
+		for id in GameState.SUPPLY_IDS:
+			last_status[id] = GameState.get_supply_status(id)
 
 
 # When a row CHANGES to yellow or red, the inner voice warns us.
@@ -227,7 +240,7 @@ func check_for_warnings(values: Dictionary, limits: Dictionary) -> void:
 		say_warning(Data.voice["dashboard_warnings"][res_id][status])
 
 	# The crew supplies warn the same way: only when a color changes.
-	for id in GameState.SUPPLY_IDS:
+	for id in GameState.SUPPLY_IDS if has_crew else []:
 		var supply_status: String = GameState.get_supply_status(id)
 		var supply_before: String = last_status.get(id, "")
 		last_status[id] = supply_status

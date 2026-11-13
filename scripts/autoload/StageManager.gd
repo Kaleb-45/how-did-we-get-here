@@ -18,12 +18,34 @@ func get_current() -> String:
 # the whole game state is saved first.
 func go_next() -> void:
 	GameState.save_checkpoint_after(get_current())
-	var order: Array = Data.game_data["stages"]["order"]
-	var next_index: int = order.find(get_current()) + 1
-	if next_index <= 0 or next_index >= order.size():
+	var next_id: String = get_next_stage(get_current())
+	if next_id == "":
 		push_error("StageManager: there is no screen after '" + get_current() + "'")
 		return
-	go_to(order[next_index])
+	go_to(next_id)
+
+
+# The screen that comes after stage_id, or "" if there is none.
+# The Arrival screens (orbit_burn, landing, walk) depend on the destination:
+# a screen that the destination's arrival type does not use is skipped
+# (game_data.json, stages -> arrival_stages).
+func get_next_stage(stage_id: String) -> String:
+	var stages: Dictionary = Data.game_data["stages"]
+	var order: Array = stages["order"]
+	var arrival_stages: Dictionary = stages["arrival_stages"]
+	var used_here: Array = arrival_stages[GameState.get_arrival_type()]
+	var all_arrival: Array = []
+	for type_id in ["orbit", "surface", "flyby"]:
+		all_arrival.append_array(arrival_stages[type_id])
+	var index: int = order.find(stage_id)
+	if index < 0:
+		return ""
+	for i in range(index + 1, order.size()):
+		var candidate: String = order[i]
+		if all_arrival.has(candidate) and not used_here.has(candidate):
+			continue   # an Arrival screen for another kind of trip
+		return candidate
+	return ""
 
 
 # Go to one named screen, for example go_to("build").
@@ -43,10 +65,9 @@ func retry_from_checkpoint() -> bool:
 	var number: int = GameState.get_retry_checkpoint()
 	if number == 0 or not GameState.load_checkpoint(number):
 		return false
-	var order: Array = Data.game_data["stages"]["order"]
 	var saved_when_leaving: Dictionary = Data.game_data["stages"]["checkpoints"]["saved_when_leaving"]
 	for stage_id in saved_when_leaving:
 		if int(saved_when_leaving[stage_id]) == number:
-			go_to(order[order.find(stage_id) + 1])
+			go_to(get_next_stage(stage_id))
 			return true
 	return false

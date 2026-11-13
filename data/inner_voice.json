@@ -9,6 +9,26 @@
         "easy": "Mars orbit. We circle the planet and map it from above. Our crew rides along on this trip, so I should really learn which button is the brakes.",
         "medium": "Mars. The red one. We go around it, not onto it. I think that's the safer way?",
         "hard": "Mars! Like in the movies! But we only go around it. Okay. Still cool."
+      },
+      "jezero_crater": {
+        "easy": "Jezero Crater. A dried-up river delta, which is where water once left clues about life. The ground is rough, so the landing needs a steady thumb.",
+        "medium": "Jezero. An old river delta, they say. We land ON Mars this time? On the actual ground? Okay. Okay.",
+        "hard": "Jezero Crater! We get to land on Mars! The ground is rough, though. I will be very careful. Very, very careful."
+      },
+      "gale_crater": {
+        "easy": "Gale Crater. It is low ground, so there is more air to slow us down, which helps the landing. A tall layered mountain sits in the middle.",
+        "medium": "Gale. It is low, so there is more air to catch us when we fall. That sounds good? I like air.",
+        "hard": "Gale Crater! It is a big hole with a mountain in it! And the air is thick, so landing should be a little easier. I hope."
+      },
+      "arcadia_planitia": {
+        "easy": "Arcadia Planitia. Ice hides under the soil here. Ice means water and oxygen for the crew, but it is cold, and cold is hard on the ship.",
+        "medium": "Arcadia. Ice under the dirt. So we can have water! And it is cold. I forgot my jacket.",
+        "hard": "Arcadia Planitia! Ice under the ground! That is so cool. Get it? Cold? Okay, I will stop."
+      },
+      "europa_flyby": {
+        "easy": "Europa, a moon of Jupiter. Nobody rides along, so we need no crew supplies. The sunlight is weak, the radiation is strong and the radio signal is slow.",
+        "medium": "Europa. Far, far away. No crew, so nobody can be hungry. But the Sun is so weak out there. Will we have enough power?",
+        "hard": "Europa! A moon with a secret ocean! No crew, so only the robot goes. And the radio takes so long that I will have to plan ahead."
       }
     },
     "goal": {
@@ -182,7 +202,8 @@
     "no_leak": "The water pipes look fine. No leak right now.",
     "empty_food": "The food is gone. Zero. The crew is very hungry, and that is a big problem.",
     "empty_water": "The water tank is empty. Zero. A leak pours water out fast if nobody stops it.",
-    "empty_air": "The air is gone. Zero. The oxygen generator makes oxygen, and we needed it running."
+    "empty_air": "The air is gone. Zero. The oxygen generator makes oxygen, and we needed it running.",
+    "start_no_crew": "We are on our way! This leg of the trip stands for {days} real days of flying, sped up so I can play it. Nobody rides along on this trip, so there are no crew supplies to look after."
   },
   "reroute": {
     "_readme": "The words on the power panel (Reroute Power mini-game).",
@@ -315,5 +336,28 @@
     "nothing_to_send": "There is nothing stored to send. I need a picture first!",
     "downlink_window_missed": "The ground station went out of view. The data stays stored, and none got home.",
     "small_antenna_slow": "The antenna is slow, so only part of the data fit through the link. A bigger antenna sends it faster."
+  },
+  "landing": {
+    "_readme": "What the inner voice says during the Landing (Stage 4, surface destinations). The voice is never wrong. The levels do not change these lines yet.",
+    "start": "We are going down to the surface! First the heat shield comes off, then the parachute, then the landing engine, and then touchdown. Press Space when the ring closes on the target.",
+    "results": {
+      "Perfect": [
+        "Perfect! Right on the target. I am as surprised as you are.",
+        "Bullseye! Nobody saw how nervous I was.",
+        "Perfect again! My thumb has a plan."
+      ],
+      "Good": [
+        "Good! Close to the target. We are still falling the right way.",
+        "Not perfect, but good. Good is how all landings start.",
+        "Good enough! The lander is still happy."
+      ],
+      "Miss": [
+        "Missed it! That will cost us something. But we are still falling, so keep going.",
+        "Too early or too late. Oops. We lost something, but the ground is coming!",
+        "Miss. The ring has to line up with the target. Next one!"
+      ]
+    },
+    "summary_clean": "Nothing lost at all! We are standing on another world. I may cry a little.",
+    "summary_costs": "Some misses. The list shows what they cost us. But we are on the ground! Surface work comes next, so hold on to your hat."
   }
 }

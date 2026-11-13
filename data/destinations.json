@@ -1,5 +1,5 @@
 {
-  "_readme": "The places a mission can go. Each destination has an id (for example mars_orbit) and a list of facts. Every fact is written as { \"value\": ..., \"source\": ... } so you can see where it came from. A source is a link to NASA, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). arrival_type = how the spacecraft ends its trip: \"orbit\" (circle the planet), \"surface\" (land) or \"flyby\" (fly past). crew = true if people travel on a ship that carries the spacecraft you build. The words on the screen (names, descriptions) are in data/story.json.",
+  "_readme": "The places a mission can go. Each destination has an id (for example mars_orbit) and a list of facts. Every fact is written as { \"value\": ..., \"source\": ... } so you can see where it came from. A source is a link to NASA, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). arrival_type = how the spacecraft ends its trip: \"orbit\" (circle the planet), \"surface\" (land) or \"flyby\" (fly past). crew = true if people travel on a ship that carries the spacecraft you build. The words on the screen (names, descriptions) are in data/story.json. MORE FACTS (batch 7): distance_from_sun_au and distance_from_sun_million_km = how far from the Sun. sunlight_vs_earth = how strong the sunlight is compared with Earth (1.0 = Earth, 0.43 = less than half as strong). signal_delay_minutes = how long a radio message takes one way: min = planets closest, max = planets farthest. what_makes_it_different = one line (the words on the screen are in story.json). materials = what a surface site has (ids; their names are in story.json). landing_window_tightness = how tight the landing presses are at that site (1.0 = normal, bigger = tighter). pickable_arrival_types in game_data.json says which arrival types can be chosen yet.",
   "destinations": {
     "mars_orbit": {
       "arrival_type": {
@@ -21,6 +21,247 @@
       "flight_leg_seconds": {
         "value": 45,
         "source": "PLACEHOLDER (how many real seconds one Flight leg lasts)"
+      },
+      "distance_from_sun_au": {
+        "value": 1.52,
+        "source": "NASA Mars Fact Sheet: semimajor axis 227.956 million km, which is 1.52366231 AU, 1.524 times Earth's 149.598 million km. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "distance_from_sun_million_km": {
+        "value": 227.956,
+        "source": "NASA Mars Fact Sheet, 'Semimajor axis (10^6 km)': 227.956. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "sunlight_vs_earth": {
+        "value": 0.43,
+        "source": "NASA Mars Fact Sheet, 'Solar irradiance (W/m2)': Mars 586.2, Earth 1361.0, ratio 0.431. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "signal_delay_minutes": {
+        "value": {
+          "min": 3.0,
+          "max": 22.3
+        },
+        "source": "Worked out from NASA Mars Fact Sheet Earth-Mars distances (min 54.6, max 401.4 million km) divided by the speed of light 299,792 km/s: about 3.0 and 22.3 minutes one way. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "what_makes_it_different": {
+        "value": "Shadow passes, mapping, data downlink",
+        "source": "GAME_PLAN.md section 4 (game-design description)."
+      },
+      "materials": {
+        "value": [],
+        "source": "Orbit missions have no surface site."
+      }
+    },
+    "jezero_crater": {
+      "arrival_type": {
+        "value": "surface",
+        "source": "Game-design choice: GAME_PLAN.md section 4 (Mars surface sites you land on)."
+      },
+      "crew": {
+        "value": true,
+        "source": "Written game-design choice by Kaleb (AGENT_SOURCE.md section 2, 2026-11-10): Mars missions have a crew."
+      },
+      "distance_from_sun_au": {
+        "value": 1.52,
+        "source": "NASA Mars Fact Sheet: semimajor axis 227.956 million km, which is 1.52366231 AU, 1.524 times Earth's 149.598 million km. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "distance_from_sun_million_km": {
+        "value": 227.956,
+        "source": "NASA Mars Fact Sheet, 'Semimajor axis (10^6 km)': 227.956. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "sunlight_vs_earth": {
+        "value": 0.43,
+        "source": "NASA Mars Fact Sheet, 'Solar irradiance (W/m2)': Mars 586.2, Earth 1361.0, ratio 0.431. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "signal_delay_minutes": {
+        "value": {
+          "min": 3.0,
+          "max": 22.3
+        },
+        "source": "Worked out from NASA Mars Fact Sheet Earth-Mars distances (min 54.6, max 401.4 million km) divided by the speed of light 299,792 km/s: about 3.0 and 22.3 minutes one way. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "trip_days": {
+        "value": 203,
+        "source": "NASA Mars 2020 Perseverance page: launch July 30, 2020, landing Feb. 18, 2021 = 203 days. https://science.nasa.gov/mission/mars-2020-perseverance/"
+      },
+      "flight_legs": {
+        "value": 3,
+        "source": "GAME_PLAN.md section 6b DEFAULT (3 legs). Game-design choice, not a NASA number."
+      },
+      "flight_leg_seconds": {
+        "value": 45,
+        "source": "PLACEHOLDER (how many real seconds one Flight leg lasts)"
+      },
+      "what_makes_it_different": {
+        "value": "Old river delta: best science, rough ground",
+        "source": "NASA: 'Scientists believe the area was once flooded with water and was home to an ancient river delta.' 'Jezero Crater is 28 miles (45 kilometers) wide.' https://science.nasa.gov/mission/mars-2020-perseverance/ (rough ground = game-design choice from GAME_PLAN.md)"
+      },
+      "materials": {
+        "value": [
+          "delta_rock"
+        ],
+        "source": "NASA says Jezero holds an ancient river delta (rock layers laid down by water): https://science.nasa.gov/mission/mars-2020-perseverance/"
+      },
+      "landing_window_tightness": {
+        "value": 1.2,
+        "source": "PLACEHOLDER (game-design number, a student can change it)"
+      }
+    },
+    "gale_crater": {
+      "arrival_type": {
+        "value": "surface",
+        "source": "Game-design choice: GAME_PLAN.md section 4 (Mars surface sites you land on)."
+      },
+      "crew": {
+        "value": true,
+        "source": "Written game-design choice by Kaleb (AGENT_SOURCE.md section 2, 2026-11-10): Mars missions have a crew."
+      },
+      "distance_from_sun_au": {
+        "value": 1.52,
+        "source": "NASA Mars Fact Sheet: semimajor axis 227.956 million km, which is 1.52366231 AU, 1.524 times Earth's 149.598 million km. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "distance_from_sun_million_km": {
+        "value": 227.956,
+        "source": "NASA Mars Fact Sheet, 'Semimajor axis (10^6 km)': 227.956. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "sunlight_vs_earth": {
+        "value": 0.43,
+        "source": "NASA Mars Fact Sheet, 'Solar irradiance (W/m2)': Mars 586.2, Earth 1361.0, ratio 0.431. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "signal_delay_minutes": {
+        "value": {
+          "min": 3.0,
+          "max": 22.3
+        },
+        "source": "Worked out from NASA Mars Fact Sheet Earth-Mars distances (min 54.6, max 401.4 million km) divided by the speed of light 299,792 km/s: about 3.0 and 22.3 minutes one way. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "trip_days": {
+        "value": 254,
+        "source": "NASA Mars Science Laboratory (Curiosity) page: launch Nov. 26, 2011, landing Aug. 6, 2012 = 254 days. https://science.nasa.gov/mission/msl-curiosity/"
+      },
+      "flight_legs": {
+        "value": 3,
+        "source": "GAME_PLAN.md section 6b DEFAULT (3 legs). Game-design choice, not a NASA number."
+      },
+      "flight_leg_seconds": {
+        "value": 45,
+        "source": "PLACEHOLDER (how many real seconds one Flight leg lasts)"
+      },
+      "what_makes_it_different": {
+        "value": "Low ground: more air to slow the landing",
+        "source": "PLACEHOLDER for the 'more air' idea (NASA says Gale is 96 miles (154 km) wide with a layered mountain about 5 km high, https://science.nasa.gov/resource/gale-crater-future-home-of-mars-rover-curiosity/, but a student must still find a NASA quote that Gale's low height gives thicker air)"
+      },
+      "materials": {
+        "value": [
+          "layered_rock"
+        ],
+        "source": "NASA: Gale 'holds a layered mountain rising about 3 miles (5 kilometers) above the crater floor': https://science.nasa.gov/resource/gale-crater-future-home-of-mars-rover-curiosity/"
+      },
+      "landing_window_tightness": {
+        "value": 0.9,
+        "source": "PLACEHOLDER (game-design number, a student can change it)"
+      }
+    },
+    "arcadia_planitia": {
+      "arrival_type": {
+        "value": "surface",
+        "source": "Game-design choice: GAME_PLAN.md section 4 (Mars surface sites you land on)."
+      },
+      "crew": {
+        "value": true,
+        "source": "Written game-design choice by Kaleb (AGENT_SOURCE.md section 2, 2026-11-10): Mars missions have a crew."
+      },
+      "distance_from_sun_au": {
+        "value": 1.52,
+        "source": "NASA Mars Fact Sheet: semimajor axis 227.956 million km, which is 1.52366231 AU, 1.524 times Earth's 149.598 million km. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "distance_from_sun_million_km": {
+        "value": 227.956,
+        "source": "NASA Mars Fact Sheet, 'Semimajor axis (10^6 km)': 227.956. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "sunlight_vs_earth": {
+        "value": 0.43,
+        "source": "NASA Mars Fact Sheet, 'Solar irradiance (W/m2)': Mars 586.2, Earth 1361.0, ratio 0.431. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "signal_delay_minutes": {
+        "value": {
+          "min": 3.0,
+          "max": 22.3
+        },
+        "source": "Worked out from NASA Mars Fact Sheet Earth-Mars distances (min 54.6, max 401.4 million km) divided by the speed of light 299,792 km/s: about 3.0 and 22.3 minutes one way. https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      },
+      "trip_days": {
+        "value": 210,
+        "source": "PLACEHOLDER. No NASA mission has landed at Arcadia Planitia, so there is no real trip time. 210 days is copied from the Mars orbit placeholder. A student replaces it."
+      },
+      "flight_legs": {
+        "value": 3,
+        "source": "GAME_PLAN.md section 6b DEFAULT (3 legs). Game-design choice, not a NASA number."
+      },
+      "flight_leg_seconds": {
+        "value": 45,
+        "source": "PLACEHOLDER (how many real seconds one Flight leg lasts)"
+      },
+      "what_makes_it_different": {
+        "value": "Ice under the soil: water and oxygen, but cold",
+        "source": "NASA JPL: 'A large portion of a region called Arcadia Planitia is the most tempting target in the northern hemisphere' for water ice less than one foot (30 cm) below the surface. https://www.jpl.nasa.gov/news/nasas-treasure-map-for-water-ice-on-mars/ (cold = game-design choice from GAME_PLAN.md)"
+      },
+      "materials": {
+        "value": [
+          "ice"
+        ],
+        "source": "NASA JPL ice map: water ice less than one foot (30 centimeters) below the surface at Arcadia Planitia: https://www.jpl.nasa.gov/news/nasas-treasure-map-for-water-ice-on-mars/"
+      },
+      "landing_window_tightness": {
+        "value": 1.0,
+        "source": "PLACEHOLDER (game-design number, a student can change it)"
+      }
+    },
+    "europa_flyby": {
+      "arrival_type": {
+        "value": "flyby",
+        "source": "Game-design choice: GAME_PLAN.md section 4 (Europa is a flyby)."
+      },
+      "crew": {
+        "value": false,
+        "source": "Written game-design choice by Kaleb (GAME_PLAN.md section 15, C5): Europa has no crew, so no crew supplies."
+      },
+      "distance_from_sun_au": {
+        "value": 5.2,
+        "source": "Worked out from NASA Jupiter Fact Sheet: semimajor axis 778.479 million km divided by Earth's 149.598 million km (Mars Fact Sheet) = 5.20 AU. Europa circles Jupiter, so it is the same distance from the Sun. https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html"
+      },
+      "distance_from_sun_million_km": {
+        "value": 778.479,
+        "source": "NASA Jupiter Fact Sheet, 'Semimajor axis (10^6 km)': 778.479. https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html"
+      },
+      "sunlight_vs_earth": {
+        "value": 0.037,
+        "source": "Worked out from NASA Jupiter Fact Sheet: solar irradiance 50.26 W/m2 divided by Earth's 1361.0 W/m2 = 0.037. https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html"
+      },
+      "signal_delay_minutes": {
+        "value": {
+          "min": 32.7,
+          "max": 53.8
+        },
+        "source": "Worked out from NASA Jupiter Fact Sheet Earth-Jupiter distances (min 588.5, max 968.5 million km) divided by the speed of light 299,792 km/s: about 32.7 and 53.8 minutes one way. https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html"
+      },
+      "trip_days": {
+        "value": 2009,
+        "source": "Worked out from NASA's Europa Clipper page: launched Oct. 14, 2024, reaches Jupiter in April 2030 (the 15th is assumed, so this is about 2,009 days). https://science.nasa.gov/mission/europa-clipper/"
+      },
+      "flight_legs": {
+        "value": 3,
+        "source": "GAME_PLAN.md section 6b DEFAULT (3 legs). Game-design choice, not a NASA number."
+      },
+      "flight_leg_seconds": {
+        "value": 45,
+        "source": "PLACEHOLDER (how many real seconds one Flight leg lasts)"
+      },
+      "what_makes_it_different": {
+        "value": "Weak sunlight, strong radiation, long signal delay",
+        "source": "GAME_PLAN.md section 4. Sunlight and delay numbers are above; radiation strength is not a number in this file yet (PLACEHOLDER)."
+      },
+      "materials": {
+        "value": [],
+        "source": "A flyby has no surface site."
       }
     }
   }

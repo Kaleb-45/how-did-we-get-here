@@ -28,7 +28,18 @@
     "arrival_word": "Arrival",
     "crew_word": "Crew",
     "crew_yes": "yes",
-    "crew_no": "no"
+    "crew_no": "no",
+    "arrival_names": {
+      "orbit": "orbit",
+      "surface": "land",
+      "flyby": "flyby"
+    },
+    "sun_line": "Sunlight: {percent}%",
+    "delay_line": "Radio: {min}-{max} min",
+    "materials_line": "Materials: {list}",
+    "coming_soon_line": "Coming soon! This kind of trip is not built yet.",
+    "coming_soon_button": "Coming soon",
+    "facts_line": "{arrival}, crew: {crew}"
   },
   "rocket_screen": {
     "title": "What kind of rocket?",
@@ -106,8 +117,28 @@
   "destinations": {
     "mars_orbit": {
       "name": "Mars orbit",
-      "description": "Fly to Mars and circle around it, high above the surface. From up there, the spacecraft can look at the whole planet.",
+      "description": "Circle Mars and map it from above.",
       "button": "Go to Mars"
+    },
+    "jezero_crater": {
+      "name": "Jezero Crater",
+      "description": "Old river delta. Rough ground.",
+      "button": "Land at Jezero"
+    },
+    "gale_crater": {
+      "name": "Gale Crater",
+      "description": "Low ground: more air for landing.",
+      "button": "Land at Gale"
+    },
+    "arcadia_planitia": {
+      "name": "Arcadia Planitia",
+      "description": "Ice under the soil. Cold.",
+      "button": "Land at Arcadia"
+    },
+    "europa_flyby": {
+      "name": "Europa (Jupiter)",
+      "description": "Fly past an icy moon. No crew, no landing.",
+      "button": "Fly to Europa"
     }
   },
   "launch_vehicles": {
@@ -226,7 +257,8 @@
       "fuel": "lost {amount}% of the fuel",
       "solar_panel": "solar panel {amount}% damaged",
       "antenna": "antenna {amount}% damaged",
-      "camera": "camera {amount}% damaged"
+      "camera": "camera {amount}% damaged",
+      "distance": "landed {amount}% of the way off the target"
     },
     "next_button": "On to the ship"
   },
@@ -290,16 +322,26 @@
     "start_fresh_button": "Start fresh",
     "no_checkpoint_tip": "There is no checkpoint saved yet.",
     "red_build_tip": "Your build was already over a limit at launch, so a retry would fail again. Use Same design / new destination to change the parts, or Start fresh.",
-    "cause_overrides": { "power_event": "Your parts decided how much power you had to cut. The failure came from not rerouting power in time." },
+    "cause_overrides": {
+      "power_event": "Your parts decided how much power you had to cut. The failure came from not rerouting power in time."
+    },
     "cause_label": "Your Stage 1 choice:",
     "no_stage1_choice": "none. This came from what happened in Flight and Arrival.",
-    "slot_names": { "launch_vehicle": "Rocket" },
+    "slot_names": {
+      "launch_vehicle": "Rocket"
+    },
     "log_label": "WHAT HAPPENED ON THE WAY",
-    "costs_title": "Launch and orbit burn costs",
-    "no_costs": "No damage. A clean launch and orbit burn!",
+    "costs_title": "Launch, orbit burn and landing costs",
+    "no_costs": "No damage. A clean launch, orbit burn and landing!",
     "cost_line": "{moment} (missed): {cost}",
     "crew_damage_line": "Crew harmed because a supply ran out: {amount}%",
-    "stage_names": { "launch": "Launch", "orbit_burn": "Orbit burn", "flight": "Flight", "arrival": "Arrival" },
+    "stage_names": {
+      "launch": "Launch",
+      "orbit_burn": "Orbit burn",
+      "flight": "Flight",
+      "arrival": "Arrival",
+      "landing": "Landing"
+    },
     "supplies_title": "Crew supplies at the end",
     "supply_line": "{name}: {left} {unit} of {full}",
     "science_title": "Science",
@@ -309,6 +351,38 @@
     "timing_title": "Timed presses",
     "timing_line": "{stage}: {perfect} Perfect, {good} Good, {miss} Miss",
     "timing_total_line": "All presses: {perfect} Perfect, {good} Good, {miss} Miss",
-    "no_presses": "No timed presses were played."
+    "no_presses": "No timed presses were played.",
+    "placeholder_title": "NOT BUILT YET",
+    "surface_placeholder": "This destination is a surface site. The work on the surface (collect, run an instrument, send data home) is not built yet, so this report ends right after the landing.",
+    "flyby_placeholder": "This destination is a flyby. The flyby itself is not built yet, so this report ends right after the trip."
+  },
+  "destination_materials": {
+    "_readme": "Names of the things a surface site has (the ids are in data/destinations.json, materials).",
+    "delta_rock": "river delta rock",
+    "layered_rock": "layered rock",
+    "ice": "ice"
+  },
+  "landing_screen": {
+    "_readme": "Words for the Landing screen (Stage 4, surface destinations). The cost text uses launch_screen.cost_kinds ({amount} is a percent).",
+    "title": "Landing!",
+    "hint": "Press SPACE (or click) when the ring closes on the target.",
+    "get_ready": "Get ready...",
+    "waiting": "...",
+    "moments": {
+      "heat_shield_off": "Heat shield off",
+      "parachute_out": "Parachute out",
+      "landing_engine_on": "Landing engine on",
+      "touchdown": "Touchdown"
+    },
+    "results": {
+      "Perfect": "Perfect",
+      "Good": "Good",
+      "Miss": "Miss"
+    },
+    "summary_title": "Landing summary",
+    "no_losses": "No losses. A soft landing right on the target!",
+    "costs_title": "What the misses cost:",
+    "cost_line": "{moment}: {cost}",
+    "next_button": "Next"
   }
 }
