@@ -56,7 +56,9 @@
     "title": "Build your spacecraft. Pick one of each.",
     "max_word": "max",
     "min_word": "need at least",
-    "review_button": "Review my spacecraft"
+    "review_button": "Review my spacecraft",
+    "destination_line": "Going to: {name}",
+    "far_note": "Far from Mars: solar panels make {sun}% of their Mars power and antennas send data at {far}% of their Mars speed."
   },
   "review_screen": {
     "title": "Before launch: does it all add up?",
@@ -118,27 +120,27 @@
     "mars_orbit": {
       "name": "Mars orbit",
       "description": "Circle Mars and map it from above.",
-      "button": "Go to Mars"
+      "button": "To Mars"
     },
     "jezero_crater": {
       "name": "Jezero Crater",
       "description": "Old river delta. Rough ground.",
-      "button": "Land at Jezero"
+      "button": "To Jezero"
     },
     "gale_crater": {
       "name": "Gale Crater",
       "description": "Big crater, tall layered mountain.",
-      "button": "Land at Gale"
+      "button": "To Gale"
     },
     "arcadia_planitia": {
       "name": "Arcadia Planitia",
       "description": "Ice under the soil. Cold.",
-      "button": "Land at Arcadia"
+      "button": "To Arcadia"
     },
     "europa_flyby": {
       "name": "Europa (Jupiter)",
       "description": "Fly past an icy moon. No crew, no landing.",
-      "button": "Fly to Europa"
+      "button": "To Europa"
     }
   },
   "launch_vehicles": {
@@ -340,7 +342,9 @@
       "orbit_burn": "Orbit burn",
       "flight": "Flight",
       "arrival": "Arrival",
-      "landing": "Landing"
+      "landing": "Landing",
+      "surface": "Surface",
+      "flyby": "Flyby"
     },
     "supplies_title": "Crew supplies at the end",
     "supply_line": "{name}: {left} {unit} of {full}",
@@ -355,7 +359,18 @@
     "placeholder_title": "NOT BUILT YET",
     "surface_placeholder": "This destination is a surface site. The work on the surface (collect, run an instrument, send data home) is not built yet, so this report ends right after the landing.",
     "flyby_placeholder": "This destination is a flyby. The flyby itself is not built yet, so this report ends right after the trip.",
-    "trip_ended_title": "TRIP ENDED: NOT BUILT YET"
+    "trip_ended_title": "TRIP ENDED: NOT BUILT YET",
+    "destination_label": "Destination:",
+    "surface_title": "Surface work",
+    "surface_sample_yes": "Sample collected: yes ({material})",
+    "surface_sample_no": "Sample collected: no ({material})",
+    "surface_days_line": "Days used: {used} of {total}",
+    "surface_power_line": "Power spare at the end: {w} W",
+    "flyby_title": "Flyby",
+    "flyby_captured_line": "Captured: {gb} Gb",
+    "flyby_lost_line": "Lost to radiation: {gb} Gb",
+    "flyby_sent_line": "Sent home: {gb} Gb (planned: {planned} Gb)",
+    "flyby_delay_line": "Radio delay (one way): {min} to {max} minutes"
   },
   "destination_materials": {
     "_readme": "Names of the things a surface site has (the ids are in data/destinations.json, materials).",
@@ -385,5 +400,82 @@
     "costs_title": "What the misses cost:",
     "cost_line": "{moment}: {cost}",
     "next_button": "Next"
+  },
+  "arrival_goals": {
+    "_readme": "Words for the mission goal when the trip is NOT Mars orbit (the numbers are in data/events.json: surface_work, flyby_pass). name and description replace the Mars orbit mission card on the mission screen and the name on the report. rules = the checklist lines. {gb} is the planned data in Gb.",
+    "surface": {
+      "name": "Collect a rock sample",
+      "description": "Land, walk out and bring home one sample from the site. The days on the surface are limited by your power and your crew supplies.",
+      "rules": {
+        "sample": "Collect the sample before the days run out",
+        "power_ok": "Keep power out of the red",
+        "supplies_ok": "Keep food, water and air out of the red"
+      }
+    },
+    "flyby": {
+      "name": "Fly past Europa",
+      "description": "Fly past the icy moon and send home what you saw. Radio takes a long time, so every command goes out early.",
+      "rules": {
+        "data_sent": "Send home at least {gb} Gb of data"
+      }
+    }
+  },
+  "surface_screen": {
+    "_readme": "Words for the surface area (Stage 4, surface destinations). {material} is a name from destination_materials.",
+    "controls_hint": "WASD = walk    Space = jump    Mouse = look    E = use    Esc = free the mouse",
+    "day_line": "Day {day} of {total}",
+    "banner_start": "Collect the {material} sample before the days run out!",
+    "banner_done": "Sample collected! Well done.",
+    "banner_over": "The days ran out.",
+    "sample_label": "COLLECT SAMPLE",
+    "sample_marker": "{material}",
+    "lander_marker": "Lander",
+    "meters_title": "Surface meters",
+    "prompts": {
+      "sample": "Press E: Collect the {material} sample",
+      "sample_done": "Sample collected!",
+      "lander": "Press E: Lander"
+    }
+  },
+  "flyby_screen": {
+    "_readme": "Words for the Europa flyby (Stage 4, flyby destinations). The player stands in mission control and cannot walk, so Space is the key.",
+    "title": "Europa flyby: mission control",
+    "hint": "You are in mission control (you cannot walk). Press SPACE or click when the ring closes.",
+    "delay_title": "RADIO DELAY",
+    "delay_line": "{min} to {max} min one way (real)",
+    "delay_note": "Commands arrive ~{avg} min late: send early!",
+    "planned_title": "PLANNED DATA",
+    "planned_line": "Send home at least {gb} Gb",
+    "status_title": "STATUS",
+    "status_waiting": "Waiting for the first command",
+    "status_sent": "Sent: {moment}",
+    "get_ready": "Get ready...",
+    "waiting": "...",
+    "caption": "SEND: {moment}",
+    "moments": {
+      "point_instrument": "Point instrument",
+      "capture": "Capture",
+      "protect_computer": "Protect computer",
+      "send_data": "Send data home"
+    },
+    "moment_help": {
+      "point_instrument": "Turn the camera toward Europa.",
+      "capture": "Take the pictures.",
+      "protect_computer": "Radiation can wipe out data.",
+      "send_data": "Send the pictures to Earth."
+    },
+    "results": {
+      "Perfect": "On time (Perfect)",
+      "Good": "A bit off (Good)",
+      "Miss": "Missed (Miss)"
+    },
+    "pass_line": "Closest approach! The commands are arriving...",
+    "summary_title": "Flyby summary",
+    "captured_line": "Captured: {gb} Gb",
+    "lost_line": "Lost to radiation: {gb} Gb",
+    "sent_line": "Sent home: {gb} Gb of the {planned} Gb planned",
+    "enough": "Enough data got home!",
+    "not_enough": "Not enough data got home.",
+    "next_button": "To the report"
   }
 }

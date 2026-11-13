@@ -439,7 +439,7 @@ func update_prompt() -> void:
 		# For example:  Press E: Camera (High resolution)
 		var part: Dictionary = Data.parts[nearby_part]
 		var version_name: String = part["versions"][GameState.choices[nearby_part]]["name"]
-		prompt_label.text = "%s: %s (%s)" % [Data.voice["walk"]["press_e_hint"], part["name"], version_name]
+		prompt_label.text = "%s: %s (%s)" % [Data.voice["walk"]["press_e_hint"], GameState.get_part_name(nearby_part), version_name]
 
 
 # Zones can overlap, so if the player is in more than one,
@@ -532,7 +532,7 @@ func use_part(part_id: String) -> void:
 	# (Switching parts off and on happens at the power panel.)
 	var version_id: String = GameState.choices[part_id]
 	var explanation: String = Data.voice["parts"][part_id][version_id]
-	var effects: Dictionary = Data.parts[part_id]["versions"][version_id]["effects"]
+	var effects: Dictionary = GameState.get_version_effects(part_id, version_id)
 	var numbers: String = GameState.effects_text(effects, ", ")
 	say(explanation + " " + Data.voice["walk"]["numbers_intro"] + " " + numbers + ".")
 

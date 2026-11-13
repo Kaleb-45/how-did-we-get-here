@@ -52,14 +52,15 @@ func _ready() -> void:
 
 	fill_header()
 	var failures: Array = GameState.get_all_failures()
-	if failures.is_empty() and GameState.get_arrival_type() != "orbit":
-		# Surface and flyby have no goal rules yet: a neutral stamp, never MISSION SUCCESS.
+	if failures.is_empty() and not is_arrival_built():
+		# An arrival type that is not built (not in setup pickable_arrival_types): a neutral stamp, never MISSION SUCCESS.
 		show_stamp(report_words["trip_ended_title"], warn_color)
 		inner_voice.say(words["trip_ended_text"])
 		findings_label.visible = false
 	elif failures.is_empty():
 		show_stamp(words["success_title"], ok_color)
-		inner_voice.say(words["success_text"])
+		var arrival: String = GameState.get_arrival_type()
+		inner_voice.say(words["success_text"] if arrival == "orbit" else words["success_text_" + arrival])
 		add_success_note()
 	else:
 		show_stamp(words["failed_title"], bad_color)
@@ -93,12 +94,20 @@ func setup_buttons() -> void:
 # The top of the report: mission name, designer, mission time.
 func fill_header() -> void:
 	report_label.text = words["report_label"]
-	mission_name.text = Data.story["missions"][GameState.mission_id]["name"]
+	var arrival: String = GameState.get_arrival_type()
+	if arrival == "orbit":
+		mission_name.text = Data.story["missions"][GameState.mission_id]["name"]
+	else:
+		mission_name.text = Data.story["arrival_goals"][arrival]["name"]   # for example "Collect a rock sample"
 	var designer: String = Data.story["characters"][GameState.character_id]["name"]
 	if GameState.player_name != "":
 		designer = GameState.player_name + " (" + designer + ")"   # for example: Sam (The Janitor)
 	var months: String = GameState.fmt(GameState.mission_months) + " " + Data.resources["mission_lifetime"]["unit"]
-	details.text = "%s %s      %s %s" % [words["designer_label"], designer, words["time_label"], months]
+	if arrival == "orbit":
+		details.text = "%s %s      %s %s" % [words["designer_label"], designer, words["time_label"], months]
+	else:
+		var place: String = Data.story["destinations"][GameState.get_destination_id()]["name"]
+		details.text = "%s %s      %s %s" % [words["designer_label"], designer, report_words["destination_label"], place]
 
 
 # The big stamp: a colored box with a thick colored border, like a rubber
@@ -190,7 +199,8 @@ func add_success_note() -> void:
 	findings_list.add_child(card)
 
 	var note := Label.new()
-	note.text = words["success_note"]
+	var arrival: String = GameState.get_arrival_type()
+	note.text = words["success_note"] if arrival == "orbit" else words["success_note_" + arrival]
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.theme_type_variation = &"BodyText"
 	note.add_theme_color_override("font_color", ok_color)
@@ -283,7 +293,9 @@ func cause_text(failure_id: String) -> String:
 			parts.append(report_words["slot_names"][slot] + ": " + rocket_name)
 		else:
 			var part: Dictionary = Data.parts[slot]
-			parts.append(part["name"] + ": " + part["versions"][GameState.choices[slot]]["name"])
+			if not GameState.choices.has(slot):
+				continue   # this slot does not exist at this destination (for example the landing parts at Europa)
+			parts.append(GameState.get_part_name(slot) + ": " + part["versions"][GameState.choices[slot]]["name"])
 	return ", ".join(parts)
 
 
@@ -293,10 +305,15 @@ func fill_log() -> void:
 	log_label.text = report_words["log_label"]
 	add_costs()
 	add_supplies()
-	if GameState.get_arrival_type() == "orbit":
+	var arrival: String = GameState.get_arrival_type()
+	if not is_arrival_built():
+		add_placeholder_note()   # this kind of trip is not built yet
+	elif arrival == "orbit":
 		add_science()
+	elif arrival == "surface":
+		add_surface()
 	else:
-		add_placeholder_note()   # surface work and the flyby are built later
+		add_flyby()
 	add_timing()
 
 
@@ -328,7 +345,7 @@ func add_costs() -> void:
 			cost = Data.timing["launch_moments"][entry["moment"]]["miss_cost"]
 			moment_name = Data.story["launch_screen"]["moments"][entry["moment"]]
 		elif entry["stage"] == "landing":
-			cost = Data.timing["landing_moments"][entry["moment"]]["miss_cost"]
+			cost = GameState.get_landing_miss_cost(entry["moment"])
 			moment_name = Data.story["landing_screen"]["moments"][entry["moment"]]
 		elif entry["stage"] == "orbit_burn":
 			cost = Data.timing["orbit_burn"]["miss_cost"]
@@ -375,7 +392,38 @@ func add_science() -> void:
 	add_log_line(report_words["science_note"], get_theme_color("font_color", &"AccentText"))
 
 
-# A surface or flyby trip ends here for now: say so clearly.
+# Is this kind of trip built? (game_data.json setup, pickable_arrival_types)
+func is_arrival_built() -> bool:
+	return Data.game_data["setup"]["pickable_arrival_types"]["value"].has(GameState.get_arrival_type())
+
+
+# The surface work: the sample, the days and the power.
+func add_surface() -> void:
+	if GameState.surface.is_empty():
+		return   # the trip ended before the surface work
+	add_log_line(report_words["surface_title"], Color.WHITE, true)
+	var material_name: String = Data.story["destination_materials"][GameState.get_destination()["materials"]["value"][0]]
+	var sample_ok: bool = GameState.surface["sample"]
+	add_log_line(report_words["surface_sample_yes" if sample_ok else "surface_sample_no"].format({"material": material_name}), ok_color if sample_ok else bad_color)
+	add_log_line(report_words["surface_days_line"].format({"used": GameState.fmt(minf(GameState.surface["days_used"], GameState.surface["days_total"])), "total": GameState.fmt(GameState.surface["days_total"])}))
+	var power_left: float = GameState.get_surface_power()
+	add_log_line(report_words["surface_power_line"].format({"w": GameState.fmt(power_left)}), ok_color if power_left >= 0.0 else bad_color)
+
+
+# The Europa flyby: captured, lost to radiation, sent home.
+func add_flyby() -> void:
+	add_log_line(report_words["flyby_title"], Color.WHITE, true)
+	var delay: Dictionary = GameState.get_destination()["signal_delay_minutes"]["value"]
+	add_log_line(report_words["flyby_delay_line"].format({"min": GameState.fmt(delay["min"]), "max": GameState.fmt(delay["max"])}))
+	if GameState.flyby.is_empty():
+		return   # the trip ended before the flyby
+	add_log_line(report_words["flyby_captured_line"].format({"gb": GameState.fmt(GameState.flyby["captured"])}))
+	add_log_line(report_words["flyby_lost_line"].format({"gb": GameState.fmt(GameState.flyby["lost"])}))
+	var enough: bool = GameState.flyby["sent"] >= GameState.flyby["planned"]
+	add_log_line(report_words["flyby_sent_line"].format({"gb": GameState.fmt(GameState.flyby["sent"]), "planned": GameState.fmt(GameState.flyby["planned"])}), ok_color if enough else bad_color)
+
+
+# A trip that is not built yet ends here: say so clearly.
 func add_placeholder_note() -> void:
 	add_log_line(report_words["placeholder_title"], Color.WHITE, true)
 	add_log_line(report_words[GameState.get_arrival_type() + "_placeholder"], warn_color)

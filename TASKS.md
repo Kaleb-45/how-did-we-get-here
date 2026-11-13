@@ -177,6 +177,25 @@ Kaleb tested: pass (2026-11-13).
   Test: (until batch 8 a surface site cannot be picked, so Kaleb's final test uses
   the scripted run or batch 8's unlocked cards).
 
+### Batch 8: Phase B surface, flyby and parts
+
+- [x] **B3. Surface area graybox (all three Mars sites).** M
+  A walkable Mars-colour area after Landing, with the lander, one sample and one
+  timed-press task. A surface clock: every day costs power and supplies, and the parts
+  decide the days. Collect the sample before the days run out, keeping power and
+  supplies out of the red = MISSION SUCCESS on the report.
+  Test: collect the sample = SUCCESS; wait until the days run out = FAILED with a finding.
+- [x] **B4. Flyby for Europa.** M
+  Mission control screen, four timed presses with SPACE, the real radio delay on screen.
+  Send home at least the planned data = MISSION SUCCESS.
+  Test: Large antenna + RTG + shield, presses on time = SUCCESS; Small antenna = FAILED.
+- [x] **B5. Per-destination part lists.** M
+  `allowed_at` for every part: landing parts for surface sites, RTG and radiation shield
+  for Europa, solar power and antenna speed scaled by the destination. The destination
+  screen unlocks all five destinations.
+  Test: the Build screen shows only the right parts for Mars orbit, Jezero and Europa;
+  Mars orbit plays exactly as before.
+
 ## Later
 
 The old unfinished steps, kept here until Phase C is done (unless Kaleb says so).

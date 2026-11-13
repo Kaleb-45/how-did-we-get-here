@@ -107,7 +107,7 @@
     }
   },
   "landing": {
-    "_readme": "The landing (Stage 4 for surface destinations): a chain of timed presses with the SPACE key, like the launch (the player cannot move). moment_ids = the presses in order. press_speed and press_tightness work like the orbit burn ones; the site also has its own landing_window_tightness in destinations.json, and the two are multiplied. Perfect or Good costs nothing. A Miss adds its miss_cost (landing_moments) to GameState.damage. 'distance' means the lander ended that many percent of the way off the target. It is only stored and never ends the mission. The order follows NASA's Perseverance entry: the parachute comes out first, then the heat shield is dropped about 20 seconds later, then the landing engines, then touchdown (https://science.nasa.gov/mission/mars-2020-perseverance/), but every number here is made up.",
+    "_readme": "The landing (Stage 4 for surface destinations): a chain of timed presses with the SPACE key, like the launch (the player cannot move). moment_ids = the presses in order. press_speed and press_tightness work like the orbit burn ones; the site also has its own landing_window_tightness in destinations.json, and the two are multiplied. Perfect or Good costs nothing. A Miss adds its miss_cost (landing_moments) to GameState.damage. 'distance' means the lander ended that many percent of the way off the target. It is only stored and never ends the mission. The order follows NASA's Perseverance entry: the parachute comes out first, then the heat shield is dropped about 20 seconds later, then the landing engines, then touchdown (https://science.nasa.gov/mission/mars-2020-perseverance/), but every number here is made up. protected_by (landing_moments) = the Stage 1 part whose landing_cost_factor (game_data.json parts) changes that miss cost.",
     "moment_ids": [
       "parachute_out",
       "heat_shield_off",
@@ -137,28 +137,57 @@
         "kind": "distance",
         "amount": 20,
         "source": "PLACEHOLDER"
-      }
+      },
+      "protected_by": "heat_shield"
     },
     "parachute_out": {
       "miss_cost": {
         "kind": "solar_panel",
         "amount": 15,
         "source": "PLACEHOLDER"
-      }
+      },
+      "protected_by": "parachute"
     },
     "landing_engine_on": {
       "miss_cost": {
         "kind": "fuel",
         "amount": 15,
         "source": "PLACEHOLDER"
-      }
+      },
+      "protected_by": "landing_system"
     },
     "touchdown": {
       "miss_cost": {
         "kind": "distance",
         "amount": 10,
         "source": "PLACEHOLDER"
-      }
+      },
+      "protected_by": "landing_system"
+    }
+  },
+  "flyby": {
+    "_readme": "The Europa flyby (Stage 4): a chain of timed presses with SPACE, like the launch. The player runs it from mission control, so cannot move. moment_ids = the commands in order. Radio takes minutes to reach the spacecraft, so each press is the moment the command is SENT, early. A Perfect or Good press is a command sent on time; a Miss is a command sent too early or too late. The numbers here are made up.",
+    "moment_ids": [
+      "point_instrument",
+      "capture",
+      "protect_computer",
+      "send_data"
+    ],
+    "press_speed": {
+      "value": 1.0,
+      "source": "PLACEHOLDER"
+    },
+    "press_tightness": {
+      "value": 1.0,
+      "source": "PLACEHOLDER"
+    },
+    "ready_seconds": {
+      "value": 1.5,
+      "source": "PLACEHOLDER (game-design timing, a student can change it)"
+    },
+    "between_seconds": {
+      "value": 2.0,
+      "source": "PLACEHOLDER (game-design timing, a student can change it)"
     }
   }
 }

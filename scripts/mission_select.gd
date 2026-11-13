@@ -23,8 +23,15 @@ func _ready() -> void:
 		var card = CHOICE_CARD.instantiate()
 		cards_row.add_child(card)
 		# No subtitle line for missions, so we pass "" and the card hides it.
-		card.setup(words["name"], "", words["description"], words["button"])
-		card.set_extra(make_checklist(mission_id))
+		var arrival: String = GameState.get_arrival_type()
+		if arrival == "orbit":
+			card.setup(words["name"], "", words["description"], words["button"])
+			card.set_extra(make_checklist(mission_id))
+		else:
+			# A landing or a flyby has its own goal (game_data.json "arrival_goals").
+			var goal_words: Dictionary = Data.story["arrival_goals"][arrival]
+			card.setup(goal_words["name"], "", goal_words["description"], words["button"])
+			card.set_extra(make_arrival_checklist(arrival))
 		card.custom_minimum_size.x = 860   # only one mission, so the card can be wide
 		cards.append(card)
 		card.chosen.connect(_on_mission_chosen.bind(mission_id))
@@ -45,6 +52,20 @@ func make_checklist(mission_id: String) -> String:
 		var sentence: String = rule_words[res_id].format({
 			"value": GameState.fmt(limits[res_id]["value"]),
 			"unit": Data.resources[res_id]["unit"],
+		})
+		lines.append(screen_text["checklist_mark"] + " " + sentence)
+	return "\n".join(lines)
+
+
+# The checklist for a landing or a flyby, for example:
+#   The mission is a success if:
+#   [ ] Send home at least 20 Gb of data
+func make_arrival_checklist(arrival: String) -> String:
+	var screen_text: Dictionary = Data.story["mission_screen"]
+	var lines: PackedStringArray = [screen_text["goal_heading"]]
+	for rule_id in Data.story["arrival_goals"][arrival]["rules"]:
+		var sentence: String = Data.story["arrival_goals"][arrival]["rules"][rule_id].format({
+			"gb": GameState.fmt(Data.events["flyby_pass"]["planned_gb"]["value"]),
 		})
 		lines.append(screen_text["checklist_mark"] + " " + sentence)
 	return "\n".join(lines)

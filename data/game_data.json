@@ -4,13 +4,13 @@
     "_readme": "The order of the game screens. go_next() in StageManager.gd walks down this list, one screen at a time. Each name is a scene file in the scenes folder (intro means scenes/intro.tscn). To change the order, change this list. Nothing else needs to change.",
     "source": "Game-design choice by Kaleb. It is NOT a NASA number.",
     "scene_folder": "res://scenes/",
-    "order": ["intro", "cutscene_intro", "name", "character_select", "destination", "mission_select", "rocket", "build", "review", "launch", "flight", "orbit_burn", "landing", "walk", "debrief"],
+    "order": ["intro", "cutscene_intro", "name", "character_select", "destination", "mission_select", "rocket", "build", "review", "launch", "flight", "orbit_burn", "landing", "surface", "flyby", "walk", "debrief"],
     "arrival_stages": {
-      "_readme": "Which Arrival screens each arrival type uses, after Flight. go_next() skips the others. orbit = orbit burn then the walk (shadow pass). surface = landing, then (batch 8) the surface stage; until then the report. flyby = (batch 8) nothing yet, so it goes straight to the report.",
+      "_readme": "Which Arrival screens each arrival type uses, after Flight. go_next() skips the others. orbit = orbit burn then the walk (shadow pass). surface = landing, then the surface work (a walkable Mars area). flyby = the Europa flyby (timed presses from mission control), then the report.",
       "source": "Game-design choice (GAME_PLAN.md sections 7 and 13). It is NOT a NASA number.",
       "orbit": ["orbit_burn", "walk"],
-      "surface": ["landing"],
-      "flyby": []
+      "surface": ["landing", "surface"],
+      "flyby": ["flyby"]
     },
     "checkpoints": {
       "_readme": "Checkpoints (GAME_PLAN 12b). saved_when_leaving = when we leave this screen, the whole game state is saved as that checkpoint number. Review -> 1 (after Build), Launch -> 2, Flight -> 3 (before the orbit burn). 'Retry from checkpoint' puts the newest one back and goes to the screen after the one that saved it. save_file = where the copy is written; on the web, user:// is kept in the browser.",
@@ -33,6 +33,9 @@
       "communications_live": ["antenna"],
       "mission_lifetime_live": ["solar_panel"],
       "power_event": [],
+      "surface_sample_missed": ["solar_panel", "camera", "antenna", "landing_system"],
+      "surface_power": ["solar_panel", "camera", "antenna"],
+      "flyby_data_short": ["solar_panel", "camera", "antenna", "radiation_shield"],
       "food_empty": [],
       "water_empty": [],
       "air_empty": [],
@@ -46,8 +49,8 @@
     "name_max_length": 20,
     "default_character": "janitor",
     "pickable_arrival_types": {
-      "value": ["orbit"],
-      "source": "Game-design choice (agent's choice 2026-11-13): only arrival types that are built can be picked on the destination screen. Surface and flyby are added to this list in batch 8."
+      "value": ["orbit", "surface", "flyby"],
+      "source": "Game-design choice (agent's choice 2026-11-13): only arrival types that are built can be picked on the destination screen. Batch 8 built surface and flyby, so all three are listed. Take a type out of this list to grey its cards again."
     },
     "source": "Game-design choice. It is NOT a NASA number."
   },
@@ -59,6 +62,48 @@
     "card_min_width": 225,
     "button_min_width": 150,
     "button_height": 52
+  },
+  "destination_scaling": {
+    "_readme": "How a part's numbers change with the destination (batch 8). Solar parts (\"scaling\": [\"sunlight\"]) make power x (the destination's sunlight_vs_earth divided by the reference's). Antennas (\"scaling\": [\"distance\"]) send data at rate x (reference delay / destination delay) to the power of data_rate_exponent. The reference is Mars orbit, where the real part numbers were measured, so Mars and the Mars sites get exactly 1.0 and nothing changes there. The delay is the longest one-way radio delay in destinations.json (it grows with distance).",
+    "reference_destination": "mars_orbit",
+    "data_rate_exponent": {
+      "value": 2,
+      "source": "PLACEHOLDER. The idea (a radio link's best data rate falls with the square of the distance) is from ITU-R SA.1014 ('the maximum possible data rate is proportional to the inverse square of the radiocommunication distance': https://www.itu.int/dms_pubrec/itu-r/rec/sa/R-REC-SA.1014-1-200603-S!!PDF-E.pdf), which is not a NASA page, so a student finds a NASA source or keeps the written choice."
+    }
+  },
+  "arrival_goals": {
+    "_readme": "What counts as MISSION SUCCESS after Arrival for the trips that are not Mars orbit (Mars orbit keeps the six-limit goal rules above, unchanged). surface = collect the rock sample before the days run out, with power and crew supplies out of the red. flyby = send home at least the planned data (events.json flyby_pass planned_gb). The words are in story.json arrival_goals. A build that is already over a limit (the Review screen) fails too, as before.",
+    "source": "Agent's choice for Kaleb (2026-11-13), from the recommended answers in the batch 8 task. It is NOT a NASA number."
+  },
+  "surface_area": {
+    "_readme": "The walkable surface area (graybox: plain boxes and spheres, Mars colors from docs/ART_DIRECTION.md: dusty orange, terracotta, sandstone, rust, beige; matte). All sizes are in meters on the same x/z map as the ship (x left/right, z front/back). half_size = the ground runs from -half_size to +half_size. The lander sits at lander_position. player_start = where you stand when you arrive. sample_direction = which way from the lander the sample lies (a unit-less x, z pair); sample_distance_m (events.json surface_work) says how far. rim_height = the low ridge around the area. rocks = how many scenery rocks. Colors are web color codes. sun_* and sky_* set the light and sky.",
+    "source": "Game-design choice (agent's choice 2026-11-13). It is NOT a NASA number.",
+    "half_size": 34,
+    "rim_height": 2.5,
+    "rocks": 26,
+    "rock_seed": 11,
+    "lander_position": [0, 0, 0],
+    "player_start": [0, 0, 5],
+    "player_facing_degrees": 0,
+    "sample_direction": [-0.6, -0.8],
+    "sample_zone_radius": 1.8,
+    "lander_zone_radius": 3.0,
+    "colors": {
+      "ground": "#b5703f",
+      "ground_patch": "#c98a55",
+      "rim": "#8a4a2b",
+      "rock": ["#a65a35", "#d4a373", "#8a4a2b"],
+      "sample_rock": "#d9b88a",
+      "sample_glow": "#ffb347",
+      "lander_body": "#e8d8bd",
+      "lander_leg": "#9c9186",
+      "lander_panel": "#3a4a7a",
+      "sky_top": "#b98458",
+      "sky_horizon": "#e2b98c",
+      "sun": "#ffe2bd"
+    },
+    "sun_energy": 0.25,
+    "ambient_energy": 0.2
   },
   "resources": {
     "budget": {
@@ -195,10 +240,13 @@
       "texture": "foil"
     }
   },
+  "_allowed_readme": "allowed_at (batch 8) = where a slot or a version can be picked: a list of destination ids (for example europa_flyby) and/or arrival types (orbit, surface, flyby). A version without its own allowed_at uses its slot's list. The Build screen shows only the allowed ones, and only allowed parts count in the totals. name_at = a different slot name at one destination (Europa calls the solar panel slot 'Power source'). scaling = how the destination changes the part's numbers: sunlight (power) or distance (communications), see destination_scaling. landing_cost_factor = how much of a missed landing press's cost is left (1.0 = all, 0.5 = half). radiation_protection = percent of the flyby radiation loss this part stops.",
   "_look_readme": "\"look\" = how a part is drawn in the 3D walk. Sizes are in meters and are only for the picture, not NASA data. shape: wings = two flat panels on the sides, size [width, thickness, depth]; cylinder = hangs under the body, size [radius, length]; dish = sits on top, size [radius, depth]. model: leave \"\" to use the simple shape, or put a path like \"res://models/large_antenna.glb\" to use a real 3D model.",
   "parts": {
     "solar_panel": {
       "name": "Solar panel",
+      "name_at": { "europa_flyby": "Power source" },
+      "allowed_at": ["orbit", "surface", "flyby"],
       "look": {
         "shape": "wings",
         "mount": "sides",
@@ -216,6 +264,7 @@
             "data": 0,
             "mission_lifetime": 0
           },
+          "scaling": ["sunlight"],
           "source": "Mars Odyssey solar array. mass: https://ntrs.nasa.gov/api/citations/20030065626/downloads/20030065626.pdf; power: https://www.jpl.nasa.gov/news/press_kits/odysseyarrival.pdf; budget: no public source; mission_lifetime: game-design choice",
           "look": {
             "size": [
@@ -236,6 +285,7 @@
             "data": 0,
             "mission_lifetime": 6
           },
+          "scaling": ["sunlight"],
           "source": "MAVEN solar arrays. power: https://www.nasa.gov/wp-content/uploads/2015/03/mavenfactsheet_final20130610.pdf; mass: no public source; budget: no public source; mission_lifetime: game-design choice",
           "look": {
             "size": [
@@ -256,6 +306,7 @@
             "data": 0,
             "mission_lifetime": 12
           },
+          "scaling": ["sunlight"],
           "source": "MRO solar arrays, both wings. mass (2 x 48.3 kg): https://ntrs.nasa.gov/api/citations/20070029236/downloads/20070029236.pdf; power: https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf; budget: no public source; mission_lifetime: game-design choice",
           "look": {
             "size": [
@@ -265,11 +316,33 @@
             ],
             "model": ""
           }
+        },
+        "rtg": {
+          "name": "RTG (nuclear)",
+          "allowed_at": ["europa_flyby"],
+          "effects": {
+            "budget": 60,
+            "mass": 112,
+            "power": 570,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 12
+          },
+          "source": "Two radioisotope power generators like NASA's Galileo orbiter, which flew at Jupiter: power ('570 watts at launch'): https://science.nasa.gov/mission/galileo/ ; an RTG makes its power from heat, so it does not care how weak the sunlight is. (NASA's smaller MMRTG makes about 110 W and weighs 43.6 kg: https://science.nasa.gov/wp-content/uploads/2024/02/mmrtg-factsheet-updated-5-18-20-1.pdf.) mass: PLACEHOLDER (2 x about 56 kg, not read from a NASA page); budget: PLACEHOLDER; mission_lifetime: game-design choice",
+          "look": {
+            "size": [
+              0.4,
+              0.4,
+              0.4
+            ],
+            "model": ""
+          }
         }
       }
     },
     "camera": {
       "name": "Camera",
+      "allowed_at": ["orbit", "surface", "flyby"],
       "look": {
         "shape": "cylinder",
         "mount": "bottom",
@@ -318,6 +391,7 @@
     },
     "antenna": {
       "name": "Antenna",
+      "allowed_at": ["orbit", "surface", "flyby"],
       "look": {
         "shape": "dish",
         "mount": "top",
@@ -334,6 +408,7 @@
             "data": 0,
             "mission_lifetime": 0
           },
+          "scaling": ["distance"],
           "source": "Mars Odyssey 1.3 m high-gain antenna. mass (\"Mass (kg) 3.150\"; the catalog says \"Masses of MGA and HGA are combined\", so this is the high-gain antenna plus the small medium-gain antenna on it): https://pds-geosciences.wustl.edu/ody/ody-m-rss-1-raw-v1/odrs_0299/catalog/inst.cat; communications (\"maximum supported data rate of 124.425 kbps\" = 0.124 Mb/s): https://discovery.larc.nasa.gov/PDF_FILES/28Mars_Relay_Description.pdf; power: game-design choice, same 172 W amplifier as MRO (power used, electricity in; Odyssey really sends with \"a 15 W Solid State Power Amplifier\", from the Mars Relay Description link above; 172 W is the MRO figure): https://descanso.jpl.nasa.gov/DPSummary/MRO_092106.pdf; budget: no public source",
           "look": {
             "size": [
@@ -353,6 +428,7 @@
             "data": 0,
             "mission_lifetime": 0
           },
+          "scaling": ["distance"],
           "source": "MRO 3 m high-gain antenna. mass (Table 2-1: \"HGA prime reflector 19.1\" + \"Antenna feed assembly 1.6\" = 20.7 kg) and power (Table 2-1, X-band TWTA \"Spacecraft power input, W\" 172; power used, electricity in; its radio power out is 100 W): https://descanso.jpl.nasa.gov/DPSummary/MRO_092106.pdf; communications (same document: \"rates as high as 6 Mbps\"; NASA's Mars Relay Description gives a maximum of 5.2 Mbps: https://discovery.larc.nasa.gov/PDF_FILES/28Mars_Relay_Description.pdf); budget: no public source",
           "look": {
             "size": [
@@ -361,6 +437,90 @@
             ],
             "model": ""
           }
+        }
+      }
+    },
+    "heat_shield": {
+      "name": "Heat shield",
+      "allowed_at": ["surface"],
+      "look": { "shape": "none", "mount": "none", "color": "#b5703f" },
+      "versions": {
+        "basic": {
+          "name": "Basic",
+          "effects": {"budget": 15, "mass": 40, "power": 0, "communications": 0, "data": 0, "mission_lifetime": 0},
+          "landing_cost_factor": { "value": 1.0, "source": "Game-design choice (the normal landing cost)" },
+          "source": "PLACEHOLDER for mass and budget (no NASA number read). NASA's Mars 2020 heat shield is covered in PICA tiles and drops away about 20 seconds after the parachute opens: https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/getting_to_mars",
+          "look": { "size": [0.5, 0.2], "model": "" }
+        },
+        "strong": {
+          "name": "Strong",
+          "effects": {"budget": 30, "mass": 70, "power": 0, "communications": 0, "data": 0, "mission_lifetime": 0},
+          "landing_cost_factor": { "value": 0.5, "source": "PLACEHOLDER (a strong heat shield halves the cost of a missed 'heat shield off' press)" },
+          "source": "PLACEHOLDER for mass and budget (no NASA number read).",
+          "look": { "size": [0.5, 0.2], "model": "" }
+        }
+      }
+    },
+    "parachute": {
+      "name": "Parachute",
+      "allowed_at": ["surface"],
+      "look": { "shape": "none", "mount": "none", "color": "#e8d8bd" },
+      "versions": {
+        "basic": {
+          "name": "Basic",
+          "effects": {"budget": 10, "mass": 30, "power": 0, "communications": 0, "data": 0, "mission_lifetime": 0},
+          "landing_cost_factor": { "value": 1.0, "source": "Game-design choice (the normal landing cost)" },
+          "source": "PLACEHOLDER for mass and budget. NASA's Mars 2020 parachute is 21.5 meters (70.5 feet) wide: https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/getting_to_mars",
+          "look": { "size": [0.5, 0.2], "model": "" }
+        },
+        "strong": {
+          "name": "Strong",
+          "effects": {"budget": 20, "mass": 45, "power": 0, "communications": 0, "data": 0, "mission_lifetime": 0},
+          "landing_cost_factor": { "value": 0.5, "source": "PLACEHOLDER (a strong parachute halves the cost of a missed 'parachute out' press)" },
+          "source": "PLACEHOLDER for mass and budget.",
+          "look": { "size": [0.5, 0.2], "model": "" }
+        }
+      }
+    },
+    "landing_system": {
+      "name": "Landing system",
+      "allowed_at": ["surface"],
+      "look": { "shape": "none", "mount": "none", "color": "#9c9186" },
+      "versions": {
+        "basic": {
+          "name": "Basic",
+          "effects": {"budget": 30, "mass": 90, "power": 0, "communications": 0, "data": 0, "mission_lifetime": 0},
+          "landing_cost_factor": { "value": 1.0, "source": "Game-design choice (the normal landing cost)" },
+          "source": "PLACEHOLDER for mass and budget (the landing engines and fuel).",
+          "look": { "size": [0.5, 0.2], "model": "" }
+        },
+        "strong": {
+          "name": "Strong",
+          "effects": {"budget": 55, "mass": 140, "power": 0, "communications": 0, "data": 0, "mission_lifetime": 0},
+          "landing_cost_factor": { "value": 0.5, "source": "PLACEHOLDER (strong landing engines halve the cost of a missed 'landing engine on' or 'touchdown' press)" },
+          "source": "PLACEHOLDER for mass and budget.",
+          "look": { "size": [0.5, 0.2], "model": "" }
+        }
+      }
+    },
+    "radiation_shield": {
+      "name": "Radiation shield",
+      "allowed_at": ["europa_flyby"],
+      "look": { "shape": "none", "mount": "none", "color": "#888888" },
+      "versions": {
+        "none": {
+          "name": "None",
+          "effects": {"budget": 0, "mass": 0, "power": 0, "communications": 0, "data": 0, "mission_lifetime": 0},
+          "radiation_protection": { "value": 0, "source": "Game rule: no shield stops nothing." },
+          "source": "Game-design choice (the lightest, cheapest option).",
+          "look": { "size": [0.5, 0.2], "model": "" }
+        },
+        "vault": {
+          "name": "Shield vault",
+          "effects": {"budget": 25, "mass": 80, "power": 0, "communications": 0, "data": 0, "mission_lifetime": 0},
+          "radiation_protection": { "value": 60, "source": "PLACEHOLDER (percent of the radiation loss the vault stops)" },
+          "source": "Like NASA's Europa Clipper electronics vault, whose walls are 'up to 0.36 inches (9.2 millimeters) thick': https://www.jpl.nasa.gov/press-kits/europa-clipper/quick-facts/ ; mass and budget: PLACEHOLDER (NASA's pages do not give the vault mass).",
+          "look": { "size": [0.5, 0.2], "model": "" }
         }
       }
     }

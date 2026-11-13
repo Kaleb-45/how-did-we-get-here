@@ -152,13 +152,32 @@
       "what": "Air: the air was almost gone at the end.",
       "why": "Breathing uses up the air every day, and the oxygen generator was not run (or was run badly).",
       "fix": "Go to the Air station in Life Support and press E to run the oxygen generator. A press close to the target makes more oxygen."
+    },
+    "surface_sample_missed": {
+      "title": "Sample not collected",
+      "what": "The days ran out before we collected the sample.",
+      "why": "Every surface day uses power and supplies, and your parts decide how many days you get. Solar panels, camera and antenna decide how much power is left, and a rough landing puts the sample farther away.",
+      "fix": "More spare power means more days: a bigger solar panel, or a camera and antenna that use less. A strong landing system keeps the lander closer to the sample. Go straight to the sample."
+    },
+    "surface_power": {
+      "title": "Power ran out on the surface",
+      "what": "Power: the days and the sample tries used up all the spare power.",
+      "why": "Every surface day uses power, and every sample try uses more. Missed tries waste it.",
+      "fix": "Start with more spare power (a bigger solar panel, or parts that use less) and press the sample ring carefully."
+    },
+    "flyby_data_short": {
+      "title": "Not enough data got home",
+      "what": "The flyby sent home less data than planned.",
+      "why": "Far from Earth, a small antenna sends almost nothing. A bad press can lose pictures, and radiation destroys data when there is no radiation shield.",
+      "fix": "Use the Large antenna, take the radiation shield, and press each command on time."
     }
   },
   "parts": {
     "solar_panel": {
       "small": "The small solar panel. Cheap and light, but it adds no spare months, so the heater can't stay off long.",
       "medium": "The medium solar panel. A middle choice for power, cost, and weight.",
-      "large": "The large solar panel. Lots of power, but heavy and costly, and in Mars' shadow it makes none."
+      "large": "The large solar panel. Lots of power, but heavy and costly, and in Mars' shadow it makes none.",
+      "rtg": "The RTG. A nuclear power source: it makes power from heat, not sunlight. Heavy and costly, but Jupiter's sunlight is too weak for solar panels."
     },
     "camera": {
       "basic": "The basic camera. Maps all of Mars, but with no data to spare.",
@@ -245,7 +264,11 @@
     "what_label": "What failed",
     "why_label": "Why it failed",
     "fix_label": "How to fix it",
-    "trip_ended_text": "The trip is over for now. This part of the game is not built yet, so there is nothing to grade. The general nods slowly. He says to come back soon."
+    "trip_ended_text": "The trip is over for now. This part of the game is not built yet, so there is nothing to grade. The general nods slowly. He says to come back soon.",
+    "success_text_surface": "The sample is in the box and the crew is safe. The general nods. Twice, even.",
+    "success_text_flyby": "Europa's pictures are on the screens. The general nods. He even smiles a little.",
+    "success_note_surface": "The sample was collected, and power and supplies stayed out of the red.",
+    "success_note_flyby": "Enough data got home from Europa."
   },
   "dashboard_warnings": {
     "_readme": "What the inner voice says when a dashboard row turns yellow (warning) or red (danger) during the walk.",
@@ -360,5 +383,42 @@
     },
     "summary_clean": "Nothing lost at all! We are standing on another world. I may cry a little.",
     "summary_costs": "Some misses. The list shows what they cost us. But we are on the ground! Surface work comes next, so hold on to your hat."
+  },
+  "surface": {
+    "_readme": "What the inner voice says on the surface (Stage 4, surface destinations). {days} {material} and {left} are filled in. The voice is never wrong. The levels do not change these lines yet.",
+    "start": "We made it! Mars under our boots! We have {days} days here, and every day uses power and supplies. Walk to the glowing {material} and press E to collect the sample.",
+    "lander": "This is our lander. It brought us here and it holds everything we built.",
+    "sample_start": "Hold steady. Press E when the ring closes on the target.",
+    "results": {
+      "Perfect": "Perfect! The sample is in the box. I did a tiny dance. Nobody saw.",
+      "Good": "Good! We got the sample. Not pretty, but we got it.",
+      "Miss": "Missed! The drill slipped. That cost us power and a day. Try again!"
+    },
+    "day_warning": "Day {day}. Only {left} days left. Hurry!",
+    "last_day": "The last day! Get the sample now!",
+    "done": "The sample is safe! Science from another world, collected by us!",
+    "out_of_days": "The days are over and we have no sample. The power and supplies are gone. We have to go home with empty hands.",
+    "power_red": "Power is in the red! The drill and the days used too much."
+  },
+  "flyby": {
+    "_readme": "What the inner voice says during the Europa flyby (Stage 4, flyby destinations). The voice is never wrong. The levels do not change these lines yet.",
+    "start": "We are in mission control, and Europa is millions of kilometers away. Radio takes about {avg} minutes one way, so we cannot steer it live. We send every command early and hope. Press Space when the ring closes.",
+    "results": {
+      "Perfect": [
+        "Sent right on time! The spacecraft will do it all by itself. Wow.",
+        "Perfect again! My thumb knows what it is doing."
+      ],
+      "Good": [
+        "Good! A little off, but it should work.",
+        "Good enough. The signal is still on its way."
+      ],
+      "Miss": [
+        "Missed. That command will arrive at the wrong time. Oops.",
+        "Too early or too late. The spacecraft will do its own thing now."
+      ]
+    },
+    "pass": "Closest approach! Europa is right there, and we can only watch. The commands are arriving now.",
+    "summary_enough": "Enough data got home! Europa's ice is on our screens. The general will like this. I hope.",
+    "summary_short": "Not enough data got home. The report will show what held us back."
   }
 }

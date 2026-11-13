@@ -40,6 +40,8 @@ func build() -> void:
 func build_part(part_id: String, version_id: String) -> void:
 	var part: Dictionary = Data.parts[part_id]
 	var part_look: Dictionary = part["look"]
+	if part_look["mount"] == "none":
+		return   # a part that is not drawn on the spacecraft (landing parts, radiation shield)
 	var version_look: Dictionary = part["versions"][version_id]["look"]
 	var size: Array = version_look["size"]
 	var color: Color = Color.html(part_look["color"])

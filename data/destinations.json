@@ -1,5 +1,5 @@
 {
-  "_readme": "The places a mission can go. Each destination has an id (for example mars_orbit) and a list of facts. Every fact is written as { \"value\": ..., \"source\": ... } so you can see where it came from. A source is a link to NASA, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). arrival_type = how the spacecraft ends its trip: \"orbit\" (circle the planet), \"surface\" (land) or \"flyby\" (fly past). crew = true if people travel on a ship that carries the spacecraft you build. The words on the screen (names, descriptions) are in data/story.json. MORE FACTS (batch 7): distance_from_sun_au and distance_from_sun_million_km = how far from the Sun. sunlight_vs_earth = how strong the sunlight is compared with Earth (1.0 = Earth, 0.43 = less than half as strong). signal_delay_minutes = how long a radio message takes one way: min = planets closest, max = planets farthest. what_makes_it_different = one line (the words on the screen are in story.json). materials = what a surface site has (ids; their names are in story.json). landing_window_tightness = how tight the landing presses are at that site (1.0 = normal, bigger = tighter). pickable_arrival_types in game_data.json says which arrival types can be chosen yet.",
+  "_readme": "The places a mission can go. Each destination has an id (for example mars_orbit) and a list of facts. Every fact is written as { \"value\": ..., \"source\": ... } so you can see where it came from. A source is a link to NASA, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). arrival_type = how the spacecraft ends its trip: \"orbit\" (circle the planet), \"surface\" (land) or \"flyby\" (fly past). crew = true if people travel on a ship that carries the spacecraft you build. The words on the screen (names, descriptions) are in data/story.json. MORE FACTS (batch 7): distance_from_sun_au and distance_from_sun_million_km = how far from the Sun. sunlight_vs_earth = how strong the sunlight is compared with Earth (1.0 = Earth, 0.43 = less than half as strong). signal_delay_minutes = how long a radio message takes one way: min = planets closest, max = planets farthest. what_makes_it_different = one line (the words on the screen are in story.json). materials = what a surface site has (ids; their names are in story.json). landing_window_tightness = how tight the landing presses are at that site (1.0 = normal, bigger = tighter). pickable_arrival_types in game_data.json says which arrival types can be chosen yet. limit_changes (batch 8) = how much a destination moves the budget and mass limits (million $ and kg; added to the mission's limits).",
   "destinations": {
     "mars_orbit": {
       "arrival_type": {
@@ -103,6 +103,13 @@
       "landing_window_tightness": {
         "value": 1.2,
         "source": "PLACEHOLDER (game-design number, a student can change it)"
+      },
+      "limit_changes": {
+        "value": {
+          "budget": 60,
+          "mass": 260
+        },
+        "source": "PLACEHOLDER (game-design number, a student can change it). A surface mission carries three landing parts (heat shield, parachute, landing system), so its budget and mass limits are a little bigger than for an orbiter. Mars orbit has no change."
       }
     },
     "gale_crater": {
@@ -158,6 +165,13 @@
       "landing_window_tightness": {
         "value": 0.9,
         "source": "PLACEHOLDER (game-design number, a student can change it). 0.9 = a little easier; it stands for the unverified 'more air' idea above."
+      },
+      "limit_changes": {
+        "value": {
+          "budget": 60,
+          "mass": 260
+        },
+        "source": "PLACEHOLDER (game-design number, a student can change it). A surface mission carries three landing parts (heat shield, parachute, landing system), so its budget and mass limits are a little bigger than for an orbiter. Mars orbit has no change."
       }
     },
     "arcadia_planitia": {
@@ -213,6 +227,13 @@
       "landing_window_tightness": {
         "value": 1.0,
         "source": "PLACEHOLDER (game-design number, a student can change it)"
+      },
+      "limit_changes": {
+        "value": {
+          "budget": 60,
+          "mass": 260
+        },
+        "source": "PLACEHOLDER (game-design number, a student can change it). A surface mission carries three landing parts (heat shield, parachute, landing system), so its budget and mass limits are a little bigger than for an orbiter. Mars orbit has no change."
       }
     },
     "europa_flyby": {
@@ -262,6 +283,12 @@
       "materials": {
         "value": [],
         "source": "A flyby has no surface site."
+      },
+      "limit_changes": {
+        "value": {
+          "mass": 150
+        },
+        "source": "PLACEHOLDER (game-design number, a student can change it). Europa needs a radiation shield and an RTG, which weigh a lot, so the mass limit is bigger than for an orbiter."
       }
     }
   }

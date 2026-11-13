@@ -48,6 +48,9 @@ var supplies_started: bool = false    # true once the ship has been stocked
 var rationing: bool = false           # true once the player rations the food (Food station)
 var leak_active: bool = false         # true while the water leak is pouring (Flight)
 var generator_run: bool = false       # true once the player ran the oxygen generator (Air station)
+# The surface work (Stage 4, surface destinations) and the flyby (Europa). See start_surface() and start_flyby().
+var surface: Dictionary = {}          # days, sample, power used on the surface
+var flyby: Dictionary = {}            # captured, lost, stored and sent data of the Europa flyby
 
 
 func _ready() -> void:
@@ -75,6 +78,8 @@ func to_dict() -> Dictionary:
 		"rationing": rationing,
 		"leak_active": leak_active,
 		"generator_run": generator_run,
+		"surface": surface.duplicate(true),
+		"flyby": flyby.duplicate(true),
 		"event_failures": event_failures.duplicate(true),
 		"mission_months": mission_months,
 		"data_collected": data_collected,
@@ -106,6 +111,8 @@ func from_dict(d: Dictionary) -> void:
 	rationing = pick(d, "rationing", rationing)
 	leak_active = pick(d, "leak_active", leak_active)
 	generator_run = pick(d, "generator_run", generator_run)
+	surface = pick(d, "surface", surface)
+	flyby = pick(d, "flyby", flyby)
 	event_failures = pick(d, "event_failures", event_failures)
 	mission_months = pick(d, "mission_months", mission_months)
 	data_collected = pick(d, "data_collected", data_collected)
@@ -270,6 +277,8 @@ func start_new_attempt() -> void:
 	# The crew supplies, the findings and the leak start again too.
 	clear_supplies()
 	findings.clear()
+	surface.clear()
+	flyby.clear()
 
 
 # --- The launch (timed presses) -------------------------------------------
@@ -304,6 +313,13 @@ func get_destination() -> Dictionary:
 	if id == "":
 		id = Data.destinations.keys()[0]
 	return Data.destinations[id]
+
+
+# The id of the destination (Mars orbit if none is picked yet).
+func get_destination_id() -> String:
+	if destination_id != "":
+		return destination_id
+	return Data.destinations.keys()[0]
 
 
 # How the trip ends: "orbit", "surface" or "flyby" (destinations.json).
@@ -583,7 +599,7 @@ func get_running_values() -> Dictionary:
 	if storm_active:
 		var storm: Dictionary = Data.game_data["events"]["power_low"]
 		var solar_id: String = storm["solar_part"]
-		var solar_power: float = Data.parts[solar_id]["versions"][choices[solar_id]]["effects"]["power"]
+		var solar_power: float = get_version_effects(solar_id, choices[solar_id])["power"]
 		values["power"] -= solar_power * storm["solar_drop_percent"] / 100.0
 		values["power"] += storm["battery_power"]
 	return values
@@ -596,7 +612,7 @@ func get_running_values() -> Dictionary:
 func system_effects(system_id: String) -> Dictionary:
 	if system_id == "heater":
 		return Data.game_data["reroute_power"]["heater"]["effects"]
-	return Data.parts[system_id]["versions"][choices[system_id]]["effects"]
+	return get_version_effects(system_id, choices[system_id])
 
 
 # Flip a switch. Turned-off systems go in parts_off, and
@@ -617,7 +633,7 @@ func is_system_on(system_id: String) -> bool:
 func get_power_available() -> float:
 	var storm: Dictionary = Data.game_data["events"]["power_low"]
 	var solar_id: String = storm["solar_part"]
-	var solar: float = Data.parts[solar_id]["versions"][choices[solar_id]]["effects"]["power"]
+	var solar: float = get_version_effects(solar_id, choices[solar_id])["power"]
 	if storm_active:
 		solar -= solar * storm["solar_drop_percent"] / 100.0
 		solar += storm["battery_power"]
@@ -686,9 +702,89 @@ func get_live_limits() -> Dictionary:
 # (When the player comes back from the report, their old choices stay.)
 func fill_default_choices() -> void:
 	for part_id in Data.parts:
-		if not choices.has(part_id):
-			var versions: Dictionary = Data.parts[part_id]["versions"]
-			choices[part_id] = versions.keys()[0]
+		var allowed: Array = get_allowed_versions(part_id)
+		if allowed.is_empty():
+			choices.erase(part_id)   # this slot does not exist at this destination
+		elif not choices.has(part_id) or not allowed.has(choices[part_id]):
+			choices[part_id] = allowed[0]
+
+
+# --- Parts per destination (batch 8) ----------------------------------------
+# game_data.json "parts": allowed_at lists, name_at, scaling. See "_allowed_readme" there.
+# Only parts that are allowed at the destination count (Build shows only those).
+# A choice that is not allowed here (for example the RTG after changing from
+# Europa to Mars) is replaced by the first allowed version by fill_default_choices().
+
+# Does an allowed_at list include this destination (by id or by its arrival type)?
+func list_allows(allowed: Array) -> bool:
+	return allowed.has(get_destination_id()) or allowed.has(get_arrival_type())
+
+
+# Is this part version allowed at the destination? (A version without its own list uses its slot's list.)
+func is_part_allowed(part_id: String, version_id: String) -> bool:
+	var part: Dictionary = Data.parts[part_id]
+	if not list_allows(part.get("allowed_at", ["orbit", "surface", "flyby"])):
+		return false
+	var version: Dictionary = part["versions"][version_id]
+	if version.has("allowed_at"):
+		return list_allows(version["allowed_at"])
+	return true
+
+
+# The version ids of a slot that can be picked at this destination, in the data file's order.
+func get_allowed_versions(part_id: String) -> Array:
+	var result: Array = []
+	for version_id in Data.parts[part_id]["versions"]:
+		if is_part_allowed(part_id, version_id):
+			result.append(version_id)
+	return result
+
+
+# The slot's name at this destination (Europa calls the solar panel slot "Power source").
+func get_part_name(part_id: String) -> String:
+	var part: Dictionary = Data.parts[part_id]
+	return part.get("name_at", {}).get(get_destination_id(), part["name"])
+
+
+# How much of its Mars power a solar part makes here: this destination's sunlight
+# divided by Mars orbit's (game_data.json "destination_scaling"). Mars gives exactly 1.0.
+func get_sunlight_factor() -> float:
+	var reference: String = Data.game_data["destination_scaling"]["reference_destination"]
+	return float(get_destination()["sunlight_vs_earth"]["value"]) / float(Data.destinations[reference]["sunlight_vs_earth"]["value"])
+
+
+# How much of its Mars data rate an antenna sends here: (reference delay / this delay) to the
+# power of data_rate_exponent. Mars gives exactly 1.0.
+func get_distance_factor() -> float:
+	var scaling: Dictionary = Data.game_data["destination_scaling"]
+	var reference: String = scaling["reference_destination"]
+	var ratio: float = float(Data.destinations[reference]["signal_delay_minutes"]["value"]["max"]) / float(get_destination()["signal_delay_minutes"]["value"]["max"])
+	return pow(ratio, float(scaling["data_rate_exponent"]["value"]))
+
+
+# What a part version gives and uses AT THIS DESTINATION: the data file's numbers,
+# with power (sunlight) and communications (distance) scaled where the version says so.
+func get_version_effects(part_id: String, version_id: String) -> Dictionary:
+	var version: Dictionary = Data.parts[part_id]["versions"][version_id]
+	var effects: Dictionary = version["effects"].duplicate()
+	var scaling: Array = version.get("scaling", [])
+	if scaling.has("sunlight"):
+		effects["power"] = effects["power"] * get_sunlight_factor()
+	if scaling.has("distance"):
+		effects["communications"] = effects["communications"] * get_distance_factor()
+	return effects
+
+
+# The cost of a missed landing press, made smaller by the Stage 1 landing part that guards it
+# (timing.json landing_moments -> protected_by; the part's landing_cost_factor).
+func get_landing_miss_cost(moment_id: String) -> Dictionary:
+	var moment: Dictionary = Data.timing["landing_moments"][moment_id]
+	var cost: Dictionary = moment["miss_cost"]
+	var factor := 1.0
+	var slot: String = moment.get("protected_by", "")
+	if slot != "" and Data.parts.has(slot) and choices.has(slot) and is_part_allowed(slot, choices[slot]):
+		factor = float(Data.parts[slot]["versions"][choices[slot]].get("landing_cost_factor", {}).get("value", 1.0))
+	return {"kind": cost["kind"], "amount": float(cost["amount"]) * factor}
 
 
 # Adds up the six resources:
@@ -711,7 +807,8 @@ func get_totals() -> Dictionary:
 	# Add each chosen part version.
 	for part_id in choices:
 		var version_id: String = choices[part_id]
-		add_effects(totals, Data.parts[part_id]["versions"][version_id]["effects"])
+		if is_part_allowed(part_id, version_id):   # a part from another destination counts for nothing
+			add_effects(totals, get_version_effects(part_id, version_id))
 
 	return totals
 
@@ -742,6 +839,11 @@ func get_limits() -> Dictionary:
 			"warning": mission_limits[res_id]["warning"],
 			"bar_max": mission_limits[res_id]["bar_max"],
 		}
+	# This destination can move the budget and mass limits (destinations.json "limit_changes").
+	var changes: Dictionary = get_destination().get("limit_changes", {}).get("value", {})
+	for res_id in changes:
+		for key in ["value", "warning", "bar_max"]:
+			limits[res_id][key] += changes[res_id]
 	return limits
 
 
@@ -843,3 +945,152 @@ func fmt(value: float) -> String:
 	if text == "-0":
 		text = "0"
 	return text
+
+
+# --- The surface work (Stage 4, surface destinations) ------------------------
+# A walkable area, a surface clock, and one task: collect the sample.
+# All numbers: data/events.json "surface_work". The state is in the dictionary `surface`.
+
+# Spare power (W) when the surface stay starts: the build's spare power, with the
+# solar panel's landing damage taken off (a damaged panel makes less power).
+func get_surface_start_power() -> float:
+	var power: float = get_totals()["power"]
+	var damaged_percent: float = damage.get("solar_panel", 0.0)
+	if damaged_percent > 0.0 and choices.has("solar_panel") and is_part_allowed("solar_panel", choices["solar_panel"]):
+		var solar: float = get_version_effects("solar_panel", choices["solar_panel"])["power"]
+		power -= solar * minf(damaged_percent, 100.0) / 100.0
+	return power
+
+
+# Call when the surface stage starts. The parts decide how many days there are:
+# the smallest of max_days, (spare power / power cost per day) and the days the crew supplies last.
+func start_surface() -> void:
+	var work: Dictionary = Data.events["surface_work"]
+	var start_power: float = get_surface_start_power()
+	var days: int = int(work["max_days"]["value"])
+	days = mini(days, int(floor(start_power / float(work["power_cost_per_day_w"]["value"]))))
+	if has_crew():
+		ensure_supplies()
+		for id in SUPPLY_IDS:
+			var per_day: float = get_supply_use_per_day(id) * float(work["supply_days_per_day"]["value"])
+			days = mini(days, int(floor(crew_supplies[id] / per_day)))
+	surface = {
+		"days_total": maxi(1, days),
+		"days_used": 0.0,
+		"sample": false,
+		"attempts": 0,
+		"start_power": start_power,
+		"extra_power_used": 0.0,
+	}
+
+
+# The surface clock moves: delta real seconds. The crew uses supplies too.
+func advance_surface(delta: float) -> void:
+	var work: Dictionary = Data.events["surface_work"]
+	var days_passed: float = delta / float(work["seconds_per_day"]["value"])
+	add_surface_days(days_passed)
+
+
+# Adds surface days (the clock, or the days a missed try loses) and uses the supplies for them.
+func add_surface_days(days_passed: float) -> void:
+	surface["days_used"] += days_passed
+	if has_crew():
+		advance_supplies(days_passed * float(Data.events["surface_work"]["supply_days_per_day"]["value"]))
+
+
+# Spare power now: it falls every day and with every sample try.
+func get_surface_power() -> float:
+	var work: Dictionary = Data.events["surface_work"]
+	return surface["start_power"] - surface["days_used"] * float(work["power_cost_per_day_w"]["value"]) - surface["extra_power_used"]
+
+
+# Whole days left (never below 0).
+func get_surface_days_left() -> int:
+	return maxi(0, int(ceil(surface["days_total"] - surface["days_used"])))
+
+
+func is_surface_time_up() -> bool:
+	return surface["days_used"] >= surface["days_total"]
+
+
+# One try at the sample. Perfect or Good collects it. A Miss loses a day. Every try uses power.
+func collect_sample(result: String) -> void:
+	var work: Dictionary = Data.events["surface_work"]
+	surface["attempts"] += 1
+	surface["extra_power_used"] += float(work["attempt_power_cost_w"]["value"])
+	if result == "Miss":
+		add_surface_days(float(work["miss_days_lost"]["value"]))
+	else:
+		surface["sample"] = true
+
+
+# The meters on the surface HUD: the power row's limits are the build's power limits.
+func get_surface_power_status() -> String:
+	return get_status(get_surface_power(), get_limits()["power"])
+
+
+# At the end of the surface stay: what went wrong is written down as failures.
+# A power failure is skipped if the build already had a red power row (it has its own card).
+func add_end_of_surface_failures() -> void:
+	if surface.is_empty():
+		return
+	if not surface["sample"] and not event_failures.has("surface_sample_missed"):
+		event_failures.append("surface_sample_missed")
+	if get_surface_power() < 0.0 and not get_failed_resources().has("power") and not event_failures.has("surface_power"):
+		event_failures.append("surface_power")
+	add_end_of_supply_failures()   # red crew supplies count too
+
+
+# --- The Europa flyby (Stage 4, flyby destinations) --------------------------
+# Four timed presses, then the pass. Numbers: data/events.json "flyby_pass".
+
+# Call when the flyby starts.
+func start_flyby() -> void:
+	flyby = {
+		"point": 0.0,      # how well the instrument was pointed (a factor)
+		"captured": 0.0,   # Gb captured
+		"stored": 0.0,     # Gb stored now
+		"lost": 0.0,       # Gb destroyed by radiation
+		"sent": 0.0,       # Gb sent home
+		"planned": float(Data.events["flyby_pass"]["planned_gb"]["value"]),
+		"capacity": 0.0,   # Gb the antenna could send
+	}
+
+
+# The result of one command press. moment_id: point_instrument, capture, protect_computer, send_data.
+func apply_flyby_press(moment_id: String, result: String) -> void:
+	var numbers: Dictionary = Data.events["flyby_pass"]
+	var factor: float = float(numbers["result_factor"][result]["value"])
+	match moment_id:
+		"point_instrument":
+			flyby["point"] = factor
+		"capture":
+			var camera_gb_per_day: float = system_effects("camera")["data"]
+			var wanted: float = camera_gb_per_day * float(numbers["capture_days_worth"]["value"]) * flyby["point"] * factor
+			flyby["captured"] = minf(wanted, float(numbers["storage_gb"]["value"]))
+			flyby["stored"] = flyby["captured"]
+		"protect_computer":
+			var loss_percent: float = float(numbers["radiation_loss_percent"]["value"]) * (1.0 - get_radiation_protection() / 100.0) * float(numbers["radiation_result_loss"][result]["value"])
+			var lost: float = flyby["stored"] * loss_percent / 100.0
+			flyby["lost"] += lost
+			flyby["stored"] -= lost
+		"send_data":
+			var megabits_per_second: float = system_effects("antenna")["communications"]
+			flyby["capacity"] = megabits_per_second * float(numbers["downlink_hours"]["value"]) * 3600.0 / 1000.0 * factor
+			flyby["sent"] = minf(flyby["stored"], flyby["capacity"])
+			flyby["stored"] -= flyby["sent"]
+
+
+# Percent of the radiation loss the picked radiation shield stops (0 if the slot is not here).
+func get_radiation_protection() -> float:
+	if not choices.has("radiation_shield") or not is_part_allowed("radiation_shield", choices["radiation_shield"]):
+		return 0.0
+	return float(Data.parts["radiation_shield"]["versions"][choices["radiation_shield"]]["radiation_protection"]["value"])
+
+
+# At the end of the flyby: less data home than planned is a failure.
+func add_end_of_flyby_failures() -> void:
+	if flyby.is_empty():
+		return
+	if flyby["sent"] < flyby["planned"] and not event_failures.has("flyby_data_short"):
+		event_failures.append("flyby_data_short")

@@ -83,7 +83,7 @@ func run_landing() -> void:
 
 		GameState.record_press("landing", moment_id, result)
 		if result == "Miss":
-			var cost: Dictionary = Data.timing["landing_moments"][moment_id]["miss_cost"]
+			var cost: Dictionary = GameState.get_landing_miss_cost(moment_id)   # a strong landing part halves it
 			GameState.add_damage(cost["kind"], cost["amount"])
 		moment_labels[i].text = words["moments"][moment_id] + "\n" + words["results"][result]
 		moment_labels[i].theme_type_variation = &"SmallText"
@@ -106,7 +106,7 @@ func show_summary() -> void:
 		if entry["stage"] != "landing" or entry["result"] != "Miss":
 			continue
 		any_cost = true
-		var cost: Dictionary = Data.timing["landing_moments"][entry["moment"]]["miss_cost"]
+		var cost: Dictionary = GameState.get_landing_miss_cost(entry["moment"])
 		var cost_text: String = Data.story["launch_screen"]["cost_kinds"][cost["kind"]].format({"amount": GameState.fmt(cost["amount"])})
 		add_line(words["cost_line"].format({"moment": words["moments"][entry["moment"]], "cost": cost_text}))
 	if any_cost:
