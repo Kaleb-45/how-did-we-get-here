@@ -122,14 +122,16 @@ Kaleb tested: pass (2026-11-12).
 
 ### Batch 5: Stage 4 Arrival, orbit type (GAME_PLAN 7)
 
-- [ ] **A17. Orbit burn, then the existing shadow pass.** M
+Kaleb tested: pass (2026-11-13).
+
+- [x] **A17. Orbit burn, then the existing shadow pass.** M
   One timed press (E) for the orbit burn. A miss adds a cost. Then the existing walk
   runs as Arrival: the mission clock (mission lifetime), the shadow pass and Reroute
   Power, unchanged.
   Test: the old win/lose tests (AGENT_SOURCE section 6, item 7) give the same
   results as before.
 
-- [ ] **A18. One science pass.** M
+- [x] **A18. One science pass.** M
   Two timed presses (E): capture when the target is in view, then downlink when the
   ground station is in view. Storage, power and antenna speed limit how much data
   gets home.
