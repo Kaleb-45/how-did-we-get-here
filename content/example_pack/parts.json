@@ -1,0 +1,26 @@
+{
+  "_readme": "EXAMPLE PACK. One new solar panel version, in the same shape as data/game_data.json. Copy this folder, rename it, and change the numbers. Every number here is PLACEHOLDER until a student replaces it with a real NASA number and a source link.",
+  "parts": {
+    "solar_panel": {
+      "versions": {
+        "example_wing": {
+          "name": "Example Wing (pack)",
+          "effects": {
+            "budget": 30,
+            "mass": 45,
+            "power": 950,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 3
+          },
+          "scaling": ["sunlight"],
+          "source": "PLACEHOLDER (EXAMPLE PACK: every number is made up, between the Small and Medium panels). A student replaces it with real NASA numbers and a link.",
+          "look": {
+            "size": [2.0, 0.06, 1.4],
+            "model": ""
+          }
+        }
+      }
+    }
+  }
+}

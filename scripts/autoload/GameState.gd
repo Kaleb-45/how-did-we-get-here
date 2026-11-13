@@ -1420,6 +1420,8 @@ func get_goal_rules(predicted: bool) -> Array:
 	var limits: Dictionary = end_limits if use_end else get_limits()
 	for res_id in mission["goal_rules"]["resources"]:
 		rules.append({"id": res_id, "met": is_ok(values[res_id], limits[res_id])})
+	# One more rule: no failures at all (the same test as MISSION SUCCESS). Predicted: no red row in the build.
+	rules.append({"id": "mission", "met": get_failed_resources().is_empty() if predicted else get_all_failures().is_empty()})
 	var arrival: String = get_arrival_type()
 	if arrival == "surface":
 		var done: bool = not predicted and not surface.is_empty()

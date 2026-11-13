@@ -100,8 +100,18 @@
     "_readme": "What counts as MISSION SUCCESS after Arrival for the trips that are not Mars orbit (Mars orbit keeps the six-limit goal rules above, unchanged). surface = collect the rock sample before the days run out, with power and crew supplies out of the red. flyby = send home at least the planned data (events.json flyby_pass planned_gb). The words are in story.json arrival_goals. A build that is already over a limit (the Review screen) fails too, as before.",
     "source": "Agent's choice for Kaleb (2026-11-13), from the recommended answers in the batch 8 task. It is NOT a NASA number."
   },
+  "content_packs": {
+    "_readme": "Settings for the content loader (scripts/content_loader.gd). folders = where packs are looked for; every folder inside one is a pack (a folder that starts with one of skip_folder_prefixes is switched off). A pack is skipped whole, with a clear message, if one of its files is broken or a thing it adds is missing a field below. slot_keys = what a NEW part slot needs; version_keys = what every new part version needs (it also needs a number for each of the six resources in effects, a look with a size, and a voice line in inner_voice.json parts); destination_keys and mission_keys = what a new destination or mission needs (it also needs words in story.json and a voice line for each level). See docs/STUDENT_GUIDE.md.",
+    "folders": ["res://content", "user://content"],
+    "skip_folder_prefixes": ["_", "."],
+    "slot_keys": ["name", "allowed_at", "look", "versions"],
+    "version_keys": ["name", "effects", "source", "look"],
+    "destination_keys": ["arrival_type", "crew", "distance_from_sun_au", "distance_from_sun_million_km", "sunlight_vs_earth", "signal_delay_minutes", "trip_days", "flight_legs", "flight_leg_seconds", "what_makes_it_different", "materials"],
+    "mission_keys": ["limits", "goal_rules"],
+    "source": "Game-design choice (agent's choice for Kaleb, 2026-11-13). It is NOT a NASA number."
+  },
   "score": {
-    "_readme": "The score out of 1000 (GAME_PLAN.md section 8). Four parts, each worth up to its weight (the weights add up to 1000): goal = the share of goal rules met (the mission's goal resources: data, mission lifetime and communications, plus the surface tasks or the Europa data target); science = science sent home divided by the target; budget = budget left over the limit, full marks at budget_full_left (a share of the limit); timing = the average of the timed presses (Perfect, Good, Miss credits below; with no presses yet, the Build screen guesses predicted_timing). The Build screen shows a PREDICTED score: it assumes every task is done, all presses are Good (predicted_timing) and the science is the best the parts can do with Good presses (result_factor Good in events.json). The report shows the real score.",
+    "_readme": "The score out of 1000 (GAME_PLAN.md section 8). Four parts, each worth up to its weight (the weights add up to 1000): goal = the share of goal rules met (the mission's goal resources: data, mission lifetime and communications, plus the surface tasks or the Europa data target, plus one rule for no failures at all); science = science sent home divided by the target; budget = budget left over the limit, full marks at budget_full_left (a share of the limit); timing = the average of the timed presses (Perfect, Good, Miss credits below; with no presses yet, the Build screen guesses predicted_timing). The Build screen shows a PREDICTED score: it assumes every task is done, all presses are Good (predicted_timing) and the science is the best the parts can do with Good presses (result_factor Good in events.json). The report shows the real score.",
     "weights": {
       "goal": { "value": 400, "source": "PLACEHOLDER (game-design choice: the goal matters most; a student or Kaleb can change it, the four must add up to 1000)" },
       "science": { "value": 200, "source": "PLACEHOLDER" },

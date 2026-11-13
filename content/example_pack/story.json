@@ -1,0 +1,8 @@
+{
+  "_readme": "EXAMPLE PACK. One trade-off line (shown when you point at the part's button on the Build screen).",
+  "part_trade_offs": {
+    "solar_panel": {
+      "example_wing": "EXAMPLE PACK: a made-up panel between Small and Medium."
+    }
+  }
+}

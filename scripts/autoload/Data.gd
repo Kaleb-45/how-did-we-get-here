@@ -22,6 +22,7 @@ var timing: Dictionary = {}   # from data/timing.json (launch moments)
 var levels: Dictionary = {}   # from data/levels.json: what each level changes
 var supplies: Dictionary = {}   # from data/supplies.json: crew food, water and air
 var events: Dictionary = {}   # from data/events.json: Flight events (the water leak)
+var pack_messages: Array = []   # what the content loader said about bad packs (empty = all good)
 
 
 # _ready() runs automatically when this node starts.
@@ -34,6 +35,10 @@ func _ready() -> void:
 	destinations = load_json("res://data/destinations.json").get("destinations", {})
 	supplies = load_json("res://data/supplies.json")
 	events = load_json("res://data/events.json").get("events", {})
+
+	# Content packs (content/<name>/): the loader adds them to the base data by id.
+	# It must run before the shortcuts below, because it can add parts and missions.
+	pack_messages = preload("res://scripts/content_loader.gd").new().load_all(self)
 
 	resources = game_data.get("resources", {})
 	parts = game_data.get("parts", {})

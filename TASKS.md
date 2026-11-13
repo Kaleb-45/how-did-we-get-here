@@ -240,7 +240,7 @@ Kaleb's standing instruction (2026-11-13): finish the game with the recommended 
   `game_data.json` "score". Shown on the report with a breakdown, and as a live predicted
   score on the Build screen.
   Test: change a part on Build and watch the predicted score move; finish a run and see the breakdown.
-- [ ] **C6. Content loader and the example pack.** M
+- [x] **C6. Content loader and the example pack.** M
   Loads the base data, then every pack in `res://content/` (and `user://content/`), merging by id.
   A bad pack is skipped with a clear message. `content/example_pack/` and `docs/STUDENT_GUIDE.md`.
   Test: the Build screen shows "Example Wing (pack)"; break the pack's JSON and the game still starts.
@@ -302,8 +302,7 @@ The old unfinished steps, kept here until Phase C is done (unless Kaleb says so)
 - [ ] **12. Remove leftovers** (compact dashboard, `hint_small`, ask about
   `dashboard_test`). NICE · S
 - [ ] **13. Alarm sound for the shadow pass.** NICE · M
-- [ ] **14. One-page student guide.** NICE · S (GAME_PLAN 10 asks for a content-pack
-  guide in Phase C.)
+- [x] **14. One-page student guide.** NICE · S Done in Batch 10: `docs/STUDENT_GUIDE.md`.
 - [ ] **15. Data station mini-game in the Science bay.** NICE · L
 - [ ] **16. Comms station mini-game in the Comms room.** NICE · L
 - [ ] **17. More characters and missions.** NICE · L (characters are now A4 and
