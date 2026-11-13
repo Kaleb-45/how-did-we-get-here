@@ -412,6 +412,8 @@ What Kaleb looks at or tests before saying "pass":
 
 ## 7. How I work
 
+- **From 2026-11-13, agents finish the game on their own.** Execute GAME_PLAN in phase order, take every recommended answer and DEFAULT, decide open questions the way Kaleb decided similar ones before (record each one here as "agent's choice for Kaleb"), commit as each step passes its checks, and give Kaleb one combined test at the end instead of waiting after each batch. Real NASA numbers still need a source; agents still never invent real-looking numbers (PLACEHOLDER stays for students).
+  Why: "for the next part i just want you to execute all the things on the plan, do the recommended things, commit when needed, and just finish the game, do what you think i would do based off my past decisions" (2026-11-13).
 - **How Kaleb gives tasks.** Each feature starts with a **pasted, structured brief**. It contains:
   - "Next task: ..."
   - A short "What it does" or layout section.
