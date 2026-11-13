@@ -154,7 +154,7 @@ Kaleb tested: pass (2026-11-13).
   Test: fail a round. Each button goes to the right place, with the right parts
   kept or cleared.
 
-- [ ] **A22. Report reads the full game state.** M
+- [x] **A22. Report reads the full game state.** M
   The name, launch timings, crew supply findings, science returned and the 3 goal
   rules. Any red meter fails the mission.
   Test: a losing round and a winning round both end on the right report.

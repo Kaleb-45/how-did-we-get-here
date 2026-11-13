@@ -288,6 +288,25 @@
     "retry_button": "Retry from checkpoint",
     "same_design_button": "Same design / new destination",
     "start_fresh_button": "Start fresh",
-    "no_checkpoint_tip": "There is no checkpoint saved yet."
+    "no_checkpoint_tip": "There is no checkpoint saved yet.",
+    "cause_label": "Your Stage 1 choice:",
+    "no_stage1_choice": "none. This came from what happened in Flight and Arrival.",
+    "slot_names": { "launch_vehicle": "Rocket" },
+    "log_label": "WHAT HAPPENED ON THE WAY",
+    "costs_title": "Launch and orbit burn costs",
+    "no_costs": "No damage. A clean launch and orbit burn!",
+    "cost_line": "{moment} (missed): {cost}",
+    "crew_damage_line": "Crew harmed because a supply ran out: {amount}%",
+    "stage_names": { "launch": "Launch", "orbit_burn": "Orbit burn", "flight": "Flight" },
+    "supplies_title": "Crew supplies at the end",
+    "supply_line": "{name}: {left} {unit} of {full}",
+    "science_title": "Science",
+    "science_line": "Science sent home: {gb} Gb",
+    "science_left_line": "Still on the ship, never sent: {gb} Gb",
+    "science_note": "For your information. It does not change MISSION SUCCESS yet.",
+    "timing_title": "Timed presses",
+    "timing_line": "{stage}: {perfect} Perfect, {good} Good, {miss} Miss",
+    "timing_total_line": "All presses: {perfect} Perfect, {good} Good, {miss} Miss",
+    "no_presses": "No timed presses were played."
   }
 }

@@ -18,6 +18,8 @@ extends Control
 @onready var findings_list: VBoxContainer = %Findings
 @onready var readings_label: Label = %ReadingsLabel
 @onready var readings: GridContainer = %Readings
+@onready var log_label: Label = %LogLabel
+@onready var log_box: VBoxContainer = %Log
 @onready var retry_button: Button = %RetryButton
 @onready var same_design_button: Button = %SameDesignButton
 @onready var start_fresh_button: Button = %StartFreshButton
@@ -26,6 +28,8 @@ extends Control
 var words: Dictionary
 var ok_color: Color
 var bad_color: Color
+var warn_color: Color
+var report_words: Dictionary   # "report_screen" from story.json
 
 
 func _ready() -> void:
@@ -40,6 +44,8 @@ func _ready() -> void:
 	var colors: Dictionary = Data.game_data["dashboard"]["colors"]
 	ok_color = Color.html(colors["safe"])
 	bad_color = Color.html(colors["danger"])
+	warn_color = Color.html(colors["warning"])
+	report_words = Data.story["report_screen"]
 
 	setup_buttons()
 
@@ -55,6 +61,7 @@ func _ready() -> void:
 		for i in failures.size():
 			add_finding(i + 1, failures[i])
 	fill_readings()
+	fill_log()
 
 
 # The three report buttons. All their words are in story.json ("report_screen").
@@ -126,6 +133,13 @@ func add_finding(number: int, failure_id: String) -> void:
 	add_part(row, words["what_label"], GameState.fill_blanks(text["what"], failure_id))
 	add_part(row, words["why_label"], text["why"])
 	add_part(row, words["fix_label"], text["fix"])
+
+	# Which choice did the player make in Stage 1 that caused this finding?
+	var cause := Label.new()
+	cause.text = report_words["cause_label"] + " " + cause_text(failure_id)
+	cause.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	cause.theme_type_variation = &"SmallText"
+	column.add_child(cause)
 
 
 # An orange heading with its text underneath, as one of the three columns.
@@ -239,3 +253,127 @@ func _on_start_fresh_pressed() -> void:
 	lock_buttons()
 	GameState.reset_all()
 	StageManager.go_to("name")
+
+
+# --- Finding causes ------------------------------------------------------------
+
+# "Rocket: Medium rocket, Solar panel: Medium". The list of which choices can
+# cause which finding is in game_data.json ("report").
+func cause_text(failure_id: String) -> String:
+	var slots: Array = Data.game_data["report"]["failure_causes"].get(failure_id, [])
+	if slots.is_empty():
+		return report_words["no_stage1_choice"]
+	var parts: PackedStringArray = []
+	for slot in slots:
+		if slot == "launch_vehicle":
+			var rocket_name: String = Data.story["launch_vehicles"][GameState.get_launch_vehicle_id()]["name"]
+			parts.append(report_words["slot_names"][slot] + ": " + rocket_name)
+		else:
+			var part: Dictionary = Data.parts[slot]
+			parts.append(part["name"] + ": " + part["versions"][GameState.choices[slot]]["name"])
+	return ", ".join(parts)
+
+
+# --- What happened on the way ---------------------------------------------------
+
+func fill_log() -> void:
+	log_label.text = report_words["log_label"]
+	add_costs()
+	add_supplies()
+	add_science()
+	add_timing()
+
+
+# One line in the log. heading = an orange title, otherwise a normal line.
+func add_log_line(text: String, color: Color = Color.WHITE, heading: bool = false) -> void:
+	var line := Label.new()
+	line.text = text
+	line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	if heading:
+		line.theme_type_variation = &"AccentText"
+		if log_box.get_child_count() > 0:
+			log_box.add_child(HSeparator.new())   # a thin line between sections
+	else:
+		line.theme_type_variation = &"SmallText"
+		line.add_theme_color_override("font_color", color)
+	log_box.add_child(line)
+
+
+# The cost of each missed press (launch and orbit burn), then crew damage.
+func add_costs() -> void:
+	add_log_line(report_words["costs_title"], Color.WHITE, true)
+	var any_cost := false
+	for entry in GameState.timing_results:
+		if entry["result"] != "Miss":
+			continue
+		var cost: Dictionary
+		var moment_name: String
+		if entry["stage"] == "launch":
+			cost = Data.timing["launch_moments"][entry["moment"]]["miss_cost"]
+			moment_name = Data.story["launch_screen"]["moments"][entry["moment"]]
+		else:
+			cost = Data.timing["orbit_burn"]["miss_cost"]
+			moment_name = Data.story["orbit_burn_screen"]["title"]
+		var cost_text: String = Data.story["launch_screen"]["cost_kinds"][cost["kind"]].format({"amount": GameState.fmt(cost["amount"])})
+		add_log_line(report_words["cost_line"].format({"moment": moment_name, "cost": cost_text}), bad_color)
+		any_cost = true
+	if GameState.damage.get("crew", 0.0) > 0.0:
+		add_log_line(report_words["crew_damage_line"].format({"amount": GameState.fmt(GameState.damage["crew"])}), bad_color)
+		any_cost = true
+	if not any_cost:
+		add_log_line(report_words["no_costs"], ok_color)
+
+
+# Food, water and air that are left. Only if the ship was stocked (Flight or Arrival).
+func add_supplies() -> void:
+	if not GameState.supplies_started:
+		return
+	add_log_line(report_words["supplies_title"], Color.WHITE, true)
+	var names: Dictionary = Data.story["crew_supplies"]
+	for id in GameState.SUPPLY_IDS:
+		var status: String = GameState.get_supply_status(id)
+		var color: Color = ok_color
+		if status == "warning":
+			color = warn_color
+		elif status == "danger":
+			color = bad_color
+		add_log_line(report_words["supply_line"].format({
+			"name": names["names"][id],
+			"left": GameState.fmt(GameState.crew_supplies[id]),
+			"unit": names["units"][id],
+			"full": GameState.fmt(GameState.get_supply_capacity(id)),
+		}), color)
+
+
+# Science sent home. It is an info line: it does not change the stamp yet.
+func add_science() -> void:
+	add_log_line(report_words["science_title"], Color.WHITE, true)
+	add_log_line(report_words["science_line"].format({"gb": GameState.fmt(GameState.science_returned)}))
+	if GameState.science_stored > 0.0:
+		add_log_line(report_words["science_left_line"].format({"gb": GameState.fmt(GameState.science_stored)}))
+	add_log_line(report_words["science_note"], get_theme_color("font_color", &"AccentText"))
+
+
+# How many Perfect, Good and Miss, for each stage and in all.
+func add_timing() -> void:
+	add_log_line(report_words["timing_title"], Color.WHITE, true)
+	if GameState.timing_results.is_empty():
+		add_log_line(report_words["no_presses"])
+		return
+	var by_stage: Dictionary = {}   # stage id -> { "Perfect": n, "Good": n, "Miss": n }
+	var all: Dictionary = {"Perfect": 0, "Good": 0, "Miss": 0}
+	for entry in GameState.timing_results:
+		var stage: String = entry["stage"]
+		if not by_stage.has(stage):
+			by_stage[stage] = {"Perfect": 0, "Good": 0, "Miss": 0}
+		by_stage[stage][entry["result"]] += 1
+		all[entry["result"]] += 1
+	for stage in by_stage:
+		var stage_name: String = report_words["stage_names"].get(stage, stage)
+		add_log_line(timing_text(report_words["timing_line"], stage_name, by_stage[stage]))
+	if by_stage.size() > 1:
+		add_log_line(timing_text(report_words["timing_total_line"], "", all))
+
+
+func timing_text(template: String, stage_name: String, counts: Dictionary) -> String:
+	return template.format({"stage": stage_name, "perfect": counts["Perfect"], "good": counts["Good"], "miss": counts["Miss"]})
