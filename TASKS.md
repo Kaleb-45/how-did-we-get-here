@@ -143,7 +143,7 @@ Kaleb tested: pass (2026-11-13).
   Title → questions → Build → Review → Launch → Flight → Arrival → Report.
   Test: play from the title to the report with no skipped screen.
 
-- [ ] **A20. Checkpoints 1, 2, 3.** M
+- [x] **A20. Checkpoints 1, 2, 3.** M
   Save the whole GameState dictionary after Build, Launch and Flight. It works in
   the web build.
   Test: reach each checkpoint and see the save line in the Output panel.

@@ -4,7 +4,13 @@
     "_readme": "The order of the game screens. go_next() in StageManager.gd walks down this list, one screen at a time. Each name is a scene file in the scenes folder (intro means scenes/intro.tscn). To change the order, change this list. Nothing else needs to change.",
     "source": "Game-design choice by Kaleb. It is NOT a NASA number.",
     "scene_folder": "res://scenes/",
-    "order": ["intro", "cutscene_intro", "name", "character_select", "destination", "mission_select", "rocket", "build", "review", "launch", "flight", "orbit_burn", "walk", "debrief"]
+    "order": ["intro", "cutscene_intro", "name", "character_select", "destination", "mission_select", "rocket", "build", "review", "launch", "flight", "orbit_burn", "walk", "debrief"],
+    "checkpoints": {
+      "_readme": "Checkpoints (GAME_PLAN 12b). saved_when_leaving = when we leave this screen, the whole game state is saved as that checkpoint number. Review -> 1 (after Build), Launch -> 2, Flight -> 3 (before the orbit burn). 'Retry from checkpoint' puts the newest one back and goes to the screen after the one that saved it. save_file = where the copy is written; on the web, user:// is kept in the browser.",
+      "source": "Game-design choice by Kaleb (GAME_PLAN 12b). It is NOT a NASA number.",
+      "save_file": "user://checkpoints.json",
+      "saved_when_leaving": { "review": 1, "launch": 2, "flight": 3 }
+    }
   },
   "setup": {
     "_readme": "Settings for the five setup questions (name, who are you, where, what for, rocket). After you answer, the inner voice reacts and a Next button appears; the player clicks it to go on. name_max_length = the most letters the name box accepts. default_character = who you play as if you press Play on a later screen without answering the questions.",

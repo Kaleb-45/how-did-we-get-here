@@ -119,6 +119,94 @@ func from_dict(d: Dictionary) -> void:
 	end_limits = d.get("end_limits", end_limits).duplicate(true)
 
 
+# --- Checkpoints (GAME_PLAN 12b) -----------------------------------------
+# A checkpoint is a saved copy of the WHOLE game state (to_dict).
+#   1 = after Build   (saved when we leave Review)
+#   2 = after Launch  (saved when we leave Launch)
+#   3 = after Flight  (saved when we leave Flight, before the orbit burn)
+# Where they are saved is in game_data.json: stages -> checkpoints.
+# We keep them in memory (fast, always works) AND write them to a file in
+# user:// . On the web, user:// is stored in the browser (IndexedDB), so a
+# saved checkpoint survives a reload of the page.
+var checkpoints: Dictionary = {}   # for example { 1: {...state...}, 2: {...} }
+
+
+# Saves the state as checkpoint number n (1, 2 or 3).
+func save_checkpoint(n: int) -> void:
+	checkpoints[n] = to_dict()
+	var path: String = Data.game_data["stages"]["checkpoints"]["save_file"]
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		print("Checkpoint ", n, " saved in memory only (could not open ", path, ")")
+		return
+	var text_keys: Dictionary = {}   # JSON keys must be text, so 1 becomes "1"
+	for number in checkpoints:
+		text_keys[str(number)] = checkpoints[number]
+	file.store_string(JSON.stringify(text_keys))
+	file.close()
+	print("Checkpoint ", n, " saved (", path, ")")
+
+
+# Called when a stage ends. If this stage ends with a checkpoint, save it.
+func save_checkpoint_after(stage_id: String) -> void:
+	var saved_when_leaving: Dictionary = Data.game_data["stages"]["checkpoints"]["saved_when_leaving"]
+	if saved_when_leaving.has(stage_id):
+		save_checkpoint(int(saved_when_leaving[stage_id]))
+
+
+# Reads the checkpoint file back into memory, but only if memory is empty
+# (for example after the web page was reloaded).
+func load_checkpoints_from_file() -> void:
+	var path: String = Data.game_data["stages"]["checkpoints"]["save_file"]
+	if not checkpoints.is_empty() or not FileAccess.file_exists(path):
+		return
+	var saved = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if saved is Dictionary:
+		for key in saved:
+			checkpoints[int(key)] = saved[key]
+
+
+# The newest checkpoint number that exists (0 = none yet).
+func get_latest_checkpoint() -> int:
+	load_checkpoints_from_file()
+	var latest := 0
+	for number in checkpoints:
+		latest = maxi(latest, int(number))
+	return latest
+
+
+# Puts checkpoint n back into the game. Gives false if it does not exist.
+func load_checkpoint(n: int) -> bool:
+	load_checkpoints_from_file()
+	if not checkpoints.has(n):
+		return false
+	from_dict(checkpoints[n])
+	print("Checkpoint ", n, " loaded")
+	return true
+
+
+# Forgets every checkpoint (memory and file). A new design needs new checkpoints.
+func clear_checkpoints() -> void:
+	checkpoints.clear()
+	var path: String = Data.game_data["stages"]["checkpoints"]["save_file"]
+	if FileAccess.file_exists(path):
+		DirAccess.remove_absolute(path)
+
+
+# "Start fresh": everything goes back to how the game starts, checkpoints too.
+func reset_all() -> void:
+	player_name = ""
+	character_id = ""
+	mission_id = ""
+	destination_id = ""
+	goal_id = ""
+	launch_vehicle_id = ""
+	choices.clear()
+	start_new_attempt()
+	start_mission()
+	clear_checkpoints()
+
+
 # Everything that went wrong: build problems first, then mission events.
 func get_all_failures() -> Array:
 	return get_failed_resources() + event_failures
