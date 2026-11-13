@@ -30,8 +30,7 @@ var choices: Dictionary = {}
 var event_failures: Array = []
 
 
-# --- More things the game will remember later (not used by any screen yet) ---
-# They start empty or at zero. Later steps will fill them in.
+# --- More things the game remembers: the setup answers, damage, timing, supplies ---
 var player_name: String = ""          # what the player typed as their name
 var destination_id: String = ""       # where the mission goes
 var goal_id: String = ""              # what the mission wants to find out
@@ -56,7 +55,7 @@ func _ready() -> void:
 	print("GameState at startup: ", JSON.stringify(to_dict(), "  "))
 
 
-# Turns the WHOLE state into one dictionary. Later, a checkpoint will save it.
+# Turns the WHOLE state into one dictionary. A checkpoint saves it.
 # (duplicate(true) makes a copy, so changing the copy never changes the game.)
 func to_dict() -> Dictionary:
 	return {
@@ -89,34 +88,50 @@ func to_dict() -> Dictionary:
 	}
 
 
-# Puts a saved dictionary back into the game. A missing key keeps its
-# current value, so an older save still loads.
+# Puts a saved dictionary back into the game. A missing key, or a value of the
+# wrong kind (for example from a broken save file), keeps its current value.
 func from_dict(d: Dictionary) -> void:
-	player_name = d.get("player_name", player_name)
-	character_id = d.get("character_id", character_id)
-	mission_id = d.get("mission_id", mission_id)
-	destination_id = d.get("destination_id", destination_id)
-	goal_id = d.get("goal_id", goal_id)
-	launch_vehicle_id = d.get("launch_vehicle_id", launch_vehicle_id)
-	choices = d.get("choices", choices).duplicate(true)
-	crew_supplies = d.get("crew_supplies", crew_supplies).duplicate(true)
-	damage = d.get("damage", damage).duplicate(true)
-	timing_results = d.get("timing_results", timing_results).duplicate(true)
-	findings = d.get("findings", findings).duplicate(true)
-	supplies_started = d.get("supplies_started", supplies_started)
-	rationing = d.get("rationing", rationing)
-	leak_active = d.get("leak_active", leak_active)
-	generator_run = d.get("generator_run", generator_run)
-	event_failures = d.get("event_failures", event_failures).duplicate(true)
-	mission_months = d.get("mission_months", mission_months)
-	data_collected = d.get("data_collected", data_collected)
-	parts_off = d.get("parts_off", parts_off).duplicate(true)
-	lifetime_lost = d.get("lifetime_lost", lifetime_lost)
-	storm_active = d.get("storm_active", storm_active)
-	science_stored = d.get("science_stored", science_stored)
-	science_returned = d.get("science_returned", science_returned)
-	end_values = d.get("end_values", end_values).duplicate(true)
-	end_limits = d.get("end_limits", end_limits).duplicate(true)
+	player_name = pick(d, "player_name", player_name)
+	character_id = pick(d, "character_id", character_id)
+	mission_id = pick(d, "mission_id", mission_id)
+	destination_id = pick(d, "destination_id", destination_id)
+	goal_id = pick(d, "goal_id", goal_id)
+	launch_vehicle_id = pick(d, "launch_vehicle_id", launch_vehicle_id)
+	choices = pick(d, "choices", choices)
+	crew_supplies = pick(d, "crew_supplies", crew_supplies)
+	damage = pick(d, "damage", damage)
+	timing_results = pick(d, "timing_results", timing_results)
+	findings = pick(d, "findings", findings)
+	supplies_started = pick(d, "supplies_started", supplies_started)
+	rationing = pick(d, "rationing", rationing)
+	leak_active = pick(d, "leak_active", leak_active)
+	generator_run = pick(d, "generator_run", generator_run)
+	event_failures = pick(d, "event_failures", event_failures)
+	mission_months = pick(d, "mission_months", mission_months)
+	data_collected = pick(d, "data_collected", data_collected)
+	parts_off = pick(d, "parts_off", parts_off)
+	lifetime_lost = pick(d, "lifetime_lost", lifetime_lost)
+	storm_active = pick(d, "storm_active", storm_active)
+	science_stored = pick(d, "science_stored", science_stored)
+	science_returned = pick(d, "science_returned", science_returned)
+	end_values = pick(d, "end_values", end_values)
+	end_limits = pick(d, "end_limits", end_limits)
+
+
+# One value from a saved dictionary. If it is missing, null or the wrong kind,
+# we keep the current value. Lists and dictionaries are copied.
+func pick(d: Dictionary, key: String, current):
+	if not d.has(key) or d[key] == null:
+		return current
+	var value = d[key]
+	var both_numbers: bool = (typeof(value) == TYPE_INT or typeof(value) == TYPE_FLOAT) and (typeof(current) == TYPE_INT or typeof(current) == TYPE_FLOAT)
+	if typeof(value) != typeof(current) and not both_numbers:
+		return current
+	if value is Dictionary or value is Array:
+		return value.duplicate(true)
+	if both_numbers:
+		return float(value)
+	return value
 
 
 # --- Checkpoints (GAME_PLAN 12b) -----------------------------------------
@@ -160,9 +175,13 @@ func load_checkpoints_from_file() -> void:
 	var path: String = Data.game_data["stages"]["checkpoints"]["save_file"]
 	if not checkpoints.is_empty() or not FileAccess.file_exists(path):
 		return
-	var saved = JSON.parse_string(FileAccess.get_file_as_string(path))
-	if saved is Dictionary:
-		for key in saved:
+	var parser := JSON.new()   # (JSON.new().parse gives an error code, not an engine error)
+	var saved = parser.data if parser.parse(FileAccess.get_file_as_string(path)) == OK else null
+	if not saved is Dictionary:
+		DirAccess.remove_absolute(path)   # a broken file: throw it away
+		return
+	for key in saved:
+		if saved[key] is Dictionary and str(key).is_valid_int():   # skip anything else
 			checkpoints[int(key)] = saved[key]
 
 
@@ -175,10 +194,29 @@ func get_latest_checkpoint() -> int:
 	return latest
 
 
+# Which checkpoint "Retry" should use: the newest one saved BEFORE the first
+# failure. A checkpoint that already holds a failure or crew damage would give
+# the same bad ending again, so we step back to the one before it (never below 1).
+func get_retry_checkpoint() -> int:
+	var latest: int = get_latest_checkpoint()
+	var n: int = latest
+	while n > 1:
+		var saved = checkpoints.get(n)
+		if saved is Dictionary and saved.get("event_failures", []).is_empty() and float(saved.get("damage", {}).get("crew", 0.0)) <= 0.0:
+			return n
+		n -= 1
+	return 1 if latest > 0 else 0
+
+
+# Can Retry help? Not with a red build: every checkpoint holds the same build.
+func can_retry() -> bool:
+	return get_retry_checkpoint() > 0 and get_failed_resources().is_empty()
+
+
 # Puts checkpoint n back into the game. Gives false if it does not exist.
 func load_checkpoint(n: int) -> bool:
 	load_checkpoints_from_file()
-	if not checkpoints.has(n):
+	if not checkpoints.get(n) is Dictionary:
 		return false
 	from_dict(checkpoints[n])
 	print("Checkpoint ", n, " loaded")
@@ -305,7 +343,7 @@ func ensure_supplies() -> void:
 		add_supply("air", Data.supplies["tasks"]["oxygen_generator"]["restore"][result]["value"])
 
 
-# "Try again": no supplies, no leak, no rationing. (Parts, name, character and rocket stay.)
+# Start of a new attempt or a fresh game: no supplies, no leak, no rationing. (Parts, name, character and rocket stay.)
 func clear_supplies() -> void:
 	for id in SUPPLY_IDS:
 		crew_supplies[id] = 0.0

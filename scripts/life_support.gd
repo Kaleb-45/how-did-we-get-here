@@ -164,6 +164,7 @@ func _on_generator_press_finished(result: String) -> void:
 	var amount: float = Data.supplies["tasks"]["oxygen_generator"]["restore"][result]["value"]
 	GameState.add_supply("air", amount)
 	GameState.generator_run = true
+	GameState.record_press("flight", "oxygen_generator", result)
 	walk.say(lines["generator_" + result.to_lower()])
 	press_running = false
 	walk.player.set_physics_process(true)

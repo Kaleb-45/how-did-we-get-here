@@ -36,11 +36,11 @@ func go_to(stage_id: String) -> void:
 	get_tree().change_scene_to_file(stages["scene_folder"] + stage_id + ".tscn")
 
 
-# "Retry from checkpoint": put the newest checkpoint back and go to the screen
+# "Retry from checkpoint": put the newest checkpoint from before the first failure back and go to the screen
 # AFTER the one that saved it (for example checkpoint 3 -> the orbit burn).
 # Gives false if there is no checkpoint yet.
 func retry_from_checkpoint() -> bool:
-	var number: int = GameState.get_latest_checkpoint()
+	var number: int = GameState.get_retry_checkpoint()
 	if number == 0 or not GameState.load_checkpoint(number):
 		return false
 	var order: Array = Data.game_data["stages"]["order"]

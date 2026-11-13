@@ -25,7 +25,7 @@
       "data_live": ["camera"],
       "communications_live": ["antenna"],
       "mission_lifetime_live": ["solar_panel"],
-      "power_event": ["solar_panel", "camera", "antenna"],
+      "power_event": [],
       "food_empty": [],
       "water_empty": [],
       "air_empty": [],

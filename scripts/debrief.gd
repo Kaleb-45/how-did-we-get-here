@@ -21,6 +21,7 @@ extends Control
 @onready var log_label: Label = %LogLabel
 @onready var log_box: VBoxContainer = %Log
 @onready var retry_button: Button = %RetryButton
+@onready var retry_note: Label = %RetryNote
 @onready var same_design_button: Button = %SameDesignButton
 @onready var start_fresh_button: Button = %StartFreshButton
 @onready var inner_voice: PanelContainer = %InnerVoiceBar
@@ -71,9 +72,14 @@ func setup_buttons() -> void:
 	same_design_button.text = button_words["same_design_button"]
 	start_fresh_button.text = button_words["start_fresh_button"]
 	# Retry needs a saved checkpoint. Without one, the button is off.
-	if GameState.get_latest_checkpoint() == 0:
+	if not GameState.can_retry():
 		retry_button.disabled = true
-		retry_button.tooltip_text = button_words["no_checkpoint_tip"]
+		if GameState.get_failed_resources().is_empty():
+			retry_button.tooltip_text = button_words["no_checkpoint_tip"]
+		else:
+			retry_button.tooltip_text = button_words["red_build_tip"]
+		retry_note.text = retry_button.tooltip_text
+		retry_note.visible = true
 	retry_button.pressed.connect(_on_retry_pressed)
 	same_design_button.pressed.connect(_on_same_design_pressed)
 	start_fresh_button.pressed.connect(_on_start_fresh_pressed)
@@ -260,6 +266,8 @@ func _on_start_fresh_pressed() -> void:
 # "Rocket: Medium rocket, Solar panel: Medium". The list of which choices can
 # cause which finding is in game_data.json ("report").
 func cause_text(failure_id: String) -> String:
+	if report_words["cause_overrides"].has(failure_id):
+		return report_words["cause_overrides"][failure_id]
 	var slots: Array = Data.game_data["report"]["failure_causes"].get(failure_id, [])
 	if slots.is_empty():
 		return report_words["no_stage1_choice"]

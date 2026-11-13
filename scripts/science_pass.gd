@@ -164,6 +164,7 @@ func _on_press_finished(result: String) -> void:
 	press_running = false
 	walk.player.set_physics_process(true)
 	var key: String = result.to_lower()
+	GameState.record_press("arrival", press_kind, result)   # shows in the report's timed presses
 	if press_kind == "capture":
 		captured = true
 		var added: float = GameState.capture_science(result)

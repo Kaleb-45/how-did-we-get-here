@@ -284,11 +284,13 @@
     "downlink_label": "DOWNLINK"
   },
   "report_screen": {
-    "_readme": "Words for the three buttons at the bottom of the mission report (more report words are added below in the next steps). retry = go back to the newest checkpoint. same_design = keep your parts, pick a destination again. start_fresh = forget everything, start with your name.",
+    "_readme": "Words for the mission report: the three buttons (retry = go back to the newest checkpoint from before the first failure; same_design = keep your parts, pick a destination again; start_fresh = forget everything, start with your name), the finding cause line, and the log section. cause_overrides = a finding that has its own cause sentence instead of a list of parts.",
     "retry_button": "Retry from checkpoint",
     "same_design_button": "Same design / new destination",
     "start_fresh_button": "Start fresh",
     "no_checkpoint_tip": "There is no checkpoint saved yet.",
+    "red_build_tip": "Your build was already over a limit at launch, so a retry would fail again. Use Same design / new destination to change the parts, or Start fresh.",
+    "cause_overrides": { "power_event": "Your parts decided how much power you had to cut. The failure came from not rerouting power in time." },
     "cause_label": "Your Stage 1 choice:",
     "no_stage1_choice": "none. This came from what happened in Flight and Arrival.",
     "slot_names": { "launch_vehicle": "Rocket" },
@@ -297,7 +299,7 @@
     "no_costs": "No damage. A clean launch and orbit burn!",
     "cost_line": "{moment} (missed): {cost}",
     "crew_damage_line": "Crew harmed because a supply ran out: {amount}%",
-    "stage_names": { "launch": "Launch", "orbit_burn": "Orbit burn", "flight": "Flight" },
+    "stage_names": { "launch": "Launch", "orbit_burn": "Orbit burn", "flight": "Flight", "arrival": "Arrival" },
     "supplies_title": "Crew supplies at the end",
     "supply_line": "{name}: {left} {unit} of {full}",
     "science_title": "Science",
