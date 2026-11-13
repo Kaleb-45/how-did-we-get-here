@@ -67,8 +67,33 @@ func _ready() -> void:
 		inner_voice.say(words["failed_intro"])
 		for i in failures.size():
 			add_finding(i + 1, failures[i])
+	add_score_card()
 	fill_readings()
 	fill_log()
+
+
+# The score out of 1000, with its four parts. It sits first in the scroll box, under the stamp.
+# The math is in GameState.get_score(); the words are in story.json "score_screen".
+func add_score_card() -> void:
+	var score_words: Dictionary = Data.story["score_screen"]
+	var score: Dictionary = GameState.get_score(false)
+	var card := PanelContainer.new()
+	card.theme_type_variation = &"NavyPanel"
+	var column := VBoxContainer.new()
+	card.add_child(column)
+	var total := Label.new()
+	total.text = score_words["title"] + "   " + score_words["total_line"].format({"score": score["total"], "max": score["max"]})
+	total.theme_type_variation = &"HeadingText"
+	total.add_theme_color_override("font_color", ok_color if GameState.get_all_failures().is_empty() else warn_color)
+	column.add_child(total)
+	for line in GameState.get_score_lines(score, false):
+		var label := Label.new()
+		label.text = line
+		label.theme_type_variation = &"SmallText"
+		column.add_child(label)
+	var body: Node = findings_label.get_parent()
+	body.add_child(card)
+	body.move_child(card, 0)
 
 
 # The three report buttons. All their words are in story.json ("report_screen").

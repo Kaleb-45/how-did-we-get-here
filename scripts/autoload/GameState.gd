@@ -1401,3 +1401,126 @@ func add_end_of_flyby_failures() -> void:
 		return
 	if flyby["sent"] < flyby["planned"] and not event_failures.has("flyby_data_short"):
 		event_failures.append("flyby_data_short")
+
+
+# --- The score out of 1000 (GAME_PLAN.md section 8) ---------------------------
+# Four parts: goal rules, science returned, budget left, timing accuracy.
+# All the numbers (weights, credits, targets) are in game_data.json "score".
+# predicted = true is the Build screen's guess before the run: every task is done,
+# all presses are Good, and the science is what the parts can do with Good presses.
+# predicted = false reads what really happened (the report).
+
+# The goal rules: the mission's goal resources (limits) plus the tasks of the trip.
+# Returns a list of { "id": ..., "met": true or false }.
+func get_goal_rules(predicted: bool) -> Array:
+	var rules: Array = []
+	var mission: Dictionary = Data.missions.get(mission_id, Data.missions[Data.missions.keys()[0]])
+	var use_end: bool = not predicted and not end_values.is_empty()
+	var values: Dictionary = end_values if use_end else get_totals()
+	var limits: Dictionary = end_limits if use_end else get_limits()
+	for res_id in mission["goal_rules"]["resources"]:
+		rules.append({"id": res_id, "met": is_ok(values[res_id], limits[res_id])})
+	var arrival: String = get_arrival_type()
+	if arrival == "surface":
+		var done: bool = not predicted and not surface.is_empty()
+		rules.append({"id": "sample", "met": predicted or (done and surface["sample"])})
+		rules.append({"id": "instrument", "met": predicted or (done and surface["instrument"])})
+		rules.append({"id": "send", "met": predicted or (done and surface["sent"] >= surface["planned"])})
+	elif arrival == "flyby":
+		var done_flyby: bool = not predicted and not flyby.is_empty()
+		rules.append({"id": "send", "met": predicted or (done_flyby and flyby["sent"] >= flyby["planned"])})
+	return rules
+
+
+# The science that should get home for full science marks (Gb).
+func get_science_target() -> float:
+	var cfg: Dictionary = Data.game_data["score"]["science"][get_arrival_type()]
+	if cfg.has("target_gb"):
+		return float(cfg["target_gb"]["value"])
+	return float(Data.events[cfg["event"]]["planned_gb"]["value"])
+
+
+# Science sent home so far (Gb), or (predicted) what the picked parts could send with Good presses.
+func get_science_gb(predicted: bool) -> float:
+	var arrival: String = get_arrival_type()
+	if not predicted:
+		match arrival:
+			"orbit":
+				return science_returned
+			"surface":
+				return float(surface.get("sent", 0.0))
+			_:
+				return float(flyby.get("sent", 0.0))
+	var cfg: Dictionary = Data.game_data["score"]["science"][arrival]
+	var numbers: Dictionary = Data.events[cfg["event"]]
+	var good: float = float(numbers["result_factor"]["Good"]["value"])
+	var camera_gb_per_day: float = system_effects("camera")["data"]
+	var wanted: float = camera_gb_per_day * float(numbers["capture_days_worth"]["value"]) * good * float(get_part_fact("surface_tools", "instrument_data_factor", 1.0))
+	var captured: float = minf(wanted, get_storage_gb(float(numbers["storage_gb"]["value"])))
+	var megabits_per_second: float = system_effects("antenna")["communications"]
+	var capacity: float = megabits_per_second * float(numbers["downlink_hours"]["value"]) * 3600.0 / 1000.0 * good
+	return minf(captured, capacity) * float(cfg["repeats"])
+
+
+# The timing credit: the average of the presses (Perfect, Good, Miss credits). Predicted = the guess in the data.
+func get_timing_fraction(predicted: bool) -> float:
+	var score_data: Dictionary = Data.game_data["score"]
+	if predicted or timing_results.is_empty():
+		return float(score_data["predicted_timing"]["value"])
+	var total: float = 0.0
+	for entry in timing_results:
+		total += float(score_data["timing_credit"][entry["result"]]["value"])
+	return total / float(timing_results.size())
+
+
+# The whole score. Returns { "total": int, "max": int, "parts": { "goal": {"fraction", "points", "max"}, ... } }.
+func get_score(predicted: bool) -> Dictionary:
+	var score_data: Dictionary = Data.game_data["score"]
+	var fractions: Dictionary = {}
+	var rules: Array = get_goal_rules(predicted)
+	var met: int = 0
+	for rule in rules:
+		if rule["met"]:
+			met += 1
+	fractions["goal"] = float(met) / float(maxi(1, rules.size()))
+	fractions["science"] = clampf(get_science_gb(predicted) / maxf(0.001, get_science_target()), 0.0, 1.0)
+	var budget_limit: float = float(get_limits()["budget"]["value"])
+	var left: float = (budget_limit - get_totals()["budget"]) / maxf(0.001, budget_limit)
+	fractions["budget"] = clampf(left / maxf(0.001, float(score_data["budget_full_left"]["value"])), 0.0, 1.0)
+	fractions["timing"] = clampf(get_timing_fraction(predicted), 0.0, 1.0)
+	var parts: Dictionary = {}
+	var total: float = 0.0
+	var best: float = 0.0
+	for id in fractions:
+		var weight: float = float(score_data["weights"][id]["value"])
+		parts[id] = {"fraction": fractions[id], "points": fractions[id] * weight, "max": weight}
+		total += fractions[id] * weight
+		best += weight
+	return {"total": int(round(total)), "max": int(round(best)), "parts": parts, "rules_met": met, "rules_total": rules.size()}
+
+
+# The score as words: one line per part, for the Build screen tooltip and the report.
+# The words are in story.json "score_screen". Returns a list of lines.
+func get_score_lines(score: Dictionary, predicted: bool) -> Array:
+	var words: Dictionary = Data.story["score_screen"]
+	var lines: Array = []
+	var limit: float = float(get_limits()["budget"]["value"])
+	for id in score["parts"]:
+		var part: Dictionary = score["parts"][id]
+		var detail_values: Dictionary = {}
+		match id:
+			"goal":
+				detail_values = {"met": score["rules_met"], "total": score["rules_total"]}
+			"science":
+				detail_values = {"gb": fmt(get_science_gb(predicted)), "target": fmt(get_science_target())}
+			"budget":
+				detail_values = {"left": fmt(limit - get_totals()["budget"])}
+			"timing":
+				detail_values = {"percent": fmt(part["fraction"] * 100.0)}
+		lines.append(words["part_line"].format({
+			"name": words["parts"][id],
+			"points": fmt(part["points"]),
+			"max": fmt(part["max"]),
+			"detail": words["details"][id].format(detail_values),
+		}))
+	return lines

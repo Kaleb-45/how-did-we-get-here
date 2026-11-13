@@ -11,6 +11,7 @@ extends Control
 @onready var review_button: Button = %ReviewButton
 
 var words: Dictionary   # the build_screen text from story.json
+var score_label: Label   # the predicted score, one line under the dashboard
 
 
 func _ready() -> void:
@@ -27,6 +28,7 @@ func _ready() -> void:
 	review_button.pressed.connect(_on_review_pressed)
 
 	GameState.fill_default_choices()
+	add_score_label()
 	make_part_rows()
 	refresh_dashboard()
 	show_swapped_parts_line()
@@ -164,6 +166,22 @@ func show_destination_notes() -> void:
 # GameState adds up the six totals; the dashboard draws them.
 func refresh_dashboard() -> void:
 	dashboard.show_values(GameState.get_totals())
+	refresh_score()
+
+
+# One line under the dashboard: the predicted score. Point at it to see the four parts.
+func add_score_label() -> void:
+	score_label = Label.new()
+	score_label.theme_type_variation = &"AccentText"
+	score_label.mouse_filter = Control.MOUSE_FILTER_STOP   # so the tooltip shows
+	add_to_right_column(score_label)
+
+
+# The guess changes live every time a part changes (GameState.get_score does the math).
+func refresh_score() -> void:
+	var score: Dictionary = GameState.get_score(true)
+	score_label.text = words["score_line"].format({"score": score["total"], "max": score["max"]})
+	score_label.tooltip_text = words["score_tip"] + "\n" + "\n".join(GameState.get_score_lines(score, true))
 
 
 # Runs when the player clicks a version button.

@@ -235,7 +235,7 @@ Kaleb's standing instruction (2026-11-13): finish the game with the recommended 
   (`dashboard_warnings`: warning, problem per level, part). Scientist hears the warning, the
   problem and the part; Janitor the warning and the problem; Student only the warning.
   Test: pick each character and see the same warning get longer or shorter.
-- [ ] **C5. Score out of 1000.** M
+- [x] **C5. Score out of 1000.** M
   Goal rules, science returned, budget left and timing accuracy, with weights in
   `game_data.json` "score". Shown on the report with a breakdown, and as a live predicted
   score on the Build screen.

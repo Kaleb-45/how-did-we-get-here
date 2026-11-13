@@ -58,7 +58,9 @@
     "min_word": "need at least",
     "review_button": "Review my spacecraft",
     "destination_line": "Going to: {name}",
-    "far_note": "Far from Mars: solar panels make {sun}% of their Mars power and antennas send data at {far}% of their Mars speed."
+    "far_note": "Far from Mars: solar panels make {sun}% of their Mars power and antennas send data at {far}% of their Mars speed.",
+    "score_line": "Predicted score: {score} / {max}",
+    "score_tip": "A guess before you launch. It assumes you do every task and your presses are Good. Point at me to see the four parts."
   },
   "review_screen": {
     "title": "Before launch: does it all add up?",
@@ -564,5 +566,24 @@
       "none": "No weight and no cost, but radiation destroys data.",
       "vault": "Stops most of the radiation, but heavy and costly."
     }
+  },
+  "score_screen": {
+    "_readme": "Words for the score (Build screen guess and the report breakdown). The numbers (weights) are in game_data.json \"score\".",
+    "title": "SCORE",
+    "total_line": "Score: {score} / {max}",
+    "part_line": "{name}: {points} / {max}   ({detail})",
+    "parts": {
+      "goal": "Goal rules",
+      "science": "Science sent home",
+      "budget": "Budget left",
+      "timing": "Timing"
+    },
+    "details": {
+      "goal": "{met} of {total} goal rules met",
+      "science": "{gb} of {target} Gb",
+      "budget": "{left} million $ left",
+      "timing": "{percent}% of the best timing"
+    },
+    "tip": "Four parts: goal rules, science sent home, budget left and timing. The weights are in game_data.json."
   }
 }

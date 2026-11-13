@@ -100,6 +100,29 @@
     "_readme": "What counts as MISSION SUCCESS after Arrival for the trips that are not Mars orbit (Mars orbit keeps the six-limit goal rules above, unchanged). surface = collect the rock sample before the days run out, with power and crew supplies out of the red. flyby = send home at least the planned data (events.json flyby_pass planned_gb). The words are in story.json arrival_goals. A build that is already over a limit (the Review screen) fails too, as before.",
     "source": "Agent's choice for Kaleb (2026-11-13), from the recommended answers in the batch 8 task. It is NOT a NASA number."
   },
+  "score": {
+    "_readme": "The score out of 1000 (GAME_PLAN.md section 8). Four parts, each worth up to its weight (the weights add up to 1000): goal = the share of goal rules met (the mission's goal resources: data, mission lifetime and communications, plus the surface tasks or the Europa data target); science = science sent home divided by the target; budget = budget left over the limit, full marks at budget_full_left (a share of the limit); timing = the average of the timed presses (Perfect, Good, Miss credits below; with no presses yet, the Build screen guesses predicted_timing). The Build screen shows a PREDICTED score: it assumes every task is done, all presses are Good (predicted_timing) and the science is the best the parts can do with Good presses (result_factor Good in events.json). The report shows the real score.",
+    "weights": {
+      "goal": { "value": 400, "source": "PLACEHOLDER (game-design choice: the goal matters most; a student or Kaleb can change it, the four must add up to 1000)" },
+      "science": { "value": 200, "source": "PLACEHOLDER" },
+      "budget": { "value": 200, "source": "PLACEHOLDER" },
+      "timing": { "value": 200, "source": "PLACEHOLDER" }
+    },
+    "budget_full_left": { "value": 0.2, "source": "PLACEHOLDER (leaving 20 percent of the budget limit unspent gives full budget marks)" },
+    "timing_credit": {
+      "Perfect": { "value": 1.0, "source": "PLACEHOLDER" },
+      "Good": { "value": 0.6, "source": "PLACEHOLDER" },
+      "Miss": { "value": 0.0, "source": "PLACEHOLDER" }
+    },
+    "predicted_timing": { "value": 0.6, "source": "PLACEHOLDER (the Build screen guesses you will average Good presses; same as the Good credit)" },
+    "science": {
+      "orbit": { "event": "science_pass", "repeats": 3, "target_gb": { "value": 20, "source": "PLACEHOLDER (Gb that three Mars orbit science passes should send home for full science marks)" } },
+      "surface": { "event": "surface_work", "repeats": 1 },
+      "flyby": { "event": "flyby_pass", "repeats": 1 },
+      "source": "The target for surface and flyby trips is the planned_gb of their event in events.json (PLACEHOLDER there). repeats = how many times the capture and send is done."
+    },
+    "source": "Game-design choice (agent's choice for Kaleb, 2026-11-13): weights are PLACEHOLDER. It is NOT a NASA number."
+  },
   "surface_area": {
     "_readme": "The walkable surface area (graybox: plain boxes and spheres, Mars colors from docs/ART_DIRECTION.md: dusty orange, terracotta, sandstone, rust, beige; matte). All sizes are in meters on the same x/z map as the ship (x left/right, z front/back). half_size = the ground runs from -half_size to +half_size. The lander sits at lander_position. player_start = where you stand when you arrive. sample_direction and instrument_direction = which way from the lander the sample and the instrument station lie (a unit-less x, z pair); sample_distance_m (events.json surface_work) says how far. rim_height = the low ridge around the area. rocks = how many scenery rocks. Colors are web color codes. sun_* and sky_* set the light and sky.",
     "source": "Game-design choice (agent's choice 2026-11-13). It is NOT a NASA number.",
