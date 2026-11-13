@@ -404,6 +404,8 @@ func get_supply_use_per_day(id: String) -> float:
 	var use: float = Data.supplies["per_person_per_day"][id]["value"] * Data.supplies["crew_size"]["value"]
 	if id == "food" and rationing:
 		use *= Data.supplies["tasks"]["ration"]["food_use_factor"]["value"]
+	if id == "water":
+		use *= float(get_part_fact("life_support", "water_use_factor", 1.0))   # a water recycler
 	return use
 
 
@@ -558,7 +560,7 @@ func capture_science(result: String) -> float:
 	var pass_data: Dictionary = Data.events["science_pass"]
 	var camera_gb_per_day: float = system_effects("camera")["data"]
 	var wanted: float = camera_gb_per_day * pass_data["capture_days_worth"]["value"] * pass_data["result_factor"][result]["value"]
-	var room: float = maxf(0.0, pass_data["storage_gb"]["value"] - science_stored)
+	var room: float = maxf(0.0, get_storage_gb(pass_data["storage_gb"]["value"]) - science_stored)
 	var added: float = minf(wanted, room)
 	science_stored += added
 	return added
@@ -566,7 +568,12 @@ func capture_science(result: String) -> float:
 
 # True if the last capture wanted more than the storage could hold.
 func is_science_storage_full() -> bool:
-	return science_stored >= Data.events["science_pass"]["storage_gb"]["value"]
+	return science_stored >= get_storage_gb(Data.events["science_pass"]["storage_gb"]["value"])
+
+
+# How much data the ship can store (Gb): the number in events.json plus the picked computer's storage bonus (never below 1).
+func get_storage_gb(base_gb: float) -> float:
+	return maxf(1.0, base_gb + float(get_part_fact("computer", "storage_bonus_gb")))
 
 
 # What the antenna could send during the pass (Gb) = speed (Mb/s) x hours x 3600 / 1000.
@@ -600,7 +607,7 @@ func advance_mission(delta: float) -> void:
 	data_collected += get_running_values()["data"] * days_passed
 	# Heater off: the cold wears out the batteries, so lifetime drops faster.
 	if parts_off.has("heater"):
-		lifetime_lost += delta * Data.game_data["reroute_power"]["heater"]["off_lifetime_months_per_second"]
+		lifetime_lost += delta * Data.game_data["reroute_power"]["heater"]["off_lifetime_months_per_second"] * float(get_part_fact("thermal", "cold_wear_factor", 1.0))
 
 
 # Like get_totals(), but parts that are turned off stop giving or using
@@ -620,7 +627,7 @@ func get_running_values() -> Dictionary:
 		var solar_id: String = storm["solar_part"]
 		var solar_power: float = get_version_effects(solar_id, choices[solar_id])["power"]
 		values["power"] -= solar_power * storm["solar_drop_percent"] / 100.0
-		values["power"] += storm["battery_power"]
+		values["power"] += get_shadow_battery_power()
 	return values
 
 
@@ -630,8 +637,16 @@ func get_running_values() -> Dictionary:
 # What a system gives and uses: the picked version of a part, or the heater.
 func system_effects(system_id: String) -> Dictionary:
 	if system_id == "heater":
-		return Data.game_data["reroute_power"]["heater"]["effects"]
+		return get_heater_effects()
 	return get_version_effects(system_id, choices[system_id])
+
+
+# What the heater uses: the normal number (game_data.json reroute_power) made smaller by the picked thermal part
+# (good insulation means the heater has less to do).
+func get_heater_effects() -> Dictionary:
+	var effects: Dictionary = Data.game_data["reroute_power"]["heater"]["effects"].duplicate()
+	effects["power"] = float(effects["power"]) + float(get_part_fact("thermal", "heater_power_saved_w"))
+	return effects
 
 
 # Flip a switch. Turned-off systems go in parts_off, and
@@ -655,8 +670,13 @@ func get_power_available() -> float:
 	var solar: float = get_version_effects(solar_id, choices[solar_id])["power"]
 	if storm_active:
 		solar -= solar * storm["solar_drop_percent"] / 100.0
-		solar += storm["battery_power"]
+		solar += get_shadow_battery_power()
 	return solar
+
+
+# What the batteries give in the shadow pass (W): the normal number (game_data.json events) plus the picked battery's bonus.
+func get_shadow_battery_power() -> float:
+	return float(Data.game_data["events"]["power_low"]["battery_power"]) + float(get_part_fact("battery", "shadow_battery_bonus_w"))
 
 
 # What the body uses (always on). The data says -40, which means "uses 40 W".
@@ -725,10 +745,31 @@ func fill_default_choices() -> void:
 		if allowed.is_empty():
 			choices.erase(part_id)   # this slot does not exist at this destination
 		elif not choices.has(part_id) or not allowed.has(choices[part_id]):
+			var first: String = get_default_version(part_id, allowed)
 			if choices.has(part_id):
 				# The player had picked something that is not allowed here: remember it, so Build can say so.
-				swapped_parts.append({"part": part_id, "from": choices[part_id], "to": allowed[0]})
-			choices[part_id] = allowed[0]
+				swapped_parts.append({"part": part_id, "from": choices[part_id], "to": first})
+			choices[part_id] = first
+
+
+# The version a slot starts with: the slot's "default" in the data if it is allowed here, otherwise the first allowed one.
+# (The default version of the newer slots is already part of the spacecraft base, so it adds nothing.)
+func get_default_version(part_id: String, allowed: Array) -> String:
+	var wanted: String = Data.parts[part_id].get("default", "")
+	if wanted != "" and allowed.has(wanted):
+		return wanted
+	return allowed[0]
+
+
+# One number that belongs to the picked version of a slot (for example the battery's "shadow_battery_bonus_w").
+# 0 (or the default you give) if the slot does not exist here, or the version has no such fact.
+func get_part_fact(part_id: String, key: String, default = 0.0):
+	if not choices.has(part_id) or not is_part_allowed(part_id, choices[part_id]):
+		return default
+	var version: Dictionary = Data.parts[part_id]["versions"][choices[part_id]]
+	if version.has(key):
+		return version[key]["value"]
+	return default
 
 
 # Parts that were swapped because they are not allowed at the new destination (Build shows a line, then clears this).
@@ -742,8 +783,9 @@ var swapped_parts: Array = []
 # Europa to Mars) is replaced by the first allowed version by fill_default_choices().
 
 # Does an allowed_at list include this destination (by id or by its arrival type)?
+# The word "crew" in a list means "every destination that has a crew" (for example the life support slot).
 func list_allows(allowed: Array) -> bool:
-	return allowed.has(get_destination_id()) or allowed.has(get_arrival_type())
+	return allowed.has(get_destination_id()) or allowed.has(get_arrival_type()) or (allowed.has("crew") and has_crew())
 
 
 # Is this part version allowed at the destination? (A version without its own list uses its slot's list.)
@@ -801,6 +843,15 @@ func get_version_effects(part_id: String, version_id: String) -> Dictionary:
 	return effects
 
 
+# A missed press's cost, after the picked propulsion part: a better engine loses less fuel
+# (propulsion "fuel_loss_factor", 1.0 = all). Other kinds of cost stay the same.
+func scaled_cost(cost: Dictionary) -> Dictionary:
+	var amount: float = float(cost["amount"])
+	if cost["kind"] == "fuel":
+		amount *= float(get_part_fact("propulsion", "fuel_loss_factor", 1.0))
+	return {"kind": cost["kind"], "amount": amount}
+
+
 # The cost of a missed landing press, made smaller by the Stage 1 landing part that guards it
 # (timing.json landing_moments -> protected_by; the part's landing_cost_factor).
 func get_landing_miss_cost(moment_id: String) -> Dictionary:
@@ -810,7 +861,7 @@ func get_landing_miss_cost(moment_id: String) -> Dictionary:
 	var slot: String = moment.get("protected_by", "")
 	if slot != "" and Data.parts.has(slot) and choices.has(slot) and is_part_allowed(slot, choices[slot]):
 		factor = float(Data.parts[slot]["versions"][choices[slot]].get("landing_cost_factor", {}).get("value", 1.0))
-	return {"kind": cost["kind"], "amount": float(cost["amount"]) * factor}
+	return scaled_cost({"kind": cost["kind"], "amount": float(cost["amount"]) * factor})
 
 
 # Adds up the six resources:
@@ -825,7 +876,7 @@ func get_totals() -> Dictionary:
 	# Add the spacecraft body, and its heater (the heater is separate
 	# because the player can switch it off on the power panel).
 	add_effects(totals, Data.game_data["spacecraft_base"]["effects"])
-	add_effects(totals, Data.game_data["reroute_power"]["heater"]["effects"])
+	add_effects(totals, get_heater_effects())
 
 	# Add the rocket's cost. (If no rocket is picked yet, use the default.)
 	totals["budget"] += Data.game_data["launch_vehicles"]["vehicles"][get_launch_vehicle_id()]["cost"]
@@ -995,7 +1046,7 @@ func start_surface() -> void:
 	var start_power: float = get_surface_start_power()
 	var days: int = int(work["max_days"]["value"])
 	# Power: leave room for one sample try (attempt_power_cost_w), so collecting on the last day still works.
-	var power_for_days: float = start_power - float(work["attempt_power_cost_w"]["value"])
+	var power_for_days: float = start_power - get_sample_power_cost()
 	days = mini(days, int(floor(power_for_days / get_surface_day_power_cost())))
 	if has_crew():
 		ensure_supplies()
@@ -1033,6 +1084,11 @@ func get_surface_day_power_cost() -> float:
 	return float(Data.events["surface_work"]["power_cost_per_day_w"]["value"]) * float(get_site_value("power_cost_factor", 1.0))
 
 
+# Watts one sample try uses: the normal cost times the picked surface tool's sample_power_factor (a drill is easier on power).
+func get_sample_power_cost() -> float:
+	return float(Data.events["surface_work"]["attempt_power_cost_w"]["value"]) * float(get_part_fact("surface_tools", "sample_power_factor", 1.0))
+
+
 # Spare power now: it falls every day and with every sample try.
 func get_surface_power() -> float:
 	return surface["start_power"] - surface["days_used"] * get_surface_day_power_cost() - surface["extra_power_used"]
@@ -1051,7 +1107,7 @@ func is_surface_time_up() -> bool:
 func collect_sample(result: String) -> void:
 	var work: Dictionary = Data.events["surface_work"]
 	surface["attempts"] += 1
-	surface["extra_power_used"] += float(work["attempt_power_cost_w"]["value"])
+	surface["extra_power_used"] += get_sample_power_cost()
 	if result == "Miss":
 		add_surface_days(float(work["miss_days_lost"]["value"]))
 	else:
@@ -1115,7 +1171,7 @@ func apply_flyby_press(moment_id: String, result: String) -> void:
 		"capture":
 			var camera_gb_per_day: float = system_effects("camera")["data"]
 			var wanted: float = camera_gb_per_day * float(numbers["capture_days_worth"]["value"]) * flyby["point"] * factor
-			flyby["captured"] = minf(wanted, float(numbers["storage_gb"]["value"]))
+			flyby["captured"] = minf(wanted, get_storage_gb(float(numbers["storage_gb"]["value"])))
 			flyby["stored"] = flyby["captured"]
 		"protect_computer":
 			var loss_percent: float = float(numbers["radiation_loss_percent"]["value"]) * (1.0 - get_radiation_protection() / 100.0) * float(numbers["radiation_result_loss"][result]["value"])

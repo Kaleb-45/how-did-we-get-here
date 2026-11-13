@@ -80,7 +80,7 @@ func run_launch() -> void:
 
 		GameState.record_press("launch", moment_id, result)
 		if result == "Miss":
-			var cost: Dictionary = Data.timing["launch_moments"][moment_id]["miss_cost"]
+			var cost: Dictionary = GameState.scaled_cost(Data.timing["launch_moments"][moment_id]["miss_cost"])   # a better engine loses less fuel
 			GameState.add_damage(cost["kind"], cost["amount"])
 		moment_labels[i].text = words["moments"][moment_id] + "\n" + words["results"][result]
 		moment_labels[i].theme_type_variation = &"SmallText"
@@ -105,7 +105,7 @@ func show_summary() -> void:
 		if entry["result"] != "Miss":
 			continue
 		any_cost = true
-		var cost: Dictionary = Data.timing["launch_moments"][entry["moment"]]["miss_cost"]
+		var cost: Dictionary = GameState.scaled_cost(Data.timing["launch_moments"][entry["moment"]]["miss_cost"])
 		var cost_text: String = words["cost_kinds"][cost["kind"]].format({"amount": GameState.fmt(cost["amount"])})
 		add_line(words["cost_line"].format({"moment": words["moments"][entry["moment"]], "cost": cost_text}))
 	if any_cost:

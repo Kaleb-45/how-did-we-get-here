@@ -470,5 +470,66 @@
     "not_enough": "Not enough data got home.",
     "next_button": "To the report",
     "minutes_unit": "min"
+  },
+  "part_trade_offs": {
+    "_readme": "One plain-English trade-off line for every part version (shown when you point at its button on the Build screen). The ids are the slot and version ids from game_data.json parts.",
+    "solar_panel": {
+      "small": "Cheap and light, but it makes the least power.",
+      "medium": "A middle choice for power, cost and weight.",
+      "large": "Lots of power, but heavy and costly.",
+      "rtg": "Makes power from heat, so weak sunlight does not matter. Heavy and costly."
+    },
+    "battery": {
+      "light": "Cheaper and lighter, but gives less power in the shadow pass.",
+      "standard": "The normal batteries that are already on the ship.",
+      "large": "More power in the shadow pass, but heavier and costs more."
+    },
+    "camera": {
+      "basic": "Light and cheap, but it collects little data.",
+      "high_res": "Collects lots of data, but heavy and costly. It needs a fast antenna."
+    },
+    "antenna": {
+      "small": "Light and cheap, but slow, so less data gets home.",
+      "large": "Sends data fast, but heavy."
+    },
+    "computer": {
+      "compact": "Lighter and cheaper, but it stores less data.",
+      "standard": "The normal computer that is already on the ship.",
+      "big_memory": "Stores more data before you must send it home, but costs more and uses more power."
+    },
+    "thermal": {
+      "standard": "The normal heater and blankets that are already on the ship.",
+      "insulated": "The heater uses less power and the cold hurts less, but it is heavier and costs more."
+    },
+    "propulsion": {
+      "standard": "The normal engine that is already on the ship.",
+      "efficient": "A missed launch or burn press loses half as much fuel, but it is heavier and costs more."
+    },
+    "life_support": {
+      "standard": "The normal air, water and food systems that are already on the ship.",
+      "garden": "Grow food in flight, but it is heavy, costs more and uses power.",
+      "recycler": "The crew uses less water, but it is heavy, costs more and uses power."
+    },
+    "heat_shield": {
+      "basic": "Cheap, but a missed press can hurt the landing.",
+      "strong": "Heavier and costs more, but a missed press costs half as much."
+    },
+    "parachute": {
+      "basic": "Cheap, but a missed press can hurt the landing.",
+      "strong": "Heavier and costs more, but a missed press costs half as much."
+    },
+    "landing_system": {
+      "basic": "Cheap, but a missed press can hurt the landing.",
+      "strong": "Heavier and costs more, but a missed press costs half as much."
+    },
+    "surface_tools": {
+      "scoop": "The simple tool that is already on the lander.",
+      "drill": "A sample try uses half the power, but it is heavy and costs more.",
+      "lab": "The instrument collects more data, but it weighs more, costs more and uses power."
+    },
+    "radiation_shield": {
+      "none": "No weight and no cost, but radiation destroys data.",
+      "vault": "Stops most of the radiation, but heavy and costly."
+    }
   }
 }

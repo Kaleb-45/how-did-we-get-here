@@ -23,9 +23,9 @@
     "_readme": "The mission report. failure_causes = for each finding, which Stage 1 choices could have caused it. The names are part ids from 'parts' (solar_panel, camera, antenna) or 'launch_vehicle' (the rocket). The report prints the choice you made for each one. An empty list means no Stage 1 choice caused it (for example, a crew supply that ran out because of what you did in Flight). The finding names match inner_voice.json 'resource_failures'.",
     "source": "Game-design choice (A22, agent's choice for Kaleb, 2026-11-13): which choice causes which finding follows how the numbers add up in parts.json. It is NOT a NASA number.",
     "failure_causes": {
-      "budget": ["launch_vehicle", "solar_panel", "camera", "antenna"],
-      "mass": ["solar_panel", "camera", "antenna"],
-      "power": ["solar_panel", "camera", "antenna"],
+      "budget": ["launch_vehicle", "solar_panel", "battery", "camera", "antenna", "computer", "thermal", "propulsion", "life_support", "surface_tools"],
+      "mass": ["solar_panel", "battery", "camera", "antenna", "computer", "thermal", "propulsion", "life_support", "surface_tools"],
+      "power": ["solar_panel", "camera", "antenna", "computer", "thermal", "life_support", "surface_tools"],
       "communications": ["antenna"],
       "data": ["camera"],
       "mission_lifetime": ["solar_panel"],
@@ -33,14 +33,14 @@
       "communications_live": ["antenna"],
       "mission_lifetime_live": ["solar_panel"],
       "power_event": [],
-      "surface_sample_missed": ["solar_panel", "camera", "antenna", "landing_system"],
-      "surface_power": ["solar_panel", "camera", "antenna"],
-      "flyby_data_short": ["camera", "antenna", "radiation_shield"],
-      "food_empty": [],
-      "water_empty": [],
+      "surface_sample_missed": ["solar_panel", "camera", "antenna", "landing_system", "surface_tools"],
+      "surface_power": ["solar_panel", "camera", "antenna", "computer", "thermal", "life_support", "surface_tools"],
+      "flyby_data_short": ["camera", "antenna", "computer", "radiation_shield"],
+      "food_empty": ["life_support"],
+      "water_empty": ["life_support"],
       "air_empty": [],
-      "food_low": [],
-      "water_low": [],
+      "food_low": ["life_support"],
+      "water_low": ["life_support"],
       "air_low": []
     }
   },
@@ -294,7 +294,7 @@
       "texture": "foil"
     }
   },
-  "_allowed_readme": "allowed_at (batch 8) = where a slot or a version can be picked: a list of destination ids (for example europa_flyby) and/or arrival types (orbit, surface, flyby). A version without its own allowed_at uses its slot's list. The Build screen shows only the allowed ones, and only allowed parts count in the totals. name_at = a different slot name at one destination (Europa calls the solar panel slot 'Power source'). scaling = how the destination changes the part's numbers: sunlight (power) or distance (communications), see destination_scaling. landing_cost_factor = how much of a missed landing press's cost is left (1.0 = all, 0.5 = half). radiation_protection = percent of the flyby radiation loss this part stops.",
+  "_allowed_readme": "allowed_at (batch 8) = where a slot or a version can be picked: a list of destination ids (for example europa_flyby) and/or arrival types (orbit, surface, flyby). A version without its own allowed_at uses its slot's list. The Build screen shows only the allowed ones, and only allowed parts count in the totals. default = the version a slot starts with (the newer slots start on the version that is already inside the spacecraft base, so it adds nothing; without a default the first version is used). The word crew in an allowed_at list means every destination that has a crew. Facts on a version (shadow_battery_bonus_w, storage_bonus_gb, heater_power_saved_w, cold_wear_factor, fuel_loss_factor, water_use_factor, has_garden, sample_power_factor, instrument_data_factor) are read by GameState.get_part_fact(). name_at = a different slot name at one destination (Europa calls the solar panel slot 'Power source'). scaling = how the destination changes the part's numbers: sunlight (power) or distance (communications), see destination_scaling. landing_cost_factor = how much of a missed landing press's cost is left (1.0 = all, 0.5 = half). radiation_protection = percent of the flyby radiation loss this part stops.",
   "_look_readme": "\"look\" = how a part is drawn in the 3D walk. Sizes are in meters and are only for the picture, not NASA data. shape: wings = two flat panels on the sides, size [width, thickness, depth]; cylinder = hangs under the body, size [radius, length]; dish = sits on top, size [radius, depth]. model: leave \"\" to use the simple shape, or put a path like \"res://models/large_antenna.glb\" to use a real 3D model.",
   "parts": {
     "solar_panel": {
@@ -392,6 +392,78 @@
               "body": "res://materials/gold_trim.tres",
               "fin": "res://materials/accent_orange.tres"
             },
+            "model": ""
+          }
+        }
+      }
+    },
+    "battery": {
+      "name": "Battery",
+      "allowed_at": ["orbit", "surface", "flyby"],
+      "default": "standard",
+      "look": {
+        "shape": "none",
+        "mount": "none",
+        "color": "#6b7a8f"
+      },
+      "versions": {
+        "light": {
+          "name": "Light",
+          "effects": {
+            "budget": -10,
+            "mass": -12,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "shadow_battery_bonus_w": {
+            "value": -150,
+            "source": "PLACEHOLDER (game-design number, a student can change it). Watts the batteries give in the shadow pass, compared with the standard battery (negative = less)."
+          },
+          "source": "PLACEHOLDER for every number (game-design). The idea is real: MRO carries 'a pair of nickel-hydrogen batteries to fill in when the spacecraft is in the shadow of a planet': https://www.jpl.nasa.gov/news/press_kits/mro-launch-Aug05.pdf",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        },
+        "standard": {
+          "name": "Standard",
+          "effects": {
+            "budget": 0,
+            "mass": 0,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "shadow_battery_bonus_w": {
+            "value": 0,
+            "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing."
+          },
+          "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing. Its shadow-pass power is events battery_power in game_data.json (400 W).",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        },
+        "large": {
+          "name": "Large",
+          "effects": {
+            "budget": 20,
+            "mass": 28,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "shadow_battery_bonus_w": {
+            "value": 300,
+            "source": "PLACEHOLDER (game-design number, a student can change it). Watts the batteries give in the shadow pass, compared with the standard battery."
+          },
+          "source": "PLACEHOLDER for every number (game-design). Same idea as the light battery: more battery, more weight and cost, more power in the shadow.",
+          "look": {
+            "size": [0.5, 0.2],
             "model": ""
           }
         }
@@ -497,6 +569,274 @@
         }
       }
     },
+    "computer": {
+      "name": "Computer",
+      "allowed_at": ["orbit", "surface", "flyby"],
+      "default": "standard",
+      "look": {
+        "shape": "none",
+        "mount": "none",
+        "color": "#3d4a63"
+      },
+      "versions": {
+        "compact": {
+          "name": "Compact",
+          "effects": {
+            "budget": -10,
+            "mass": -3,
+            "power": 8,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "storage_bonus_gb": {
+            "value": -20,
+            "source": "PLACEHOLDER (game-design number, a student can change it). Gb of data the ship can store, compared with the standard computer (negative = less)."
+          },
+          "source": "PLACEHOLDER for every number (game-design): a smaller computer is lighter and cheaper and uses a little less power, but stores less.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        },
+        "standard": {
+          "name": "Standard",
+          "effects": {
+            "budget": 0,
+            "mass": 0,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "storage_bonus_gb": {
+            "value": 0,
+            "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing."
+          },
+          "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        },
+        "big_memory": {
+          "name": "Big memory",
+          "effects": {
+            "budget": 25,
+            "mass": 6,
+            "power": -12,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "storage_bonus_gb": {
+            "value": 25,
+            "source": "PLACEHOLDER (game-design number, a student can change it). Gb of data the ship can store, compared with the standard computer."
+          },
+          "source": "PLACEHOLDER for every number (game-design): more memory holds more pictures before you must send them home, but it costs more and uses more power.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        }
+      }
+    },
+    "thermal": {
+      "name": "Thermal control",
+      "allowed_at": ["orbit", "surface", "flyby"],
+      "default": "standard",
+      "look": {
+        "shape": "none",
+        "mount": "none",
+        "color": "#a85a3a"
+      },
+      "versions": {
+        "standard": {
+          "name": "Standard",
+          "effects": {
+            "budget": 0,
+            "mass": 0,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "heater_power_saved_w": {
+            "value": 0,
+            "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing."
+          },
+          "cold_wear_factor": {
+            "value": 1.0,
+            "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing."
+          },
+          "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        },
+        "insulated": {
+          "name": "Insulated",
+          "effects": {
+            "budget": 12,
+            "mass": 15,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "heater_power_saved_w": {
+            "value": 100,
+            "source": "PLACEHOLDER (game-design number, a student can change it). Watts the heater uses less, because the insulation keeps the heat in."
+          },
+          "cold_wear_factor": {
+            "value": 0.5,
+            "source": "PLACEHOLDER (game-design number, a student can change it). 0.5 = while the heater is switched off, the cold wears the batteries out half as fast."
+          },
+          "source": "PLACEHOLDER for every number (game-design). The idea is real: MRO's thermal parts include blankets and heaters (https://mars.nasa.gov/mro/mission/spacecraft/parts/thermal/).",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        }
+      }
+    },
+    "propulsion": {
+      "name": "Propulsion",
+      "allowed_at": ["orbit", "surface", "flyby"],
+      "default": "standard",
+      "look": {
+        "shape": "none",
+        "mount": "none",
+        "color": "#c9a227"
+      },
+      "versions": {
+        "standard": {
+          "name": "Standard",
+          "effects": {
+            "budget": 0,
+            "mass": 0,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "fuel_loss_factor": {
+            "value": 1.0,
+            "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing."
+          },
+          "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        },
+        "efficient": {
+          "name": "Efficient",
+          "effects": {
+            "budget": 30,
+            "mass": 25,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "fuel_loss_factor": {
+            "value": 0.5,
+            "source": "PLACEHOLDER (game-design number, a student can change it). 0.5 = a missed launch or burn press loses half as much fuel."
+          },
+          "source": "PLACEHOLDER for every number (game-design): a better engine wastes less fuel when a press is missed, but it costs more and weighs more.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        }
+      }
+    },
+    "life_support": {
+      "name": "Life support",
+      "allowed_at": ["crew"],
+      "default": "standard",
+      "look": {
+        "shape": "none",
+        "mount": "none",
+        "color": "#4aa36b"
+      },
+      "versions": {
+        "standard": {
+          "name": "Standard",
+          "effects": {
+            "budget": 0,
+            "mass": 0,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "water_use_factor": {
+            "value": 1.0,
+            "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing."
+          },
+          "has_garden": {
+            "value": false,
+            "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing."
+          },
+          "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        },
+        "garden": {
+          "name": "Garden",
+          "effects": {
+            "budget": 40,
+            "mass": 60,
+            "power": -30,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "water_use_factor": {
+            "value": 1.0,
+            "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing."
+          },
+          "has_garden": {
+            "value": true,
+            "source": "Game rule: this ship can grow food, so the Food station has a harvest task in Flight."
+          },
+          "source": "PLACEHOLDER for every number (game-design). GAME_PLAN.md section 6b: 'grow food if the player packed a garden'. Power is for the grow lights.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        },
+        "recycler": {
+          "name": "Water recycler",
+          "effects": {
+            "budget": 35,
+            "mass": 45,
+            "power": -15,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "water_use_factor": {
+            "value": 0.7,
+            "source": "PLACEHOLDER (game-design number, a student can change it). 0.7 = the crew uses 0.7 of the normal water each day, because the recycler cleans the used water."
+          },
+          "has_garden": {
+            "value": false,
+            "source": "Game rule: no garden."
+          },
+          "source": "PLACEHOLDER for every number (game-design). The idea is real (the Space Station recycles its water), but no NASA page is read for these numbers, so a student finds a source.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        }
+      }
+    },
     "heat_shield": {
       "name": "Heat shield",
       "allowed_at": ["surface"],
@@ -557,6 +897,90 @@
           "landing_cost_factor": { "value": 0.5, "source": "PLACEHOLDER (strong landing engines halve the cost of a missed 'landing engine on' or 'touchdown' press)" },
           "source": "PLACEHOLDER for mass and budget.",
           "look": { "size": [0.5, 0.2], "model": "" }
+        }
+      }
+    },
+    "surface_tools": {
+      "name": "Surface tools",
+      "allowed_at": ["surface"],
+      "default": "scoop",
+      "look": {
+        "shape": "none",
+        "mount": "none",
+        "color": "#b5703f"
+      },
+      "versions": {
+        "scoop": {
+          "name": "Scoop",
+          "effects": {
+            "budget": 0,
+            "mass": 0,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "sample_power_factor": {
+            "value": 1.0,
+            "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing."
+          },
+          "instrument_data_factor": {
+            "value": 1.0,
+            "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing."
+          },
+          "source": "Built into the spacecraft base: the base's numbers already include this version, so picking it changes nothing.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        },
+        "drill": {
+          "name": "Drill",
+          "effects": {
+            "budget": 30,
+            "mass": 35,
+            "power": 0,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "sample_power_factor": {
+            "value": 0.5,
+            "source": "PLACEHOLDER (game-design number, a student can change it). 0.5 = a sample try uses half the power."
+          },
+          "instrument_data_factor": {
+            "value": 1.0,
+            "source": "Game rule: the drill does not change the instrument data."
+          },
+          "source": "PLACEHOLDER for every number (game-design). GAME_PLAN.md section 7: a drill plus power can work on the site's material.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
+        },
+        "lab": {
+          "name": "Mini lab",
+          "effects": {
+            "budget": 45,
+            "mass": 50,
+            "power": -20,
+            "communications": 0,
+            "data": 0,
+            "mission_lifetime": 0
+          },
+          "sample_power_factor": {
+            "value": 1.0,
+            "source": "Game rule: the lab does not change the sample power."
+          },
+          "instrument_data_factor": {
+            "value": 1.5,
+            "source": "PLACEHOLDER (game-design number, a student can change it). 1.5 = the instrument at the site collects 1.5 times as much data."
+          },
+          "source": "PLACEHOLDER for every number (game-design): a small lab on the lander learns more from each sample, but it weighs more, costs more and uses power.",
+          "look": {
+            "size": [0.5, 0.2],
+            "model": ""
+          }
         }
       }
     },

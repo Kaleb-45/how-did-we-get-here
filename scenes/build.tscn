@@ -48,7 +48,12 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 30
 
-[node name="Parts" type="VBoxContainer" parent="Margin/Column/Main"]
+[node name="Scroll" type="ScrollContainer" parent="Margin/Column/Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="Parts" type="VBoxContainer" parent="Margin/Column/Main/Scroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

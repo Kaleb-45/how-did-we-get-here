@@ -5,7 +5,8 @@
 extends Control
 
 @onready var title_label: Label = %Title
-@onready var parts_column: VBoxContainer = %Parts
+@onready var parts_column: VBoxContainer = %Parts   # inside a scroll box, so a long list of parts can scroll
+@onready var main_row: HBoxContainer = $Margin/Column/Main
 @onready var dashboard: PanelContainer = %Dashboard
 @onready var review_button: Button = %ReviewButton
 
@@ -81,6 +82,9 @@ func make_part_rows() -> void:
 			button.custom_minimum_size = Vector2(100, 50)   # at least 100 wide, wider if the text needs it
 			button.theme_type_variation = &"SmallButton"
 			button.tooltip_text = GameState.effects_text(GameState.get_version_effects(part_id, version_id), "\n")
+			var trade_off: String = Data.story["part_trade_offs"].get(part_id, {}).get(version_id, "")
+			if trade_off != "":
+				button.tooltip_text = trade_off + "\n" + button.tooltip_text
 			button.button_pressed = GameState.choices[part_id] == version_id
 			button.pressed.connect(_on_version_picked.bind(part_id, version_id))
 			button_row.add_child(button)
@@ -135,7 +139,7 @@ func add_to_right_column(node: Control) -> void:
 	if right_column == null:
 		right_column = VBoxContainer.new()
 		right_column.add_theme_constant_override("separation", int(Data.game_data["build_screen_layout"]["column_gap"]))
-		parts_column.get_parent().add_child(right_column)
+		main_row.add_child(right_column)
 		dashboard.reparent(right_column)
 	right_column.add_child(node)
 

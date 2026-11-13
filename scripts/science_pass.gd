@@ -173,7 +173,7 @@ func _on_press_finished(result: String) -> void:
 		else:
 			var line: String = lines["capture_" + key].format({"gb": GameState.fmt(added)})
 			if GameState.is_science_storage_full():
-				line += " " + lines["storage_full"].format({"gb": GameState.fmt(numbers["storage_gb"]["value"])})
+				line += " " + lines["storage_full"].format({"gb": GameState.fmt(GameState.get_storage_gb(numbers["storage_gb"]["value"]))})
 			walk.say(line)
 	else:
 		downlinked = true

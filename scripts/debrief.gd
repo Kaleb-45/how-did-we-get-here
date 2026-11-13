@@ -342,13 +342,13 @@ func add_costs() -> void:
 		var cost: Dictionary
 		var moment_name: String
 		if entry["stage"] == "launch":
-			cost = Data.timing["launch_moments"][entry["moment"]]["miss_cost"]
+			cost = GameState.scaled_cost(Data.timing["launch_moments"][entry["moment"]]["miss_cost"])
 			moment_name = Data.story["launch_screen"]["moments"][entry["moment"]]
 		elif entry["stage"] == "landing":
 			cost = GameState.get_landing_miss_cost(entry["moment"])
 			moment_name = Data.story["landing_screen"]["moments"][entry["moment"]]
 		elif entry["stage"] == "orbit_burn":
-			cost = Data.timing["orbit_burn"]["miss_cost"]
+			cost = GameState.scaled_cost(Data.timing["orbit_burn"]["miss_cost"])
 			moment_name = Data.story["orbit_burn_screen"]["title"]
 		else:
 			continue   # other presses (oxygen generator, science pass) have no damage cost

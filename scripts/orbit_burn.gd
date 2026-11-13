@@ -53,7 +53,7 @@ func run_burn() -> void:
 	var result: String = await press.finished
 
 	GameState.record_press("orbit_burn", "orbit_burn", result)
-	var cost: Dictionary = numbers["miss_cost"]
+	var cost: Dictionary = GameState.scaled_cost(numbers["miss_cost"])   # a better engine loses less fuel
 	if result == "Miss":
 		GameState.add_damage(cost["kind"], cost["amount"])
 	inner_voice.say(voice_lines["results"][result])
