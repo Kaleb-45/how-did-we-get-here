@@ -1,5 +1,5 @@
 {
-  "_readme": "Events that happen during a stage. Each event has a stage, a station (a place on the ship) and facts written as { \"value\": ..., \"source\": ... }. A source is a link, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). The Mars shadow pass is NOT here: it is a Mars-orbit event and lives in game_data.json (events, power_low). The words on the screen are in data/inner_voice.json (flight) and data/story.json (flight). The science pass (stage arrival) is also here: windows in seconds, storage and downlink hours. The antenna speed and the camera data come from the parts. FLIGHT (batch 9): the Flight plan and its three events (water leak, air leak, food spoils) are in flight_plan, water_leak, air_leak and food_spoil. drain_per_second = how much of the supply an event pours out every real second.",
+  "_readme": "Events that happen during a stage. Each event has a stage, a station (a place on the ship) and facts written as { \"value\": ..., \"source\": ... }. A source is a link, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). The Mars shadow pass is NOT here: it is a Mars-orbit event and lives in game_data.json (events, power_low). The words on the screen are in data/inner_voice.json (flight) and data/story.json (flight). The science passes (stage arrival) are also here: three passes, each with a capture window and a downlink window in seconds, plus storage and downlink hours. The antenna speed and the camera data come from the parts. FLIGHT (batch 9): the Flight plan and its three events (water leak, air leak, food spoils) are in flight_plan, water_leak, air_leak and food_spoil. drain_per_second = how much of the supply an event pours out every real second.",
   "events": {
     "water_leak": {
       "stage": "flight",
@@ -23,21 +23,40 @@
     },
     "science_pass": {
       "stage": "arrival",
-      "capture_start_seconds": {
-        "value": 4,
-        "source": "PLACEHOLDER (seconds after the Arrival walk starts; the shadow pass owns 20 to 40 s, so the windows stay outside it)"
-      },
-      "capture_end_seconds": {
-        "value": 16,
-        "source": "PLACEHOLDER"
-      },
-      "downlink_start_seconds": {
-        "value": 44,
-        "source": "PLACEHOLDER"
-      },
-      "downlink_end_seconds": {
-        "value": 58,
-        "source": "PLACEHOLDER (the mission clock ends at 60 s)"
+      "passes": {
+        "value": [
+          {
+            "capture": [
+              3,
+              9
+            ],
+            "downlink": [
+              9,
+              17
+            ]
+          },
+          {
+            "capture": [
+              41,
+              47
+            ],
+            "downlink": [
+              47,
+              52
+            ]
+          },
+          {
+            "capture": [
+              51,
+              55
+            ],
+            "downlink": [
+              54,
+              59
+            ]
+          }
+        ],
+        "source": "PLACEHOLDER (seconds after the Arrival walk starts, three science passes as in GAME_PLAN.md section 7: each pass is a capture window, then a downlink window. The shadow pass owns 20 to 40 s, so the windows stay outside it; the mission clock ends at 60 s. A student can move them.)"
       },
       "capture_days_worth": {
         "value": 10,

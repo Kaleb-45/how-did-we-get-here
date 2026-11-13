@@ -319,9 +319,9 @@
     "next_button": "On to Mars orbit"
   },
   "science": {
-    "_readme": "Words for the science pass (Stage 4, in the walk). banner_* = the calm banner at the top while a window is open ({seconds} = seconds left). station_* = the floating label over the glowing floor marker (open = while its window is open). prompts = the line after the Press E hint. sent_home = result line ({gb} = gigabits).",
-    "banner_capture": "TARGET IN VIEW: Science bay, press E ({seconds})",
-    "banner_downlink": "GROUND STATION IN VIEW: Comms room, press E ({seconds})",
+    "_readme": "Words for the science pass (Stage 4, in the walk). banner_* = the calm banner at the top while a window is open ({seconds} = seconds left, {n} = the pass number, {total} = how many passes). station_* = the floating label over the glowing floor marker (open = while its window is open). prompts = the line after the Press E hint. sent_home = result line ({gb} = gigabits).",
+    "banner_capture": "TARGET IN VIEW (pass {n} of {total}): Science bay, press E ({seconds})",
+    "banner_downlink": "GROUND STATION IN VIEW (pass {n} of {total}): Comms room, press E ({seconds})",
     "sent_home": "Sent home: {gb} Gb",
     "station_capture": "Science station: capture",
     "station_capture_open": "Capture now!",

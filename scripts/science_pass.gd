@@ -1,14 +1,16 @@
 # science_pass.gd
-# The science pass in the Arrival walk (Stage 4). Two timed presses with E:
+# The science passes in the Arrival walk (Stage 4). There are three (GAME_PLAN 7).
+# Each pass is two timed presses with E:
 #   1. CAPTURE at the Science station, while the target is in view.
 #   2. DOWNLINK at the Comms station, while the ground station is in view.
 # Storage, power and antenna speed limit how much data gets home (the math is
 # in GameState: capture_science() and downlink_science()).
 #   - Camera switched off at the power panel = nothing captured.
 #   - Antenna switched off at the power panel = nothing sent.
-#   - A small antenna is slow, so less data fits through the link.
+#   - A small antenna is slow, so less data fits through the link, and the
+#     storage can fill up before the next capture.
 # The windows (in seconds after the walk starts) are in data/events.json
-# "science_pass". They stay outside the shadow pass (20 to 40 s).
+# "science_pass" > passes. They stay outside the shadow pass (20 to 40 s).
 # The words are in story.json ("science") and inner_voice.json ("science").
 # walk.gd makes one of these (Arrival only) and calls update() every frame.
 extends Node
@@ -25,13 +27,15 @@ var numbers: Dictionary          # events.json "science_pass"
 var words: Dictionary            # story.json "science"
 var lines: Dictionary            # inner_voice.json "science"
 
-var capture_open: bool = false   # is the target in view now?
-var downlink_open: bool = false  # is the ground station in view now?
-var captured: bool = false       # the capture press was done
-var downlinked: bool = false     # the downlink press was done
-var sent_home_text: String = ""  # "Sent home: X Gb", shown in the banner after the downlink
+var passes: Array = []                 # the windows of every pass: { "capture": [start, end], "downlink": [start, end] }
+var capture_open_index: int = -1       # the pass whose capture window is open now (-1 = none)
+var downlink_open_index: int = -1      # the pass whose downlink window is open now (-1 = none)
+var capture_done: Array = []           # per pass: the capture press was done
+var downlink_done: Array = []          # per pass: the downlink press was done
+var sent_home_text: String = ""  # "Sent home: X Gb", shown in the banner after a downlink
 var downlink_line_waiting: bool = false   # the "ground station in view" line waits until all parts are back on
 var press_kind: String = ""      # "capture" or "downlink" while a ring runs
+var press_pass: int = 0          # the pass the ring is for
 
 
 func setup(walk_scene: Node3D, hud: CanvasLayer, voice_bar: Control, banner_label: Label, ship_node: Node3D) -> void:
@@ -41,6 +45,10 @@ func setup(walk_scene: Node3D, hud: CanvasLayer, voice_bar: Control, banner_labe
 	numbers = Data.events["science_pass"]
 	words = Data.story["science"]
 	lines = Data.voice["science"]
+	passes = numbers["passes"]["value"]
+	for i in passes.size():
+		capture_done.append(false)
+		downlink_done.append(false)
 	banner.visible = false
 
 	# The timed press sits in the middle of the screen, a little high, and starts hidden
@@ -57,29 +65,38 @@ func setup(walk_scene: Node3D, hud: CanvasLayer, voice_bar: Control, banner_labe
 	press.finished.connect(_on_press_finished)
 
 
-# Called every frame by walk.gd. It opens and closes the two windows on time.
+# Called every frame by walk.gd. It opens and closes the windows on time.
 func update(delta: float) -> void:
 	elapsed += delta
-	set_window("capture", elapsed >= numbers["capture_start_seconds"]["value"] and elapsed < numbers["capture_end_seconds"]["value"])
-	set_window("downlink", elapsed >= numbers["downlink_start_seconds"]["value"] and elapsed < numbers["downlink_end_seconds"]["value"])
-	if downlink_line_waiting and downlink_open and GameState.parts_off.is_empty():
+	set_window("capture", window_index("capture"))
+	set_window("downlink", window_index("downlink"))
+	if downlink_line_waiting and downlink_open_index >= 0 and GameState.parts_off.is_empty():
 		downlink_line_waiting = false
 		walk.say(lines["station_in_view"])
 	update_banner()
 
 
-# Opens or closes one window. The voice speaks when it opens and when it
+# The pass whose window of this kind is open now, or -1.
+func window_index(kind: String) -> int:
+	for i in passes.size():
+		var window: Array = passes[i][kind]
+		if elapsed >= window[0] and elapsed < window[1]:
+			return i
+	return -1
+
+
+# Opens or closes the window of one kind. The voice speaks when it opens and when it
 # closes without being used.
-func set_window(kind: String, is_open: bool) -> void:
-	var was_open: bool = capture_open if kind == "capture" else downlink_open
-	if is_open == was_open:
+func set_window(kind: String, index: int) -> void:
+	var was: int = capture_open_index if kind == "capture" else downlink_open_index
+	if index == was:
 		return
 	if kind == "capture":
-		capture_open = is_open
+		capture_open_index = index
 	else:
-		downlink_open = is_open
+		downlink_open_index = index
 	var label: Label3D = ship.science_labels[kind]
-	if is_open:
+	if index >= 0:
 		label.text = words["station_" + kind + "_open"]
 		if kind == "capture":
 			walk.say(lines["target_in_view"])
@@ -90,7 +107,7 @@ func set_window(kind: String, is_open: bool) -> void:
 	else:
 		label.text = words["station_" + kind]
 		downlink_line_waiting = false
-		var done: bool = captured if kind == "capture" else downlinked
+		var done: bool = capture_done[was] if kind == "capture" else downlink_done[was]
 		if not done:
 			walk.say(lines[kind + "_window_missed"])
 
@@ -98,10 +115,10 @@ func set_window(kind: String, is_open: bool) -> void:
 # The calm banner: a countdown while a window is open, then the result.
 func update_banner() -> void:
 	var text := ""
-	if capture_open and not captured:
-		text = words["banner_capture"].format({"seconds": ceili(numbers["capture_end_seconds"]["value"] - elapsed)})
-	elif downlink_open and not downlinked:
-		text = words["banner_downlink"].format({"seconds": ceili(numbers["downlink_end_seconds"]["value"] - elapsed)})
+	if capture_open_index >= 0 and not capture_done[capture_open_index]:
+		text = words["banner_capture"].format({"seconds": ceili(passes[capture_open_index]["capture"][1] - elapsed), "n": capture_open_index + 1, "total": passes.size()})
+	elif downlink_open_index >= 0 and not downlink_done[downlink_open_index]:
+		text = words["banner_downlink"].format({"seconds": ceili(passes[downlink_open_index]["downlink"][1] - elapsed), "n": downlink_open_index + 1, "total": passes.size()})
 	elif sent_home_text != "":
 		text = sent_home_text
 	banner.text = text
@@ -127,16 +144,16 @@ func prompt_for(part_id: String) -> String:
 	var hint: String = Data.voice["walk"]["press_e_hint"]
 	var prompts: Dictionary = words["prompts"]
 	if part_id == "science_capture":
-		if captured:
+		if capture_open_index < 0:
+			return prompts["capture_wait"]
+		if capture_done[capture_open_index]:
 			return prompts["capture_done"]
-		if capture_open:
-			return "%s: %s" % [hint, prompts["capture"]]
-		return prompts["capture_wait"]
-	if downlinked:
+		return "%s: %s" % [hint, prompts["capture"]]
+	if downlink_open_index < 0:
+		return prompts["downlink_wait"]
+	if downlink_done[downlink_open_index]:
 		return prompts["downlink_done"]
-	if downlink_open:
-		return "%s: %s" % [hint, prompts["downlink"]]
-	return prompts["downlink_wait"]
+	return "%s: %s" % [hint, prompts["downlink"]]
 
 
 # The player pressed E at a science station.
@@ -145,14 +162,16 @@ func use_station(part_id: String) -> void:
 		return
 	var kind: String = part_id.trim_prefix("science_")
 	if kind == "capture":
-		if captured or not capture_open:
+		if capture_open_index < 0 or capture_done[capture_open_index]:
 			return
+		press_pass = capture_open_index
 	else:
-		if downlinked or not downlink_open:
+		if downlink_open_index < 0 or downlink_done[downlink_open_index]:
 			return
 		if GameState.science_stored <= 0.0 and GameState.is_system_on("antenna"):
 			walk.say(lines["nothing_to_send"])
 			return
+		press_pass = downlink_open_index
 	press_kind = kind
 	press_running = true
 	walk.player.set_physics_process(false)   # stand still while the ring closes
@@ -166,7 +185,7 @@ func _on_press_finished(result: String) -> void:
 	var key: String = result.to_lower()
 	GameState.record_press("arrival", press_kind, result)   # shows in the report's timed presses
 	if press_kind == "capture":
-		captured = true
+		capture_done[press_pass] = true
 		var added: float = GameState.capture_science(result)
 		if not GameState.is_system_on("camera"):
 			walk.say(lines["capture_camera_off"])
@@ -176,7 +195,7 @@ func _on_press_finished(result: String) -> void:
 				line += " " + lines["storage_full"].format({"gb": GameState.fmt(GameState.get_storage_gb(numbers["storage_gb"]["value"]))})
 			walk.say(line)
 	else:
-		downlinked = true
+		downlink_done[press_pass] = true
 		var sent: float = GameState.downlink_science(result)
 		sent_home_text = words["sent_home"].format({"gb": GameState.fmt(GameState.science_returned)})
 		if not GameState.is_system_on("antenna"):
