@@ -55,11 +55,12 @@ func _ready() -> void:
 	if GameState.mission_id == "":
 		GameState.mission_id = Data.missions.keys()[0]
 	if GameState.destination_id == "" or GameState.get_arrival_type() != "surface":
-		GameState.destination_id = "jezero_crater"
+		GameState.destination_id = GameState.get_first_destination_of("surface")
 	GameState.fill_default_choices()
 
 	layout = Data.game_data["surface_area"]
-	colors = layout["colors"]
+	colors = layout["colors"].duplicate()
+	colors.merge(GameState.get_site_value("surface_colors", {}), true)   # the site's own ground and sky colors
 	dims = layout["dims"]
 	numbers = Data.events["surface_work"]
 	words = Data.story["surface_screen"]
@@ -84,7 +85,7 @@ func _ready() -> void:
 # A bad landing ("distance" damage, in percent) puts it farther.
 func get_sample_position() -> Vector3:
 	var direction := Vector2(layout["sample_direction"][0], layout["sample_direction"][1]).normalized()
-	var distance: float = float(numbers["sample_distance_m"]["value"]) * (1.0 + GameState.damage.get("distance", 0.0) / 100.0)
+	var distance: float = float(numbers["sample_distance_m"]["value"]) * float(GameState.get_site_value("sample_distance_factor", 1.0)) * (1.0 + GameState.damage.get("distance", 0.0) / 100.0)
 	var limit: float = float(layout["half_size"]) - float(dims["sample_edge"])   # never outside the area
 	var lander: Array = layout["lander_position"]
 	var spot := Vector2(lander[0], lander[2]) + direction * minf(distance, limit)
@@ -430,12 +431,27 @@ func _on_press_finished(result: String) -> void:
 	GameState.collect_sample(result)
 	say(lines["results"][result])
 	if GameState.surface["sample"]:
+		var bonus_text := bonus_line()
+		if bonus_text != "":
+			say(lines["results"][result] + " " + bonus_text)
 		banner.text = words["banner_done"]
 		finish(false)
 	var tree := get_tree()
 	await tree.create_timer(numbers["result_show_seconds"]["value"]).timeout
 	if is_inside_tree() and not press_running:
 		press.visible = false
+
+
+# "+1,500 L water, +400 kg air" when the site's material gave the crew something (ice at Arcadia), else "".
+func bonus_line() -> String:
+	var bonus: Dictionary = GameState.surface.get("bonus", {})
+	var parts: PackedStringArray = []
+	for id in bonus:
+		if bonus[id] > 0.0:
+			parts.append("%s %s %s" % [GameState.fmt(bonus[id]), Data.story["crew_supplies"]["units"][id], Data.story["crew_supplies"]["names"][id].to_lower()])
+	if parts.is_empty():
+		return ""
+	return lines["bonus"].format({"material": material_name, "list": ", ".join(parts)})
 
 
 # The stay is over (sample collected, or the days ran out). Wait so the player can read, then the report.

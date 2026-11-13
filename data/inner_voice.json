@@ -400,7 +400,8 @@
     "last_day": "The last day! Get the sample now!",
     "done": "The sample is safe! Science from another world, collected by us!",
     "out_of_days": "The days are over and we have no sample. We have to go home with empty hands.",
-    "power_red": "Power is in the red! The drill and the days used too much."
+    "power_red": "Power is in the red! The drill and the days used too much.",
+    "bonus": "The {material} melts into extra supplies for the crew: {list}!"
   },
   "flyby": {
     "_readme": "What the inner voice says during the Europa flyby (Stage 4, flyby destinations). The voice is never wrong. The levels do not change these lines yet.",

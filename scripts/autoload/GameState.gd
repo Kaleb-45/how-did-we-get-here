@@ -323,6 +323,24 @@ func get_destination_id() -> String:
 	return Data.destinations.keys()[0]
 
 
+# The first destination in destinations.json that ends its trip this way ("orbit", "surface" or "flyby").
+# Screens use it when you press Play on them directly, so no site name is written in the code.
+func get_first_destination_of(arrival_type: String) -> String:
+	for id in Data.destinations:
+		if Data.destinations[id]["arrival_type"]["value"] == arrival_type:
+			return id
+	return Data.destinations.keys()[0]
+
+
+# One optional fact of the destination (destinations.json), for example "power_cost_factor".
+# A site that does not list the fact gets the default.
+func get_site_value(key: String, default):
+	var facts: Dictionary = get_destination()
+	if facts.has(key):
+		return facts[key]["value"]
+	return default
+
+
 # How the trip ends: "orbit", "surface" or "flyby" (destinations.json).
 func get_arrival_type() -> String:
 	return get_destination()["arrival_type"]["value"]
@@ -978,7 +996,7 @@ func start_surface() -> void:
 	var days: int = int(work["max_days"]["value"])
 	# Power: leave room for one sample try (attempt_power_cost_w), so collecting on the last day still works.
 	var power_for_days: float = start_power - float(work["attempt_power_cost_w"]["value"])
-	days = mini(days, int(floor(power_for_days / float(work["power_cost_per_day_w"]["value"]))))
+	days = mini(days, int(floor(power_for_days / get_surface_day_power_cost())))
 	if has_crew():
 		ensure_supplies()
 		for id in SUPPLY_IDS:
@@ -1010,10 +1028,14 @@ func add_surface_days(days_passed: float) -> void:
 		advance_supplies(days_passed * float(Data.events["surface_work"]["supply_days_per_day"]["value"]))
 
 
+# Watts of spare power one surface day uses: the normal cost times this site's power_cost_factor (a cold site uses more).
+func get_surface_day_power_cost() -> float:
+	return float(Data.events["surface_work"]["power_cost_per_day_w"]["value"]) * float(get_site_value("power_cost_factor", 1.0))
+
+
 # Spare power now: it falls every day and with every sample try.
 func get_surface_power() -> float:
-	var work: Dictionary = Data.events["surface_work"]
-	return surface["start_power"] - surface["days_used"] * float(work["power_cost_per_day_w"]["value"]) - surface["extra_power_used"]
+	return surface["start_power"] - surface["days_used"] * get_surface_day_power_cost() - surface["extra_power_used"]
 
 
 # Whole days left (never below 0).
@@ -1034,6 +1056,20 @@ func collect_sample(result: String) -> void:
 		add_surface_days(float(work["miss_days_lost"]["value"]))
 	else:
 		surface["sample"] = true
+		give_material_bonus()
+
+
+# The site's material gives the crew something (destinations.json material_bonus), for example ice
+# gives water and oxygen. Nothing happens at a site with no bonus. The amounts are kept for the report.
+func give_material_bonus() -> void:
+	var bonus: Dictionary = get_site_value("material_bonus", {})
+	surface["bonus"] = {}
+	if not has_crew():
+		return
+	for id in bonus:
+		var before: float = crew_supplies[id]
+		add_supply(id, float(bonus[id]))
+		surface["bonus"][id] = crew_supplies[id] - before   # never more than the meter can hold
 
 
 # The meters on the surface HUD: the power row's limits are the build's power limits.

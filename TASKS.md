@@ -196,6 +196,36 @@ Kaleb tested: pass (2026-11-13).
   Test: the Build screen shows only the right parts for Mars orbit, Jezero and Europa;
   Mars orbit plays exactly as before.
 
+## Phase C: Fill in
+
+### Batch 9: Phase C items 1-3 (sites from data, all part slots, three legs, three tasks)
+
+Kaleb's standing instruction (2026-11-13): finish the game with the recommended answers.
+
+- [ ] **C1. Mars sites from data.** M
+  Nothing about Jezero, Gale or Arcadia stays in the code: the fallback site comes from
+  the data, and each site's differences (sample distance, power cost per day, material
+  bonus, ground colours) are facts in `destinations.json`. A new site is data only.
+  Test: pick Arcadia Planitia and see colder power use and the ice bonus on the surface.
+- [ ] **C2. All part slots and versions.** M
+  Add battery, computer, thermal, propulsion, life support (crew only) and surface tools
+  (surface only), each with 2-3 versions in `game_data.json`. The first version of each
+  new slot is already inside the spacecraft base, so Mars orbit keeps its balance.
+  The Build screen scrolls when there are many rows.
+  Test: Build shows the new rows; the first version of each gives the same totals as before.
+- [ ] **C3a. Three flight legs.** M
+  Flight plays 3 legs (crew trips). Each leg has 2-3 routine tasks (ration, oxygen
+  generator, water filter, harvest the garden) and 1 event (water leak, air leak, food spoils).
+  A skipped task costs part of that meter. A trip with no crew (Europa) plays 1 leg.
+  Test: play 3 legs; skip tasks and see findings; do them and see none.
+- [ ] **C3b. Three tasks per surface site.** M
+  Collect a sample, run the instrument, send the data home. All three decide MISSION SUCCESS.
+  Test: do all three = SUCCESS; skip the send = FAILED with a finding.
+- [ ] **C3c. Three science passes in Mars orbit.** M
+  GAME_PLAN section 7 asks for 3 passes: three capture and downlink windows in the 60 s walk.
+  Test: the win and the loss at the shadow pass still work as before.
+- [ ] **C-end. Playthrough check, web export, push.** S
+
 ## Later
 
 The old unfinished steps, kept here until Phase C is done (unless Kaleb says so).

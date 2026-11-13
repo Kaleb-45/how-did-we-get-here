@@ -42,7 +42,7 @@ func _ready() -> void:
 	if GameState.mission_id == "":
 		GameState.mission_id = Data.missions.keys()[0]
 	if GameState.destination_id == "" or GameState.get_arrival_type() != "flyby":
-		GameState.destination_id = "europa_flyby"
+		GameState.destination_id = GameState.get_first_destination_of("flyby")
 	GameState.fill_default_choices()
 	GameState.start_flyby()
 

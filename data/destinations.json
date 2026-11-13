@@ -1,5 +1,5 @@
 {
-  "_readme": "The places a mission can go. Each destination has an id (for example mars_orbit) and a list of facts. Every fact is written as { \"value\": ..., \"source\": ... } so you can see where it came from. A source is a link to NASA, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). arrival_type = how the spacecraft ends its trip: \"orbit\" (circle the planet), \"surface\" (land) or \"flyby\" (fly past). crew = true if people travel on a ship that carries the spacecraft you build. The words on the screen (names, descriptions) are in data/story.json. MORE FACTS (batch 7): distance_from_sun_au and distance_from_sun_million_km = how far from the Sun. sunlight_vs_earth = how strong the sunlight is compared with Earth (1.0 = Earth, 0.43 = less than half as strong). signal_delay_minutes = how long a radio message takes one way: min = planets closest, max = planets farthest. what_makes_it_different = one line (the words on the screen are in story.json). materials = what a surface site has (ids; their names are in story.json). landing_window_tightness = how tight the landing presses are at that site (1.0 = normal, bigger = tighter). pickable_arrival_types in game_data.json says which arrival types can be chosen yet. limit_changes (batch 8) = how much a destination moves the budget and mass limits (million $ and kg; added to the mission's limits).",
+  "_readme": "The places a mission can go. Each destination has an id (for example mars_orbit) and a list of facts. Every fact is written as { \"value\": ..., \"source\": ... } so you can see where it came from. A source is a link to NASA, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). arrival_type = how the spacecraft ends its trip: \"orbit\" (circle the planet), \"surface\" (land) or \"flyby\" (fly past). crew = true if people travel on a ship that carries the spacecraft you build. The words on the screen (names, descriptions) are in data/story.json. MORE FACTS (batch 7): distance_from_sun_au and distance_from_sun_million_km = how far from the Sun. sunlight_vs_earth = how strong the sunlight is compared with Earth (1.0 = Earth, 0.43 = less than half as strong). signal_delay_minutes = how long a radio message takes one way: min = planets closest, max = planets farthest. what_makes_it_different = one line (the words on the screen are in story.json). materials = what a surface site has (ids; their names are in story.json). landing_window_tightness = how tight the landing presses are at that site (1.0 = normal, bigger = tighter). pickable_arrival_types in game_data.json says which arrival types can be chosen yet. limit_changes (batch 8) = how much a destination moves the budget and mass limits (million $ and kg; added to the mission's limits). SURFACE SITE FACTS (batch 9): sample_distance_factor = how far the sample is compared with the normal distance (1.0 = normal, 1.5 = 50 percent farther). power_cost_factor = how much power each surface day uses compared with normal (1.0 = normal, 1.25 = a colder site, so more heater power). material_bonus = what the site's material gives the crew when the sample is collected, as an amount of each crew supply (for example water and air from ice); leave it out for no bonus. surface_colors = ground and sky colors that replace the normal Mars colors (web color codes); leave a color out to keep the normal one. A new site is only data: add it here, add its words to story.json and inner_voice.json, and add its material name to story.json destination_materials.",
   "destinations": {
     "mars_orbit": {
       "arrival_type": {
@@ -110,6 +110,22 @@
           "mass": 260
         },
         "source": "PLACEHOLDER (game-design number, a student can change it). A surface mission carries three landing parts (heat shield, parachute, landing system), so its budget and mass limits are a little bigger than for an orbiter. Mars orbit has no change."
+      },
+      "sample_distance_factor": {
+        "value": 1.0,
+        "source": "PLACEHOLDER (game-design number, a student can change it). 1.0 = the normal distance."
+      },
+      "power_cost_factor": {
+        "value": 1.0,
+        "source": "PLACEHOLDER (game-design number, a student can change it). 1.0 = the normal power use per day."
+      },
+      "surface_colors": {
+        "value": {
+          "ground": "#b5703f",
+          "ground_patch": "#c98a55",
+          "rim": "#8a4a2b"
+        },
+        "source": "Game-design choice (docs/ART_DIRECTION.md Mars colors: dusty orange, terracotta). Not a NASA number."
       }
     },
     "gale_crater": {
@@ -172,6 +188,22 @@
           "mass": 260
         },
         "source": "PLACEHOLDER (game-design number, a student can change it). A surface mission carries three landing parts (heat shield, parachute, landing system), so its budget and mass limits are a little bigger than for an orbiter. Mars orbit has no change."
+      },
+      "sample_distance_factor": {
+        "value": 0.85,
+        "source": "PLACEHOLDER (game-design number, a student can change it). Gale's layered mountain is a big, easy-to-spot target, so the sample is a little closer."
+      },
+      "power_cost_factor": {
+        "value": 1.0,
+        "source": "PLACEHOLDER (game-design number, a student can change it). 1.0 = the normal power use per day."
+      },
+      "surface_colors": {
+        "value": {
+          "ground": "#a8795a",
+          "ground_patch": "#c29a76",
+          "rim": "#7a5a45"
+        },
+        "source": "Game-design choice (docs/ART_DIRECTION.md Mars colors: sandstone, rust). Not a NASA number."
       }
     },
     "arcadia_planitia": {
@@ -234,6 +266,30 @@
           "mass": 260
         },
         "source": "PLACEHOLDER (game-design number, a student can change it). A surface mission carries three landing parts (heat shield, parachute, landing system), so its budget and mass limits are a little bigger than for an orbiter. Mars orbit has no change."
+      },
+      "sample_distance_factor": {
+        "value": 1.0,
+        "source": "PLACEHOLDER (game-design number, a student can change it). 1.0 = the normal distance."
+      },
+      "power_cost_factor": {
+        "value": 1.25,
+        "source": "PLACEHOLDER (game-design number, a student can change it). Arcadia is cold (GAME_PLAN.md section 4), so the heaters use more power each day. 1.25 = a quarter more."
+      },
+      "material_bonus": {
+        "value": {
+          "water": 1500,
+          "air": 400
+        },
+        "source": "PLACEHOLDER numbers (game-design: GAME_PLAN.md section 7 says a drill plus power turns ice into water and oxygen). The idea is real: NASA JPL's ice map shows water ice less than one foot (30 cm) below the surface at Arcadia Planitia: https://www.jpl.nasa.gov/news/nasas-treasure-map-for-water-ice-on-mars/ . Amounts are liters of water and kg of oxygen; a student replaces them."
+      },
+      "surface_colors": {
+        "value": {
+          "ground": "#c9b8a8",
+          "ground_patch": "#e6dccf",
+          "rim": "#9a8878",
+          "sky_horizon": "#d9c4b0"
+        },
+        "source": "Game-design choice (a paler, frosty ground for an icy site). Not a NASA number."
       }
     },
     "europa_flyby": {
