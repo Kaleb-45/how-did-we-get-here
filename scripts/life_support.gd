@@ -1,5 +1,6 @@
 # life_support.gd
 # The three stations in the Life Support room: Food, Water and Air.
+# Each Flight leg has its own tasks and one event (data/events.json "flight_plan").
 # walk.gd makes one of these and asks it three things:
 #   prompt_for(part_id)    the "Press E: ..." line for a station
 #   use_station(part_id)   the player pressed E at a station
@@ -11,12 +12,20 @@ extends Node
 const PANEL_SCENE = preload("res://scenes/station_panel.tscn")
 const PRESS_SCENE = preload("res://scenes/timed_press.tscn")
 
+# For each timed task: the start of its inner-voice lines (<prefix>_start, <prefix>_perfect, ...) and its label in story.json "flight".
+const TASK_WORDS: Dictionary = {
+	"oxygen_generator": ["generator", "generator_label"],
+	"water_filter": ["filter", "water_filter_label"],
+	"harvest": ["harvest", "harvest_label"],
+}
+
 var walk: Node3D                 # the walk scene (it has say(), player and the HUD)
 var panel: PanelContainer        # the Food station's screen
-var press: Control               # the timed press (Air station: run the oxygen generator)
+var press: Control               # the timed press (oxygen generator, water filter, garden harvest)
 var press_running: bool = false  # true while the ring is closing
-var elapsed: float = 0.0         # seconds since the stations started (the leak's clock)
-var leak_started: bool = false   # the leak starts once, then the player fixes it
+var press_task: String = ""      # which task the ring is for: oxygen_generator, water_filter or harvest
+var elapsed: float = 0.0         # seconds since the stations started (the event's clock)
+var event_started: bool = false  # this leg's event starts once, then the player fixes it
 var words: Dictionary            # story.json "flight"
 var lines: Dictionary            # inner_voice.json "flight"
 
@@ -41,16 +50,16 @@ func setup(walk_scene: Node3D, hud: CanvasLayer, voice_bar: Control) -> void:
 	press.offset_top = -press.custom_minimum_size.y / 2.0 - 90.0   # a little above the middle
 	press.offset_bottom = press.custom_minimum_size.y / 2.0 - 90.0
 	press.visible = false
-	press.finished.connect(_on_generator_press_finished)
+	press.finished.connect(_on_task_press_finished)
 
 
-# Called every frame by walk.gd. It starts the water leak on time, and the
-# leak pours out water until the player fixes it (events.json "water_leak").
+# Called every frame by walk.gd. This leg's event starts on time, and pours out its supply
+# until the player fixes it (events.json "flight_plan" and the event).
 func update(delta: float) -> void:
 	elapsed += delta
-	var leak: Dictionary = Data.events["water_leak"]
-	if not leak_started and elapsed >= leak["start_after_seconds"]["value"]:
-		start_leak()
+	var event_id: String = GameState.get_leg_plan()["event"]
+	if event_id != "" and not event_started and elapsed >= Data.events[event_id]["start_after_seconds"]["value"]:
+		start_event(event_id)
 	GameState.drain_leak(delta)
 
 
@@ -82,34 +91,69 @@ func handle_input(event: InputEvent) -> void:
 		walk.get_viewport().set_input_as_handled()
 
 
+# Is this leg's event pouring now, at this station?
+func event_here(station: String) -> bool:
+	return GameState.leak_active and Data.events[GameState.flight_event]["station"]["value"] == station
+
+
 # The "Press E: ..." line near a station.
 func prompt_for(part_id: String) -> String:
 	var hint: String = Data.voice["walk"]["press_e_hint"]
 	var prompts: Dictionary = words["prompts"]
-	match part_id:
-		"station_food":
-			if GameState.rationing:
-				return prompts["food_done"]
-			return "%s: %s" % [hint, prompts["food"]]
-		"station_air":
+	var station: String = part_id.trim_prefix("station_")
+	var tasks: Array = GameState.get_leg_tasks()
+	if event_here(station):
+		return "%s: %s" % [hint, prompts[station + "_event"]]
+	match station:
+		"food":
+			if not GameState.rationing:
+				return "%s: %s" % [hint, prompts["food"]]
+			if tasks.has("harvest"):
+				if GameState.is_task_done("harvest"):
+					return prompts["harvest_done"]
+				return "%s: %s" % [hint, prompts["harvest"]]
+			return prompts["food_done"]
+		"air":
 			if GameState.generator_run:
 				return prompts["air_done"]
 			return "%s: %s" % [hint, prompts["air"]]
-		"station_water":
-			if GameState.leak_active:
-				return "%s: %s" % [hint, prompts["water"]]
+		"water":
+			if tasks.has("water_filter"):
+				if GameState.is_task_done("water_filter"):
+					return prompts["water_filter_done"]
+				return "%s: %s" % [hint, prompts["water_filter"]]
 			return prompts["water_none"]
 	return ""
 
 
 func use_station(part_id: String) -> void:
-	match part_id:
-		"station_food":
-			use_food()
-		"station_air":
-			use_air()
-		"station_water":
-			use_water()
+	var station: String = part_id.trim_prefix("station_")
+	if event_here(station):
+		fix_event()
+		return
+	var tasks: Array = GameState.get_leg_tasks()
+	match station:
+		"food":
+			if not GameState.rationing:
+				use_food()
+			elif tasks.has("harvest") and not GameState.is_task_done("harvest"):
+				start_task("harvest")
+			elif tasks.has("harvest"):
+				walk.say(lines["harvest_already"])
+			else:
+				walk.say(lines["ration_already"])
+		"air":
+			if GameState.generator_run:
+				walk.say(lines["generator_already"])
+			else:
+				start_task("oxygen_generator")
+		"water":
+			if not tasks.has("water_filter"):
+				walk.say(lines["nothing_here"])
+			elif GameState.is_task_done("water_filter"):
+				walk.say(lines["filter_already"])
+			else:
+				start_task("water_filter")
 
 
 # --- Food: ration ---------------------------------------------------------------
@@ -126,6 +170,7 @@ func use_food() -> void:
 
 func _on_ration_pressed() -> void:
 	GameState.rationing = true
+	GameState.leg_tasks_done.append("ration")
 	walk.say(lines["ration_on"])
 	close_panel()
 
@@ -143,56 +188,55 @@ func freeze_player(frozen: bool) -> void:
 	walk.player.set_process_unhandled_input(not frozen)
 
 
-# --- Air: run the oxygen generator ---------------------------------------------------------
-# One timed press with the E key (the ring closes on the target). The result
-# decides how much air comes back (supplies.json "tasks" > "oxygen_generator"). Even a
-# Miss runs the generator, just less well.
+# --- Timed tasks: oxygen generator (air), water filter (water), garden harvest (food) -------
+# One timed press with the E key (the ring closes on the target). The result decides how much
+# of the supply comes back (supplies.json "tasks"). Even a Miss does the task, just less well.
 
-func use_air() -> void:
-	if GameState.generator_run:
-		walk.say(lines["generator_already"])
-		return
-	var generator: Dictionary = Data.supplies["tasks"]["oxygen_generator"]
+func start_task(task_id: String) -> void:
+	var task: Dictionary = Data.supplies["tasks"][task_id]
+	var task_words: Array = TASK_WORDS[task_id]
+	press_task = task_id
 	press_running = true
 	walk.player.set_physics_process(false)   # stand still while the ring closes
 	press.visible = true
-	walk.say(lines["generator_start"])
-	press.start(words["generator_label"], generator["press_speed"]["value"], generator["press_tightness"]["value"], press.ACTION_E)
+	walk.say(lines[task_words[0] + "_start"])
+	press.start(words[task_words[1]], task["press_speed"]["value"], task["press_tightness"]["value"], press.ACTION_E)
 
 
-func _on_generator_press_finished(result: String) -> void:
-	var amount: float = Data.supplies["tasks"]["oxygen_generator"]["restore"][result]["value"]
-	GameState.add_supply("air", amount)
-	GameState.generator_run = true
-	GameState.record_press("flight", "oxygen_generator", result)
-	walk.say(lines["generator_" + result.to_lower()])
+func _on_task_press_finished(result: String) -> void:
+	var task_id: String = press_task
+	var task: Dictionary = Data.supplies["tasks"][task_id]
+	var supply: String = Data.events["flight_plan"]["tasks"][task_id]["supply"]
+	GameState.add_supply(supply, task["restore"][result]["value"])
+	GameState.leg_tasks_done.append(task_id)
+	if task_id == "oxygen_generator":
+		GameState.generator_run = true
+	GameState.record_press("flight", task_id, result)
+	walk.say(lines[TASK_WORDS[task_id][0] + "_" + result.to_lower()])
 	press_running = false
 	walk.player.set_physics_process(true)
 	var tree := get_tree()
-	await tree.create_timer(Data.supplies["tasks"]["oxygen_generator"]["result_show_seconds"]["value"]).timeout
+	await tree.create_timer(task["result_show_seconds"]["value"]).timeout
 	if is_inside_tree():   # the scene may have changed while we waited
 		press.visible = false
 
 
-# --- Water: the leak -------------------------------------------------------------------
-# The leak is the one Flight event (data/events.json "water_leak"). It starts on its
-# own, the voice warns, and the water meter falls fast. Pressing E at the Water
-# station stops it. (It is not the Mars shadow pass.)
+# --- The leg's event: a leak or spoil ------------------------------------------------------
+# It starts on its own, the voice warns, and the supply falls fast. Pressing E at the
+# supply's station stops it. (It is not the Mars shadow pass.)
 
-func start_leak() -> void:
-	leak_started = true
-	GameState.leak_active = true
-	walk.say(lines["leak_warning"])
-	walk.alarm_banner.text = words["leak_banner"]
+func start_event(event_id: String) -> void:
+	event_started = true
+	GameState.start_flight_event(event_id)
+	walk.say(lines[event_id + "_warning"])
+	walk.alarm_banner.text = words["event_banners"][event_id]
 	walk.alarm_banner.visible = true
-	walk.dashboard.set_flashing(Data.events["water_leak"]["supply"], true)   # the Water row flashes
+	walk.dashboard.set_flashing(Data.events[event_id]["supply"], true)   # the supply's row flashes
 
 
-func use_water() -> void:
-	if not GameState.leak_active:
-		walk.say(lines["no_leak"])
-		return
-	GameState.leak_active = false
+func fix_event() -> void:
+	var event_id: String = GameState.flight_event
+	GameState.stop_flight_event()
 	walk.alarm_banner.visible = false
-	walk.dashboard.set_flashing(Data.events["water_leak"]["supply"], false)
-	walk.say(lines["leak_fixed"])
+	walk.dashboard.set_flashing(Data.events[event_id]["supply"], false)
+	walk.say(lines[event_id + "_fixed"])

@@ -46,7 +46,10 @@ var findings: Array = []              # things that went wrong on the way (crew 
 # Crew supplies (data/supplies.json). crew_supplies above holds how much is left.
 var supplies_started: bool = false    # true once the ship has been stocked
 var rationing: bool = false           # true once the player rations the food (Food station)
-var leak_active: bool = false         # true while the water leak is pouring (Flight)
+var leak_active: bool = false         # true while a Flight event (a leak or spoil) is pouring out a supply
+var flight_event: String = ""         # the id of the event that is pouring now (events.json), "" = none
+var flight_leg: int = 0               # the Flight leg being played (0 = the first)
+var leg_tasks_done: Array = []        # the tasks done in this leg, for example ["oxygen_generator"]
 var generator_run: bool = false       # true once the player ran the oxygen generator (Air station)
 # The surface work (Stage 4, surface destinations) and the flyby (Europa). See start_surface() and start_flyby().
 var surface: Dictionary = {}          # days, sample, power used on the surface
@@ -77,6 +80,7 @@ func to_dict() -> Dictionary:
 		"supplies_started": supplies_started,
 		"rationing": rationing,
 		"leak_active": leak_active,
+		"flight_event": flight_event,
 		"generator_run": generator_run,
 		"surface": surface.duplicate(true),
 		"flyby": flyby.duplicate(true),
@@ -110,6 +114,9 @@ func from_dict(d: Dictionary) -> void:
 	supplies_started = pick(d, "supplies_started", supplies_started)
 	rationing = pick(d, "rationing", rationing)
 	leak_active = pick(d, "leak_active", leak_active)
+	flight_event = pick(d, "flight_event", flight_event)
+	flight_leg = 0   # a saved game is always between legs: Flight starts from its first leg
+	leg_tasks_done.clear()
 	generator_run = pick(d, "generator_run", generator_run)
 	surface = pick(d, "surface", surface)
 	flyby = pick(d, "flyby", flyby)
@@ -352,10 +359,16 @@ func has_crew() -> bool:
 	return bool(get_destination()["crew"]["value"])
 
 
-# How many real days one Flight leg stands for: the trip's days split into legs.
+# How many legs the Flight has: the destination's flight_legs, or just one for a trip with no crew (events.json flight_plan).
+func get_flight_legs() -> int:
+	if not has_crew():
+		return int(Data.events["flight_plan"]["no_crew_legs"]["value"])
+	return int(get_destination()["flight_legs"]["value"])
+
+
+# How many real days one Flight leg stands for: the trip's days split into the legs we play.
 func get_flight_leg_days() -> float:
-	var trip: Dictionary = get_destination()
-	return float(trip["trip_days"]["value"]) / float(trip["flight_legs"]["value"])
+	return float(get_destination()["trip_days"]["value"]) / float(get_flight_legs())
 
 
 # How many real seconds one Flight leg lasts when you play it.
@@ -369,8 +382,11 @@ func start_supplies() -> void:
 		crew_supplies[id] = float(Data.supplies["start_amount"][id]["value"])
 	rationing = false
 	leak_active = false
+	flight_event = ""
 	generator_run = false
 	supplies_started = true
+	flight_leg = 0
+	leg_tasks_done.clear()
 	findings.clear()
 	for id in SUPPLY_IDS:   # old crew problems from a last try are gone
 		event_failures.erase(id + "_empty")
@@ -395,8 +411,11 @@ func clear_supplies() -> void:
 		crew_supplies[id] = 0.0
 	rationing = false
 	leak_active = false
+	flight_event = ""
 	generator_run = false
 	supplies_started = false
+	flight_leg = 0
+	leg_tasks_done.clear()
 
 
 # How much the whole crew uses in one game day.
@@ -415,11 +434,83 @@ func advance_supplies(days_passed: float) -> void:
 		crew_supplies[id] = maxf(0.0, crew_supplies[id] - get_supply_use_per_day(id) * days_passed)
 
 
-# The water leak: it pours out liters_per_second every real second.
+# A Flight event (water leak, air leak, food spoils) pours its supply out, drain_per_second every real second.
 func drain_leak(delta: float) -> void:
-	if leak_active:
-		var rate: float = Data.events["water_leak"]["drain_liters_per_second"]["value"]
-		crew_supplies["water"] = maxf(0.0, crew_supplies["water"] - rate * delta)
+	if leak_active and Data.events.has(flight_event):
+		var event: Dictionary = Data.events[flight_event]
+		var supply: String = event["supply"]
+		crew_supplies[supply] = maxf(0.0, crew_supplies[supply] - float(event["drain_per_second"]["value"]) * delta)
+
+
+# --- The Flight legs (events.json "flight_plan") ----------------------------------
+
+# The plan of the leg being played: { "tasks": [...], "event": "water_leak" }.
+# A trip with no crew has no tasks and no event.
+func get_leg_plan() -> Dictionary:
+	if not has_crew():
+		return {"tasks": [], "event": ""}
+	var legs: Array = Data.events["flight_plan"]["legs"]["value"]
+	return legs[mini(flight_leg, legs.size() - 1)]
+
+
+# The tasks of this leg that this ship can do (no harvest without a garden).
+func get_leg_tasks() -> Array:
+	var tasks: Array = []
+	var catalog: Dictionary = Data.events["flight_plan"]["tasks"]
+	for id in get_leg_plan()["tasks"]:
+		var needs: String = catalog[id].get("needs_part", {}).get("value", "")
+		if needs == "" or get_part_fact("life_support", needs, false):
+			tasks.append(id)
+	return tasks
+
+
+# A new leg starts: its tasks are not done yet and nothing is pouring. Rationing stays on once it is on.
+func begin_leg() -> void:
+	generator_run = false
+	leak_active = false
+	flight_event = ""
+	leg_tasks_done.clear()
+
+
+func start_flight_event(id: String) -> void:
+	flight_event = id
+	leak_active = true
+
+
+func stop_flight_event() -> void:
+	flight_event = ""
+	leak_active = false
+
+
+func is_task_done(task_id: String) -> bool:
+	return leg_tasks_done.has(task_id)
+
+
+# The leg is over. A task that was skipped costs its meter a part of its full size. A leak that was
+# not fixed stops. Gives back { "skipped": [task ids], "lost": { supply: amount }, "more": true if another leg follows }.
+func end_leg() -> Dictionary:
+	var catalog: Dictionary = Data.events["flight_plan"]["tasks"]
+	var skipped: Array = []
+	var lost: Dictionary = {}
+	for id in get_leg_tasks():
+		if is_task_done(id) or (id == "ration" and rationing):
+			continue
+		var percent: float = float(catalog[id]["skip_loss_percent"]["value"])
+		if percent <= 0.0:
+			continue
+		var supply: String = catalog[id]["supply"]
+		var amount: float = get_supply_capacity(supply) * percent / 100.0
+		var before: float = crew_supplies[supply]
+		crew_supplies[supply] = maxf(0.0, before - amount)
+		lost[supply] = before - crew_supplies[supply]
+		skipped.append(id)
+	stop_flight_event()
+	flight_leg += 1
+	var more: bool = flight_leg < get_flight_legs()
+	if not more:
+		flight_leg = 0   # the Flight is over: the next one starts from its first leg
+	leg_tasks_done.clear()
+	return {"skipped": skipped, "lost": lost, "more": more}
 
 
 # Put air (or anything else) back, but never above the meter's capacity.

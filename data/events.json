@@ -1,5 +1,5 @@
 {
-  "_readme": "Events that happen during a stage. Each event has a stage, a station (a place on the ship) and facts written as { \"value\": ..., \"source\": ... }. A source is a link, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). The Mars shadow pass is NOT here: it is a Mars-orbit event and lives in game_data.json (events, power_low). The words on the screen are in data/inner_voice.json (flight) and data/story.json (flight). The science pass (stage arrival) is also here: windows in seconds, storage and downlink hours. The antenna speed and the camera data come from the parts.",
+  "_readme": "Events that happen during a stage. Each event has a stage, a station (a place on the ship) and facts written as { \"value\": ..., \"source\": ... }. A source is a link, a written game-design choice, or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). The Mars shadow pass is NOT here: it is a Mars-orbit event and lives in game_data.json (events, power_low). The words on the screen are in data/inner_voice.json (flight) and data/story.json (flight). The science pass (stage arrival) is also here: windows in seconds, storage and downlink hours. The antenna speed and the camera data come from the parts. FLIGHT (batch 9): the Flight plan and its three events (water leak, air leak, food spoils) are in flight_plan, water_leak, air_leak and food_spoil. drain_per_second = how much of the supply an event pours out every real second.",
   "events": {
     "water_leak": {
       "stage": "flight",
@@ -12,13 +12,13 @@
         "value": 8,
         "source": "PLACEHOLDER (seconds after the Flight leg starts)"
       },
-      "drain_liters_per_second": {
-        "value": 50,
-        "source": "PLACEHOLDER (extra water lost every real second until the leak is fixed; a leak fixed within about 30 s of the warning leaves the water out of the red)"
-      },
       "fix": {
         "value": "press_e_at_station",
         "source": "Game-design choice: press E at the Water station."
+      },
+      "drain_per_second": {
+        "value": 50,
+        "source": "PLACEHOLDER (liters of water lost every real second until the leak is fixed; a leak fixed within about 30 s of the warning leaves the water out of the red)"
       }
     },
     "science_pass": {
@@ -188,6 +188,120 @@
       "pass_seconds": {
         "value": 3,
         "source": "PLACEHOLDER (real seconds the pass animation takes)"
+      }
+    },
+    "air_leak": {
+      "stage": "flight",
+      "supply": "air",
+      "station": {
+        "value": "air",
+        "source": "Game-design choice: the Air station in the Life Support room."
+      },
+      "start_after_seconds": {
+        "value": 10,
+        "source": "PLACEHOLDER (seconds after the Flight leg starts)"
+      },
+      "drain_per_second": {
+        "value": 12,
+        "source": "PLACEHOLDER (kg of air lost every real second until the leak is fixed)"
+      },
+      "fix": {
+        "value": "press_e_at_station",
+        "source": "Game-design choice: press E at the Air station."
+      }
+    },
+    "food_spoil": {
+      "stage": "flight",
+      "supply": "food",
+      "station": {
+        "value": "food",
+        "source": "Game-design choice: the Food station in the Life Support room."
+      },
+      "start_after_seconds": {
+        "value": 12,
+        "source": "PLACEHOLDER (seconds after the Flight leg starts)"
+      },
+      "drain_per_second": {
+        "value": 25,
+        "source": "PLACEHOLDER (kg of food lost every real second until the freezer is fixed)"
+      },
+      "fix": {
+        "value": "press_e_at_station",
+        "source": "Game-design choice: press E at the Food station."
+      }
+    },
+    "flight_plan": {
+      "stage": "flight",
+      "_readme": "The Flight plan (Stage 3). legs = the legs of the trip in order. Each leg has tasks (ids from the tasks list below; a task the ship cannot do, such as harvest without a garden, is left out) and one event (an id from this file: water_leak, air_leak or food_spoil). Every leg stands for trip_days divided by the number of legs (destinations.json) and lasts flight_leg_seconds. A trip with no crew plays no_crew_legs leg(s) and has no tasks or events. Each task has a station on the ship, the crew supply it looks after, and skip_loss_percent = how much of that meter's full size is lost at the end of the leg if the task was skipped (a skipped task makes its meter drop faster). A leak or spoil that is not fixed stops when the leg ends. Rationing is on for the rest of the trip once it is on.",
+      "no_crew_legs": {
+        "value": 1,
+        "source": "Game-design choice (agent's choice for Kaleb, 2026-11-13): a trip with no crew has no crew supplies, so it has no tasks to play; it keeps one leg, as before."
+      },
+      "legs": {
+        "value": [
+          {
+            "tasks": [
+              "ration",
+              "oxygen_generator"
+            ],
+            "event": "water_leak"
+          },
+          {
+            "tasks": [
+              "water_filter",
+              "oxygen_generator",
+              "harvest"
+            ],
+            "event": "air_leak"
+          },
+          {
+            "tasks": [
+              "water_filter",
+              "oxygen_generator",
+              "harvest"
+            ],
+            "event": "food_spoil"
+          }
+        ],
+        "source": "GAME_PLAN.md section 6b: 3 legs, each with 2-3 routine tasks and 1 event. Which task and event go in which leg is a game-design choice (agent's choice for Kaleb, 2026-11-13)."
+      },
+      "tasks": {
+        "ration": {
+          "station": "food",
+          "supply": "food",
+          "skip_loss_percent": {
+            "value": 0,
+            "source": "Game-design choice: skipping the ration has no extra loss, because the crew simply eats the normal amount."
+          }
+        },
+        "oxygen_generator": {
+          "station": "air",
+          "supply": "air",
+          "skip_loss_percent": {
+            "value": 5,
+            "source": "PLACEHOLDER"
+          }
+        },
+        "water_filter": {
+          "station": "water",
+          "supply": "water",
+          "skip_loss_percent": {
+            "value": 5,
+            "source": "PLACEHOLDER"
+          }
+        },
+        "harvest": {
+          "station": "food",
+          "supply": "food",
+          "needs_part": {
+            "value": "has_garden",
+            "source": "Game rule: only a ship with a garden (life support part) can harvest."
+          },
+          "skip_loss_percent": {
+            "value": 4,
+            "source": "PLACEHOLDER"
+          }
+        }
       }
     }
   }

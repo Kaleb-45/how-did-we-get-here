@@ -1,5 +1,5 @@
 {
-  "_readme": "Crew supplies: food, water and air for the crew on the ship. They are a separate group from the six resources, and show only in Flight and Arrival. per_person_per_day = how much ONE person uses in ONE day (real NASA numbers, with the quote and link in each source). The game multiplies it by crew_size and by the game days that pass. Every fact is written as { \"value\": ..., \"source\": ... }. A source is a NASA link or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). start_amount = what the ship carries at the start. capacity = the most a meter can hold (the bar's full size). A meter turns yellow below warning_percent of its capacity and red below danger_percent. Tasks: rationing slows how fast food drops, and running the oxygen generator makes oxygen, so the air meter goes up (a better timed press makes more). In Arrival the crew uses the real daily amounts for all the days of the mission clock (about 730). The start amounts and capacities are made up (PLACEHOLDER) so that a player who does the Flight tasks stays out of the red. The water leak is in events.json. The words on the screen are in data/story.json and data/inner_voice.json.",
+  "_readme": "Crew supplies: food, water and air for the crew on the ship. They are a separate group from the six resources, and show only in Flight and Arrival. per_person_per_day = how much ONE person uses in ONE day (real NASA numbers, with the quote and link in each source). The game multiplies it by crew_size and by the game days that pass. Every fact is written as { \"value\": ..., \"source\": ... }. A source is a NASA link or the word PLACEHOLDER (made up for now; a student replaces it before the final submission). start_amount = what the ship carries at the start. capacity = the most a meter can hold (the bar's full size). A meter turns yellow below warning_percent of its capacity and red below danger_percent. Tasks: rationing slows how fast food drops, running the oxygen generator makes oxygen (air goes up), changing the water filter gives water back, and harvesting the garden (only with the Garden life support part) gives food. A better timed press gives more. Which tasks are in which Flight leg is in events.json flight_plan. In Arrival the crew uses the real daily amounts for all the days of the mission clock (about 730). The start amounts and capacities are made up (PLACEHOLDER) so that a player who does the Flight tasks stays out of the red. The water leak is in events.json. The words on the screen are in data/story.json and data/inner_voice.json.",
   "per_person_per_day": {
     "food": {
       "value": 1.831,
@@ -54,6 +54,26 @@
         "Perfect": { "value": 1500, "source": "PLACEHOLDER" },
         "Good": { "value": 1150, "source": "PLACEHOLDER" },
         "Miss": { "value": 800, "source": "PLACEHOLDER" }
+      },
+      "press_speed": { "value": 1.0, "source": "PLACEHOLDER" },
+      "press_tightness": { "value": 1.0, "source": "PLACEHOLDER" },
+      "result_show_seconds": { "value": 1.2, "source": "PLACEHOLDER (how long the ring stays on screen after the press)" }
+    },
+    "water_filter": {
+      "restore": {
+        "Perfect": { "value": 1200, "source": "PLACEHOLDER (liters of clean water the new filter gives back)" },
+        "Good": { "value": 900, "source": "PLACEHOLDER" },
+        "Miss": { "value": 600, "source": "PLACEHOLDER" }
+      },
+      "press_speed": { "value": 1.0, "source": "PLACEHOLDER" },
+      "press_tightness": { "value": 1.0, "source": "PLACEHOLDER" },
+      "result_show_seconds": { "value": 1.2, "source": "PLACEHOLDER (how long the ring stays on screen after the press)" }
+    },
+    "harvest": {
+      "restore": {
+        "Perfect": { "value": 500, "source": "PLACEHOLDER (kg of fresh food the garden gives)" },
+        "Good": { "value": 380, "source": "PLACEHOLDER" },
+        "Miss": { "value": 250, "source": "PLACEHOLDER" }
       },
       "press_speed": { "value": 1.0, "source": "PLACEHOLDER" },
       "press_tightness": { "value": 1.0, "source": "PLACEHOLDER" },

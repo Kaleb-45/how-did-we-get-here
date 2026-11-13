@@ -190,14 +190,22 @@
     "of_word": "of"
   },
   "flight": {
-    "_readme": "Words on the screen during Flight (Stage 3): the Life Support stations. prompts = the line shown near a station (after \"Press E:\"); the _done and _none lines show when there is nothing left to do. ration_panel = the Food station's little screen.",
+    "_readme": "Words on the screen during Flight (Stage 3): the Life Support stations. prompts = the line shown near a station (after \"Press E:\"); the _done and _none lines show when there is nothing left to do. ration_panel = the Food station's little screen. Batch 9: three legs. event_banners = the red banner while an event pours out a supply. leg_line = which leg it is. task_names = the names used when a skipped task is mentioned.",
     "prompts": {
       "food": "Food station: ration the food",
       "food_done": "Food station: rationing is on",
       "water": "Water station: fix the leak",
       "water_none": "Water station: no leak",
       "air": "Air station: run the oxygen generator",
-      "air_done": "Air station: the oxygen generator is running"
+      "air_done": "Air station: the oxygen generator is running",
+      "food_event": "Food station: fix the freezer",
+      "water_event": "Water station: fix the leak",
+      "air_event": "Air station: fix the air leak",
+      "water_filter": "Water station: change the filter",
+      "water_filter_done": "Water station: the filter is changed",
+      "harvest": "Food station: harvest the garden",
+      "harvest_done": "Food station: the garden is harvested",
+      "nothing": "Nothing to do here right now"
     },
     "ration_panel": {
       "title": "FOOD STATION",
@@ -206,7 +214,20 @@
       "close_hint": "E or Esc = close"
     },
     "generator_label": "RUN THE OXYGEN GENERATOR",
-    "leak_banner": "WATER LEAK! Go to the Water station"
+    "water_filter_label": "CHANGE THE FILTER",
+    "harvest_label": "HARVEST THE GARDEN",
+    "event_banners": {
+      "water_leak": "WATER LEAK! Go to the Water station",
+      "air_leak": "AIR LEAK! Go to the Air station",
+      "food_spoil": "FOOD SPOILING! Go to the Food station"
+    },
+    "leg_line": "Leg {leg} of {legs}",
+    "task_names": {
+      "ration": "ration",
+      "oxygen_generator": "oxygen generator",
+      "water_filter": "water filter",
+      "harvest": "garden harvest"
+    }
   },
   "dashboard": {
     "title": "Mission dashboard",

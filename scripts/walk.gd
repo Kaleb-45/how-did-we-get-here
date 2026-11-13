@@ -53,6 +53,7 @@ var seconds_left: float = 0.0   # counts down in "waiting" and in "ringing"
 var storm_left: float = 0.0     # seconds until the shadow pass is over
 var flashing: Tween
 var mission_over: bool = false   # true once the walk is finishing
+var more_legs: bool = false      # Flight: true when another leg follows this one
 
 # The reach zones the player is standing in right now.
 var zones_player_is_in: Array[Area3D] = []
@@ -108,7 +109,9 @@ func _ready() -> void:
 	# No crew (Europa) means no crew supplies at all.
 	if has_crew:
 		if flight_mode:
-			GameState.start_supplies()
+			if GameState.flight_leg == 0:
+				GameState.start_supplies()   # the first leg stocks the ship; the next legs go on with what is left
+			GameState.begin_leg()
 		else:
 			GameState.ensure_supplies()
 
@@ -119,7 +122,13 @@ func _ready() -> void:
 	update_dashboard(false)
 	if flight_mode:
 		var start_key: String = "start" if has_crew else "start_no_crew"
-		say(Data.voice["flight"][start_key].format({"days": GameState.fmt(GameState.get_flight_leg_days())}))
+		if has_crew and GameState.flight_leg > 0:
+			start_key = "start_next"   # leg 2, leg 3
+		say(Data.voice["flight"][start_key].format({
+			"days": GameState.fmt(GameState.get_flight_leg_days()),
+			"leg": GameState.flight_leg + 1,
+			"legs": GameState.get_flight_legs(),
+		}))
 	else:
 		say(Data.voice["walk"]["start"])
 
@@ -398,9 +407,23 @@ func update_flight_end() -> void:
 	if mission_over:
 		return
 	if life_support.elapsed >= GameState.get_flight_leg_seconds():
-		var arrival: String = GameState.get_arrival_type()
-		say(Data.voice["flight"]["leg_end" if arrival == "orbit" else "leg_end_" + arrival])   # Mars orbit, a landing, or Europa
 		life_support.stop_tasks()   # close a station screen or a ring that is still open
+		var leg: int = GameState.flight_leg + 1
+		var result: Dictionary = GameState.end_leg()   # skipped tasks cost supplies; the next leg is counted
+		more_legs = result["more"]
+		var arrival: String = GameState.get_arrival_type()
+		var line: String
+		if more_legs:
+			line = Data.voice["flight"]["leg_end_next"].format({"leg": leg, "legs": GameState.get_flight_legs()})
+		else:
+			line = Data.voice["flight"]["leg_end" if arrival == "orbit" else "leg_end_" + arrival]   # Mars orbit, a landing, or Europa
+		if not result["skipped"].is_empty():
+			var names: Dictionary = Data.story["crew_supplies"]["names"]
+			var list: PackedStringArray = []
+			for id in result["lost"]:
+				list.append("%s %s" % [GameState.fmt(result["lost"][id]), names[id].to_lower()])
+			line += " " + Data.voice["flight"]["skipped"].format({"list": ", ".join(list)})
+		say(line)
 		finish_mission(Data.game_data["walk"]["end_read_seconds"])
 
 
@@ -420,6 +443,9 @@ func end_walk() -> void:
 	if not flight_mode:
 		GameState.add_end_of_mission_failures()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	if flight_mode and more_legs:
+		StageManager.go_to("flight")   # the same screen again: the next leg
+		return
 	StageManager.go_next()
 
 
