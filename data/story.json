@@ -430,10 +430,8 @@
     "sample_label": "COLLECT SAMPLE",
     "sample_marker": "{material}",
     "lander_marker": "Lander",
-    "meters_title": "Surface meters",
     "prompts": {
       "sample": "Press E: Collect the {material} sample",
-      "sample_done": "Sample collected!",
       "lander": "Press E: Lander"
     }
   },
@@ -443,7 +441,7 @@
     "hint": "You are in mission control (you cannot walk). Press SPACE or click when the ring closes.",
     "delay_title": "RADIO DELAY",
     "delay_line": "{min} to {max} min one way (real)",
-    "delay_note": "Commands arrive ~{avg} min late: send early!",
+    "delay_note": "Every command arrives that much later, so send early!",
     "planned_title": "PLANNED DATA",
     "planned_line": "Send home at least {gb} Gb",
     "status_title": "STATUS",
@@ -458,12 +456,6 @@
       "protect_computer": "Protect computer",
       "send_data": "Send data home"
     },
-    "moment_help": {
-      "point_instrument": "Turn the camera toward Europa.",
-      "capture": "Take the pictures.",
-      "protect_computer": "Radiation can wipe out data.",
-      "send_data": "Send the pictures to Earth."
-    },
     "results": {
       "Perfect": "On time (Perfect)",
       "Good": "A bit off (Good)",
@@ -476,6 +468,7 @@
     "sent_line": "Sent home: {gb} Gb of the {planned} Gb planned",
     "enough": "Enough data got home!",
     "not_enough": "Not enough data got home.",
-    "next_button": "To the report"
+    "next_button": "To the report",
+    "minutes_unit": "min"
   }
 }

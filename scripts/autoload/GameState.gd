@@ -258,6 +258,7 @@ func reset_all() -> void:
 	goal_id = ""
 	launch_vehicle_id = ""
 	choices.clear()
+	swapped_parts.clear()
 	start_new_attempt()
 	start_mission()
 	clear_checkpoints()
@@ -706,7 +707,14 @@ func fill_default_choices() -> void:
 		if allowed.is_empty():
 			choices.erase(part_id)   # this slot does not exist at this destination
 		elif not choices.has(part_id) or not allowed.has(choices[part_id]):
+			if choices.has(part_id):
+				# The player had picked something that is not allowed here: remember it, so Build can say so.
+				swapped_parts.append({"part": part_id, "from": choices[part_id], "to": allowed[0]})
 			choices[part_id] = allowed[0]
+
+
+# Parts that were swapped because they are not allowed at the new destination (Build shows a line, then clears this).
+var swapped_parts: Array = []
 
 
 # --- Parts per destination (batch 8) ----------------------------------------
@@ -968,12 +976,16 @@ func start_surface() -> void:
 	var work: Dictionary = Data.events["surface_work"]
 	var start_power: float = get_surface_start_power()
 	var days: int = int(work["max_days"]["value"])
-	days = mini(days, int(floor(start_power / float(work["power_cost_per_day_w"]["value"]))))
+	# Power: leave room for one sample try (attempt_power_cost_w), so collecting on the last day still works.
+	var power_for_days: float = start_power - float(work["attempt_power_cost_w"]["value"])
+	days = mini(days, int(floor(power_for_days / float(work["power_cost_per_day_w"]["value"]))))
 	if has_crew():
 		ensure_supplies()
 		for id in SUPPLY_IDS:
+			# Supplies: count the days only down to the red line (supplies.json status danger_percent), not to zero.
+			var red_line: float = get_supply_capacity(id) * float(Data.supplies["status"]["danger_percent"]["value"]) / 100.0
 			var per_day: float = get_supply_use_per_day(id) * float(work["supply_days_per_day"]["value"])
-			days = mini(days, int(floor(crew_supplies[id] / per_day)))
+			days = mini(days, int(floor((crew_supplies[id] - red_line) / per_day)))
 	surface = {
 		"days_total": maxi(1, days),
 		"days_used": 0.0,

@@ -398,7 +398,8 @@ func update_flight_end() -> void:
 	if mission_over:
 		return
 	if life_support.elapsed >= GameState.get_flight_leg_seconds():
-		say(Data.voice["flight"]["leg_end"])
+		var arrival: String = GameState.get_arrival_type()
+		say(Data.voice["flight"]["leg_end" if arrival == "orbit" else "leg_end_" + arrival])   # Mars orbit, a landing, or Europa
 		life_support.stop_tasks()   # close a station screen or a ring that is still open
 		finish_mission(Data.game_data["walk"]["end_read_seconds"])
 
@@ -534,6 +535,7 @@ func use_part(part_id: String) -> void:
 	var explanation: String = Data.voice["parts"][part_id][version_id]
 	var effects: Dictionary = GameState.get_version_effects(part_id, version_id)
 	var numbers: String = GameState.effects_text(effects, ", ")
+	explanation = explanation.format({"percent": GameState.fmt(GameState.get_sunlight_factor() * 100.0)})   # the RTG line uses it
 	say(explanation + " " + Data.voice["walk"]["numbers_intro"] + " " + numbers + ".")
 
 

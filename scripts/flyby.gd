@@ -32,7 +32,7 @@ var moment_ids: Array = []
 var moment_labels: Array = []     # one Label per command in the timeline
 var status_body: Label            # the STATUS screen's text
 var result_counts: Dictionary = {}
-var average_delay: float = 0.0    # minutes, between the nearest and the farthest
+var longest_delay: float = 0.0    # minutes: the real longest one-way radio delay (destinations.json)
 
 
 func _ready() -> void:
@@ -53,23 +53,25 @@ func _ready() -> void:
 	next_button.text = words["next_button"]
 	next_button.pressed.connect(_on_next_pressed)
 	summary_box.visible = false
+	screens.custom_minimum_size.x = Data.game_data["flyby_screen_layout"]["screen_width"]
 
 	var delay: Dictionary = GameState.get_destination()["signal_delay_minutes"]["value"]
-	average_delay = (float(delay["min"]) + float(delay["max"])) / 2.0
+	longest_delay = float(delay["max"])
 	moment_ids = Data.timing["flyby"]["moment_ids"]
 	build_screens(delay)
 	build_timeline()
-	inner_voice.say(voice_lines["start"].format({"avg": GameState.fmt(average_delay)}))
+	inner_voice.say(voice_lines["start"].format({"min": GameState.fmt(delay["min"]), "max": GameState.fmt(delay["max"])}))
 	run_flyby()
 
 
 # Three small "screens" like the ones in mission control: radio delay, planned data, status.
 func build_screens(delay: Dictionary) -> void:
 	var delay_text: String = words["delay_line"].format({"min": GameState.fmt(delay["min"]), "max": GameState.fmt(delay["max"])})
-	delay_text += "\n" + words["delay_note"].format({"avg": GameState.fmt(average_delay)})
-	add_screen(words["delay_title"], delay_text, 560)
-	add_screen(words["planned_title"], words["planned_line"].format({"gb": GameState.fmt(GameState.flyby["planned"])}), 560)
-	status_body = add_screen(words["status_title"], words["status_waiting"], 560)
+	delay_text += "\n" + words["delay_note"].format({"min": GameState.fmt(delay["min"]), "max": GameState.fmt(delay["max"])})
+	var width: int = int(Data.game_data["flyby_screen_layout"]["screen_width"])
+	add_screen(words["delay_title"], delay_text, width)
+	add_screen(words["planned_title"], words["planned_line"].format({"gb": GameState.fmt(GameState.flyby["planned"])}), width)
+	status_body = add_screen(words["status_title"], words["status_waiting"], width)
 
 
 func add_screen(title: String, body: String, width: int) -> Label:
@@ -97,7 +99,7 @@ func build_timeline() -> void:
 		var label := Label.new()
 		label.theme_type_variation = &"SmallText"
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.custom_minimum_size = Vector2(230, 0)
+		label.custom_minimum_size = Vector2(Data.game_data["flyby_screen_layout"]["command_width"], 0)
 		label.text = words["moments"][moment_id] + "\n" + words["waiting"]
 		timeline.add_child(label)
 		moment_labels.append(label)
@@ -136,12 +138,12 @@ func run_pass() -> void:
 	inner_voice.say(voice_lines["pass"])
 	var seconds: float = float(Data.events["flyby_pass"]["pass_seconds"]["value"])
 	var tween := create_tween()
-	tween.tween_method(show_arrival, average_delay, 0.0, seconds)
+	tween.tween_method(show_arrival, longest_delay, 0.0, seconds)
 	await tween.finished
 
 
 func show_arrival(minutes: float) -> void:
-	status_body.text = words["pass_line"] + "\n" + GameState.fmt(minutes) + " min"
+	status_body.text = words["pass_line"] + "\n" + GameState.fmt(minutes) + " " + words["minutes_unit"]
 
 
 # After the pass: what was captured, lost to radiation and sent home. Then a Next button.

@@ -2,7 +2,7 @@
 # Stage 4 for a SURFACE destination (Jezero, Gale, Arcadia): the landing.
 # The player cannot move, so it works like the Launch: a chain of timed
 # presses with the SPACE key (or a click):
-#   heat shield off, parachute out, landing engine on, touchdown.
+#   parachute out, heat shield off, landing engine on, touchdown (NASA's real order).
 #   Perfect or Good: no loss.
 #   Miss: a cost is added to GameState.damage (lost fuel, a damaged part, or
 #         distance from the target). A miss never ends the mission.

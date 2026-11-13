@@ -68,13 +68,51 @@ func build_part(part_id: String, version_id: String) -> void:
 		return
 
 	# Otherwise, build the simple shape.
-	match part_look["shape"]:
+	var shape_name: String = version_look.get("shape", part_look["shape"])   # a version can have its own shape (the RTG)
+	match shape_name:
+		"rtg":
+			make_rtg(holder, size, version_look["materials"])
 		"wings":
 			make_wings(holder, size, color)
 		"cylinder":
 			make_hanging_cylinder(holder, size, color)
 		"dish":
 			make_dish(holder, size, color)
+
+
+# The RTG (a nuclear power source): a boom out of the side, a small cylinder at its end,
+# and three thin fins that shed heat. The pieces use the shared matte material library
+# (data: the version's look "materials"). size = [radius, length]
+func make_rtg(holder: Node3D, size: Array, material_paths: Dictionary) -> void:
+	var radius: float = size[0]
+	var length: float = size[1]
+	var boom_length := 0.8
+	var boom := CSGBox3D.new()
+	boom.size = Vector3(boom_length, 0.08, 0.08)
+	boom.material = load(material_paths["boom"]).duplicate()
+	boom.use_collision = true
+	boom.position.x = body_size.x / 2 + boom_length / 2
+	holder.add_child(boom)
+
+	var end_x: float = body_size.x / 2 + boom_length + length / 2
+	var can := CSGCylinder3D.new()
+	can.radius = radius
+	can.height = length
+	can.sides = 24
+	can.material = load(material_paths["body"]).duplicate()
+	can.use_collision = true
+	can.rotation.z = PI / 2   # lying along the boom
+	can.position.x = end_x
+	holder.add_child(can)
+
+	for i in 3:
+		var fin := CSGBox3D.new()
+		fin.size = Vector3(length * 0.9, radius * 2.0 + 0.1, 0.02)
+		fin.material = load(material_paths["fin"]).duplicate()
+		fin.rotation.x = i * TAU / 3.0
+		fin.position.x = end_x
+		holder.add_child(fin)
+	add_reach_zone(holder, can.position, Vector2(length / 2.0, radius))
 
 
 # Two flat panels, one on each side, each on a short arm.

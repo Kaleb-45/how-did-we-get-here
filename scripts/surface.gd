@@ -28,6 +28,7 @@ const ROW_SCENE = preload("res://scenes/dashboard_row.tscn")
 @onready var inner_voice: PanelContainer = %InnerVoiceBar
 
 var layout: Dictionary           # game_data.json "surface_area"
+var dims: Dictionary             # its "dims" (sizes)
 var colors: Dictionary           # its colors
 var numbers: Dictionary          # events.json "surface_work"
 var words: Dictionary            # story.json "surface_screen"
@@ -59,6 +60,7 @@ func _ready() -> void:
 
 	layout = Data.game_data["surface_area"]
 	colors = layout["colors"]
+	dims = layout["dims"]
 	numbers = Data.events["surface_work"]
 	words = Data.story["surface_screen"]
 	lines = Data.voice["surface"]
@@ -83,7 +85,7 @@ func _ready() -> void:
 func get_sample_position() -> Vector3:
 	var direction := Vector2(layout["sample_direction"][0], layout["sample_direction"][1]).normalized()
 	var distance: float = float(numbers["sample_distance_m"]["value"]) * (1.0 + GameState.damage.get("distance", 0.0) / 100.0)
-	var limit: float = float(layout["half_size"]) - 3.0   # never outside the area
+	var limit: float = float(layout["half_size"]) - float(dims["sample_edge"])   # never outside the area
 	var lander: Array = layout["lander_position"]
 	var spot := Vector2(lander[0], lander[2]) + direction * minf(distance, limit)
 	return Vector3(spot.x, 0, spot.y)
@@ -109,7 +111,7 @@ func build_world() -> void:
 	var sun := DirectionalLight3D.new()
 	sun.light_color = Color.html(colors["sun"])
 	sun.light_energy = layout["sun_energy"]
-	sun.rotation_degrees = Vector3(-42, 35, 0)
+	sun.rotation_degrees = v3(dims["sun_rotation_degrees"])
 	sun.shadow_enabled = true
 	add_child(sun)
 
@@ -149,13 +151,17 @@ func make_material(color: Color) -> StandardMaterial3D:
 
 func build_ground() -> void:
 	var half: float = layout["half_size"]
-	make_box(Vector3(half * 2.0 + 20.0, 1.0, half * 2.0 + 20.0), Vector3(0, -0.5, 0), Color.html(colors["ground"]), true)
+	var ground_size: float = half * 2.0 + float(dims["ground_extra"])
+	var thickness: float = dims["ground_thickness"]
+	make_box(Vector3(ground_size, thickness, ground_size), Vector3(0, -thickness / 2.0, 0), Color.html(colors["ground"]), true)
 	# A few lighter patches, so the floor is not one flat color.
 	var rng := RandomNumberGenerator.new()
 	rng.seed = int(layout["rock_seed"])
-	for i in 8:
-		var size := Vector3(rng.randf_range(5, 11), 0.02, rng.randf_range(5, 11))
-		make_box(size, Vector3(rng.randf_range(-half + 6, half - 6), 0.01, rng.randf_range(-half + 6, half - 6)), Color.html(colors["ground_patch"]), false)
+	var patches: Dictionary = dims["patches"]
+	var edge: float = patches["edge"]
+	for i in int(patches["count"]):
+		var size := Vector3(rng.randf_range(patches["size_min"], patches["size_max"]), patches["thickness"], rng.randf_range(patches["size_min"], patches["size_max"]))
+		make_box(size, Vector3(rng.randf_range(-half + edge, half - edge), patches["thickness"] / 2.0, rng.randf_range(-half + edge, half - edge)), Color.html(colors["ground_patch"]), false)
 
 
 # A low ridge all around, like a crater rim. It keeps the player inside.
@@ -163,7 +169,7 @@ func build_rim() -> void:
 	var half: float = layout["half_size"]
 	var height: float = layout["rim_height"]
 	var rim_color := Color.html(colors["rim"])
-	var thick := 4.0
+	var thick: float = dims["rim_thickness"]
 	make_box(Vector3(half * 2.0 + thick * 2.0, height, thick), Vector3(0, height / 2.0, -half - thick / 2.0), rim_color, true)
 	make_box(Vector3(half * 2.0 + thick * 2.0, height, thick), Vector3(0, height / 2.0, half + thick / 2.0), rim_color, true)
 	make_box(Vector3(thick, height, half * 2.0), Vector3(-half - thick / 2.0, height / 2.0, 0), rim_color, true)
@@ -178,13 +184,17 @@ func build_rocks() -> void:
 	var rock_colors: Array = colors["rock"]
 	var placed := 0
 	var tries := 0
-	while placed < int(layout["rocks"]) and tries < 500:
+	while placed < int(layout["rocks"]) and tries < int(dims["rock_tries"]):
 		tries += 1
-		var spot := Vector3(rng.randf_range(-half + 3, half - 3), 0, rng.randf_range(-half + 3, half - 3))
-		if spot.length() < 6.0 or spot.distance_to(sample_position) < 5.0 or spot.distance_to(player_start_position()) < 4.0:
+		var edge: float = dims["rock_edge"]
+		var spot := Vector3(rng.randf_range(-half + edge, half - edge), 0, rng.randf_range(-half + edge, half - edge))
+		var keepout: Dictionary = dims["rock_keepout"]
+		if spot.length() < keepout["lander"] or spot.distance_to(sample_position) < keepout["sample"] or spot.distance_to(player_start_position()) < keepout["player"]:
 			continue
-		var size := Vector3(rng.randf_range(0.6, 2.4), rng.randf_range(0.4, 1.6), rng.randf_range(0.6, 2.4))
-		var rock := make_box(size, Vector3(spot.x, size.y / 2.0 - 0.1, spot.z), Color.html(rock_colors[placed % rock_colors.size()]), true)
+		var small: Vector3 = v3(dims["rock_size_min"])
+		var big: Vector3 = v3(dims["rock_size_max"])
+		var size := Vector3(rng.randf_range(small.x, big.x), rng.randf_range(small.y, big.y), rng.randf_range(small.z, big.z))
+		var rock := make_box(size, Vector3(spot.x, size.y / 2.0 - float(dims["rock_sink"]), spot.z), Color.html(rock_colors[placed % rock_colors.size()]), true)
 		rock.rotation.y = rng.randf_range(0, TAU)
 		placed += 1
 
@@ -194,45 +204,48 @@ func build_lander() -> void:
 	var at := Vector3(layout["lander_position"][0], layout["lander_position"][1], layout["lander_position"][2])
 	var body_color := Color.html(colors["lander_body"])
 	var leg_color := Color.html(colors["lander_leg"])
-	make_box(Vector3(2.4, 1.2, 2.4), at + Vector3(0, 1.5, 0), body_color, true)
-	make_box(Vector3(1.4, 0.7, 1.4), at + Vector3(0, 2.5, 0), body_color, false)
-	for leg in [Vector3(-1, 0, -1), Vector3(1, 0, -1), Vector3(0, 0, 1.3)]:
-		make_box(Vector3(0.2, 1.1, 0.2), at + leg * 1.1 + Vector3(0, 0.55, 0), leg_color, true)
+	var l: Dictionary = dims["lander"]
+	make_box(v3(l["body_size"]), at + Vector3(0, l["body_height"], 0), body_color, true)
+	make_box(v3(l["top_size"]), at + Vector3(0, l["top_height"], 0), body_color, false)
+	var leg_size: Vector3 = v3(l["leg_size"])
+	for spot in l["leg_spots"]:
+		make_box(leg_size, at + Vector3(spot[0], 0, spot[1]) * float(l["leg_spread"]) + Vector3(0, leg_size.y / 2.0, 0), leg_color, true)
 	for side in [-1.0, 1.0]:
-		make_box(Vector3(2.2, 0.06, 1.4), at + Vector3(side * 2.6, 1.9, 0), Color.html(colors["lander_panel"]), false)
+		make_box(v3(l["panel_size"]), at + Vector3(side * float(l["panel_x"]), l["panel_height"], 0), Color.html(colors["lander_panel"]), false)
 	# The lander's reach zone and its name.
 	var zone := add_zone(at, float(layout["lander_zone_radius"]))
 	zone.body_entered.connect(_on_zone_entered.bind("lander"))
 	zone.body_exited.connect(_on_zone_exited.bind("lander"))
-	add_label(at + Vector3(0, 3.6, 0), words["lander_marker"])
+	add_label(at + Vector3(0, l["label_height"], 0), words["lander_marker"])
 
 
 # The sample: a pale rock with an orange glow on top, so the player can find it from far away.
 func build_sample() -> void:
-	var rock := make_box(Vector3(1.1, 0.7, 1.1), sample_position + Vector3(0, 0.3, 0), Color.html(colors["sample_rock"]), false)
+	var m: Dictionary = dims["sample"]
+	var rock := make_box(v3(m["rock_size"]), sample_position + Vector3(0, m["rock_height"], 0), Color.html(colors["sample_rock"]), false)
 	sample_marker = rock
 	var glow := MeshInstance3D.new()
 	var sphere := SphereMesh.new()
-	sphere.radius = 0.28
-	sphere.height = 0.56
+	sphere.radius = m["glow_radius"]
+	sphere.height = float(m["glow_radius"]) * 2.0
 	glow.mesh = sphere
 	var glow_material := make_material(Color.html(colors["sample_glow"]))
 	glow_material.emission_enabled = true
 	glow_material.emission = Color.html(colors["sample_glow"])
-	glow_material.emission_energy_multiplier = 2.0
+	glow_material.emission_energy_multiplier = m["glow_energy"]
 	glow.material_override = glow_material
-	glow.position = Vector3(0, 0.75, 0)
+	glow.position = Vector3(0, m["glow_height"], 0)
 	rock.add_child(glow)
 	var light := OmniLight3D.new()
 	light.light_color = Color.html(colors["sample_glow"])
-	light.omni_range = 5.0
-	light.light_energy = 1.2
-	light.position = Vector3(0, 1.2, 0)
+	light.omni_range = m["light_range"]
+	light.light_energy = m["light_energy"]
+	light.position = Vector3(0, m["light_height"], 0)
 	rock.add_child(light)
 	var zone := add_zone(sample_position, float(layout["sample_zone_radius"]))
 	zone.body_entered.connect(_on_zone_entered.bind("sample"))
 	zone.body_exited.connect(_on_zone_exited.bind("sample"))
-	add_label(sample_position + Vector3(0, 2.0, 0), words["sample_marker"].format({"material": material_name}))
+	add_label(sample_position + Vector3(0, m["label_height"], 0), words["sample_marker"].format({"material": material_name}))
 
 
 # A round area that tells us when the player walks in (same idea as the ship's reach zones).
@@ -243,7 +256,7 @@ func add_zone(at: Vector3, radius: float) -> Area3D:
 	sphere.radius = radius
 	shape.shape = sphere
 	zone.add_child(shape)
-	zone.position = at + Vector3(0, 1.0, 0)
+	zone.position = at + Vector3(0, dims["zone_height"], 0)
 	add_child(zone)
 	return zone
 
@@ -253,13 +266,18 @@ func add_label(at: Vector3, text: String) -> Label3D:
 	var label := Label3D.new()
 	label.text = text
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	label.pixel_size = 0.006
-	label.font_size = 48
-	label.outline_size = 12
+	label.pixel_size = dims["label"]["pixel_size"]
+	label.font_size = int(dims["label"]["font_size"])
+	label.outline_size = int(dims["label"]["outline_size"])
 	label.no_depth_test = true
 	label.position = at
 	add_child(label)
 	return label
+
+
+# [x, y, z] from the data file as a Vector3.
+func v3(values: Array) -> Vector3:
+	return Vector3(values[0], values[1], values[2])
 
 
 func player_start_position() -> Vector3:
@@ -298,8 +316,9 @@ func build_hud() -> void:
 	press.set_anchors_preset(Control.PRESET_CENTER)
 	press.offset_left = -press.custom_minimum_size.x / 2.0
 	press.offset_right = press.custom_minimum_size.x / 2.0
-	press.offset_top = -press.custom_minimum_size.y / 2.0 - 90.0
-	press.offset_bottom = press.custom_minimum_size.y / 2.0 - 90.0
+	var lift: float = dims["press_lift_pixels"]
+	press.offset_top = -press.custom_minimum_size.y / 2.0 - lift
+	press.offset_bottom = press.custom_minimum_size.y / 2.0 - lift
 	press.visible = false
 	press.finished.connect(_on_press_finished)
 	update_meters()
@@ -307,10 +326,11 @@ func build_hud() -> void:
 
 # The dashboard row is wide (made for the wrist panel). Here it is narrower, so the lander stays in view.
 func make_row_narrow(row: HBoxContainer) -> void:
-	row.name_label.custom_minimum_size.x = 100
-	row.value_label.custom_minimum_size.x = 150
-	row.limit_label.custom_minimum_size.x = 120
-	row.bar.custom_minimum_size.x = 120
+	var sizes: Dictionary = dims["row_pixels"]
+	row.name_label.custom_minimum_size.x = sizes["name"]
+	row.value_label.custom_minimum_size.x = sizes["value"]
+	row.limit_label.custom_minimum_size.x = sizes["limit"]
+	row.bar.custom_minimum_size.x = sizes["bar"]
 
 
 func update_meters() -> void:

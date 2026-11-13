@@ -262,7 +262,7 @@ func _on_retry_pressed() -> void:
 
 
 # Same design / new destination: the parts stay. We go to the destination
-# question (right now Mars orbit is the only destination you can pick).
+# question (all five destinations can be picked; parts that do not fit the new one are swapped on Build).
 func _on_same_design_pressed() -> void:
 	lock_buttons()
 	GameState.keep_design_new_destination()

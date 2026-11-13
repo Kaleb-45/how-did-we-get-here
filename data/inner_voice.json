@@ -177,7 +177,7 @@
       "small": "The small solar panel. Cheap and light, but it adds no spare months, so the heater can't stay off long.",
       "medium": "The medium solar panel. A middle choice for power, cost, and weight.",
       "large": "The large solar panel. Lots of power, but heavy and costly, and in Mars' shadow it makes none.",
-      "rtg": "The RTG. A nuclear power source: it makes power from heat, not sunlight. Heavy and costly, but Jupiter's sunlight is too weak for solar panels."
+      "rtg": "The RTG. Our panels are too small for Jupiter's weak sunlight ({percent}% of their Mars power). NASA's Europa Clipper needed huge solar arrays. An RTG makes power from heat instead."
     },
     "camera": {
       "basic": "The basic camera. Maps all of Mars, but with no data to spare.",
@@ -222,7 +222,9 @@
     "empty_food": "The food is gone. Zero. The crew is very hungry, and that is a big problem.",
     "empty_water": "The water tank is empty. Zero. A leak pours water out fast if nobody stops it.",
     "empty_air": "The air is gone. Zero. The oxygen generator makes oxygen, and we needed it running.",
-    "start_no_crew": "We are on our way! This leg of the trip stands for {days} real days of flying, sped up so I can play it. Nobody rides along on this trip, so there are no crew supplies to look after."
+    "start_no_crew": "We are on our way! This leg of the trip stands for {days} real days of flying, sped up so I can play it. Nobody rides along on this trip, so there are no crew supplies to look after.",
+    "leg_end_surface": "The leg is over. Mars is getting close! Now for the landing and the work on the ground.",
+    "leg_end_flyby": "The leg is over. Europa is getting close! Now for the flyby."
   },
   "reroute": {
     "_readme": "The words on the power panel (Reroute Power mini-game).",
@@ -397,12 +399,12 @@
     "day_warning": "Day {day}. Only {left} days left. Hurry!",
     "last_day": "The last day! Get the sample now!",
     "done": "The sample is safe! Science from another world, collected by us!",
-    "out_of_days": "The days are over and we have no sample. The power and supplies are gone. We have to go home with empty hands.",
+    "out_of_days": "The days are over and we have no sample. We have to go home with empty hands.",
     "power_red": "Power is in the red! The drill and the days used too much."
   },
   "flyby": {
     "_readme": "What the inner voice says during the Europa flyby (Stage 4, flyby destinations). The voice is never wrong. The levels do not change these lines yet.",
-    "start": "We are in mission control, and Europa is millions of kilometers away. Radio takes about {avg} minutes one way, so we cannot steer it live. We send every command early and hope. Press Space when the ring closes.",
+    "start": "We are in mission control, and Europa is millions of kilometers away. Radio takes {min} to {max} minutes one way, so we cannot steer it live. We send every command early and hope. Press Space when the ring closes.",
     "results": {
       "Perfect": [
         "Sent right on time! The spacecraft will do it all by itself. Wow.",
@@ -420,5 +422,9 @@
     "pass": "Closest approach! Europa is right there, and we can only watch. The commands are arriving now.",
     "summary_enough": "Enough data got home! Europa's ice is on our screens. The general will like this. I hope.",
     "summary_short": "Not enough data got home. The report will show what held us back."
+  },
+  "build": {
+    "_readme": "Lines the inner voice says on the Build screen. {part} = the slot name, {from} and {to} = the version names, {place} = the destination.",
+    "part_swapped": "Careful! The {from} is not allowed at {place}, so I changed your {part} to {to}. You can pick another one."
   }
 }
