@@ -1,0 +1,105 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/landing.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/inner_voice_bar.tscn" id="2_bar"]
+[ext_resource type="PackedScene" path="res://scenes/timed_press.tscn" id="3_press"]
+
+[node name="Landing" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"ScreenBackground"
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 170
+
+[node name="Column" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleText"
+text = "Title"
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallText"
+text = "Hint"
+horizontal_alignment = 1
+
+[node name="Timeline" type="HBoxContainer" parent="Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Row" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Right" type="VBoxContainer" parent="Margin/Column/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TimedPress" parent="Margin/Column/Row/Right" instance=ExtResource("3_press")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SummaryBox" type="PanelContainer" parent="Margin/Column/Row/Right"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+theme_type_variation = &"NavyPanel"
+
+[node name="Box" type="VBoxContainer" parent="Margin/Column/Row/Right/SummaryBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SummaryTitle" type="Label" parent="Margin/Column/Row/Right/SummaryBox/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeadingText"
+text = "Summary"
+
+[node name="SummaryLines" type="VBoxContainer" parent="Margin/Column/Row/Right/SummaryBox/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="NextButton" type="Button" parent="Margin/Column/Row/Right/SummaryBox/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 52)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Next"
+
+[node name="InnerVoiceBar" parent="." instance=ExtResource("2_bar")]
+unique_name_in_owner = true
+layout_mode = 1

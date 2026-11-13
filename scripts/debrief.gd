@@ -288,7 +288,10 @@ func fill_log() -> void:
 	log_label.text = report_words["log_label"]
 	add_costs()
 	add_supplies()
-	add_science()
+	if GameState.get_arrival_type() == "orbit":
+		add_science()
+	else:
+		add_placeholder_note()   # surface work and the flyby are built later
 	add_timing()
 
 
@@ -307,7 +310,7 @@ func add_log_line(text: String, color: Color = Color.WHITE, heading: bool = fals
 	log_box.add_child(line)
 
 
-# The cost of each missed press (launch and orbit burn), then crew damage.
+# The cost of each missed press (launch, orbit burn and landing), then crew damage.
 func add_costs() -> void:
 	add_log_line(report_words["costs_title"], Color.WHITE, true)
 	var any_cost := false
@@ -319,6 +322,9 @@ func add_costs() -> void:
 		if entry["stage"] == "launch":
 			cost = Data.timing["launch_moments"][entry["moment"]]["miss_cost"]
 			moment_name = Data.story["launch_screen"]["moments"][entry["moment"]]
+		elif entry["stage"] == "landing":
+			cost = Data.timing["landing_moments"][entry["moment"]]["miss_cost"]
+			moment_name = Data.story["landing_screen"]["moments"][entry["moment"]]
 		else:
 			cost = Data.timing["orbit_burn"]["miss_cost"]
 			moment_name = Data.story["orbit_burn_screen"]["title"]
@@ -360,6 +366,12 @@ func add_science() -> void:
 	if GameState.science_stored > 0.0:
 		add_log_line(report_words["science_left_line"].format({"gb": GameState.fmt(GameState.science_stored)}))
 	add_log_line(report_words["science_note"], get_theme_color("font_color", &"AccentText"))
+
+
+# A surface or flyby trip ends here for now: say so clearly.
+func add_placeholder_note() -> void:
+	add_log_line(report_words["placeholder_title"], Color.WHITE, true)
+	add_log_line(report_words[GameState.get_arrival_type() + "_placeholder"], warn_color)
 
 
 # How many Perfect, Good and Miss, for each stage and in all.
