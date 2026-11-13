@@ -195,6 +195,9 @@ The old unfinished steps, kept here until Phase C is done (unless Kaleb says so)
   watermark. Write the AI note for the project description and add it to the repo
   README. AI must not be used to come up with the idea (the idea is Kaleb's team's).
   Generated content must not use NASA logos, flags or mission identifiers.
+  Draft done in README.md (2026-11-13). Kaleb to do: say whether the intro character
+  pictures in `assets/characters/` were made with an AI image tool. If yes, they need a
+  visible watermark, and the README must say so.
 - [ ] **11. Public link for judges.** MUST · S
   Host the newest tested `build/web`. Where to host it is still open.
 - [x] **19a. Intro cutscene greybox (war room).** NICE · M
